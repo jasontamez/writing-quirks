@@ -1,0 +1,6 @@
+@media (max-width: 568px) {
+	ion-tab-button {
+		--padding-end: 2px;
+		--padding-start: 2px;
+	}
+}
