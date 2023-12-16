@@ -4,3 +4,98 @@
 		--padding-start: 2px;
 	}
 }
+
+/* SimpleGenerator */
+
+ion-list.generatorOutput ion-item {
+	width: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+ion-list.generatorOutput ion-item ion-label {
+	min-height: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+ion-list.generatorOutput ion-item.intro,
+ion-list.generatorOutput.alternate ion-item.intro.alternate {
+	border-top-width: 5px;
+	border-bottom-width: 5px;
+	border-top-style: double;
+	border-bottom-style: double;
+	border-top-color: var(--ion-color-step-150);
+	border-bottom-color: var(--ion-color-step-150);
+	margin-block: 10vh;
+	background: var(--ion-color-step-150);
+	background-clip: padding-box;
+	height: 5em;
+	transition:
+		height 0.5s ease-out 0.5s,
+		margin-block 0.5s ease-out 0.5s,
+		border-top-width 0.5s ease-out 0.5s,
+		border-bottom-width 0.5s ease-out 0.5s;
+}
+ion-list.generatorOutput:not(.alternate) ion-item.intro.alternate,
+ion-list.generatorOutput.alternate ion-item.intro:not(.alternate) {
+	background-clip: padding-box;
+	height: 0;
+	border-top-width: 0;
+	border-bottom-width: 0;
+	margin-block: 0;
+	transition:
+		height 0.5s ease-in,
+		margin-block 0.5s ease-in,
+		border-top 0.5s ease-in,
+		border-bottom 0.5s ease-in;
+}
+
+ion-list.generatorOutput ion-item.singularResult,
+ion-list.generatorOutput.alternate ion-item.singularResult.alternate {
+	min-height: 20vh;
+	max-height: 40vh;
+	padding-block: 5vh;
+	font-size: 2em;
+	transition:
+		min-height 0.5s ease-out 0.5s,
+		max-height 0.5s ease-out 0.5s,
+		padding-block 0.5s ease-out 0.5s,
+		border-top 0.5s ease-out 0.5s,
+		border-bottom 0.5s ease-out 0.5s;
+}
+ion-list.generatorOutput:not(.alternate) ion-item.singularResult.alternate,
+ion-list.generatorOutput.alternate ion-item.singularResult:not(.alternate) {
+	min-height: 0;
+	max-height: 0;
+	padding-block: 0;
+	transition:
+		min-height 0.5s ease-in,
+		max-height 0.5s ease-in,
+		padding-block 0.5s ease-in,
+		border-top 0.5s ease-in,
+		border-bottom 0.5s ease-in;
+}
+ion-list.generatorOutput ion-item.singularResult {
+	background-image: linear-gradient(
+		to bottom,
+		transparent,
+		var(--ion-color-secondary) 15%,
+		var(--ion-color-secondary) 85%,
+		transparent
+	);
+	color: var(--ion-color-secondary-contrast);
+}
+ion-list.generatorOutput ion-item.singularResult.alternate {
+	background-image: linear-gradient(
+		to bottom,
+		transparent,
+		var(--ion-color-tertiary) 15%,
+		var(--ion-color-tertiary) 85%,
+		transparent
+	);
+	color: var(--ion-color-tertiary-contrast);
+}

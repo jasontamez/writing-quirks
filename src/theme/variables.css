@@ -39,8 +39,8 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-secondary-shade: #552941;
   --ion-color-secondary-tint: #82586E;
 
-  --ion-color-tertiary: #945600;
-  --ion-color-tertiary-rgb: 148,123,211;
+  --ion-color-tertiary: #028089;
+  --ion-color-tertiary-rgb: 53,134,0;
   --ion-color-tertiary-contrast: var(--ion-color-light);
   --ion-color-tertiary-contrast-rgb: var(--ion-color-light-rgb);
   --ion-color-tertiary-shade: #7A4700;
@@ -74,8 +74,6 @@ http://ionicframework.com/docs/theming/ */
   --ion-text-color: var(--ion-color-light);
   --ion-text-color-rgb: var(--ion-color-light-rgb);
 
-  --ion-border-color: #022b3c;
-
   --ion-color-step-50: #0b2630;
   --ion-color-step-100: #153039;
   --ion-color-step-150: #1f3a42;
@@ -96,7 +94,10 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-step-900: #b5d0c9;
   --ion-color-step-950: #bfdad2;
 
-  --ion-item-background: var(--ion-color-step-50);
+  --ion-border-color: var(--ion-color-step-100);
+
+  /*--ion-item-background: var(--ion-color-step-50);*/
+  --ion-item-background: "transparent";
 
   --ion-toolbar-background: var(--ion-color-dark-shade);
 
