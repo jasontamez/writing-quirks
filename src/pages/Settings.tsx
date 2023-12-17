@@ -1,8 +1,14 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonItem, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
+
+// TO-DO: Need a loading page
+// TO-DO: "Like" an output
 
 const Settings: React.FC = () => {
+	const { animationMethod } = useAppSelector(state => state.generalSettings);
+	const dispatch = useAppDispatch();
 	return (
 		<IonPage>
 			<IonHeader>
@@ -10,13 +16,40 @@ const Settings: React.FC = () => {
 					<IonTitle>Settings</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent fullscreen>
-				<IonHeader collapse="condense">
-					<IonToolbar>
-						<IonTitle size="large">Settings</IonTitle>
-					</IonToolbar>
-				</IonHeader>
-				<ExploreContainer name="Tab 1 page" />
+			<IonContent fullscreen className="contrasty">
+				<IonList lines="full">
+					<IonItem>
+						<IonSelect
+							color="primary"
+							className="ion-text-wrap"
+							value={animationMethod}
+							onIonChange={(e) => dispatch(setAnimationMethod(e.detail.value as AnimationMethod))}
+							label="Animation Method:"
+							labelPlacement="start"
+						>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="instant"
+							>Instantaneous</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="accordion"
+							>Accordion</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="fading"
+							>Fading</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="sliding"
+							>Sliding</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="scrolling"
+							>Scrolling</IonSelectOption>
+						</IonSelect>
+					</IonItem>
+				</IonList>
 			</IonContent>
 		</IonPage>
 	);

@@ -13,12 +13,15 @@ import {
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
+import generalSettingsSlice, { generalSettings } from './generalSettingsSlice';
+
 //
 //
 //
 // ----- USE THIS to put in temporary changes for testing.
-//const initialAppState = {...blankAppState};
-const initialAppState = {};
+const initialAppState = {
+	generalSettings
+};
 // ----- END
 //
 //
@@ -28,6 +31,7 @@ const migrations = {};
 
 const reducerConfig = {
 	// SLICES here
+	generalSettings: generalSettingsSlice
 };
 const stateReconciler = (incomingState: any, originalState: any, reducedState: any, config: any) => {
 //	if(incomingState && originalState && (incomingState.appSettings.theme !== originalState.appSettings.theme)) {
@@ -37,7 +41,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 1,
+	version: 0,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })
@@ -51,14 +55,7 @@ const store = configureStore({
 		getDefaultMiddleware({
 			serializableCheck: {
 				ignoredActions: [
-					FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER,
-					'lexicon/addLexiconItem',
-					'lexicon/addItemsToLexiconColumn',
-					'lexicon/doEditLexiconItem',
-					'lexicon/updateLexiconSort',
-					'lexicon/updateLexiconSortDir',
-					'lexicon/mergeLexiconItems',
-					'lexicon/updateLexiconColumarInfo'
+					FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER
 				],
 			},
 	})

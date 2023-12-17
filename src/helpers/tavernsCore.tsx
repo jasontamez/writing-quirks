@@ -55,7 +55,7 @@ class Noun extends Array<string> {
 		}
 		// Check for a modifier
 		if(Math.random() * 100 < modC) {
-			const [modded, andMod, theMod, plurality] = this.applyRandomModifier(nucleusString);
+			const [modded, andMod, theMod, plurality] = this.applyRandomModifier(nucleusString, plural);
 			// Apply a modifier
 			output = modded;
 			// Apply any andMod
@@ -103,7 +103,7 @@ class Noun extends Array<string> {
 		}
 		return output;
 	}
-	applyRandomModifier(nucleus: string) {
+	applyRandomModifier(nucleus: string, plurality: boolean) {
 		let picked = Math.floor(Math.random() * this.totalModifiers);
 		const mods = this.modifiers.slice();
 		let mod = mods.shift()!;
@@ -114,7 +114,7 @@ class Noun extends Array<string> {
 			mod = mods.shift()!;
 			size = sizes.shift()!;
 		}
-		return mod.applyThisModifier(picked, nucleus);
+		return mod.applyThisModifier(picked, nucleus, plurality);
 	}
 }
 class Modifier extends Noun {
@@ -134,10 +134,10 @@ class Modifier extends Noun {
 		// arr is an Array of strings used as the modifier
 		this.format = format;
 	}
-	applyThisModifier(which: number, nucleus: string): [string, number, number, boolean] {
-		// Returns an array [string, andMod, theMod]
+	applyThisModifier(which: number, nucleus: string, plurality: boolean): [string, number, number, boolean] {
+		// Returns an array [string, andMod, theMod, plurality]
 		const mod = this[which];
-		let plural = false;
+		let plural = plurality;
 		let output = this.format.map(function(bit) {
 			switch (bit) {
 				case false:
@@ -157,11 +157,11 @@ class Modifier extends Noun {
 		const { modifierChance, modifiers } = this;
 		// Check for an additional modifier
 		if((Math.random() * 100 < modifierChance) && modifiers.length > 0) {
-			const [modded, andMod, theMod, plurality] = this.applyRandomModifier(output);
+			const [modded, andMod, theMod, plurality] = this.applyRandomModifier(output, plural);
 			output = modded;
 			andC += andMod;
 			theC += theMod;
-			plural = plurality;
+			plural = plural || plurality;
 		}
 		return [output, andC, theC, plural];
 	}
@@ -213,7 +213,7 @@ const generalAdjectives = new Modifier({
 		"Naughty","New","Night","Northern","Ocean","Oily","Old","Once-Proud","Open","Overhead","Orange",
 		"Painted","Patchwork","Pearl","Perfumed","Pewter","Pink","Plaid","Plaster","Poor","Porcelain",
 		"Purple","Quaint","Red","Ridiculous","Rippling","River","Rocky","Rolling","Rouge","Rowdy","Royal",
-		"Ruby","Rusty","Safe","Salty","Sapphire","Scarlet","Sea","Shaken","Shiny","Short","Sign of the",
+		"Ruby","Ruddy","Rusty","Safe","Salty","Sapphire","Scarlet","Sea","Shabby","Shaken","Shiny","Short",
 		"Silken","Silver","Slanted","Slippery","Sloppy","Small","Smoky","Southern","Sparkling","Squalid",
 		"Steel","Stinky","Stone","Stormy","Strange","Strong","Stumpy","Tall","Thundering","Tin","Tiny","Top",
 		"Tossed","Turquoise","Twisted","Underground","Unkempt","Verdant","Victorious","Violent","Warm",
@@ -259,7 +259,7 @@ const ownedObjects = new Modifier({
 	theChance: 50
 });
 const animalPeople = new Modifier({
-	array: ["Buster","Hunter","Slayer"],
+	array: ["Buster","Herder","Hunter","Keeper","Master","Slayer"],
 	format: [true, " ", null],
 	modifierChance: 0,
 	andChance: -150,
@@ -316,7 +316,7 @@ const objects = new Noun({
 		"Stein","Stiletto>Stilettoes","Stool","Stump","Sword","Teapot","Thistle","Tome","Tonic","Tower",
 		"Tree","Trough","Vine","Wagon Wheel","Wand","Wave","Whip","Wig","Willow","Window","Wine","Wink",
 		"Wish>Wishes"],
-	modifiers: [numerics,ordinals,ownerships,objectAdjectives,generalAdjectives,prepPhrases],
+	modifiers: [numerics,ordinals,ownerships,objectAdjectives,generalAdjectives,prepPhrases]
 });
 const animals = new Noun({
 	array: ["Alligator","Baboon","Badger","Banshee","Barnacle","Basilisk","Bat","Bear","Boar","Bronco","Buck",
@@ -337,9 +337,9 @@ const animals = new Noun({
 		ownedObjects,prepPhrases]
 });
 const animates = new Noun({
-	array: ["Boat","Carriage","Cart","Chariot","Cloud","Dinghy","Galleon","Gate","Night","River","Road","Ship",
-		"Spirit","Star","Statue","Storm","Sun","Tentacle","Tornado>Tornadoes","Tumbleweed","Wagon",
-		"Whisper","Yacht"],
+	array: ["Boat","Carriage","Cart","Chariot","Cloud","Dinghy","Galleon","Gate","Hurricane","Night","River",
+		"Road","Ship","Spirit","Star","Statue","Storm","Sun","Tentacle","Tornado>Tornadoes","Tumbleweed",
+		"Wagon","Whisper","Yacht"],
 	modifiers: [numerics,ordinals,generalAdjectives,animateAdjectives,ownerships,prepPhrases]
 });
 const persons = new Noun({
@@ -374,24 +374,92 @@ const places = new Noun({
 	andChance: -200,
 	theChance: 200
 });
-const allNuceli = [objects, animals, animates, persons, places];
-const nucleiLengths = allNuceli.map(function(n) {
-	const result = n.length * n.totalModifiers;
-	return result;
+const makeNounIntoModifierArray = (input: Noun): string[] => {
+	const final: string[] = [];
+	const { modifiers } = input;
+	const modifierLoop = (singular: string, plural: string) => {
+		const output: string[] = [];
+		modifiers.forEach(modifier => {
+			// Skip prepositional phrases
+			modifier !== prepPhrases && output.push(...modifier.map(mod => modifier.format.map(function(bit) {
+				switch (bit) {
+					case false:
+						return plural;
+					case true:
+						return singular;
+					case null:
+						return mod;
+				}
+				return bit;
+			}).join("")));
+		});
+		return output;
+	};
+	input.forEach(item => {
+		let m = item.match(/^(.*)>(.*)$/);
+		let singular = item;
+		let plural = item + "s";
+		if(m) {
+			singular = m[1];
+			plural = m[2];
+			singular && final.push(singular);
+		} else {
+			final.push(singular);
+		}
+		final.push(plural, ...modifierLoop(singular, plural));
+	});
+	return final;
+};
+const signObjects = new Modifier({
+	array: makeNounIntoModifierArray(objects),
+	format: [true, " of the ", null],
+	modifierChance: 0
 });
+const signAnimals = new Modifier({
+	array: makeNounIntoModifierArray(animals),
+	format: [true, " of the ", null],
+	modifierChance: 0
+});
+const signAnimates = new Modifier({
+	array: makeNounIntoModifierArray(animates),
+	format: [true, " of the ", null],
+	modifierChance: 0
+});
+const signPersons = new Modifier({
+	array: makeNounIntoModifierArray(persons),
+	format: [true, " of the ", null],
+	modifierChance: 0
+});
+const signPlaces = new Modifier({
+	array: makeNounIntoModifierArray(places),
+	format: [true, " of the ", null],
+	modifierChance: 0
+});
+const signs = new Noun({
+	array: ["Mark","Sign","Symbol"],
+	modifiers: [signObjects,signAnimals,signAnimates,signPersons,signPlaces],
+	modifierChance: 200,
+	andChance: 0,
+	theChance: 200
+});
+const allNuceli = [objects, animals, animates, persons, places];
+const nucleiLengths = allNuceli.map(n => n.length * n.totalModifiers);
 const GLOBAL_total = nucleiLengths.reduce((total, value) => (total = total + value));
 
 function getNucleus(andMod = 0, modMod = 0) {
-	// Object, Animal or Person
-	let which = Math.floor(Math.random() * GLOBAL_total);
+	// Make roughly 8% a sign/mark/symbol
+	let totalWithSigns = Math.round(GLOBAL_total * 1.08);
+	// Get a random seed
+	let which = Math.floor(Math.random() * totalWithSigns);
 	const nuclei = allNuceli.slice();
 	let n = nuclei.shift()!;
 	const lengths = nucleiLengths.slice();
 	let l = lengths.shift()!;
 	while(which >= l) {
 		which -= l;
-		n = nuclei.shift()!;
-		l = lengths.shift()!;
+		// If we reach the end of the list, we go on to the signs object
+		n = nuclei.shift() || signs;
+		l = lengths.shift() || (signs.length * signs.totalModifiers);
 	}
 	return n.get(andMod, modMod);
 }

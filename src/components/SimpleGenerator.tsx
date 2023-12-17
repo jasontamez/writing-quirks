@@ -1,5 +1,6 @@
 import React from 'react';
 import { IonItem, IonLabel, IonList } from '@ionic/react';
+import { useAppSelector } from '../store/hooks';
 
 interface SimpleGeneratorProps {
 	intro: string
@@ -17,22 +18,27 @@ const SimpleGenerator: React.FC<SimpleGeneratorProps> = (props) => {
 		mainTextAlternate,
 		alternateActive
 	} = props;
+	const { animationMethod } = useAppSelector(state => state.generalSettings);
 
 	return (
-		<IonList lines="none" className={alternateActive ? "generatorOutput alternate" : "generatorOutput"}>
-			<IonItem className="intro">
-				<IonLabel className="ion-text-center">{intro}...</IonLabel>
-			</IonItem>
-			<IonItem className="intro alternate">
-				<IonLabel className="ion-text-center">{introAlternate}...</IonLabel>
-			</IonItem>
-			<IonItem className="singularResult">
-				<IonLabel className="ion-text-center">{mainText}</IonLabel>
-			</IonItem>
-			<IonItem className="singularResult alternate">
-				<IonLabel className="ion-text-center">{mainTextAlternate}</IonLabel>
-			</IonItem>
-		</IonList>
+		<>
+			<IonList lines="none" className={`generatorOutput ${animationMethod}${alternateActive ? " hidden" : ""}`}>
+				<IonItem className="intro">
+					<IonLabel className="ion-text-center">{intro}...</IonLabel>
+				</IonItem>
+				<IonItem className="singularResult">
+					<IonLabel className="ion-text-center">{mainText}</IonLabel>
+				</IonItem>
+			</IonList>
+			<IonList lines="none" className={`generatorOutput alternate ${animationMethod}${alternateActive ? "" : " hidden"}`}>
+				<IonItem className="intro">
+					<IonLabel className="ion-text-center">{introAlternate}...</IonLabel>
+				</IonItem>
+				<IonItem className="singularResult">
+					<IonLabel className="ion-text-center">{mainTextAlternate}</IonLabel>
+				</IonItem>
+			</IonList>
+		</>
 	);
 };
 

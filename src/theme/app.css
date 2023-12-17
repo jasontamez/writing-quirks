@@ -5,8 +5,132 @@
 	}
 }
 
+ion-content.contrasty ion-list {
+	background: var(--ion-color-step-50);
+}
+
 /* SimpleGenerator */
 
+ion-list.generatorOutput {
+	--timing: 0.5s;
+
+	--basic-transition-to-visible: var(--timing) ease-out var(--timing);
+	--basic-transition-to-hidden: var(--timing) ease-in;
+	--basic-transition-instant: 0s linear;
+	--basic-transition-delayed-instant: 0s linear var(--timing);
+
+	--transition-visible: 
+		top var(--basic-transition-to-visible),
+		bottom var(--basic-transition-to-visible),
+		left var(--basic-transition-to-visible),
+		right var(--basic-transition-to-visible),
+		opacity var(--basic-transition-to-visible),
+		transform var(--basic-transition-to-visible);
+	--transition-hidden:
+		top var(--basic-transition-to-hidden),
+		bottom var(--basic-transition-to-hidden),
+		left var(--basic-transition-to-hidden),
+		right var(--basic-transition-to-hidden),
+		opacity var(--basic-transition-to-hidden),
+		transform var(--basic-transition-to-hidden);
+
+	--opacity-visible: 1;
+	--transform-visible: none;
+
+	--opacity-hidden: 1;
+	--transform-hidden: none;
+
+	--top-visible: 0;
+	--bottom-visible: auto;
+	--left-visible: 0;
+	--right-visible: 0;
+
+	--top-hidden: 0;
+	--bottom-hidden: auto;
+	--left-hidden: 0;
+	--right-hidden: 0;
+
+	--scaleY-visible: 1;
+	--scaleY-hidden: 1;
+
+	--translateY-visible: 0;
+	--translateY-hidden: 0;
+}
+/* Accordion */
+ion-list.generatorOutput.accordion {
+	--scaleY-hidden: 0;
+}
+/* Fading */
+ion-list.generatorOutput.fading {
+	--opacity-hidden: 0;
+}
+/* Sliding */
+ion-list.generatorOutput.sliding {
+	--left-hidden: -100vw;
+	--right-hidden: 100vw;
+	--transition-hidden: var(--transition-visible);
+}
+ion-list.generatorOutput.alternate.sliding {
+	--left-hidden: 100vw;
+	--right-hidden: -100vw;
+}
+/* Scrolling */
+ion-list.generatorOutput.scrolling {
+	--translateY-hidden: -100vh;
+	--transition-visible: var(--transition-hidden);
+}
+ion-list.generatorOutput.alternate.scrolling {
+	--translateY-hidden: 100vh;
+	--opacity-hidden: 0;
+	--top-hidden: -100vh;
+	--transition-visible:
+		transform var(--basic-transition-to-hidden),
+		top var(--basic-transition-instant),
+		opacity var(--basic-transition-instant);
+	--transition-hidden:
+		transform var(--basic-transition-to-hidden),
+		top var(--basic-transition-delayed-instant),
+		opacity var(--basic-transition-delayed-instant);
+}
+/* No Delay */
+ion-list.generatorOutput.instant {
+	--timing: 0s;
+	--opacity-hidden: 0;
+}
+
+/* Basics */
+ion-content {
+	position: relative;
+}
+
+ion-list.generatorOutput {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: stretch;
+	justify-content: flex-start;
+	position: absolute;
+	overflow: hidden;
+	padding: 0;
+
+	top: var(--top-visible);
+	bottom: var(--bottom-visible);
+	left: var(--left-visible);
+	right: var(--right-visible);
+	transition: var(--transition-visible);
+	transform: scaleY(var(--scaleY-visible)) translateY(var(--translateY-visible));
+	opacity: var(--opacity-visible);
+}
+ion-list.generatorOutput.hidden {
+	pointer-events: none;
+
+	top: var(--top-hidden);
+	bottom: var(--bottom-hidden);
+	left: var(--left-hidden);
+	right: var(--right-hidden);
+	transition: var(--transition-hidden);
+	transform: scaleY(var(--scaleY-hidden)) translateY(var(--translateY-hidden));
+	opacity: var(--opacity-hidden);
+}
 ion-list.generatorOutput ion-item {
 	width: 100%;
 	display: flex;
@@ -15,15 +139,12 @@ ion-list.generatorOutput ion-item {
 	align-items: center;
 	overflow: hidden;
 }
-
 ion-list.generatorOutput ion-item ion-label {
 	min-height: 0;
 	margin: 0;
 	overflow: hidden;
 }
-
-ion-list.generatorOutput ion-item.intro,
-ion-list.generatorOutput.alternate ion-item.intro.alternate {
+ion-list.generatorOutput ion-item.intro {
 	border-top-width: 5px;
 	border-bottom-width: 5px;
 	border-top-style: double;
@@ -31,55 +152,13 @@ ion-list.generatorOutput.alternate ion-item.intro.alternate {
 	border-top-color: var(--ion-color-step-150);
 	border-bottom-color: var(--ion-color-step-150);
 	margin-block: 10vh;
+
 	background: var(--ion-color-step-150);
 	background-clip: padding-box;
 	height: 5em;
-	transition:
-		height 0.5s ease-out 0.5s,
-		margin-block 0.5s ease-out 0.5s,
-		border-top-width 0.5s ease-out 0.5s,
-		border-bottom-width 0.5s ease-out 0.5s;
-}
-ion-list.generatorOutput:not(.alternate) ion-item.intro.alternate,
-ion-list.generatorOutput.alternate ion-item.intro:not(.alternate) {
-	background-clip: padding-box;
-	height: 0;
-	border-top-width: 0;
-	border-bottom-width: 0;
-	margin-block: 0;
-	transition:
-		height 0.5s ease-in,
-		margin-block 0.5s ease-in,
-		border-top 0.5s ease-in,
-		border-bottom 0.5s ease-in;
-}
-
-ion-list.generatorOutput ion-item.singularResult,
-ion-list.generatorOutput.alternate ion-item.singularResult.alternate {
-	min-height: 20vh;
-	max-height: 40vh;
-	padding-block: 5vh;
-	font-size: 2em;
-	transition:
-		min-height 0.5s ease-out 0.5s,
-		max-height 0.5s ease-out 0.5s,
-		padding-block 0.5s ease-out 0.5s,
-		border-top 0.5s ease-out 0.5s,
-		border-bottom 0.5s ease-out 0.5s;
-}
-ion-list.generatorOutput:not(.alternate) ion-item.singularResult.alternate,
-ion-list.generatorOutput.alternate ion-item.singularResult:not(.alternate) {
-	min-height: 0;
-	max-height: 0;
-	padding-block: 0;
-	transition:
-		min-height 0.5s ease-in,
-		max-height 0.5s ease-in,
-		padding-block 0.5s ease-in,
-		border-top 0.5s ease-in,
-		border-bottom 0.5s ease-in;
 }
 ion-list.generatorOutput ion-item.singularResult {
+	user-select: text;
 	background-image: linear-gradient(
 		to bottom,
 		transparent,
@@ -88,8 +167,15 @@ ion-list.generatorOutput ion-item.singularResult {
 		transparent
 	);
 	color: var(--ion-color-secondary-contrast);
+
+	min-height: 20vh;
+	max-height: 40vh;
+	padding-block: 5vh;
+
+	font-size: 2em;
+	user-select: text;
 }
-ion-list.generatorOutput ion-item.singularResult.alternate {
+ion-list.generatorOutput.alternate ion-item.singularResult {
 	background-image: linear-gradient(
 		to bottom,
 		transparent,

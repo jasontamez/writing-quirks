@@ -2,7 +2,8 @@
 http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
-:root {
+:root,
+*::part(native) {
   --ion-color-light: #D0DDD7;
   --ion-color-light-rgb: 208,221,215;
   --ion-color-medium: #989aa2;
