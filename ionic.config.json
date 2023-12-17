@@ -1,5 +1,7 @@
 {
-	"name": "writing-quirks",
-	"integrations": {},
-	"type": "react"
+  "name": "writing-quirks",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
 }
