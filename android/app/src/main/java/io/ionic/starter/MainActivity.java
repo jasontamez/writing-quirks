@@ -1,4 +1,4 @@
-package net.jasontank.writing-quirks;
+package net.jasontank.writingquirks;
 
 import com.getcapacitor.BridgeActivity;
 
