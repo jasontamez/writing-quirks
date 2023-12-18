@@ -68,7 +68,7 @@ ion-list.generatorOutput.fading {
 ion-list.generatorOutput.sliding {
 	--left-hidden: -100vw;
 	--right-hidden: 100vw;
-	--transition-hidden: var(--transition-visible);
+	--transition-visible: var(--transition-hidden);
 }
 ion-list.generatorOutput.alternate.sliding {
 	--left-hidden: 100vw;
