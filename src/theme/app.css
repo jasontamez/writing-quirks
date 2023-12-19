@@ -53,6 +53,9 @@ ion-list.generatorOutput {
 	--scaleY-visible: 1;
 	--scaleY-hidden: 1;
 
+	--rotateY-visible: 0;
+	--rotateY-hidden: 0;
+
 	--translateY-visible: 0;
 	--translateY-hidden: 0;
 }
@@ -63,6 +66,10 @@ ion-list.generatorOutput.accordion {
 /* Fading */
 ion-list.generatorOutput.fading {
 	--opacity-hidden: 0;
+}
+/* Spinning */
+ion-list.generatorOutput.spinning {
+	--rotateY-hidden: 90deg;
 }
 /* Sliding */
 ion-list.generatorOutput.sliding {
@@ -117,7 +124,7 @@ ion-list.generatorOutput {
 	left: var(--left-visible);
 	right: var(--right-visible);
 	transition: var(--transition-visible);
-	transform: scaleY(var(--scaleY-visible)) translateY(var(--translateY-visible));
+	transform: scaleY(var(--scaleY-visible)) translateY(var(--translateY-visible)) rotateY(var(--rotateY-visible));
 	opacity: var(--opacity-visible);
 }
 ion-list.generatorOutput.hidden {
@@ -128,7 +135,7 @@ ion-list.generatorOutput.hidden {
 	left: var(--left-hidden);
 	right: var(--right-hidden);
 	transition: var(--transition-hidden);
-	transform: scaleY(var(--scaleY-hidden)) translateY(var(--translateY-hidden));
+	transform: scaleY(var(--scaleY-hidden)) translateY(var(--translateY-hidden)) rotateY(var(--rotateY-hidden));
 	opacity: var(--opacity-hidden);
 }
 ion-list.generatorOutput ion-item {

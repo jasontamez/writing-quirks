@@ -44,8 +44,8 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-tertiary-rgb: 53,134,0;
   --ion-color-tertiary-contrast: var(--ion-color-light);
   --ion-color-tertiary-contrast-rgb: var(--ion-color-light-rgb);
-  --ion-color-tertiary-shade: #7A4700;
-  --ion-color-tertiary-tint: #A9762E;
+  --ion-color-tertiary-shade: #016e76;
+  --ion-color-tertiary-tint: #338c94;
 
   --ion-color-success: #1C7C54;
   --ion-color-success-rgb: 28,124,84;

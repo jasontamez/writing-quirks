@@ -1,0 +1,76 @@
+/* Taverns */
+
+ion-content.taverns.gfhfjf::part(background) {
+	background-image: url("chains.svg"), url("chains.svg");
+	background-position: 20%, 80%;
+	background-repeat: no-repeat;
+}
+
+ion-content.taverns ion-list.generatorOutput {
+	padding-top: 30vh;
+}
+
+ion-content.taverns ion-list.generatorOutput {
+	background-image: url("chains.svg"), url("chains.svg");
+	background-position: 20%, 80%;
+	background-repeat: repeat-y;
+}
+
+ion-content.taverns ion-list.generatorOutput ion-item {
+	background-image: none;
+	border-radius: 0.25em;
+	padding-inline: 0.25em;
+	margin-inline: 5vw;
+	width: 90vw;
+}
+
+ion-content.taverns ion-list.generatorOutput ion-item.singularResult {
+	padding-block: 0.25em;
+	background-color: var(--ion-color-secondary);
+	border: 5px double var(--ion-color-secondary-shade);
+}
+
+ion-content.taverns ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-tertiary);
+	border: 5px double var(--ion-color-tertiary-shade);
+}
+
+ion-content.taverns ion-list.generatorOutput.accordion {
+	--scaleY-hidden: 1;
+	--opacity-hidden: 0;
+}
+
+ion-content.taverns ion-list.generatorOutput.accordion ion-item.singularResult {
+	min-height: 20vh;
+	max-height: 40vh;
+	transition:
+		transform var(--basic-transition-to-visible),
+		min-height var(--basic-transition-to-visible),
+		max-height var(--basic-transition-to-visible);
+}
+
+ion-content.taverns ion-list.generatorOutput.hidden.accordion ion-item.singularResult {
+	min-height: 0;
+	max-height: 0;
+	transition:
+		transform var(--basic-transition-to-hidden),
+		min-height var(--basic-transition-to-hidden),
+		max-height var(--basic-transition-to-hidden);
+}
+
+ion-content.taverns ion-list.generatorOutput.accordion {
+	transition:
+		padding-top var(--basic-transition-to-visible),
+		opacity var(--basic-transition-instant);
+}
+
+ion-content.taverns ion-list.generatorOutput.hidden.accordion {
+	padding-top: 0;
+	transition:
+		padding-top var(--basic-transition-to-hidden),
+		opacity var(--basic-transition-delayed-instant);
+}
+
+ion-content.taverns.scrolling ion-list.generatorOutput:not(.alternate) {
+	height: 100%;
+}

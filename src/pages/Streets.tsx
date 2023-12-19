@@ -3,37 +3,22 @@ import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle
 import { refresh } from 'ionicons/icons';
 
 import SimpleGenerator from '../components/SimpleGenerator';
-import getRandom from '../helpers/getRandom';
-import createStreetName from './streetNamesCore';
-
-const intros = [
-	'Can you tell me how to get to',
-	'I live on',
-	"It's the second house on the left on",
-	"I'm moving to",
-	"I can't find",
-	'The street sign says',
-	"Just turn the corner and you're suddenly on",
-	'The houses are pretty on',
-	'The address is on',
-	'A simple little home on'
-];
+import createStreetName from '../helpers/streetNamesCore';
+import { useAppSelector } from '../store/hooks';
+import './Streets.css';
 
 const Streets: React.FC = () => {
-	const [intro, setIntro] = useState<string>("");
 	const [street, setStreet] = useState<string>("");
-	const [introAlternate, setIntroAlternate] = useState<string>("");
 	const [streetAlternate, setStreetAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
+	const { animationMethod } = useAppSelector(state => state.generalSettings);
 
 	const makeStreet = (alternate = false) => {
 		const output = createStreetName();
 		if(alternate) {
-			setIntroAlternate(getRandom(intros, intro));
 			setStreetAlternate(output);
 			return;
 		}
-		setIntro(getRandom(intros, introAlternate));
 		setStreet(output);	
 	};
 
@@ -53,9 +38,9 @@ const Streets: React.FC = () => {
 					<IonTitle>Streets of Suburbia</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent fullscreen>
+			<IonContent className={`streets ${animationMethod}`} fullscreen>
 				<SimpleGenerator
-					{...{intro, introAlternate, alternateActive}}
+					{...{alternateActive}}
 					mainText={street}
 					mainTextAlternate={streetAlternate}
 				/>

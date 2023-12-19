@@ -1,0 +1,50 @@
+/* Streets */
+
+ion-content.streets:not(.sliding)::part(background) {
+	background-image: linear-gradient(
+		to right,
+		transparent,
+		transparent 46%,
+		var(--ion-color-medium-shade) 46%,
+		var(--ion-color-medium-tint) 51%,
+		var(--ion-color-medium-shade) 54%,
+		transparent 54%
+	);
+}
+
+ion-content.streets ion-list.generatorOutput {
+	padding-top: 30vh;
+}
+
+ion-content.streets.sliding ion-list.generatorOutput {
+	height: 100%;
+	background-image: linear-gradient(
+		to right,
+		transparent,
+		transparent 46%,
+		var(--ion-color-medium-shade) 46%,
+		var(--ion-color-medium-tint) 51%,
+		var(--ion-color-medium-shade) 54%,
+		transparent 54%
+	);
+}
+
+ion-content.streets ion-list.generatorOutput ion-item {
+	background-image: none;
+	border-radius: 1em;
+	padding-inline: 0.25em;
+	min-height: auto;
+	padding-block: 0.25em;
+	margin-inline: 5vw;
+	width: 90vw;
+}
+
+ion-content.streets ion-list.generatorOutput ion-item.singularResult {
+	background-color: var(--ion-color-secondary);
+	border: 5px double var(--ion-color-secondary-shade);
+}
+
+ion-content.streets ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-tertiary);
+	border: 5px double var(--ion-color-tertiary-shade);
+}

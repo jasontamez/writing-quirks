@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type AnimationMethod = 'instant' | 'accordion' | 'fading' | 'sliding' | 'scrolling';
+export type AnimationMethod = 'instant' | 'accordion' | 'fading' | 'sliding' | 'scrolling' | 'spinning';
 
 export interface GeneralSettings {
 	animationMethod: AnimationMethod
@@ -28,7 +28,7 @@ export const {
 export default generalSettingsSlice.reducer;
 
 export const getRandomMethod = (previous: AnimationMethod = 'instant'): AnimationMethod => {
-	const methods: AnimationMethod[] = ['accordion', 'fading', 'sliding', 'scrolling'];
+	const methods: AnimationMethod[] = ['accordion', 'fading', 'sliding', 'scrolling', 'spinning'];
 	let newMethod: AnimationMethod = previous;
 	while(newMethod === previous) {
 		newMethod = methods[Math.floor(Math.random() * methods.length)];

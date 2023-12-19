@@ -3,9 +3,6 @@ import { IonContent, IonHeader, IonItem, IonList, IonPage, IonSelect, IonSelectO
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
 
-// TO-DO: Need a loading page
-// TO-DO: "Like" an output
-
 const Settings: React.FC = () => {
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
 	const dispatch = useAppDispatch();
@@ -39,6 +36,10 @@ const Settings: React.FC = () => {
 								className="ion-text-wrap ion-text-align-end"
 								value="fading"
 							>Fading</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="spinning"
+							>Spinning</IonSelectOption>
 							<IonSelectOption
 								className="ion-text-wrap ion-text-align-end"
 								value="sliding"

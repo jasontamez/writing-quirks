@@ -3,12 +3,20 @@ import { IonItem, IonLabel, IonList } from '@ionic/react';
 import { useAppSelector } from '../store/hooks';
 
 interface SimpleGeneratorProps {
-	intro: string
+	intro?: string
 	mainText: string
-	introAlternate: string
+	introAlternate?: string
 	mainTextAlternate: string
 	alternateActive: boolean
 }
+
+const IntroElement = (props: {text?: string}) => {
+	return props.text ? (
+		<IonItem className="intro">
+			<IonLabel className="ion-text-center">{props.text}...</IonLabel>
+		</IonItem>
+	) : <></>;
+};
 
 const SimpleGenerator: React.FC<SimpleGeneratorProps> = (props) => {
 	const {
@@ -23,17 +31,13 @@ const SimpleGenerator: React.FC<SimpleGeneratorProps> = (props) => {
 	return (
 		<>
 			<IonList lines="none" className={`generatorOutput ${animationMethod}${alternateActive ? " hidden" : ""}`}>
-				<IonItem className="intro">
-					<IonLabel className="ion-text-center">{intro}...</IonLabel>
-				</IonItem>
+				<IntroElement text={intro} />
 				<IonItem className="singularResult">
 					<IonLabel className="ion-text-center">{mainText}</IonLabel>
 				</IonItem>
 			</IonList>
 			<IonList lines="none" className={`generatorOutput alternate ${animationMethod}${alternateActive ? "" : " hidden"}`}>
-				<IonItem className="intro">
-					<IonLabel className="ion-text-center">{introAlternate}...</IonLabel>
-				</IonItem>
+				<IntroElement text={introAlternate} />
 				<IonItem className="singularResult">
 					<IonLabel className="ion-text-center">{mainTextAlternate}</IonLabel>
 				</IonItem>
