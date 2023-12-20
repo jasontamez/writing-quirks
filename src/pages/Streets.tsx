@@ -19,7 +19,7 @@ const Streets: React.FC = () => {
 			setStreetAlternate(output);
 			return;
 		}
-		setStreet(output);	
+		setStreet(output);
 	};
 
 	useEffect(() => {
@@ -38,7 +38,7 @@ const Streets: React.FC = () => {
 					<IonTitle>Streets of Suburbia</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent className={`streets ${animationMethod}`} fullscreen>
+			<IonContent className={`streets noIntro ${animationMethod}`} fullscreen>
 				<SimpleGenerator
 					{...{alternateActive}}
 					mainText={street}

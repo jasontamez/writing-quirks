@@ -1,7 +1,7 @@
-function getRandom (total: string[]): string;
-function getRandom (total: string[], last: string): string;
-function getRandom (total: string[], last: string, setLast: Function): string;
-function getRandom (total: string[], last: any = null, setLast: any = null): string {
+function getRandom<T> (total: T[]): T;
+function getRandom<T> (total: T[], last: T): T;
+function getRandom<T> (total: T[], last: T, setLast: Function): T;
+function getRandom (total: any[], last: any = null, setLast: any = null): any {
 	let result: false | string = false;
 	const length = total.length;
 	do {

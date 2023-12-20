@@ -7,10 +7,6 @@ ion-content.taverns.gfhfjf::part(background) {
 }
 
 ion-content.taverns ion-list.generatorOutput {
-	padding-top: 30vh;
-}
-
-ion-content.taverns ion-list.generatorOutput {
 	background-image: url("chains.svg"), url("chains.svg");
 	background-position: 20%, 80%;
 	background-repeat: repeat-y;

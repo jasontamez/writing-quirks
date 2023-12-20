@@ -12,10 +12,6 @@ ion-content.streets:not(.sliding)::part(background) {
 	);
 }
 
-ion-content.streets ion-list.generatorOutput {
-	padding-top: 30vh;
-}
-
 ion-content.streets.sliding ion-list.generatorOutput {
 	height: 100%;
 	background-image: linear-gradient(

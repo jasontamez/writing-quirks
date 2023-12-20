@@ -1,0 +1,39 @@
+/* Insults */
+
+ion-content.insults {
+	padding-top: 10vmin;
+}
+
+ion-content.insults ion-list.generatorOutput ion-item,
+ion-content.insults ion-list.generatorOutput.alternate ion-item {
+	background-image: url('./chatbox-secondary.svg');
+	background-size: 90vmin 90vmin;
+	background-origin: border-box;
+	background-repeat: no-repeat;
+	border-radius: 0;
+	min-height: 90vmin;
+	max-height: none;
+	margin-top: 10vmin;
+	padding-top: 5vmin;
+	padding-bottom: 25vmin;
+	padding-inline: 5vmin;
+	margin-inline: 5vmin;
+	width: 90vw;
+}
+ion-content.insults ion-list.generatorOutput.alternate ion-item {
+	background-image: url('./chatbox-tertiary.svg');
+}
+
+ion-content.insults ion-list.generatorOutput ion-item {
+	justify-content: center;
+}
+/*
+ion-content.streets ion-list.generatorOutput ion-item.singularResult {
+	background-color: var(--ion-color-secondary);
+	border: 5px double var(--ion-color-secondary-shade);
+}
+
+ion-content.streets ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-tertiary);
+	border: 5px double var(--ion-color-tertiary-shade);
+}*/

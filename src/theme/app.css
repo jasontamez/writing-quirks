@@ -19,7 +19,7 @@ ion-list.generatorOutput {
 	--basic-transition-instant: 0s linear;
 	--basic-transition-delayed-instant: 0s linear var(--timing);
 
-	--transition-visible: 
+	--transition-visible:
 		top var(--basic-transition-to-visible),
 		bottom var(--basic-transition-to-visible),
 		left var(--basic-transition-to-visible),
@@ -137,6 +137,9 @@ ion-list.generatorOutput.hidden {
 	transition: var(--transition-hidden);
 	transform: scaleY(var(--scaleY-hidden)) translateY(var(--translateY-hidden)) rotateY(var(--rotateY-hidden));
 	opacity: var(--opacity-hidden);
+}
+ion-content.noIntro ion-list.generatorOutput {
+	padding-top: 30vh;
 }
 ion-list.generatorOutput ion-item {
 	width: 100%;

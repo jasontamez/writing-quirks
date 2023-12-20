@@ -46,7 +46,7 @@ const Locations: React.FC = () => {
 					<IonTitle>Taverns and Inns</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent className={`taverns ${animationMethod}`} fullscreen>
+			<IonContent className={`taverns noIntro ${animationMethod}`} fullscreen>
 				<SimpleGenerator
 					{...{alternateActive}}
 					mainText={location}
