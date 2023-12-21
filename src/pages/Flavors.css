@@ -1,0 +1,24 @@
+/* Flavors */
+
+ion-content.flavors ion-list.generatorOutput ion-item.singularResult,
+ion-content.flavors ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-secondary);
+	background-image: url('./food-secondary.svg');
+	background-size: contain;
+	background-origin: padding-box;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-radius: 0;
+	border-top: 5px solid var(--ion-color-secondary);
+	border-bottom: 5px solid var(--ion-color-secondary);
+}
+ion-content.flavors ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-tertiary);
+	background-image: url('./food-tertiary.svg');
+	border-top: 5px solid var(--ion-color-tertiary);
+	border-bottom: 5px solid var(--ion-color-tertiary);
+}
+
+ion-content.flavors ion-list.generatorOutput ion-item.singularResult {
+	justify-content: center;
+}
