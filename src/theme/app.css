@@ -195,3 +195,7 @@ ion-list.generatorOutput.alternate ion-item.singularResult {
 	);
 	color: var(--ion-color-tertiary-contrast);
 }
+
+ion-list.settings {
+	padding-block: 0;
+}

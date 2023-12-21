@@ -1,5 +1,6 @@
 import React from 'react';
-import { IonContent, IonHeader, IonItem, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonItem, IonItemDivider, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
 
@@ -10,11 +11,12 @@ const Settings: React.FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Settings</IonTitle>
+					<IonTitle>Writing Quirks</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent fullscreen className="contrasty">
-				<IonList lines="full">
+			<IonContent className="contrasty">
+				<IonList lines="full" className="settings">
+					<IonItemDivider>Settings</IonItemDivider>
 					<IonItem>
 						<IonSelect
 							color="primary"

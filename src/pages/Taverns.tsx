@@ -3,16 +3,13 @@ import {
 	IonContent,
 	IonFab,
 	IonFabButton,
-	IonHeader,
 	IonIcon,
-	IonPage,
-	IonTitle,
-	IonToolbar
+	IonPage
 } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
+import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
-import getRandom from '../helpers/getRandom';
 import getNucleus from '../helpers/tavernsCore';
 import { useAppSelector } from '../store/hooks';
 import './Taverns.css';
@@ -41,11 +38,7 @@ const Locations: React.FC = () => {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Taverns and Inns</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<PageHeader title="Taverns and Inns" />
 			<IonContent className={`taverns noIntro ${animationMethod}`} fullscreen>
 				<SimpleGenerator
 					{...{alternateActive}}

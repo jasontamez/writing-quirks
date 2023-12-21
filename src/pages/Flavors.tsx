@@ -4,6 +4,7 @@ import { refresh } from 'ionicons/icons';
 
 import { useAppSelector } from '../store/hooks';
 import SimpleGenerator from '../components/SimpleGenerator';
+import PageHeader from '../components/PageHeader';
 import getRandom from '../helpers/getRandom';
 import getFlavor from '../helpers/flavorsCore';
 import './Flavors.css';
@@ -57,11 +58,7 @@ const Flavors: React.FC = () => {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Really Odd Flavors</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<PageHeader title="Really Odd Flavors" />
 			<IonContent className={`flavors ${animationMethod}`}>
 				<SimpleGenerator
 					{...{intro, introAlternate, alternateActive}}

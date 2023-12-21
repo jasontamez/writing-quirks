@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
+import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import createStreetName from '../helpers/streetNamesCore';
 import { useAppSelector } from '../store/hooks';
@@ -33,11 +34,7 @@ const Streets: React.FC = () => {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Streets of Suburbia</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<PageHeader title="Streets of Suburbia" />
 			<IonContent className={`streets noIntro ${animationMethod}`} fullscreen>
 				<SimpleGenerator
 					{...{alternateActive}}

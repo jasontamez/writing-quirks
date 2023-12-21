@@ -11,6 +11,7 @@ import {
 } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
+import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import getRandom from '../helpers/getRandom';
 
@@ -85,11 +86,7 @@ const Babbles: React.FC = () => {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Technobabble</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<PageHeader title="Technobabble" />
 			<IonContent fullscreen>
 				<SimpleGenerator
 					{...{intro, introAlternate, alternateActive}}

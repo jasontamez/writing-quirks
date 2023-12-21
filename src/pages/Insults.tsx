@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
+import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import getRandom from '../helpers/getRandom';
 import './Insults.css';
@@ -100,11 +101,7 @@ const Insults: React.FC = () => {
 
 	return (
 		<IonPage>
-			<IonHeader>
-				<IonToolbar>
-					<IonTitle>Shakespearian Insults</IonTitle>
-				</IonToolbar>
-			</IonHeader>
+			<PageHeader title="Shakespearian Insults" />
 			<IonContent className="insults">
 				<SimpleGenerator
 					{...{alternateActive}}
