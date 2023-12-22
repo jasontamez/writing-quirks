@@ -1,22 +1,32 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import PageHeader from '../components/PageHeader';
+import { IonContent, IonFab, IonFabButton, IonIcon, IonPage } from '@ionic/react';
+import { refresh } from 'ionicons/icons';
 
-const Tab1: React.FC = () => {
+import PageHeader from '../components/PageHeader';
+import SimpleGenerator from '../components/SimpleGenerator';
+
+let alternateActive = false;
+let insult = "";
+let insultAlternate = "";
+let doInsult = () => {};
+const Prompts: React.FC = () => {
 	return (
 		<IonPage>
-			<PageHeader title="Tab 1" />
+			<PageHeader title="Writing Prompts" />
 			<IonContent fullscreen>
-				<IonHeader collapse="condense">
-					<IonToolbar>
-						<IonTitle size="large">Tab 1</IonTitle>
-					</IonToolbar>
-				</IonHeader>
-				<ExploreContainer name="Tab 1 page" />
+				<SimpleGenerator
+					{...{alternateActive}}
+					mainText={insult}
+					mainTextAlternate={insultAlternate}
+				/>
+				<IonFab slot="fixed" horizontal="end" vertical="bottom">
+					<IonFabButton color="primary" onClick={doInsult}>
+						<IonIcon icon={refresh} />
+					</IonFabButton>
+				</IonFab>
 			</IonContent>
 		</IonPage>
 	);
 };
 
-export default Tab1;
+export default Prompts;
