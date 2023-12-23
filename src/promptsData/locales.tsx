@@ -1,4 +1,4 @@
-import { Locale } from "./PromptsTypes";
+import { Locale } from "./Ideas";
 
 const base: (Partial<Locale> & Pick<Locale, "type" | "specific" | "preposition">) = {
 	type: "locale",

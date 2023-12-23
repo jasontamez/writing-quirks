@@ -1,4 +1,4 @@
-import { AnObject } from "./PromptsTypes";
+import { AnObject } from "./Ideas";
 
 const base: (
 	Partial<AnObject>

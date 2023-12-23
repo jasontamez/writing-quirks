@@ -1,4 +1,4 @@
-import { Character } from "./PromptsTypes";
+import { Character } from "./Ideas";
 
 const base: (
 	Partial<Character>

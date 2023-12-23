@@ -1,4 +1,4 @@
-import { Topic } from "./PromptsTypes";
+import { Topic } from "./Ideas";
 
 const base: Pick<Topic, "type"> = {
 	type: "topic"

@@ -1,4 +1,4 @@
-import { ATime } from "./PromptsTypes";
+import { ATime } from "./Ideas";
 
 const base: Pick<ATime, "type"> = {
 	type: "time"

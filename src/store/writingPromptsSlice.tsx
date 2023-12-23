@@ -1,26 +1,45 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface WritingPromptsSettings {
-	TEMP_PROPERTY: string
+	usedIds: string[]
+	memorySize: number
 }
 
-export const generalSettings: WritingPromptsSettings = {
-	TEMP_PROPERTY: 'TEMP'
+export const writingPromptsSettings: WritingPromptsSettings = {
+	usedIds: [],
+	memorySize: 500
 };
 
-const writingPromptsSclice = createSlice({
-	name: 'generalSettings',
-	initialState: generalSettings,
+const trimIdeas = (ideas: string[], max: number) => {
+	while(ideas.length > max) {
+		ideas.shift();
+	}
+	return ideas;
+};
+
+const writingPromptsSlice = createSlice({
+	name: 'writingPromptsSettings',
+	initialState: writingPromptsSettings,
 	reducers: {
-		TEMP_REDUCER: (state, action: PayloadAction<string>) => {
-			state.TEMP_PROPERTY = action.payload;
+		saveUsedIdeas: (state, action: PayloadAction<string[]>) => {
+			const { usedIds, memorySize } = state;
+			usedIds.push(...action.payload);
+			state.usedIds = trimIdeas(usedIds, memorySize);
+			return state;
+		},
+		setMemorySize: (state, action: PayloadAction<number>) => {
+			const { usedIds } = state;
+			const { payload } = action;
+			state.usedIds = trimIdeas(usedIds, payload);
+			state.memorySize = payload;
 			return state;
 		}
 	}
 });
 
 export const {
-	TEMP_REDUCER
-} = writingPromptsSclice.actions;
+	saveUsedIdeas,
+	setMemorySize
+} = writingPromptsSlice.actions;
 
-export default writingPromptsSclice.reducer;
+export default writingPromptsSlice.reducer;

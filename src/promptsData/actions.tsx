@@ -1,4 +1,4 @@
-import { Action } from "./PromptsTypes";
+import { Action } from "./Ideas";
 
 const base = {
 	type: "action",

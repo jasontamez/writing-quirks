@@ -1,4 +1,4 @@
-import { AnEvent } from "./PromptsTypes";
+import { AnEvent } from "./Ideas";
 
 const base: (Partial<AnEvent> & Pick<AnEvent, "type" | "plural" | "punctual" | "preposition">) = {
 	type: "event",
