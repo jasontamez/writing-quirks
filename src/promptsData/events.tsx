@@ -1,9 +1,9 @@
 import { AnEvent } from "./Ideas";
 
-const base: (Partial<AnEvent> & Pick<AnEvent, "type" | "plural" | "punctual" | "preposition">) = {
+const base: (Partial<AnEvent> & Pick<AnEvent, "type" | "plural" | "nonPunctual" | "preposition">) = {
 	type: "event",
 	plural: false,
-	punctual: true,
+	nonPunctual: false,
 	preposition: "dealing with"
 };
 const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
@@ -12,23 +12,23 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		idea: "a death in the family",
 		humanDeath: true,
 		humanDeathNatural: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "c7c30e78-cdf8-4d9f-836c-86b48892392f",
 		idea: "a new baby",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "c33740ea-c52f-411b-8553-1bbb0a923049",
 		idea: "a divorce",
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "9ec449e0-fed3-4274-bc77-4733387b975c",
 		idea: "a flood",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "793b77a4-ae85-4cf0-a1d4-e6a63d3ddb7d",
@@ -36,7 +36,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
-		punctual: false,
+		nonPunctual: true,
 		preposition: "in"
 	},
 	{
@@ -60,7 +60,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "eab8ebdd-442a-43ea-b32f-897f69ec40f8",
 		idea: "menopause",
 		sexual: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "bb78970d-b062-46dc-8506-aca9c8c34bdb",
@@ -86,7 +86,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		idea: "a false pregnancy",
 		sexual: true,
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "d384ec43-c614-45ae-af92-456cda5caff9",
@@ -98,7 +98,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "f7ef4d08-b7a1-462d-a417-af2a6cd337b5",
 		idea: "a miscarriage of justice",
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "ff2a36ef-6b8d-47b9-ba8b-2525ce204d4d",
@@ -123,7 +123,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "ce9f6025-a0de-4757-99d5-ea139af913bd",
 		idea: "a writing challenge",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "f8818fd3-2bcd-459a-a102-e3fd437cc5af",
@@ -139,7 +139,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "10b9e436-82b7-44e1-ad6f-847f0c149629",
 		idea: "a case of head lice",
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "bb586f1b-14fd-40de-a09f-9af002f18cb9",
@@ -182,7 +182,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "9059ffd8-b50e-4ab0-b3d1-6c857b3aafce",
 		idea: "an election",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "1bff6425-4b38-470b-883d-2efbea41813e",
@@ -208,12 +208,12 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "caf69e6d-d0fa-4cfc-9210-7c67b6b46b40",
 		idea: "summer in the city",
-		punctual: false,
+		nonPunctual: true,
 		preposition: "experiencing"
 	},
 	{
@@ -224,7 +224,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "b7d9f3b0-8a49-47b3-a3c9-b44f8dd0a22f",
 		idea: "a tournament of champions",
-		punctual: false,
+		nonPunctual: true,
 		preposition: "in"
 	},
 	{
@@ -269,12 +269,12 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "83b04127-1312-44f6-a518-e7f28643a12a",
 		idea: "a high school play",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "373d4d14-8ece-49aa-ab12-caa925d25677",
 		idea: "a power outage",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "0257e6b4-f50d-4b15-918f-42badc4a41e6",
@@ -294,7 +294,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "0099682e-0ae3-4c3b-87c3-d98add0f2a53",
 		idea: "a pilgrimage",
 		mythsReligionsAndMetaphysics: true,
-		punctual: false,
+		nonPunctual: true,
 		preposition: "going on"
 	},
 	{
@@ -306,7 +306,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "577ca6b5-7421-4468-8adc-499742613a0b",
 		idea: "a mid-life crisis",
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "f93a0c93-b2f3-47c6-8923-62547d2a755a",
@@ -315,7 +315,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "032af495-8287-4950-bb97-d03edb19e9fe",
 		idea: "a homecoming",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "dedea6f2-09c5-43d4-8b75-eed441a670c8",
@@ -335,7 +335,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "1656a584-799a-495f-a467-5eb8e16df2fa",
 		idea: "a betrayal",
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "beb42a29-3879-41c3-a6c5-2cb91867a95d",
@@ -348,7 +348,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "33be070e-ac3d-4840-962e-f364a748e3b5",
 		idea: "starting a family",
 		sexual: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "e1f60aec-92a7-48ae-9885-daacb4cb7067",
@@ -370,7 +370,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "6854bcb0-518f-4b85-b991-e9d02f74877e",
 		idea: "the first snowfall",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "96e774a2-7793-4389-bd45-b7ffc2d645e4",
@@ -381,12 +381,12 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "0e5215e4-e0e2-4482-8728-e617cfb2ed49",
 		idea: "a headache",
 		humanDistress: true,
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "c0f3a659-c063-487d-af3a-0dfaf60ec323",
 		idea: "when it all comes together",
-		punctual: false,
+		nonPunctual: true,
 		preposition: "experiencing"
 	},
 	{
@@ -423,7 +423,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "f8ef9bf6-bbc7-4f15-a87b-a598cc3fffd8",
 		idea: "a game of poker",
-		punctual: false
+		nonPunctual: true
 	},
 	{
 		id: "1f07a0dc-691e-4ac4-9ddf-41bef7c73258",

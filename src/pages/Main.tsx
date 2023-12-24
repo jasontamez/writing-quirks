@@ -1,10 +1,22 @@
 import React from 'react';
-import { IonContent, IonHeader, IonItem, IonItemDivider, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import {
+	IonContent,
+	IonHeader,
+	IonItem,
+	IonItemDivider,
+	IonLabel,
+	IonList,
+	IonPage,
+	IonSelect,
+	IonSelectOption,
+	IonTitle,
+	IonToolbar
+} from '@ionic/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
 
-const Settings: React.FC = () => {
+const Main: React.FC = () => {
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
 	const dispatch = useAppDispatch();
 	return (
@@ -14,9 +26,9 @@ const Settings: React.FC = () => {
 					<IonTitle>Writing Quirks</IonTitle>
 				</IonToolbar>
 			</IonHeader>
-			<IonContent className="contrasty">
+			<IonContent>
 				<IonList lines="full" className="settings">
-					<IonItemDivider>Settings</IonItemDivider>
+					<IonItemDivider>App Settings</IonItemDivider>
 					<IonItem>
 						<IonSelect
 							color="primary"
@@ -52,10 +64,13 @@ const Settings: React.FC = () => {
 							>Scrolling</IonSelectOption>
 						</IonSelect>
 					</IonItem>
+					<IonItem button detail={true} routerDirection="forward" routerLink="/writingpromptssettings">
+						<IonLabel>Writing Prompts Settings</IonLabel>
+					</IonItem>
 				</IonList>
 			</IonContent>
 		</IonPage>
 	);
 };
 
-export default Settings;
+export default Main;

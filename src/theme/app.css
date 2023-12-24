@@ -5,8 +5,27 @@
 	}
 }
 
-ion-content.contrasty ion-list {
+/* Settings Pages */
+
+ion-list.settings {
+	padding-block: 0;
 	background: var(--ion-color-step-50);
+}
+ion-list.settings ion-item p,
+ion-list.settings ion-item h2 {
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+ion-list.settings ion-item p {
+	font-size: 0.8rem;
+	padding: 0;
+	text-indent: 0;
+	color: var(--ion-color-step-500);
+	width: 100%;
+}
+ion-list.settings ion-item h2 {
+	font-size: 1.1rem;
+	margin: 0.25em 0;
 }
 
 /* SimpleGenerator */
@@ -194,8 +213,4 @@ ion-list.generatorOutput.alternate ion-item.singularResult {
 		transparent
 	);
 	color: var(--ion-color-tertiary-contrast);
-}
-
-ion-list.settings {
-	padding-block: 0;
 }

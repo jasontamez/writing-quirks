@@ -911,7 +911,6 @@ const info: (Partial<Locale> & Pick<Locale, "id" | "idea">)[] = [
 	{
 		id: "b2057a79-5393-4c7d-8106-834e1b898d2c",
 		idea: "a maze of corridors, all alike",
-		modern: true,
 		specific: false,
 		construct: true,
 		tinySize: true
@@ -1278,6 +1277,15 @@ const info: (Partial<Locale> & Pick<Locale, "id" | "idea">)[] = [
 		specific: false,
 		tinySize: true,
 		construct: true
+	},
+	{
+		id: "xxx415a8-a35a-463c-bfb5-ea7819ecbxxx",
+		idea: "along the Mississippi River",
+		specific: false,
+		mediumSize: true,
+		geographical: true,
+		properName: true,
+		preposition: "somewhere"
 	}
 ];
 

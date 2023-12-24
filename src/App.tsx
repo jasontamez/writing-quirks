@@ -12,7 +12,9 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { beerSharp, chatbubblesSharp, fastFoodSharp, planetSharp, skullSharp, trailSignSharp } from 'ionicons/icons';
-import Settings from './pages/Settings';
+
+import WritingPromptsSettings from './pages/WritingPromptsSettings';
+import Main from './pages/Main';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,7 +56,8 @@ const App: React.FC = () => (
 					<Route exact path="/babbles" render={() => <Suspense fallback={<>Loading...</>}><Babbles /></Suspense>} />
 					<Route exact path="/insults" render={() => <Suspense fallback={<>Loading...</>}><Insults /></Suspense>} />
 					<Route exact path="/flavors" render={() => <Suspense fallback={<>Loading...</>}><Flavors /></Suspense>} />
-					<Route exact path="/" render={() => <Settings />} />
+					<Route exact path="/writingpromptssettings" render={() => <WritingPromptsSettings />} />
+					<Route exact path="/" render={() => <Main />} />
 				</IonRouterOutlet>
 				<IonTabBar slot="bottom">
 					<IonTabButton tab="prompts" href="/prompts">

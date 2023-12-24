@@ -5,8 +5,7 @@ import ideas, {
 	singleItemFormats,
 	doubleItemFormats,
 	doubleCharacterFormats,
-	doubleLocaleFormats,
-	Format
+	doubleLocaleFormats
 } from "../promptsData/Ideas";
 
 const previousFormat = {
@@ -149,9 +148,7 @@ function assembleFormat (FLAGformat: keyof Previously, ideas: string[], plural: 
 	return final.join("");
 }
 
-export function getIdeaString(used: string[], unwanted: (keyof Any)[]): { idea: string, ids: string[] } {
-	// TO-DO: Or use useEffect to keep the wanted array and the subset unused array
-	const choices = excludeUnwanted(excludeUsed(ideas, used), unwanted);
+function getIdeaString(choices: Any[]): { idea: string, ids: string[] } {
 	const max = choices.length;
 	const one = choices[Math.floor(Math.random() * max)];
 	const two = choices[Math.floor(Math.random() * max)];
@@ -165,10 +162,6 @@ export function getIdeaString(used: string[], unwanted: (keyof Any)[]): { idea: 
 	const [i2] = translateIdea(two);
 	const idea1 = maybeModifyForGender(i1, one, two);
 	const idea2 = maybeModifyForGender(i2, two, one);
-	// 1 - single format
-	// 2 - double format
-	// 3 - character character
-	// 4 - time locale
 	let FLAGformat: keyof Previously = "doubleItem";
 	const combination = one.type + two.type;
 	const ideasToDisplay: string[] = [];
@@ -199,11 +192,11 @@ export function getIdeaString(used: string[], unwanted: (keyof Any)[]): { idea: 
 			FLAGformat = "doubleLocale";
 			break;
 		case "characterevent":
-			ideasToDisplay.push(`${idea1} ${one.preposition} ${idea2}`);
+			ideasToDisplay.push(`${idea1} ${two.preposition} ${idea2}`);
 			FLAGformat = "singleItem";
 			break;
 		case "eventcharacter":
-			ideasToDisplay.push(`${idea2} ${two.preposition} ${idea1}`);
+			ideasToDisplay.push(`${idea2} ${one.preposition} ${idea1}`);
 			FLAGformat = "singleItem";
 			break;
 		default:
@@ -228,3 +221,5 @@ export function getIdeaString(used: string[], unwanted: (keyof Any)[]): { idea: 
 		ids: [one.id, two.id]
 	};
 }
+
+export default getIdeaString;

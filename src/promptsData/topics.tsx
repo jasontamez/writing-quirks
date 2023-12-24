@@ -232,8 +232,7 @@ const info: Omit<Topic, "type">[] = [
 	{
 		id: "6ceb7607-479a-444a-8b01-fea3bbc5c68e",
 		idea: "lactose intolerance",
-		humanDistress: true,
-		modern: true
+		humanDistress: true
 	},
 	{
 		id: "a61ef21f-00de-41ab-abe3-428448876523",
@@ -347,16 +346,14 @@ const info: Omit<Topic, "type">[] = [
 	{
 		id: "4ac90223-745b-4f30-9b9c-c68f1734fd44",
 		idea: "identity theft",
-		humanDistress: true,
-		modern: true
+		humanDistress: true
 	},
 	{
 		id: "c2dbcefd-df2d-469f-9787-850036cc8fec",
 		idea: "bacterial meningitis",
 		humanDistress: true,
 		humanDeath: true,
-		humanDeathNatural: true,
-		modern: true
+		humanDeathNatural: true
 	},
 	{
 		id: "1479b508-fbae-40be-bf35-dfa062014f0c",
@@ -740,8 +737,7 @@ const info: Omit<Topic, "type">[] = [
 	},
 	{
 		id: "64de22a9-4f52-494f-a83c-c8e1418d5458",
-		idea: "hyperactivity",
-		modern: true
+		idea: "hyperactivity"
 	},
 	{
 		id: "5b70e29b-66a0-4f7d-ab16-1237dcd3483d",
@@ -888,7 +884,6 @@ const info: Omit<Topic, "type">[] = [
 	{
 		id: "3898bd83-c74d-4f78-8be6-fd469733dd1f",
 		idea: "cliques",
-		modern: true
 	},
 	{
 		id: "6e114183-a020-4bc4-bef9-12d556cb99ea",
@@ -988,7 +983,6 @@ const info: Omit<Topic, "type">[] = [
 	{
 		id: "d57675bc-148c-42fb-8872-2000d9ff2aea",
 		idea: "abortion",
-		modern: true,
 		sexual: true,
 		humanDistress: true
 	},

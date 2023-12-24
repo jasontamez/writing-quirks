@@ -357,8 +357,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "1dc9f008-a7f1-4127-9932-1929372cc444",
-		idea: "being out of medication",
-		modern: true
+		idea: "being out of medication"
 	},
 	{
 		id: "77a32621-f5a2-4ebb-9f96-2e161aa23b98",
@@ -748,8 +747,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "3ee76395-01f8-4bdc-900b-8732ba38c8fd",
 		idea: "getting laid",
-		sexual: true,
-		modern: true
+		sexual: true
 	},
 	{
 		id: "e068b5cf-bc58-4106-97fb-48543a691504",
@@ -830,8 +828,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "96ceb7da-859e-4309-b0e4-6505f578d41a",
-		idea: "making a strong offer",
-		modern: true
+		idea: "making a strong offer"
 	},
 	{
 		id: "303deba4-b806-47c2-a141-89634da638eb",
@@ -918,7 +915,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "b94c65cb-4e71-4fb2-8e0b-adbfece034af",
-		idea: "feeling cool",
+		idea: "feeling cool (fashionable)",
 		modern: true
 	},
 	{

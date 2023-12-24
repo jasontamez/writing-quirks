@@ -11,11 +11,14 @@ export interface BasicIdea {
 	idea: string
 	type: string
 
+	profanity?: boolean
+
 	fantasy?: boolean
 	medievalFantasy?: boolean
 	superhero?: boolean
 	fairyTalesAndUrbanLegends?: boolean
 	horror?: boolean
+
 	historicalFiction?: boolean
 	western?: boolean
 	samurai?: boolean
@@ -25,13 +28,13 @@ export interface BasicIdea {
 
 	properName?: boolean
 
+	humanDistress?: boolean
 	humanDeath?: boolean
 	humanDeathNatural?: boolean
 	humanDeathViolent?: boolean
-	humanDistress?: boolean
 
-	animalDeath?: boolean
 	animalDistress?: boolean
+	animalDeath?: boolean
 
 	mythsReligionsAndMetaphysics?: boolean
 	judaism?: boolean
@@ -47,8 +50,6 @@ export interface BasicIdea {
 	tobacco?: boolean
 
 	modern?: boolean
-
-	profanity?: boolean
 }
 
 export interface AnObject extends BasicIdea {
@@ -63,9 +64,9 @@ export interface AnObject extends BasicIdea {
 
 export interface Character extends AnObject {
 	genderPossessive: string | false
+	joiner: string
 	realPerson: boolean
 	fictionalCharacter: boolean
-	joiner: string
 	monster?: boolean
 }
 
@@ -92,7 +93,7 @@ export interface Locale extends BasicIdea {
 
 export interface AnEvent extends BasicIdea {
 	plural: boolean
-	punctual: boolean
+	nonPunctual: boolean
 	preposition: string
 }
 

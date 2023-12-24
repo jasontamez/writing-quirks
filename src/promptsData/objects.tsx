@@ -108,7 +108,6 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	{
 		id: "ddd7e8de-452f-4b3b-a7ec-3c8024b0825b",
 		idea: "psychoactive drugs",
-		modern: true,
 		illicitSubstances: true,
 		plural: true
 	},
@@ -1072,8 +1071,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	},
 	{
 		id: "173f2d72-8e9c-45de-af85-1bca2c4890cd",
-		idea: "a paperback novel",
-		modern: true
+		idea: "a paperback novel"
 	},
 	{
 		id: "3544c315-9e80-4f4d-809d-3799a27fcb62",
@@ -1085,8 +1083,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	},
 	{
 		id: "238b6388-5513-49e3-9b1d-ea708fe78307",
-		idea: "a suppository",
-		modern: true
+		idea: "a suppository"
 	},
 	{
 		id: "7cdc95ba-45e3-4df6-9de8-e28d60739457",
@@ -1217,8 +1214,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	},
 	{
 		id: "d380690b-7aa7-4879-87b8-57023e7fe801",
-		idea: "a thesis",
-		modern: true
+		idea: "a thesis"
 	},
 	{
 		id: "1e0e0b78-a410-4654-ad9c-6115c234176e",
@@ -2053,8 +2049,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	{
 		id: "04ff3088-d121-4927-bcad-ed37f921941d",
 		idea: "marijuana",
-		illicitSubstances: true,
-		modern: true
+		illicitSubstances: true
 	},
 	{
 		id: "28f144ba-0e37-413e-a3c5-e33c444a7e8e",
