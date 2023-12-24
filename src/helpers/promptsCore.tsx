@@ -1,6 +1,6 @@
 import converter from 'number-to-words';
 
-import ideas, {
+import {
 	Any,
 	singleItemFormats,
 	doubleItemFormats,
@@ -106,14 +106,6 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 	return [`${converter.toWords(choice)} ${idea}${pluralEnd}`, false];
 }
 
-function excludeUsed(all: Any[], ids: string[]): Any[] {
-	return all.filter(idea => ids.indexOf(idea.id) < 0);
-}
-
-function excludeUnwanted(all: Any[], unwanted: (keyof Any)[]): Any[] {
-	return all.filter(idea => unwanted.every(prop => !idea[prop]));
-}
-
 function maybeModifyForGender (idea: string, ideaObj: Any, possessor: Any) {
 	const { possessive } = ideaObj;
 	if(possessive) {
@@ -148,15 +140,15 @@ function assembleFormat (FLAGformat: keyof Previously, ideas: string[], plural: 
 	return final.join("");
 }
 
-function getIdeaString(choices: Any[]): { idea: string, ids: string[] } {
+function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] } {
 	const max = choices.length;
 	const one = choices[Math.floor(Math.random() * max)];
 	const two = choices[Math.floor(Math.random() * max)];
 	const [i1, plural] = translateIdea(one);
 	if(one === two) {
 		return {
-			idea: assembleFormat("singleItem", [i1], plural),
-			ids: [one.id]
+			ideaString: assembleFormat("singleItem", [i1], plural),
+			ideasUsed: [one]
 		};
 	}
 	const [i2] = translateIdea(two);
@@ -217,8 +209,8 @@ function getIdeaString(choices: Any[]): { idea: string, ids: string[] } {
 			}
 	}
 	return {
-		idea: assembleFormat(FLAGformat, ideasToDisplay, plural),
-		ids: [one.id, two.id]
+		ideaString: assembleFormat(FLAGformat, ideasToDisplay, plural),
+		ideasUsed: [one, two]
 	};
 }
 

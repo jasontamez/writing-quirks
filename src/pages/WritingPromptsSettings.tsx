@@ -1,21 +1,26 @@
 import React, { useCallback } from 'react';
 import {
+	InputChangeEventDetail,
+	InputCustomEvent,
 	IonContent,
 	IonHeader,
+	IonInput,
 	IonItem,
 	IonItemDivider,
 	IonLabel,
 	IonList,
 	IonPage,
+	IonRange,
 	IonTitle,
 	IonToggle,
 	IonToolbar
 } from '@ionic/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { HiddenTopics, toggleHiddenTopic } from '../store/writingPromptsSlice';
+import { HiddenTopics, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSlice';
 
 const WritingPromptsSettings: React.FC = () => {
+	const { memorySize = 500, hiddenTopics = {} } = useAppSelector(state => state.writingPromptsSettings) || {};
 	const {
 		profanity,
 
@@ -81,11 +86,19 @@ const WritingPromptsSettings: React.FC = () => {
 		oceania,
 		westAsia,
 		eastAsia
-	} = useAppSelector(state => state.writingPromptsSettings.hiddenTopics);
+	} = hiddenTopics;
 	const dispatch = useAppDispatch();
 	const toggle = useCallback((prop: keyof HiddenTopics) => {
 		dispatch(toggleHiddenTopic(prop));
 	}, [dispatch]);
+	const maybeSetMemorySize = useCallback((e: InputCustomEvent<InputChangeEventDetail>) => {
+		const maybe = Number((e.target as HTMLIonInputElement)!.value);
+		if(isNaN(maybe) || maybe < 0 || maybe > 500) {
+			//ignore invalid value
+			return;
+		}
+		dispatch(setMemorySize(Math.floor(maybe)));
+	}, []);
 	return (
 		<IonPage>
 			<IonHeader>
@@ -96,9 +109,25 @@ const WritingPromptsSettings: React.FC = () => {
 			<IonContent>
 				<IonList lines="none" className="settings">
 
+				<IonItemDivider>Memory Size</IonItemDivider>
+					<IonItem className="firsthalf">
+						<IonLabel>
+							<p>The app will not reuse previously given ideas, up to a certain point. You can choose how many ideas to hide, up to 500.</p>
+						</IonLabel>
+					</IonItem>
+					<IonItem lines="full" className="secondhalf">
+						<IonInput
+							label="Hiding:"
+							labelPlacement="start"
+							value={memorySize}
+							onIonChange={(e) => maybeSetMemorySize(e)}
+						/>
+					</IonItem>
+
 					<IonItemDivider>Genres</IonItemDivider>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={fantasy}
 							onClick={() => toggle("fantasy")}
@@ -106,6 +135,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={fantasy || medievalFantasy}
 							disabled={!fantasy}
@@ -114,6 +144,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={fantasy || superhero}
 							disabled={!fantasy}
@@ -122,6 +153,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={fantasy || fairyTalesAndUrbanLegends}
 							disabled={!fantasy}
@@ -133,6 +165,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={fantasy || horror}
 							disabled={!fantasy}
@@ -142,6 +175,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={historicalFiction}
 							onClick={() => toggle("historicalFiction")}
@@ -149,6 +183,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={historicalFiction || western}
 							disabled={!historicalFiction}
@@ -157,6 +192,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={historicalFiction || samurai}
 							disabled={!historicalFiction}
@@ -166,6 +202,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={scifi}
 							onClick={() => toggle("scifi")}
@@ -173,6 +210,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={scifi || spacefaring}
 							disabled={!scifi}
@@ -186,6 +224,7 @@ const WritingPromptsSettings: React.FC = () => {
 					<IonItemDivider>General Topics</IonItemDivider>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={profanity}
 							onClick={() => toggle("profanity")}
@@ -194,6 +233,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={sexual}
 							onClick={() => toggle("sexual")}
@@ -205,6 +245,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={modern}
 							onClick={() => toggle("modern")}
@@ -216,6 +257,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={properName}
 							onClick={() => toggle("properName")}
@@ -227,6 +269,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mythsReligionsAndMetaphysics}
 							onClick={() => toggle("mythsReligionsAndMetaphysics")}
@@ -234,6 +277,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mythsReligionsAndMetaphysics || judaism}
 							disabled={!mythsReligionsAndMetaphysics}
@@ -242,6 +286,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mythsReligionsAndMetaphysics || christianity}
 							disabled={!mythsReligionsAndMetaphysics}
@@ -250,6 +295,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mythsReligionsAndMetaphysics || islam}
 							disabled={!mythsReligionsAndMetaphysics}
@@ -258,6 +304,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mythsReligionsAndMetaphysics || greekRomanMyth}
 							disabled={!mythsReligionsAndMetaphysics}
@@ -266,6 +313,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mythsReligionsAndMetaphysics || metaphysics}
 							disabled={!mythsReligionsAndMetaphysics}
@@ -278,6 +326,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={illicitSubstances}
 							onClick={() => toggle("illicitSubstances")}
@@ -285,6 +334,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={illicitSubstances || alcohol}
 							disabled={!illicitSubstances}
@@ -293,6 +343,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={illicitSubstances || tobacco}
 							disabled={!illicitSubstances}
@@ -302,6 +353,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={humanDistress}
 							onClick={() => toggle("humanDistress")}
@@ -312,6 +364,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={humanDistress || humanDeath}
 							disabled={!humanDistress}
@@ -320,6 +373,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={humanDistress || humanDeath || humanDeathNatural}
 							disabled={!humanDistress || !humanDeath}
@@ -328,6 +382,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={humanDistress || humanDeath || humanDeathViolent}
 							disabled={!humanDistress || !humanDeath}
@@ -337,6 +392,7 @@ const WritingPromptsSettings: React.FC = () => {
 
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={animalDistress}
 							onClick={() => toggle("animalDistress")}
@@ -344,6 +400,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={animalDistress || animalDeath}
 							disabled={!animalDistress}
@@ -354,9 +411,10 @@ const WritingPromptsSettings: React.FC = () => {
 					<IonItemDivider>Events</IonItemDivider>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
-							checked={realPerson}
-							onClick={() => toggle("realPerson")}
+							checked={nonPunctual}
+							onClick={() => toggle("nonPunctual")}
 						>
 							<h2>Non-Punctual Events</h2>
 							<p>Events that generally last for longer than an hour.</p>
@@ -366,6 +424,7 @@ const WritingPromptsSettings: React.FC = () => {
 					<IonItemDivider>People</IonItemDivider>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={realPerson}
 							onClick={() => toggle("realPerson")}
@@ -376,6 +435,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={fictionalCharacter}
 							onClick={() => toggle("fictionalCharacter")}
@@ -383,6 +443,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={monster}
 							onClick={() => toggle("monster")}
@@ -392,6 +453,7 @@ const WritingPromptsSettings: React.FC = () => {
 					<IonItemDivider>Locations</IonItemDivider>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={political}
 							onClick={() => toggle("political")}
@@ -402,6 +464,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={geographical}
 							onClick={() => toggle("geographical")}
@@ -412,6 +475,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={construct}
 							onClick={() => toggle("construct")}
@@ -422,6 +486,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem >
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={largeSize}
 							onClick={() => toggle("largeSize")}
@@ -432,6 +497,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={mediumSize}
 							onClick={() => toggle("mediumSize")}
@@ -442,6 +508,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={smallSize}
 							onClick={() => toggle("smallSize")}
@@ -452,6 +519,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={tinySize}
 							onClick={() => toggle("tinySize")}
@@ -462,6 +530,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={americas}
 							onClick={() => toggle("americas")}
@@ -469,6 +538,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={europe}
 							onClick={() => toggle("europe")}
@@ -476,6 +546,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={africa}
 							onClick={() => toggle("africa")}
@@ -483,6 +554,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={westAsia}
 							onClick={() => toggle("westAsia")}
@@ -493,6 +565,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem>
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={eastAsia}
 							onClick={() => toggle("eastAsia")}
@@ -503,6 +576,7 @@ const WritingPromptsSettings: React.FC = () => {
 					</IonItem>
 					<IonItem lines="full">
 						<IonToggle
+							labelPlacement="start"
 							enableOnOffLabels
 							checked={oceania}
 							onClick={() => toggle("oceania")}

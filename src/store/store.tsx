@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
 import generalSettingsSlice, { generalSettings } from './generalSettingsSlice';
+import writingPromptsSettingsSlice from './writingPromptsSlice';
 
 //
 //
@@ -31,7 +32,8 @@ const migrations = {};
 
 const reducerConfig = {
 	// SLICES here
-	generalSettings: generalSettingsSlice
+	generalSettings: generalSettingsSlice,
+	writingPromptsSettings: writingPromptsSettingsSlice
 };
 const stateReconciler = (incomingState: any, originalState: any, reducedState: any, config: any) => {
 //	if(incomingState && originalState && (incomingState.appSettings.theme !== originalState.appSettings.theme)) {

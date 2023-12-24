@@ -7,13 +7,44 @@ import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import rawIdeas, { Any } from "../promptsData/Ideas";
 import { HiddenTopics } from '../store/writingPromptsSlice';
+import getIdeaString from '../helpers/promptsCore';
 
-let alternateActive = false;
-let insult = "";
-let insultAlternate = "";
-let doInsult = () => {};
+type HiddenTopicsArray = (keyof HiddenTopics)[];
+
+const filterIdeas = (usedIds: string[], flags: HiddenTopicsArray, ideas = rawIdeas) => {
+	const i: Any[] = [];
+	const e: Any[] = [];
+	const u: Any[] = [];
+	ideas.forEach(idea => {
+		// Exclude recently-used ideas
+		if(usedIds.indexOf(idea.id) < 0) {
+			u.push(idea);
+			return false;
+		}
+		// Exclude items we don't want to see
+		if(flags.every(flag => !idea[flag])) {
+			i.push(idea);
+		} else {
+			e.push(idea);
+		}
+	});
+	return [i, u, e];
+};
+
+const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: HiddenTopicsArray) => {
+	const toRestore: Any[] = [];
+	const copyOfUsedIdeas = usedIdeas.slice();
+	const firstInNewUsedList = usedIds[0];
+	while(copyOfUsedIdeas.length > 0 && copyOfUsedIdeas[0].id !== firstInNewUsedList) {
+		toRestore.push(copyOfUsedIdeas.shift()!);
+	}
+	// Check for hidden topics
+	const [i, u, e] = filterIdeas([], hiddenTags, toRestore);
+	return [i, copyOfUsedIdeas, e];
+};
+
 const Prompts: React.FC = () => {
-	const { used, hiddenTopics } = useAppSelector(state => state.writingPromptsSettings);
+	const { usedIds, hiddenTopics } = useAppSelector(state => state.writingPromptsSettings);
 	const {
 		profanity,
 
@@ -80,60 +111,104 @@ const Prompts: React.FC = () => {
 		westAsia,
 		eastAsia
 	} = hiddenTopics;
-	const [ideas, setIdeas] = useState<Any[]>([]);
-	const [previousUsed, setPreviousUsed] = useState<Any[]>([]);
+	const [okIdeas, setOkIdeas] = useState<Any[]>([]);
+	const [usedIdeas, setUsedIdeas] = useState<Any[]>([]);
+	const [excludedIdeas, setExcludedIdeas] = useState<Any[]>([]);
+	const [hiddenTags, setHiddenTags] = useState<HiddenTopicsArray>([]);
+	const [alternateActive, setAlternateActive] = useState<boolean>(false);
+	const [ideaShown, setIdeaShown] = useState<string>("");
+	const [ideaShownAlternate, setIdeaShownAlternate] = useState<string>("");
 
 	// Initial setup
 	useEffect(() => {
 		// Construct list of topics we don't want to see.
 		const topics = Object.entries(hiddenTopics);
-		const flags: (keyof HiddenTopics)[] = [];
+		const flags: HiddenTopicsArray = [];
 		while(topics.length > 0) {
 			const [prop, value] = topics.shift()!;
 			if(value) {
 				flags.push(prop as keyof HiddenTopics);
 			}
 		}
-		const i: Any[] = rawIdeas.filter(idea => {
-			// Exclude recently-used ideas
-			if(used.indexOf(idea.id) < 0) {
-				return false;
-			}
-			// Exclude items we don't want to see
-			return flags.every(flag => !idea[flag]);
-		});
-		// Save the list of ok ideas.
-		setIdeas(i);
-		// Also save the used ideas
-		setPreviousUsed(used);
+		// Save the list of topics
+		setHiddenTags(flags);
+		// Find and save the list of ok ideas.
+		const [valid, invalid, excluded] = filterIdeas(usedIds, flags);
+		setOkIdeas(valid);
+		setUsedIdeas(invalid);
+		setExcludedIdeas(excluded);
 		// Generate the first idea
-		// TO-DO
+		getIdea();
 	}, []);
 
 	// When the list of used ideas changes
 	useEffect(() => {
-		if(previousUsed.length === 0) {
+		const prevLen = usedIdeas.length;
+		const usedLen = usedIds.length;
+		if(prevLen === 0) {
 			// Previous used has not been set up yet. Ignore for now.
 			return;
+		} else if (prevLen > usedLen) {
+			// Maximum has probably been lowered
+			const first = usedIdeas[0].id;
+			const index = usedIds.indexOf(first);
+			if(index < 0) {
+				// not found?? just use the whole thing, I guess
+				const [i, u, e] = filterIdeas(usedIds, hiddenTags);
+				setOkIdeas(i);
+				setUsedIdeas(u);
+				setExcludedIdeas(e);
+			} else {
+				// find the ideas that were shifted off the used list
+				const [i, u, e] = restoreIdeas(usedIds, usedIdeas, hiddenTags);
+				// Save everything
+				setOkIdeas([...okIdeas, ...i]);
+				setUsedIdeas(u);
+				setExcludedIdeas([...excludedIdeas, ...e]);
+			}
+		} else if (prevLen < usedLen) {
+			// New ideas added
+			// This SHOULD be handled by the system
+		} else {
+			// New ideas added and old ideas removed
+			// This SHOULD be handled by the system
 		}
-		// Situations:
-		// 1) max idea number changed
-		// 2) new ideas added
-		// 3) new ideas added and old ideas removed
-		// TO-DO
-	}, [used]);
+	}, [usedIds]);
+
+	// Generate an idea
+	const getIdea = (alternate = false) => {
+		// Get ideas
+		const {ideaString, ideasUsed} = getIdeaString(okIdeas);
+		// Update the Ok/Used idea lists
+		const newlyUsedIds = ideasUsed.map(idea => idea.id);
+		const ids = newlyUsedIds.join(",");
+		const stillOkIdeas = okIdeas.filter(idea => ids.indexOf(idea.id) >= 0);
+		setOkIdeas(stillOkIdeas);
+		setUsedIdeas([...usedIdeas, ...ideasUsed]);
+		// Display the idea
+		if(alternate) {
+			setIdeaShownAlternate(ideaString);
+		} else {
+			setIdeaShown(ideaString);
+		}
+	};
+
+	const doIdea = () => {
+		getIdea(!alternateActive);
+		setAlternateActive(!alternateActive);
+	};
 
 	return (
 		<IonPage>
 			<PageHeader title="Writing Prompts" />
-			<IonContent fullscreen>
+			<IonContent className="noIntro">
 				<SimpleGenerator
 					{...{alternateActive}}
-					mainText={insult}
-					mainTextAlternate={insultAlternate}
+					mainText={ideaShown}
+					mainTextAlternate={ideaShownAlternate}
 				/>
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
-					<IonFabButton color="primary" onClick={doInsult}>
+					<IonFabButton color="primary" onClick={doIdea}>
 						<IonIcon icon={refresh} />
 					</IonFabButton>
 				</IonFab>

@@ -22,10 +22,25 @@ ion-list.settings ion-item p {
 	text-indent: 0;
 	color: var(--ion-color-step-500);
 	width: 100%;
+	margin-block: 0;
 }
 ion-list.settings ion-item h2 {
 	font-size: 1.1rem;
 	margin: 0.25em 0;
+}
+
+ion-item.firsthalf ion-label {
+	margin-bottom: 0;
+}
+
+ion-item.secondhalf > * {
+	padding-top: 0;
+}
+
+ion-list.settings ion-input {
+	--background: var(--ion-color-step-100);
+	--padding-start: 1em !important;
+	--padding-end: 1em;
 }
 
 /* SimpleGenerator */
