@@ -1,0 +1,121 @@
+/* Prompts */
+
+ion-content.prompts ion-list.generatorOutput {
+	padding-top: 15vh;
+}
+
+ion-content.prompts ion-list.generatorOutput ion-item.singularResult ion-label::first-letter {
+	text-transform: uppercase;
+}
+
+ion-content.prompts ion-list.generatorOutput ion-item.singularResult,
+ion-content.prompts ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-secondary-shade);
+	background-image: url('./ideas/idea1.png');
+	background-size: contain;
+	background-origin: padding-box;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-radius: 0;
+	border-top: 2vh solid var(--ion-color-secondary-shade);
+	border-bottom: 2vh solid var(--ion-color-secondary-shade);
+	min-height: 40vh;
+}
+ion-content.prompts ion-list.generatorOutput.alternate ion-item.singularResult {
+	background-color: var(--ion-color-tertiary-shade);
+	background-image: url('./ideas/ideaAlt1.png');
+	border-top: 2vh solid var(--ion-color-tertiary-shade);
+	border-bottom: 2vh solid var(--ion-color-tertiary-shade);
+}
+
+ion-content.prompts ion-list.generatorOutput ion-item.singularResult {
+	justify-content: center;
+}
+
+ion-content.prompts ion-list.generatorOutput.icon2 ion-item.singularResult {
+	background-image: url('./ideas/idea2.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon3 ion-item.singularResult {
+	background-image: url('./ideas/idea3.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon4 ion-item.singularResult {
+	background-image: url('./ideas/idea4.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon5 ion-item.singularResult {
+	background-image: url('./ideas/idea5.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon6 ion-item.singularResult {
+	background-image: url('./ideas/idea6.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon7 ion-item.singularResult {
+	background-image: url('./ideas/idea7.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon8 ion-item.singularResult {
+	background-image: url('./ideas/idea8.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon9 ion-item.singularResult {
+	background-image: url('./ideas/idea9.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon10 ion-item.singularResult {
+	background-image: url('./ideas/idea10.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon11 ion-item.singularResult {
+	background-image: url('./ideas/idea11.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.icon12 ion-item.singularResult {
+	background-image: url('./ideas/idea12.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon2 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt2.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon3 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt3.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon4 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt4.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon5 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt5.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon6 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt6.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon7 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt7.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon8 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt8.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon9 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt9.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon10 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt10.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon11 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt11.png');
+}
+
+ion-content.prompts ion-list.generatorOutput.alternate.icon12 ion-item.singularResult {
+	background-image: url('./ideas/ideaAlt12.png');
+}

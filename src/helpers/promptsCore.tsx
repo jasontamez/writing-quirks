@@ -39,17 +39,17 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 	let { min = 0, max = 5 } = ideaObject;
 	switch(type) {
 		case "locale":
-			return [`${preposition} ${idea}`, true];
+			return [`${preposition} ${idea}`, false];
 		case "character":
 			if(realPerson) {
-				// true = singular
-				return [idea, true];
+				// singular = false
+				return [idea, false];
 			}
 		case "object":
 			// Continue
 			break;
 		default:
-			// Everything else
+			// Everything else should be singular, or won't even use purality
 			return [idea, false];
 	}
 	if (plural === true || plural === false) {
@@ -84,35 +84,35 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 			}
 		}
 	}
-	let choice = amounts[Math.floor(Math.random() * amounts.length)];
+	let amountOfThisIdea = amounts[Math.floor(Math.random() * amounts.length)];
 	if (Array.isArray(plural)) {
 		// [pre number, post number]
 		const [pre, post] = plural as [string, string];
-		if (choice === 1) {
-			// true = singular
-			return [idea, true];
+		if (amountOfThisIdea === 1) {
+			// true = plural
+			return [idea, false];
 		}
-		// false = plural
-		return [`${pre}${numerals ? choice : converter.toWords(choice)}${post}`, false];
+		// false = singular
+		return [`${pre}${numerals ? amountOfThisIdea : converter.toWords(amountOfThisIdea)}${post}`, true];
 	}
 	const pluralEnd: string = (plural === "" ? "" : (plural || "s"));
-	if (choice === 0) {
-		return [idea + pluralEnd, false];
-	} else if (choice === 1) {
-		return [`${article} ${idea}`, true];
+	if (amountOfThisIdea === 0) {
+		return [idea + pluralEnd, true];
+	} else if (amountOfThisIdea === 1) {
+		return [`${article} ${idea}`, false];
 	} else if (numerals) {
-		return [`${choice} ${idea}${pluralEnd}`, false];
+		return [`${amountOfThisIdea} ${idea}${pluralEnd}`, true];
 	}
-	return [`${converter.toWords(choice)} ${idea}${pluralEnd}`, false];
+	return [`${converter.toWords(amountOfThisIdea)} ${idea}${pluralEnd}`, true];
 }
 
 function maybeModifyForGender (idea: string, ideaObj: Any, possessor: Any) {
-	const { possessive } = ideaObj;
-	if(possessive) {
+	const { possessive, genericPossessive } = ideaObj;
+	if(!possessive) {
 		return idea;
 	}
 	const specific = possessor.genderPossessive;
-	let mod = specific || (specific === false) ? "their" : "one's";
+	let mod = specific || ((specific === false) ? "their" : (genericPossessive || "one's"));
 	return idea.replace(/\[THEIR\]/g, mod);
 };
 
@@ -122,7 +122,7 @@ function assembleFormat (FLAGformat: keyof Previously, ideas: string[], plural: 
 	let chosen: number;
 	do {
 		chosen = Math.floor(Math.random() * possibles.length);
-	} while(chosen !== previousFormat[FLAGformat])
+	} while(chosen === previousFormat[FLAGformat]);
 	// Save chosen format as the last one chosen
 	previousFormat[FLAGformat] = chosen;
 	// Convert any plurality
@@ -147,7 +147,7 @@ function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] }
 	const [i1, plural] = translateIdea(one);
 	if(one === two) {
 		return {
-			ideaString: assembleFormat("singleItem", [i1], plural),
+			ideaString: assembleFormat("singleItem", [`<${i1}>`], plural),
 			ideasUsed: [one]
 		};
 	}
@@ -159,53 +159,53 @@ function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] }
 	const ideasToDisplay: string[] = [];
 	switch(combination) {
 		case "characteraction":
-			ideasToDisplay.push(`${idea1}${one.joiner}${idea2}`);
+			ideasToDisplay.push(`<${idea1}>${one.joiner}<${idea2}>`);
 			FLAGformat = "singleItem";
 			break;
 		case "actioncharacter":
-			ideasToDisplay.push(`${idea2}${two.joiner}${idea1}`);
+			ideasToDisplay.push(`<${idea2}>${two.joiner}<${idea1}>`);
 			FLAGformat = "singleItem";
 			break;
 		case "charactercharacter":
-			ideasToDisplay.push(idea1, idea2);
+			ideasToDisplay.push(`<${idea1}>`, `<${idea2}>`);
 			FLAGformat = "doubleCharacter";
 			break;
 		case "timetime":
 		case "localelocale":
-			ideasToDisplay.push(`${idea1} and ${idea2}`);
+			ideasToDisplay.push(`<${idea1}> and <${idea2}>`);
 			FLAGformat = "doubleLocale";
 			break;
 		case "localetime":
-			ideasToDisplay.push(`${idea1} ${idea2}`);
+			ideasToDisplay.push(`<${idea1}> <${idea2}>`);
 			FLAGformat = "doubleLocale";
 			break;
 		case "timelocale":
-			ideasToDisplay.push(`${idea2} ${idea1}`);
+			ideasToDisplay.push(`<${idea2}> <${idea1}>`);
 			FLAGformat = "doubleLocale";
 			break;
 		case "characterevent":
-			ideasToDisplay.push(`${idea1} ${two.preposition} ${idea2}`);
+			ideasToDisplay.push(`<${idea1}> ${two.preposition} <${idea2}>`);
 			FLAGformat = "singleItem";
 			break;
 		case "eventcharacter":
-			ideasToDisplay.push(`${idea2} ${one.preposition} ${idea1}`);
+			ideasToDisplay.push(`<${idea2}> ${one.preposition} <${idea1}>`);
 			FLAGformat = "singleItem";
 			break;
 		default:
 			if(one.type === "time" || one.type === "locale") {
 				// TIME (any)
 				// LOCALE (any)
-				ideasToDisplay.push(`${idea1} ${idea2}`);
+				ideasToDisplay.push(`<${idea2}> <${idea1}>`);
 				FLAGformat = "singleItem";
 			}
 			if(two.type === "time" || two.type === "locale") {
 				// (any) TIME
 				// (any) LOCALE
-				ideasToDisplay.push(`${idea2} ${idea1}`);
+				ideasToDisplay.push(`<${idea1}> <${idea2}>`);
 				FLAGformat = "singleItem";	
 			} else {
 				// All other combos
-				ideasToDisplay.push(idea1, idea2);
+				ideasToDisplay.push(`<${idea1}>`, `<${idea2}>`);
 			}
 	}
 	return {

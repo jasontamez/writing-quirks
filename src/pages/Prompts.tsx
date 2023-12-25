@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonFab, IonFabButton, IonIcon, IonPage } from '@ionic/react';
+import React, { Fragment, ReactElement, useEffect, useState } from 'react';
+import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPage } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import PageHeader from '../components/PageHeader';
-import SimpleGenerator from '../components/SimpleGenerator';
 import rawIdeas, { Any } from "../promptsData/Ideas";
-import { HiddenTopics } from '../store/writingPromptsSlice';
+import { HiddenTopics, saveUsedIdeas } from '../store/writingPromptsSlice';
 import getIdeaString from '../helpers/promptsCore';
+import getRandom from '../helpers/getRandom';
+import './Prompts.css';
 
 type HiddenTopicsArray = (keyof HiddenTopics)[];
 
 const filterIdeas = (usedIds: string[], flags: HiddenTopicsArray, ideas = rawIdeas) => {
-	const i: Any[] = [];
-	const e: Any[] = [];
-	const u: Any[] = [];
+	const i: Any[] = []; // included
+	const e: Any[] = []; // excluded (hidden)
+	const u: Any[] = []; // used
 	ideas.forEach(idea => {
 		// Exclude recently-used ideas
-		if(usedIds.indexOf(idea.id) < 0) {
+		if(usedIds.indexOf(idea.id) >= 0) {
 			u.push(idea);
 			return false;
 		}
@@ -44,6 +45,7 @@ const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: HiddenTop
 };
 
 const Prompts: React.FC = () => {
+	const { animationMethod } = useAppSelector(state => state.generalSettings);
 	const { usedIds, hiddenTopics } = useAppSelector(state => state.writingPromptsSettings);
 	const {
 		profanity,
@@ -116,8 +118,61 @@ const Prompts: React.FC = () => {
 	const [excludedIdeas, setExcludedIdeas] = useState<Any[]>([]);
 	const [hiddenTags, setHiddenTags] = useState<HiddenTopicsArray>([]);
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
-	const [ideaShown, setIdeaShown] = useState<string>("");
-	const [ideaShownAlternate, setIdeaShownAlternate] = useState<string>("");
+	const [ideaShown, setIdeaShown] = useState<ReactElement>(<></>);
+	const [ideaShownAlternate, setIdeaShownAlternate] = useState<ReactElement>(<></>);
+	const [backgroundIcon, setBackgroundIcon] = useState<number>(Math.floor(Math.random() * 13) - 1);
+	const [backgroundIconAlternate, setBackgroundIconAlternate] = useState<number>(1);
+	const dispatch = useAppDispatch();
+
+	// Returns an idea. Also updates okIdeas and usedIdeas.
+	const makeIdea = (ideas: Any[], previouslyUsed = usedIdeas) => {
+		// Get ideas
+		const {ideaString, ideasUsed} = getIdeaString(ideas);
+		// Update the Ok/Used idea lists
+		const newlyUsedIds = ideasUsed.map(idea => idea.id);
+		const ids = newlyUsedIds.join(",");
+		const stillOkIdeas = ideas.filter(idea => ids.indexOf(idea.id) < 0);
+		setOkIdeas(stillOkIdeas);
+		setUsedIdeas([...previouslyUsed, ...ideasUsed]);
+		dispatch(saveUsedIdeas(newlyUsedIds));
+		return ideaString;
+	};
+
+	// Display the idea
+	const displayIdea = (ideaString: string, alternate = false) => {
+		// Convert to array of elements
+		const toShow: ReactElement[] = [];
+		let leftover = ideaString;
+		let unmatched = true;
+		let count = 0;
+		do {
+			let m = leftover.match(/^(.*?)<([^>]+)>(.*)$/);
+			if(m) {
+				toShow.push(
+					<Fragment key={`fragmentPiece${count++}`}>{m[1]}</Fragment>,
+					<i key={`italicPiece${count++}`}>{m[2]}</i>
+				);
+				leftover = m[3];
+			} else {
+				unmatched = false;
+			}
+		} while(unmatched);
+		toShow.push(<Fragment key="finalPiece">{leftover}</Fragment>);
+		// Display
+		if(alternate) {
+			setIdeaShownAlternate(<>{toShow}</>);
+			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], backgroundIcon));
+		} else {
+			setIdeaShown(<>{toShow}</>);
+			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], backgroundIconAlternate));
+		}
+	};
+
+	// Generate a new idea
+	const doIdea = () => {
+		displayIdea(makeIdea(okIdeas), !alternateActive);
+		setAlternateActive(!alternateActive);
+	};
 
 	// Initial setup
 	useEffect(() => {
@@ -130,15 +185,14 @@ const Prompts: React.FC = () => {
 				flags.push(prop as keyof HiddenTopics);
 			}
 		}
+		// Find the list of ok ideas
+		const [valid, invalid, excluded] = filterIdeas(usedIds, flags);
+		// Generate the first idea
+		displayIdea(makeIdea(valid, invalid));
+		// Save excluded ideas
+		setExcludedIdeas(excluded);
 		// Save the list of topics
 		setHiddenTags(flags);
-		// Find and save the list of ok ideas.
-		const [valid, invalid, excluded] = filterIdeas(usedIds, flags);
-		setOkIdeas(valid);
-		setUsedIdeas(invalid);
-		setExcludedIdeas(excluded);
-		// Generate the first idea
-		getIdea();
 	}, []);
 
 	// When the list of used ideas changes
@@ -162,9 +216,9 @@ const Prompts: React.FC = () => {
 				// find the ideas that were shifted off the used list
 				const [i, u, e] = restoreIdeas(usedIds, usedIdeas, hiddenTags);
 				// Save everything
-				setOkIdeas([...okIdeas, ...i]);
+				setOkIdeas(okIdeas.concat(i));
 				setUsedIdeas(u);
-				setExcludedIdeas([...excludedIdeas, ...e]);
+				setExcludedIdeas(excludedIdeas.concat(e));
 			}
 		} else if (prevLen < usedLen) {
 			// New ideas added
@@ -175,38 +229,20 @@ const Prompts: React.FC = () => {
 		}
 	}, [usedIds]);
 
-	// Generate an idea
-	const getIdea = (alternate = false) => {
-		// Get ideas
-		const {ideaString, ideasUsed} = getIdeaString(okIdeas);
-		// Update the Ok/Used idea lists
-		const newlyUsedIds = ideasUsed.map(idea => idea.id);
-		const ids = newlyUsedIds.join(",");
-		const stillOkIdeas = okIdeas.filter(idea => ids.indexOf(idea.id) >= 0);
-		setOkIdeas(stillOkIdeas);
-		setUsedIdeas([...usedIdeas, ...ideasUsed]);
-		// Display the idea
-		if(alternate) {
-			setIdeaShownAlternate(ideaString);
-		} else {
-			setIdeaShown(ideaString);
-		}
-	};
-
-	const doIdea = () => {
-		getIdea(!alternateActive);
-		setAlternateActive(!alternateActive);
-	};
-
 	return (
 		<IonPage>
 			<PageHeader title="Writing Prompts" />
-			<IonContent className="noIntro">
-				<SimpleGenerator
-					{...{alternateActive}}
-					mainText={ideaShown}
-					mainTextAlternate={ideaShownAlternate}
-				/>
+			<IonContent className="prompts">
+				<IonList lines="none" className={`generatorOutput icon${backgroundIcon} ${animationMethod}${alternateActive ? " hidden" : ""}`}>
+					<IonItem className="singularResult">
+						<IonLabel className="ion-text-center">{ideaShown}</IonLabel>
+					</IonItem>
+				</IonList>
+				<IonList lines="none" className={`generatorOutput icon${backgroundIconAlternate} alternate ${animationMethod}${alternateActive ? "" : " hidden"}`}>
+					<IonItem className="singularResult">
+						<IonLabel className="ion-text-center">{ideaShownAlternate}</IonLabel>
+					</IonItem>
+				</IonList>
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doIdea}>
 						<IonIcon icon={refresh} />

@@ -19,7 +19,7 @@ const base: (
 	realPerson: false,
 	genderPossessive: false,
 	fictionalCharacter: false,
-	joiner: ""
+	joiner: " "
 };
 const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
@@ -1341,13 +1341,13 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	},
 	{
 		id: "669d3af8-035f-41b3-85b3-c6e3c1d71ba0",
-		idea: "a transgendered man",
+		idea: "a transgender man",
 		genderPossessive: "his",
 		plural: false
 	},
 	{
 		id: "eac8dcce-d3c0-4ad2-a666-18b4f3040708",
-		idea: "a transgendered woman",
+		idea: "a transgender woman",
 		genderPossessive: "her",
 		plural: false
 	},

@@ -2,7 +2,8 @@ import { Action } from "./Ideas";
 
 const base = {
 	type: "action",
-	possessive: false
+	possessive: false,
+	genericPossessive: "one's"
 };
 const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
@@ -816,15 +817,17 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "8e111fa4-9828-4d61-9bff-c88ec550f9dd",
-		idea: "accepting your fate",
+		idea: "accepting [THEIR] fate",
 		humanDistress: true,
 		humanDeath: true,
-		possessive: true
+		possessive: true,
+		genericPossessive: "your"
 	},
 	{
 		id: "29b83c85-085d-4a8e-b458-5388831aad41",
-		idea: "choosing your fate",
-		possessive: true
+		idea: "choosing [THEIR] fate",
+		possessive: true,
+		genericPossessive: "your"
 	},
 	{
 		id: "96ceb7da-859e-4309-b0e4-6505f578d41a",
@@ -879,9 +882,10 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "84a8ac59-bbbe-46a7-a262-f9536ef5145b",
-		idea: "scraping your knee",
+		idea: "scraping [THEIR] knee",
 		humanDistress: true,
-		possessive: true
+		possessive: true,
+		genericPossessive: "your"
 	},
 	{
 		id: "9369c7ee-36e1-4126-8e85-067e467afb34",
