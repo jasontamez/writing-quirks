@@ -162,6 +162,10 @@ const writingPromptsSlice = createSlice({
 			state.usedIds = trimIdeas(usedIds, memorySize);
 			return state;
 		},
+		clearUsedIdeas: (state) => {
+			state.usedIds = [];
+			return state;
+		},
 		setMemorySize: (state, action: PayloadAction<number>) => {
 			const { usedIds } = state;
 			const { payload } = action;
@@ -179,6 +183,7 @@ const writingPromptsSlice = createSlice({
 
 export const {
 	saveUsedIdeas,
+	clearUsedIdeas,
 	setMemorySize,
 	toggleHiddenTopic
 } = writingPromptsSlice.actions;

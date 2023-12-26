@@ -1,5 +1,5 @@
 import React, { Fragment, ReactElement, useEffect, useState } from 'react';
-import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPage } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPage, useIonViewDidEnter, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -175,7 +175,11 @@ const Prompts: React.FC = () => {
 	};
 
 	// Initial setup
-	useEffect(() => {
+	useIonViewDidEnter(() => {
+		if(okIdeas.length > 0) {
+			// We've aready set things up.
+			return;
+		}
 		// Construct list of topics we don't want to see.
 		const topics = Object.entries(hiddenTopics);
 		const flags: HiddenTopicsArray = [];
@@ -188,12 +192,15 @@ const Prompts: React.FC = () => {
 		// Find the list of ok ideas
 		const [valid, invalid, excluded] = filterIdeas(usedIds, flags);
 		// Generate the first idea
-		displayIdea(makeIdea(valid, invalid));
+		displayIdea(makeIdea(valid, invalid), alternateActive);
 		// Save excluded ideas
 		setExcludedIdeas(excluded);
 		// Save the list of topics
 		setHiddenTags(flags);
-	}, []);
+	});
+	useIonViewWillLeave(() => {
+		setAlternateActive(false);
+	});
 
 	// When the list of used ideas changes
 	useEffect(() => {
