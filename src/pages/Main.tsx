@@ -15,6 +15,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
+import packageJson from '../../package.json';
 
 const Main: React.FC = () => {
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
@@ -66,6 +67,15 @@ const Main: React.FC = () => {
 					</IonItem>
 					<IonItem button detail={true} routerDirection="forward" routerLink="/writingpromptssettings">
 						<IonLabel>Writing Prompts Settings</IonLabel>
+					</IonItem>
+					<IonItem button detail={true} routerDirection="forward" routerLink="/LOAD">
+						<IonLabel>Loading</IonLabel>
+					</IonItem>
+					<IonItemDivider>App Info</IonItemDivider>
+					<IonItem className="version">
+						<h2 className="ion-text-center ion-text-wrap">v.{packageJson.version}</h2>
+						<p className="ion-text-center ion-text-wrap">Background icons for Writing Prompts by <a href="https://www.flaticon.com/free-icons/idea">Freepik - Flaticon</a>.</p>
+						<p className="ion-text-center ion-text-wrap">Chains graphic for Taverns and Inns by <a href="https://www.freepik.com/free-vector/black-vertical-chains-set_4431390.htm">macrovector_official</a> on Freepik.</p>
 					</IonItem>
 				</IonList>
 			</IonContent>

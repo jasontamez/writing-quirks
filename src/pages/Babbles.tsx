@@ -3,11 +3,9 @@ import {
 	IonContent,
 	IonFab,
 	IonFabButton,
-	IonHeader,
 	IonIcon,
 	IonPage,
-	IonTitle,
-	IonToolbar
+	useIonViewWillLeave
 } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
@@ -64,13 +62,13 @@ const Babbles: React.FC = () => {
 			the = "an";
 		}
 		if(alternate) {
-			setIntroAlternate(getRandom(introString, intro));
+			setIntroAlternate(getRandom(introString, [intro, introAlternate]));
 			setBabbleAlternate(
 				`${getRandom(verb, lastVerb, setLastVerb)} ${the} ${adjective} ${getRandom(noun, lastNoun, setLastNoun)}`
 			);
 			return;
 		}
-		setIntro(getRandom(introString, introAlternate));
+		setIntro(getRandom(introString, [introAlternate, intro]));
 		setBabble(
 			`${getRandom(verb, lastVerb, setLastVerb)} ${the} ${adjective} ${getRandom(noun, lastNoun, setLastNoun)}`
 		);
@@ -78,6 +76,11 @@ const Babbles: React.FC = () => {
 	useEffect(() => {
 		makeBabble();
 	}, []);
+
+	// Reset display for next time
+	useIonViewWillLeave(() => {
+		setAlternateActive(false);
+	});
 
 	const doBabble = () => {
 		makeBabble(!alternateActive);

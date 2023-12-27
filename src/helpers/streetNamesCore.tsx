@@ -19,13 +19,14 @@ const suffix = [
 const firstHalf = prefix.concat(either);
 const lastHalf = suffix.concat(either);
 const roadway = [
-	'Street','Street','Street','Street','Street','Street','Street','Road','Road','Road','Road',
-	'Road','Run','Lane','Lane','Lane','Lane','Lane','Lane','Trail','Trail','Trail','Court','Court',
-	'Court','Court','Way','Way','Circle','Circle','Circle','Boulevard','Avenue','Crossing','Place'
+	'Avenue','Boulevard','Circle','Circle','Circle','Court','Court','Court','Court','Crossing',
+	'Drive','Drive','Drive','Drive','Lane','Lane','Lane','Lane','Lane','Lane','Place','Road',
+	'Road','Road','Road','Road','Run','Street','Street','Street','Street','Street','Street',
+	'Street','Street','Street','Trail','Trail','Trail','Way','Way'
 ];
 interface Information {
-	chanceFirstTwoWordName?: number
-	modChanceEndTwoWordName?: number
+	chanceFirstTwoWordName?: number // default 5
+	modChanceEndTwoWordName?: number // default 0
 	alt?: string
 	double?: boolean
 }
@@ -103,12 +104,19 @@ let Info: { [key: string]: Information } = {
 	Winding:  { chanceFirstTwoWordName: 200 }
 };
 
+let previousOne: string;
+let previousTwo: string;
+let previousThree: string;
+
 const createStreetName = () => {
-	let partOne = getRandom(firstHalf);
+	let partOne = getRandom(firstHalf, [previousOne, previousTwo]);
 	let temp = "";
 	let final = "";
-	const partTwo = getRandom(lastHalf, partOne);
-	const partThree = getRandom(roadway, partTwo);
+	const partTwo = getRandom(lastHalf, [partOne, previousOne, previousTwo, previousThree]);
+	const partThree = getRandom(roadway, partTwo); // We can repeat "Street" and the like as much as we want!
+	previousOne = partOne;
+	previousTwo = partTwo;
+	previousThree = partThree;
 	// check first part
 	let tester = Info[partOne];
 	if (tester && tester.double && tester.alt && (Math.floor(Math.random() * 100) < 50)) {

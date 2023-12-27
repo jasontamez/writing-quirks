@@ -11,10 +11,18 @@ import {
 	setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { beerSharp, chatbubblesSharp, fastFoodSharp, planetSharp, skullSharp, trailSignSharp } from 'ionicons/icons';
+import {
+	beerSharp,
+	bulbSharp,
+	fastFoodSharp,
+	planetSharp,
+	skullSharp,
+	trailSignSharp
+} from 'ionicons/icons';
 
 import WritingPromptsSettings from './pages/WritingPromptsSettings';
 import Main from './pages/Main';
+import Loading from './pages/Loading';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -50,18 +58,18 @@ const App: React.FC = () => (
 		<IonReactRouter>
 			<IonTabs>
 				<IonRouterOutlet>
-					<Route exact path="/prompts" render={() => <Suspense fallback={<>Loading...</>}><Prompts /></Suspense>} />
-					<Route exact path="/taverns" render={() => <Suspense fallback={<>Loading...</>}><Taverns /></Suspense>} />
-					<Route exact path="/streets" render={() => <Suspense fallback={<>Loading...</>}><Streets /></Suspense>} />
-					<Route exact path="/babbles" render={() => <Suspense fallback={<>Loading...</>}><Babbles /></Suspense>} />
-					<Route exact path="/insults" render={() => <Suspense fallback={<>Loading...</>}><Insults /></Suspense>} />
-					<Route exact path="/flavors" render={() => <Suspense fallback={<>Loading...</>}><Flavors /></Suspense>} />
+					<Route exact path="/prompts" render={() => <Suspense fallback={<Loading />}><Prompts /></Suspense>} />
+					<Route exact path="/taverns" render={() => <Suspense fallback={<Loading />}><Taverns /></Suspense>} />
+					<Route exact path="/streets" render={() => <Suspense fallback={<Loading />}><Streets /></Suspense>} />
+					<Route exact path="/babbles" render={() => <Suspense fallback={<Loading />}><Babbles /></Suspense>} />
+					<Route exact path="/insults" render={() => <Suspense fallback={<Loading />}><Insults /></Suspense>} />
+					<Route exact path="/flavors" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
 					<Route exact path="/writingpromptssettings" render={() => <WritingPromptsSettings />} />
 					<Route exact path="/" render={() => <Main />} />
 				</IonRouterOutlet>
 				<IonTabBar slot="bottom">
 					<IonTabButton tab="prompts" href="/prompts">
-						<IonIcon aria-hidden="true" icon={chatbubblesSharp} />
+						<IonIcon aria-hidden="true" icon={bulbSharp} />
 						<IonLabel className="ion-hide-sm-down">Story Prompts</IonLabel>
 						<IonLabel className="ion-hide-sm-up">Prompts</IonLabel>
 					</IonTabButton>

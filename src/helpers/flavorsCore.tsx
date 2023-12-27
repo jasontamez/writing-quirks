@@ -1,22 +1,23 @@
 import { SetStateAction, Dispatch } from "react"
+import getRandom from "./getRandom"
 
-interface Adjective {
+interface AdjectiveBasic {
 	adjective: string
 	postAdjective?: boolean
 	requiresSingular?: boolean
 }
 
-interface Noun {
+interface NounBasic {
 	noun: string
 	plural?: string
 	basicPlural?: boolean
 }
 
-type Flavor = Adjective & Noun;
+type Adjective = AdjectiveBasic & Partial<NounBasic>;
 
-type SavedAdjective = Adjective | Flavor;
+type Noun = NounBasic & Partial<AdjectiveBasic>;
 
-type SavedNoun = Noun | Flavor;
+type Flavor = Adjective | Noun | (Adjective & Noun);
 
 const adjectives: Adjective[] = [
 	{
@@ -452,20 +453,14 @@ const flavors: Flavor[] = [
 	}
 ];
 
-let previousAdjective: SavedAdjective;
-let previousNoun: SavedNoun;
+let previousAdjective: Adjective;
+let previousNoun: Noun;
 
 const getFlavor = () => {
-	const allNouns: SavedNoun[] = [...nouns, ...flavors].filter(
-		n => n !== previousNoun && n !== previousAdjective
-	);
-	const n: SavedNoun = allNouns[Math.floor(Math.random() * allNouns.length)];
-	const allAdjectives: SavedAdjective[] = [...adjectives, ...flavors].filter(
-		a => a !== previousNoun && a !== n && a !== previousAdjective
-	);
-	const adj: SavedAdjective = allAdjectives[Math.floor(Math.random() * allAdjectives.length)];
-	previousAdjective = adj;
+	const n = getRandom([...nouns, ...flavors], [previousNoun, previousAdjective]) as Noun;
+	const adj = getRandom([...adjectives, ...flavors], [previousAdjective, previousNoun, n]) as Adjective;
 	previousNoun = n;
+	previousAdjective = adj;
 	const {adjective, postAdjective, requiresSingular} = adj;
 	const {noun, plural, basicPlural} = n;
 	const base: string = requiresSingular ? noun : (basicPlural ? noun + "s" : plural || noun);

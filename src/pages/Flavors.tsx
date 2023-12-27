@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
 import { useAppSelector } from '../store/hooks';
@@ -39,17 +39,22 @@ const Flavors: React.FC = () => {
 	const makeFlavor = (alternate = false) => {
 		const output = getFlavor();
 		if(alternate) {
-			setIntroAlternate(getRandom(intros, intro));
+			setIntroAlternate(getRandom(intros, [intro, introAlternate]));
 			setFlavorAlternate(output);
 			return;
 		}
-		setIntro(getRandom(intros, introAlternate));
+		setIntro(getRandom(intros, [introAlternate, intro]));
 		setFlavor(output);
 	};
 
 	useEffect(() => {
 		makeFlavor();
 	}, []);
+
+	// Reset display for next time
+	useIonViewWillLeave(() => {
+		setAlternateActive(false);
+	});
 
 	const doFlavor = () => {
 		makeFlavor(!alternateActive);

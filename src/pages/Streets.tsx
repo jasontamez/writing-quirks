@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
 import PageHeader from '../components/PageHeader';
@@ -26,6 +26,11 @@ const Streets: React.FC = () => {
 	useEffect(() => {
 		makeStreet();
 	}, []);
+
+	// Reset display for next time
+	useIonViewWillLeave(() => {
+		setAlternateActive(false);
+	});
 
 	const doStreet = () => {
 		makeStreet(!alternateActive);

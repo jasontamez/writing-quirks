@@ -161,10 +161,10 @@ const Prompts: React.FC = () => {
 		// Display
 		if(alternate) {
 			setIdeaShownAlternate(<>{toShow}</>);
-			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], backgroundIcon));
+			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], [backgroundIcon, backgroundIconAlternate]));
 		} else {
 			setIdeaShown(<>{toShow}</>);
-			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], backgroundIconAlternate));
+			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], [backgroundIcon, backgroundIconAlternate]));
 		}
 	};
 
@@ -198,6 +198,7 @@ const Prompts: React.FC = () => {
 		// Save the list of topics
 		setHiddenTags(flags);
 	});
+	// Reset display for next time
 	useIonViewWillLeave(() => {
 		setAlternateActive(false);
 	});
