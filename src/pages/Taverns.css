@@ -1,13 +1,13 @@
 /* Taverns */
 
 ion-content.taverns.gfhfjf::part(background) {
-	background-image: url("chains.svg"), url("chains.svg");
+	background-image: url("./svg/chains.svg"), url("./svg/chains.svg");
 	background-position: 20%, 80%;
 	background-repeat: no-repeat;
 }
 
 ion-content.taverns ion-list.generatorOutput {
-	background-image: url("chains.svg"), url("chains.svg");
+	background-image: url("./svg/chains.svg"), url("./svg/chains.svg");
 	background-position: 20%, 80%;
 	background-repeat: repeat-y;
 }

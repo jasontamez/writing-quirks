@@ -6,7 +6,7 @@ ion-content.insults {
 
 ion-content.insults ion-list.generatorOutput ion-item,
 ion-content.insults ion-list.generatorOutput.alternate ion-item {
-	background-image: url('./chatbox-secondary.svg');
+	background-image: url('./svg/chatbox-secondary.svg');
 	background-size: 90vmin 90vmin;
 	background-origin: border-box;
 	background-repeat: no-repeat;
@@ -21,7 +21,7 @@ ion-content.insults ion-list.generatorOutput.alternate ion-item {
 	width: 90vw;
 }
 ion-content.insults ion-list.generatorOutput.alternate ion-item {
-	background-image: url('./chatbox-tertiary.svg');
+	background-image: url('./svg/chatbox-tertiary.svg');
 }
 
 ion-content.insults ion-list.generatorOutput ion-item {

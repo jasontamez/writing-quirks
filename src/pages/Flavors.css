@@ -3,7 +3,7 @@
 ion-content.flavors ion-list.generatorOutput ion-item.singularResult,
 ion-content.flavors ion-list.generatorOutput.alternate ion-item.singularResult {
 	background-color: var(--ion-color-secondary);
-	background-image: url('./food-secondary.svg');
+	background-image: url('./svg/food-secondary.svg');
 	background-size: contain;
 	background-origin: padding-box;
 	background-repeat: no-repeat;
@@ -14,7 +14,7 @@ ion-content.flavors ion-list.generatorOutput.alternate ion-item.singularResult {
 }
 ion-content.flavors ion-list.generatorOutput.alternate ion-item.singularResult {
 	background-color: var(--ion-color-tertiary);
-	background-image: url('./food-tertiary.svg');
+	background-image: url('./svg/food-tertiary.svg');
 	border-top: 5px solid var(--ion-color-tertiary);
 	border-bottom: 5px solid var(--ion-color-tertiary);
 }
