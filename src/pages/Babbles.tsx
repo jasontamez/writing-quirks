@@ -9,8 +9,10 @@ import {
 } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
+import { useAppDispatch } from '../store/hooks';
 import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
+import FaveButton from '../components/FaveButton';
 import getRandom from '../helpers/getRandom';
 
 const vowels = ["a","e","i","o","u"];
@@ -54,6 +56,7 @@ const Babbles: React.FC = () => {
 	const [introAlternate, setIntroAlternate] = useState<string>("");
 	const [babbleAlternate, setBabbleAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
 
 	const makeBabble = (alternate = false) => {
 		let the = getRandom(prep);
@@ -96,6 +99,7 @@ const Babbles: React.FC = () => {
 					mainText={babble}
 					mainTextAlternate={babbleAlternate}
 				/>
+				<FaveButton prop="babbles" text={alternateActive ? babbleAlternate : babble} dispatch={dispatch} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doBabble}>
 						<IonIcon icon={refresh} />

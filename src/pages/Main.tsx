@@ -68,9 +68,6 @@ const Main: React.FC = () => {
 					<IonItem button detail={true} routerDirection="forward" routerLink="/writingpromptssettings">
 						<IonLabel>Writing Prompts Settings</IonLabel>
 					</IonItem>
-					<IonItem button detail={true} routerDirection="forward" routerLink="/LOAD">
-						<IonLabel>Loading</IonLabel>
-					</IonItem>
 					<IonItemDivider>App Info</IonItemDivider>
 					<IonItem className="version">
 						<h2 className="ion-text-center ion-text-wrap">v.{packageJson.version}</h2>

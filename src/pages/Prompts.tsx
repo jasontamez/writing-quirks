@@ -1,13 +1,25 @@
 import React, { Fragment, ReactElement, useEffect, useState } from 'react';
-import { IonContent, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonList, IonPage, useIonViewDidEnter, useIonViewWillLeave } from '@ionic/react';
+import {
+	IonContent,
+	IonFab,
+	IonFabButton,
+	IonIcon,
+	IonItem,
+	IonLabel,
+	IonList,
+	IonPage,
+	useIonViewDidEnter,
+	useIonViewWillLeave
+} from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import PageHeader from '../components/PageHeader';
-import rawIdeas, { Any } from "../promptsData/Ideas";
 import { HiddenTopics, saveUsedIdeas } from '../store/writingPromptsSlice';
+import PageHeader from '../components/PageHeader';
+import FaveButton from '../components/FaveButton';
 import getIdeaString from '../helpers/promptsCore';
 import getRandom from '../helpers/getRandom';
+import rawIdeas, { Any } from "../promptsData/Ideas";
 import './Prompts.css';
 
 type HiddenTopicsArray = (keyof HiddenTopics)[];
@@ -47,77 +59,12 @@ const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: HiddenTop
 const Prompts: React.FC = () => {
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
 	const { usedIds, hiddenTopics } = useAppSelector(state => state.writingPromptsSettings);
-	const {
-		profanity,
-
-		sexual,
-
-		modern,
-
-		fantasy,
-		medievalFantasy,
-		superhero,
-		fairyTalesAndUrbanLegends,
-		horror,
-
-		historicalFiction,
-		western,
-		samurai,
-
-		scifi,
-		spacefaring,
-
-		properName,
-
-		mythsReligionsAndMetaphysics,
-		judaism,
-		christianity,
-		islam,
-		greekRomanMyth,
-		metaphysics,
-
-		illicitSubstances,
-		alcohol,
-		tobacco,
-
-		humanDistress,
-		humanDeath,
-		humanDeathNatural,
-		humanDeathViolent,
-
-		animalDistress,
-		animalDeath,
-
-		// Events
-		nonPunctual,
-
-		// Characters
-		realPerson,
-		fictionalCharacter,
-		monster,
-
-		// Locale
-		political,
-		geographical,
-		construct,
-
-		largeSize,
-		mediumSize,
-		smallSize,
-		tinySize,
-
-		americas,
-		europe,
-		africa,
-		oceania,
-		westAsia,
-		eastAsia
-	} = hiddenTopics;
 	const [okIdeas, setOkIdeas] = useState<Any[]>([]);
 	const [usedIdeas, setUsedIdeas] = useState<Any[]>([]);
 	const [excludedIdeas, setExcludedIdeas] = useState<Any[]>([]);
 	const [hiddenTags, setHiddenTags] = useState<HiddenTopicsArray>([]);
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
+	const [currentIdeaString, setCurrentIdeaString] = useState<string>("");
 	const [ideaShown, setIdeaShown] = useState<ReactElement>(<></>);
 	const [ideaShownAlternate, setIdeaShownAlternate] = useState<ReactElement>(<></>);
 	const [backgroundIcon, setBackgroundIcon] = useState<number>(Math.floor(Math.random() * 13) - 1);
@@ -145,6 +92,7 @@ const Prompts: React.FC = () => {
 		let leftover = ideaString;
 		let unmatched = true;
 		let count = 0;
+		let plain = "";
 		do {
 			let m = leftover.match(/^(.*?)<([^>]+)>(.*)$/);
 			if(m) {
@@ -152,12 +100,15 @@ const Prompts: React.FC = () => {
 					<Fragment key={`fragmentPiece${count++}`}>{m[1]}</Fragment>,
 					<i key={`italicPiece${count++}`}>{m[2]}</i>
 				);
+				plain = plain + m[1] + m[2];
 				leftover = m[3];
 			} else {
 				unmatched = false;
 			}
 		} while(unmatched);
 		toShow.push(<Fragment key="finalPiece">{leftover}</Fragment>);
+		plain = plain + leftover;
+		setCurrentIdeaString(plain);
 		// Display
 		if(alternate) {
 			setIdeaShownAlternate(<>{toShow}</>);
@@ -237,20 +188,29 @@ const Prompts: React.FC = () => {
 		}
 	}, [usedIds]);
 
+	const baseClasses = animationMethod + " generatorOutput icon";
+
 	return (
 		<IonPage>
 			<PageHeader title="Writing Prompts" />
 			<IonContent className="prompts">
-				<IonList lines="none" className={`generatorOutput icon${backgroundIcon} ${animationMethod}${alternateActive ? " hidden" : ""}`}>
+				<IonList
+					lines="none"
+					className={`${baseClasses}${backgroundIcon}${alternateActive ? " hidden" : ""}`}
+				>
 					<IonItem className="singularResult">
 						<IonLabel className="ion-text-center">{ideaShown}</IonLabel>
 					</IonItem>
 				</IonList>
-				<IonList lines="none" className={`generatorOutput icon${backgroundIconAlternate} alternate ${animationMethod}${alternateActive ? "" : " hidden"}`}>
+				<IonList
+					lines="none"
+					className={`${baseClasses}${backgroundIconAlternate} alternate${alternateActive ? "" : " hidden"}`}
+				>
 					<IonItem className="singularResult">
 						<IonLabel className="ion-text-center">{ideaShownAlternate}</IonLabel>
 					</IonItem>
 				</IonList>
+				<FaveButton prop="prompts" text={currentIdeaString} dispatch={dispatch} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doIdea}>
 						<IonIcon icon={refresh} />

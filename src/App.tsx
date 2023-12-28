@@ -64,6 +64,7 @@ const App: React.FC = () => (
 					<Route exact path="/babbles" render={() => <Suspense fallback={<Loading />}><Babbles /></Suspense>} />
 					<Route exact path="/insults" render={() => <Suspense fallback={<Loading />}><Insults /></Suspense>} />
 					<Route exact path="/flavors" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
+					<Route exact path="/favorites" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
 					<Route exact path="/writingpromptssettings" render={() => <WritingPromptsSettings />} />
 					<Route exact path="/" render={() => <Main />} />
 				</IonRouterOutlet>
