@@ -14,14 +14,15 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
 import generalSettingsSlice, { generalSettings } from './generalSettingsSlice';
-import writingPromptsSettingsSlice from './writingPromptsSlice';
+import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPromptsSlice';
 
 //
 //
 //
 // ----- USE THIS to put in temporary changes for testing.
 const initialAppState = {
-	generalSettings
+	generalSettings,
+	writingPromptsSettings
 };
 // ----- END
 //
@@ -43,7 +44,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 0,
+	version: 3,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })

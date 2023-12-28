@@ -210,7 +210,7 @@ const Prompts: React.FC = () => {
 						<IonLabel className="ion-text-center">{ideaShownAlternate}</IonLabel>
 					</IonItem>
 				</IonList>
-				<FaveButton prop="prompts" text={currentIdeaString} dispatch={dispatch} />
+				<FaveButton prop="prompts" text={currentIdeaString} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doIdea}>
 						<IonIcon icon={refresh} />

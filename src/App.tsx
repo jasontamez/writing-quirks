@@ -23,6 +23,7 @@ import {
 import WritingPromptsSettings from './pages/WritingPromptsSettings';
 import Main from './pages/Main';
 import Loading from './pages/Loading';
+import Favorites from './pages/Favorites';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -64,7 +65,7 @@ const App: React.FC = () => (
 					<Route exact path="/babbles" render={() => <Suspense fallback={<Loading />}><Babbles /></Suspense>} />
 					<Route exact path="/insults" render={() => <Suspense fallback={<Loading />}><Insults /></Suspense>} />
 					<Route exact path="/flavors" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
-					<Route exact path="/favorites" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
+					<Route exact path="/favorites" render={() => <Favorites />} />
 					<Route exact path="/writingpromptssettings" render={() => <WritingPromptsSettings />} />
 					<Route exact path="/" render={() => <Main />} />
 				</IonRouterOutlet>

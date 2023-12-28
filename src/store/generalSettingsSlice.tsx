@@ -135,6 +135,10 @@ const generalSettingsSlice = createSlice({
 			const [prop, text, time] = action.payload;
 			state.favorites[prop] = state.favorites[prop].filter(unit => (unit[1] !== time || unit[0] !== text));
 			return state;
+		},
+		removeLastFavorite: (state, action: PayloadAction<keyof FavoritesObject>) => {
+			state.favorites[action.payload].pop();
+			return state;
 		}
 	}
 });
@@ -144,7 +148,8 @@ export const {
 	setMaxFavorites,
 	setMaxFavoritesPerGen,
 	addFavorite,
-	removeFavorite
+	removeFavorite,
+	removeLastFavorite
 } = generalSettingsSlice.actions;
 
 export default generalSettingsSlice.reducer;

@@ -6,7 +6,7 @@ import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import FaveButton from '../components/FaveButton';
 import createStreetName from '../helpers/streetNamesCore';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
 import './Streets.css';
 
 const Streets: React.FC = () => {
@@ -14,7 +14,6 @@ const Streets: React.FC = () => {
 	const [streetAlternate, setStreetAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
-	const dispatch = useAppDispatch();
 
 	const makeStreet = (alternate = false) => {
 		const output = createStreetName();
@@ -48,7 +47,7 @@ const Streets: React.FC = () => {
 					mainText={street}
 					mainTextAlternate={streetAlternate}
 				/>
-				<FaveButton prop="streets" text={alternateActive ? streetAlternate : street} dispatch={dispatch} />
+				<FaveButton prop="streets" text={alternateActive ? streetAlternate : street} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doStreet}>
 						<IonIcon icon={refresh} />

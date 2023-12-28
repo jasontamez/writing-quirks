@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
-import { useAppDispatch } from '../store/hooks';
 import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import SimpleGenerator from '../components/SimpleGenerator';
@@ -59,7 +58,6 @@ const Insults: React.FC = () => {
 	const [insult, setInsult] = useState<string>("");
 	const [insultAlternate, setInsultAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
-	const dispatch = useAppDispatch();
 
 	const createInsult = (alternate = false) => {
 		const intro = getRandom(intros, lastIntro, setLastIntro);
@@ -116,7 +114,7 @@ const Insults: React.FC = () => {
 					mainText={insult}
 					mainTextAlternate={insultAlternate}
 				/>
-				<FaveButton prop="insults" text={alternateActive ? insultAlternate : insult} dispatch={dispatch} />
+				<FaveButton prop="insults" text={alternateActive ? insultAlternate : insult} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doInsult}>
 						<IonIcon icon={refresh} />

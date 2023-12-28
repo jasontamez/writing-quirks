@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
 import SimpleGenerator from '../components/SimpleGenerator';
 import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
@@ -36,7 +36,6 @@ const Flavors: React.FC = () => {
 	const [intro, setIntro] = useState<string>("");
 	const [introAlternate, setIntroAlternate] = useState<string>("");
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
-	const dispatch = useAppDispatch();
 
 	const makeFlavor = (alternate = false) => {
 		const output = getFlavor();
@@ -72,7 +71,7 @@ const Flavors: React.FC = () => {
 					mainText={flavor}
 					mainTextAlternate={flavorAlternate}
 				/>
-				<FaveButton prop="flavors" text={alternateActive ? flavorAlternate : flavor} dispatch={dispatch} />
+				<FaveButton prop="flavors" text={alternateActive ? flavorAlternate : flavor} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
 					<IonFabButton color="primary" onClick={doFlavor}>
 						<IonIcon icon={refresh} />
