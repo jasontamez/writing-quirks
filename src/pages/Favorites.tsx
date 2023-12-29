@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactElement, useCallback, useState } from 'react';
+import React, { FC, Fragment, ReactElement, useCallback } from 'react';
 import {
 	IonButton,
 	IonButtons,
@@ -19,7 +19,8 @@ import {
 import { ellipsisVertical, settingsSharp, trashOutline } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { FaveInfo, FavoritesObject, favoriteNames, removeFavorite } from '../store/generalSettingsSlice';
+import { FaveInfo, FavoritesObject, favoriteNames, removeFavorite, toggleSeparate, toggleSort } from '../store/generalSettingsSlice';
+import './Favorites.css';
 
 interface PropsIndividual {
 	faves: FaveInfo[]
@@ -47,8 +48,10 @@ const Fave: FC<PropsItem> = (props) => {
 	return (
 		<IonItemSliding>
 			<IonItem className="favorite">
-				{content}
-				<IonIcon icon={ellipsisVertical} className="handle" size="small" />
+				<div className="content">
+					{content}
+					<IonIcon icon={ellipsisVertical} className="handle" size="small" />
+				</div>
 			</IonItem>
 			<IonItemOptions side="end">
 				<IonItemOption color="danger" onClick={removeFunc}>
@@ -126,9 +129,12 @@ const AllFaves: FC<PropsAll> = (props) => {
 };
 
 const Favorites: FC = () => {
-	const { favorites } = useAppSelector(state => state.generalSettings);
-	const [reverseSort, setReverseSort] = useState<boolean>(true);
-	const [separate, setSeparate] = useState<boolean>(true);
+	const {
+		favorites,
+		reverseFavoritesSort,
+		separateFavoritesByGenerator
+	} = useAppSelector(state => state.generalSettings);
+	const dispatch = useAppDispatch();
 
 	return (
 		<IonPage>
@@ -143,25 +149,25 @@ const Favorites: FC = () => {
 			</IonToolbar>
 		</IonHeader>
 			<IonContent>
-				<IonList lines="full">
+				<IonList lines="full" className="favorites">
 					<IonItem>
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={reverseSort}
-							onClick={() => setReverseSort(!reverseSort)}
+							checked={reverseFavoritesSort}
+							onClick={() => dispatch(toggleSort())}
 						>Show Newest First</IonToggle>
 					</IonItem>
 					<IonItem>
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={separate}
-							onClick={() => setSeparate(!separate)}
+							checked={separateFavoritesByGenerator}
+							onClick={() => dispatch(toggleSeparate())}
 						>Separate by Source</IonToggle>
 					</IonItem>
 					{
-						separate ?
+						separateFavoritesByGenerator ?
 							favoriteNames.map(([text, prop]) => {
 								const faves = favorites[prop];
 								if(faves.length === 0) {
@@ -171,14 +177,14 @@ const Favorites: FC = () => {
 									key={`faveBlock-${prop}`}
 									prop={prop}
 									faves={faves}
-									reverseSort={reverseSort}
+									reverseSort={reverseFavoritesSort}
 									title={text}
 								/>
 							})
 						:
 							<AllFaves
 								faves={favorites}
-								reverseSort={reverseSort}
+								reverseSort={reverseFavoritesSort}
 							/>
 					}
 				</IonList>

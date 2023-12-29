@@ -1,0 +1,80 @@
+/* Favorites */
+
+ion-list.favorites ion-item {
+	background: var(--ion-color-step-50);
+	padding-block: 0.25em;
+}
+ion-list.favorites ion-item.favorite::part(native) {
+	--inner-padding-end: 0;
+	user-select: text;
+}
+ion-list.favorites ion-item.favorite div.content {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 100%;
+}
+ion-list.favorites ion-item.favorite div.content .handle {
+	flex-grow: 0;
+	flex-shrink: 0;
+	padding-inline: 0.5em;
+	align-self: center;
+}
+ion-list.favorites ion-item.favorite div.content .text {
+	white-space: normal !important;
+	padding-inline-start: 1em;
+	text-indent: -1em;
+}
+ion-list.favorites ion-item.favorite div.content .date {
+	text-align: end;
+	font-size: 0.9em;
+	font-style: italic;
+	color: var(--ion-color-medium-shade);
+}
+ion-list.favorites ion-item.favorite div.content .verticalContent {
+	flex-grow: 1;
+	flex-shrink: 1;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: flex-start;
+}
+ion-list.favorites ion-item.favorite div.content .verticalContent .date {
+	align-self: flex-end;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+ion-list.favorites ion-item.favorite div.content .horizontalContent {
+	flex-grow: 1;
+	flex-shrink: 1;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: center;
+}
+ion-list.favorites ion-item.favorite div.content .horizontalContent > * {
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+ion-list.favorites ion-item.favorite div.content .horizontalContent .group {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	flex-basis: 20%;
+	padding-inline-end: 0.5em;
+}
+ion-list.favorites ion-item.favorite div.content .horizontalContent .text {
+	white-space: normal !important;
+	padding-inline-start: 1em;
+	text-indent: -1em;
+	flex-basis: calc(65% - 0.6em);
+	padding-inline-end: 0.25em;
+}
+ion-list.favorites ion-item.favorite div.content .horizontalContent .date {
+	flex-basis: 15%;
+	align-self: flex-end;
+	white-space: normal;
+	text-wrap: balance;
+	overflow: hidden;
+	padding-inline-end: 0.1em;
+}

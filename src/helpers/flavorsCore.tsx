@@ -399,7 +399,9 @@ const flavors: Flavor[] = [
 	},
 	{
 		noun: "toast",
-		adjective: "toasted"
+		plural: "pieces of toast",
+		adjective: "on toast",
+		postAdjective: true
 	},
 	{
 		noun: "tomato",

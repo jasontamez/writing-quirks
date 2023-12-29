@@ -13,7 +13,6 @@ import {
 	IonLabel,
 	IonList,
 	IonPage,
-	IonRange,
 	IonTitle,
 	IonToggle,
 	IonToolbar,

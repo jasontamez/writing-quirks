@@ -29,7 +29,17 @@ const initialAppState = {
 //
 
 // BELOW is where version adjustments can happen
-const migrations = {};
+const migrations = {
+	4: (state: any) => {
+		const newState = {...state};
+		newState.generalSettings = {...newState.generalSettings};
+		delete newState.generalSettings.maxFavorites;
+		delete newState.generalSettings.maxFavoritesPerGen;
+		newState.generalSettings.reverseFavoritesSort = false;
+		newState.generalSettings.separateFavoritesByGenerator = true;
+		return newState;
+	}
+};
 
 const reducerConfig = {
 	// SLICES here
@@ -44,7 +54,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 3,
+	version: 4,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })
