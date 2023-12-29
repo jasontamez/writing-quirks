@@ -1,4 +1,3 @@
-import { SetStateAction, Dispatch } from "react"
 import getRandom from "./getRandom"
 
 interface AdjectiveBasic {

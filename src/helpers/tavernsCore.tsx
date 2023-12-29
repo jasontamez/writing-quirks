@@ -380,7 +380,7 @@ const makeNounIntoModifierArray = (input: Noun): string[] => {
 	const modifierLoop = (singular: string, plural: string) => {
 		const output: string[] = [];
 		modifiers.forEach(modifier => {
-			// Skip prepositional phrases
+			// Ignore prepositional phrases, they recurse too far
 			modifier !== prepPhrases && output.push(...modifier.map(mod => modifier.format.map(function(bit) {
 				switch (bit) {
 					case false:

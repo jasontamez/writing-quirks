@@ -9,10 +9,10 @@ function getRandom (total: any[], last: any = null, setLast: any = null): any {
 	let result: false | string = false;
 	const length = total.length;
 	if(Array.isArray(last)) {
-		const joined = "<" + last.join("><") + ">";
+		const joined = "<" + last.map(x => JSON.stringify(x)).join("><") + ">";
 		do {
 			result = total[Math.floor(Math.random() * length)];
-		} while(joined.indexOf(`<${result}>`) > -1);
+		} while(joined.indexOf(`<${JSON.stringify(result)}>`) > -1);
 	} else {
 		do {
 			result = total[Math.floor(Math.random() * length)];
