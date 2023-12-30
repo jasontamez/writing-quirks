@@ -342,6 +342,9 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		id: "b712c8d6-6e79-42aa-a5cd-42c75985b884",
 		idea: "skull",
 		humanDeath: true,
+		humanDistress: true,
+		animalDeath: true,
+		animalDistress: true,
 		plural: "s"
 	},
 	{
@@ -364,6 +367,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	{
 		id: "e2738737-5636-48ef-b58c-1bde7ab413d4",
 		idea: "a long rubber hose",
+		humanDistress: true,
 		humanDeath: true
 	},
 	{
@@ -413,6 +417,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		mythsReligionsAndMetaphysics: true,
 		christianity: true,
 		humanDeath: true,
+		humanDistress: true,
 		humanDeathViolent: true
 	},
 	{
@@ -690,6 +695,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	{
 		id: "4276cc73-5b4c-46f4-b8a9-8f1be012730a",
 		idea: "a corpse",
+		humanDistress: true,
 		humanDeath: true
 	},
 	{
@@ -983,6 +989,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		id: "0bdc3d01-364b-488d-9fc9-cb694039d782",
 		idea: "a rifle",
 		humanDistress: true,
+		animalDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
 		animalDeath: true
@@ -2309,6 +2316,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		id: "0c037d4c-ea7b-4dc5-9312-9992dcd26187",
 		idea: "an empty coffin",
 		horror: true,
+		humanDistress: true,
 		humanDeath: true
 	},
 	{

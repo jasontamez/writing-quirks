@@ -67,9 +67,11 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "6c42f3c9-b7f4-417f-a563-69a437bc28b8",
 		idea: "killing",
+		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
-		animalDeath: true
+		animalDeath: true,
+		animalDistress: true
 	},
 	{
 		id: "8a2bb89f-8422-4011-8bdf-627197c4a62a",
@@ -166,6 +168,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "ff8745cc-511c-45a9-88cb-56fb881be304",
 		idea: "freezing to death",
+		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true
 	},
@@ -442,6 +445,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "9f278a0e-2742-496c-a239-09a9054c46c7",
 		idea: "kicking the bucket",
+		humanDistress: true,
 		humanDeath: true,
 		humanDeathNatural: true
 	},
@@ -619,6 +623,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "f0510971-daaa-465c-a0a6-a06ccb01f453",
 		idea: "killing chickens for food",
+		animalDistress: true,
 		animalDeath: true
 	},
 	{
@@ -679,6 +684,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "3ab85099-6c60-424f-a13a-a6a15ea789ca",
 		idea: "burning the remains",
+		humanDistress: true,
+		animalDistress: true,
 		humanDeath: true,
 		animalDeath: true
 	},
@@ -1157,7 +1164,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "e529a8f0-5675-4791-b4e7-d76a0a764eee",
 		idea: "pushing someone off a cliff",
-		humanDeath: true
+		humanDeath: true,
+		humanDistress: true
 	},
 	{
 		id: "cd333dab-9a57-4667-9dfb-296ce5bf2b67",
@@ -1194,6 +1202,25 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 		id: "49a005ad-a6e5-4ab3-9a16-69ee7aad64a2",
 		idea: "having an orgasm",
 		sexual: true
+	},
+	{
+		id: "d8d2c330-81b8-4db0-ab1c-8ea4f77e8b49",
+		idea: "justifying terrorism",
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
+	},
+	{
+		id: "76dc627e-b455-4d7b-a182-99d94a4e91b1",
+		idea: "taking a picture of a dead body",
+		humanDistress: true,
+		humanDeath: true
+	},
+	{
+		id: "67f7e0ca-e068-4926-b677-ac32e027dbad",
+		idea: "scaring the shit out of someone",
+		humanDistress: true,
+		profanity: true
 	}
 ];
 

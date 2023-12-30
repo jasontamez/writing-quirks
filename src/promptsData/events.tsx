@@ -10,6 +10,7 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "32a97ee4-45b6-4f52-985a-b96cb1f5963e",
 		idea: "a death in the family",
+		humanDistress: true,
 		humanDeath: true,
 		humanDeathNatural: true,
 		nonPunctual: true
@@ -250,6 +251,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "3eda659f-f259-49b6-8a04-13278f1c48bb",
 		idea: "a sacrifice",
 		mythsReligionsAndMetaphysics: true,
+		humanDistress: true,
+		animalDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
 		animalDeath: true,

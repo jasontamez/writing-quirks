@@ -142,7 +142,7 @@ const Favorites: FC = () => {
 			<IonToolbar>
 				<IonTitle>Favorites</IonTitle>
 				<IonButtons slot="end">
-					<IonButton routerDirection="forward" routerLink="/" color="medium">
+					<IonButton routerDirection="forward" routerLink="/settings" color="medium">
 						<IonIcon slot="icon-only" icon={settingsSharp} />
 					</IonButton>
 				</IonButtons>

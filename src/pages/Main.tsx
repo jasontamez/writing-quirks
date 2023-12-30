@@ -1,75 +1,102 @@
 import React from 'react';
 import {
+	IonButton,
+	IonButtons,
 	IonContent,
 	IonHeader,
+	IonIcon,
 	IonItem,
 	IonItemDivider,
 	IonLabel,
 	IonList,
 	IonPage,
-	IonSelect,
-	IonSelectOption,
 	IonTitle,
 	IonToolbar
 } from '@ionic/react';
+import {
+	beer,
+	fastFood,
+	planet,
+	skull,
+	trailSign,
+	bulb,
+	settingsSharp
+} from 'ionicons/icons';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
 import packageJson from '../../package.json';
 
 const Main: React.FC = () => {
-	const { animationMethod } = useAppSelector(state => state.generalSettings);
-	const dispatch = useAppDispatch();
 	return (
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
 					<IonTitle>Writing Quirks</IonTitle>
+					<IonButtons slot="end">
+						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+							<IonIcon slot="icon-only" icon={settingsSharp} />
+						</IonButton>
+					</IonButtons>
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>
-				<IonList lines="full" className="settings">
-					<IonItemDivider>App Settings</IonItemDivider>
+				<IonList lines="full" className="main">
+					<IonItemDivider>Tools</IonItemDivider>
 					<IonItem>
-						<IonSelect
-							color="primary"
-							className="ion-text-wrap"
-							value={animationMethod}
-							onIonChange={(e) => dispatch(setAnimationMethod(e.detail.value as AnimationMethod))}
-							label="Animation Method:"
-							labelPlacement="start"
-						>
-							<IonSelectOption
-								className="ion-text-wrap ion-text-align-end"
-								value="instant"
-							>Instantaneous</IonSelectOption>
-							<IonSelectOption
-								className="ion-text-wrap ion-text-align-end"
-								value="accordion"
-							>Accordion</IonSelectOption>
-							<IonSelectOption
-								className="ion-text-wrap ion-text-align-end"
-								value="fading"
-							>Fading</IonSelectOption>
-							<IonSelectOption
-								className="ion-text-wrap ion-text-align-end"
-								value="spinning"
-							>Spinning</IonSelectOption>
-							<IonSelectOption
-								className="ion-text-wrap ion-text-align-end"
-								value="sliding"
-							>Sliding</IonSelectOption>
-							<IonSelectOption
-								className="ion-text-wrap ion-text-align-end"
-								value="scrolling"
-							>Scrolling</IonSelectOption>
-						</IonSelect>
+						<div className="unit">
+							<IonButton color="primary" size="default" routerDirection="forward" routerLink="/prompts">
+								<IonIcon icon={bulb} slot="start" />
+								<IonLabel>Writing Prompts</IonLabel>
+							</IonButton>
+							<div className="text">Attempts to combine disparate ideas into topics that may (or may not) inspire a creative work.</div>
+						</div>
 					</IonItem>
-					<IonItem button detail={true} routerDirection="forward" routerLink="/writingpromptssettings">
-						<IonLabel>Writing Prompts Settings</IonLabel>
+					<IonItem>
+						<div className="unit">
+							<IonButton color="secondary" size="default" routerDirection="forward" routerLink="/taverns">
+								<IonIcon icon={beer} slot="start" />
+								<IonLabel>Taverns and Inns</IonLabel>
+							</IonButton>
+							<div className="text">Creates names for medieval European establishments you could find in a fantasy world.</div>
+						</div>
+					</IonItem>
+					<IonItem>
+						<div className="unit">
+							<IonButton color="tertiary" size="default" routerDirection="forward" routerLink="/streets">
+								<IonIcon icon={trailSign} slot="start" />
+								<IonLabel>Suburban Street Names</IonLabel>
+							</IonButton>
+							<div className="text">Uses commonly used parts to make names you might find in an American suburban town.</div>
+						</div>
+					</IonItem>
+					<IonItem>
+						<div className="unit">
+							<IonButton color="primary" size="default" routerDirection="forward" routerLink="/babbles">
+								<IonIcon icon={planet} slot="start" />
+								<IonLabel>Technobabble</IonLabel>
+							</IonButton>
+							<div className="text">Scifi tropes condensed into nonsense one might shout in an emergency.</div>
+						</div>
+					</IonItem>
+					<IonItem>
+						<div className="unit">
+							<IonButton color="secondary" size="default" routerDirection="forward" routerLink="/insults">
+								<IonIcon icon={skull} slot="start" />
+								<IonLabel>Shakespearian Insults</IonLabel>
+							</IonButton>
+							<div className="text">Verily, thou must use the Bard's language to smite thine foes' fragile facades.</div>
+						</div>
+					</IonItem>
+					<IonItem className="ending">
+						<div className="unit">
+							<IonButton color="tertiary" size="default" routerDirection="forward" routerLink="/flavors">
+								<IonIcon icon={fastFood} slot="start" />
+								<IonLabel>Really Odd Flavors</IonLabel>
+							</IonButton>
+							<div className="text">Creates bizarre flavor profiles that an alien might think a human would enjoy.</div>
+						</div>
 					</IonItem>
 					<IonItemDivider>App Info</IonItemDivider>
-					<IonItem className="version">
+					<IonItem className="version" lines="none">
 						<h2 className="ion-text-center ion-text-wrap">v.{packageJson.version}</h2>
 						<p className="ion-text-center ion-text-wrap">App icon incorporates pencil icon by <a href="https://www.flaticon.com/free-icons/pencil">Freepik - Flaticon</a>.</p>
 						<p className="ion-text-center ion-text-wrap">Background icons for Writing Prompts by <a href="https://www.flaticon.com/free-icons/idea">Freepik - Flaticon</a>.</p>

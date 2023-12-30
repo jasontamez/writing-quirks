@@ -887,6 +887,7 @@ const info: (Partial<Locale> & Pick<Locale, "id" | "idea">)[] = [
 		id: "5826c047-eb67-4c2a-97ce-7b5bb4361c53",
 		idea: "a funeral pyre",
 		preposition: "by",
+		humanDistress: true,
 		humanDeath: true,
 		specific: false,
 		construct: true,

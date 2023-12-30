@@ -121,6 +121,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "627b71a7-0265-442d-9ccf-9e099b793138",
 		idea: "dead ruler",
+		humanDistress: true,
 		humanDeath: true
 	},
 	{
@@ -1214,8 +1215,6 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
-		humanDeath: true,
-		humanDeathViolent: true,
 		genderPossessive: "her"
 	},
 	{

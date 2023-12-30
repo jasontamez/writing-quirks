@@ -17,7 +17,7 @@ const PageHeader: React.FC<PageTitleProps> = (props) => {
 					<IonButton routerDirection="forward" routerLink="/favorites" color="medium">
 						<IonIcon slot="icon-only" icon={heartCircleSharp} />
 					</IonButton>
-					<IonButton routerDirection="forward" routerLink="/" color="medium">
+					<IonButton routerDirection="forward" routerLink="/settings" color="medium">
 						<IonIcon slot="icon-only" icon={settingsSharp} />
 					</IonButton>
 				</IonButtons>

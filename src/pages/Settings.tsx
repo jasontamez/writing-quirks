@@ -13,6 +13,8 @@ import {
 	IonLabel,
 	IonList,
 	IonPage,
+	IonSelect,
+	IonSelectOption,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
@@ -20,10 +22,12 @@ import {
 } from '@ionic/react';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
 import { HiddenTopics, clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSlice';
 import { trashBin } from 'ionicons/icons';
 
-const WritingPromptsSettings: React.FC = () => {
+const Settings: React.FC = () => {
+	const { animationMethod } = useAppSelector(state => state.generalSettings);
 	const { memorySize = 500, hiddenTopics = {}, usedIds = [] } = useAppSelector(state => state.writingPromptsSettings) || {};
 	const {
 		profanity,
@@ -121,7 +125,7 @@ const WritingPromptsSettings: React.FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Settings: Writing Prompts</IonTitle>
+					<IonTitle>Settings</IonTitle>
 				</IonToolbar>
 			</IonHeader>
 			<IonAlert
@@ -153,9 +157,46 @@ const WritingPromptsSettings: React.FC = () => {
 			/>
 			<IonContent>
 				<IonList lines="none" className="settings">
+					<IonItemDivider className="major">App Settings</IonItemDivider>
+					<IonItem>
+						<IonSelect
+							color="primary"
+							className="ion-text-wrap"
+							value={animationMethod}
+							onIonChange={(e) => dispatch(setAnimationMethod(e.detail.value as AnimationMethod))}
+							label="Animation Method:"
+							labelPlacement="start"
+						>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="instant"
+							>Instantaneous</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="accordion"
+							>Accordion</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="fading"
+							>Fading</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="spinning"
+							>Spinning</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="sliding"
+							>Sliding</IonSelectOption>
+							<IonSelectOption
+								className="ion-text-wrap ion-text-align-end"
+								value="scrolling"
+							>Scrolling</IonSelectOption>
+						</IonSelect>
+					</IonItem>
 
-				<IonItemDivider>Memory Size</IonItemDivider>
-				<IonItem className="firsthalf">
+					<IonItemDivider className="major">Writing Prompts Settings</IonItemDivider>
+					<IonItemDivider>Memory Size</IonItemDivider>
+					<IonItem className="firsthalf">
 						<IonLabel>
 							<p>The app will not reuse previously given ideas, up to a certain point. You can choose how many ideas to hide, up to 500.</p>
 						</IonLabel>
@@ -700,4 +741,4 @@ const WritingPromptsSettings: React.FC = () => {
 	);
 };
 
-export default WritingPromptsSettings;
+export default Settings;
