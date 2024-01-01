@@ -4,6 +4,10 @@ ion-content.prompts ion-list.generatorOutput {
 	padding-top: 15vh;
 }
 
+ion-content.prompts ion-list.generatorOutput ion-item ion-label {
+	overflow: visible;
+}
+
 ion-content.prompts ion-list.generatorOutput ion-item.singularResult ion-label::first-letter {
 	text-transform: uppercase;
 }
