@@ -659,7 +659,7 @@ const Settings: React.FC = () => {
 							onClick={() => toggle("smallSize")}
 						>
 							<h2>Small Locations</h2>
-							<p>Mt. Everest, the Vatican, e.g.</p>
+							<p>Mt. Everest, the Vatican, a sprawling estate, e.g.</p>
 						</IonToggle>
 					</IonItem>
 					<IonItem lines="full">

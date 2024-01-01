@@ -1280,13 +1280,28 @@ const info: (Partial<Locale> & Pick<Locale, "id" | "idea">)[] = [
 		construct: true
 	},
 	{
-		id: "xxx415a8-a35a-463c-bfb5-ea7819ecbxxx",
+		id: "f60080fd-b217-47e0-965c-ea8e63ac1b02",
 		idea: "along the Mississippi River",
 		specific: false,
 		mediumSize: true,
 		geographical: true,
 		properName: true,
 		preposition: "somewhere"
+	},
+	{
+		id: "2d8f36cf-e8f0-426b-b3df-b64046d19784",
+		idea: "a golf course",
+		specific: false,
+		smallSize: true,
+		construct: true,
+		preposition: "on"
+	},
+	{
+		id: "54ae5576-89c2-4f08-bfa6-1625a05a2d47",
+		idea: "a city of fungus",
+		specific: false,
+		smallSize: true,
+		fantasy: true
 	}
 ];
 

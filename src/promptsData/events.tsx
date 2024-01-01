@@ -512,6 +512,12 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "c7242f7c-737d-4901-9f99-8257d43c8bec",
 		idea: "a shocking revelation",
 		humanDistress: true
+	},
+	{
+		id: "ce5aeaaa-7994-4294-94c6-e216e2d46d6d",
+		idea: "an epic journey",
+		preposition: "having",
+		nonPunctual: true
 	}
 ];
 

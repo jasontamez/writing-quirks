@@ -2469,6 +2469,14 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		idea: "a bottle of Hennessy",
 		properName: true,
 		alcohol: true
+	},
+	{
+		id: "c4dcb998-61fc-433d-a601-f759e3a3f920",
+		idea: "back hair"
+	},
+	{
+		id: "22534519-66b5-4df7-bd98-e699a533fd13",
+		idea: "a vending machine"
 	}
 ];
 

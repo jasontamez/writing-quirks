@@ -1221,6 +1221,11 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 		idea: "scaring the shit out of someone",
 		humanDistress: true,
 		profanity: true
+	},
+	{
+		id: "2fd75082-ba4f-4823-80f2-30842b46b958",
+		idea: "asking someone out on on a date",
+		sexual: true
 	}
 ];
 

@@ -1373,7 +1373,7 @@ const info: Omit<Topic, "type">[] = [
 	},
 	{
 		id: "5d776da2-cdbb-4e02-9af3-58f070f5a695",
-		idea: "Child Protection Services",
+		idea: "Child Protective Services",
 		humanDistress: true
 	},
 	{
@@ -1403,6 +1403,28 @@ const info: Omit<Topic, "type">[] = [
 		id: "929b9e67-395c-4a67-a81c-fe25b897fb3c",
 		idea: "digital distortion",
 		modern: true
+	},
+	{
+		id: "c8400e63-fea1-495d-b8d0-cd76053c75e3",
+		idea: "the sport of golf"
+	},
+	{
+		id: "6c4e7026-4d58-4123-bded-b91a29fe96d7",
+		idea: "TikTok",
+		modern: true
+	},
+	{
+		id: "13a73839-710d-4184-b0e9-a15f37f3b41e",
+		idea: "gaslighting",
+		humanDistress: true
+	},
+	{
+		id: "0ab33a6b-05b0-4c56-83b0-1e21b8228dba",
+		idea: "the power of friendship"
+	},
+	{
+		id: "2366f2e0-868d-4462-89ce-90e41395cd16",
+		idea: "muscle memory"
 	}
 ];
 
