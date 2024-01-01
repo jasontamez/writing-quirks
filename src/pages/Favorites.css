@@ -1,12 +1,15 @@
 /* Favorites */
 
+ion-list.favorites {
+	padding-block: 0;
+}
 ion-list.favorites ion-item {
 	background: var(--ion-color-step-50);
-	padding-block: 0.25em;
 }
 ion-list.favorites ion-item.favorite::part(native) {
 	--inner-padding-end: 0;
 	user-select: text;
+	padding-block: 0.25em;
 }
 ion-list.favorites ion-item.favorite div.content {
 	display: flex;
@@ -32,49 +35,15 @@ ion-list.favorites ion-item.favorite div.content .date {
 	font-style: italic;
 	color: var(--ion-color-medium-shade);
 }
-ion-list.favorites ion-item.favorite div.content .verticalContent {
+ion-list.favorites ion-item.favorite div.content .innerContent {
 	flex-grow: 1;
 	flex-shrink: 1;
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: flex-start;
 }
-ion-list.favorites ion-item.favorite div.content .verticalContent .date {
+ion-list.favorites ion-item.favorite div.content .innerContent .date {
 	align-self: flex-end;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}
-ion-list.favorites ion-item.favorite div.content .horizontalContent {
-	flex-grow: 1;
-	flex-shrink: 1;
-	display: flex;
-	flex-flow: row nowrap;
-	justify-content: space-between;
-	align-items: center;
-}
-ion-list.favorites ion-item.favorite div.content .horizontalContent > * {
-	flex-grow: 0;
-	flex-shrink: 0;
-}
-ion-list.favorites ion-item.favorite div.content .horizontalContent .group {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	flex-basis: 20%;
-	padding-inline-end: 0.5em;
-}
-ion-list.favorites ion-item.favorite div.content .horizontalContent .text {
-	white-space: normal !important;
-	padding-inline-start: 1em;
-	text-indent: -1em;
-	flex-basis: calc(65% - 0.6em);
-	padding-inline-end: 0.25em;
-}
-ion-list.favorites ion-item.favorite div.content .horizontalContent .date {
-	flex-basis: 15%;
-	align-self: flex-end;
-	white-space: normal;
-	text-wrap: balance;
-	overflow: hidden;
-	padding-inline-end: 0.1em;
 }
