@@ -1,24 +1,50 @@
 /* Insults */
 
 ion-content.insults {
-	padding-top: 10vmin;
+	padding-top: 2em;
+}
+
+ion-content.insults ion-list.generatorOutput {
+	--windowHeight: calc(100vh - 56px - 56px);
+	--minDimiension: min(100vw, var(--windowHeight));
+	height: var(--minDimiension);
+	width: 100vw;
+	align-items: center;
+	--transition-visible:
+		top var(--basic-transition-to-visible),
+		bottom var(--basic-transition-to-visible),
+		left var(--basic-transition-to-visible),
+		right var(--basic-transition-to-visible),
+		opacity var(--basic-transition-to-visible),
+		transform var(--basic-transition-to-visible),
+		height var(--basic-transition-delayed-instant);
+	--transition-hidden:
+		top var(--basic-transition-to-hidden),
+		bottom var(--basic-transition-to-hidden),
+		left var(--basic-transition-to-hidden),
+		right var(--basic-transition-to-hidden),
+		opacity var(--basic-transition-to-hidden),
+		transform var(--basic-transition-to-hidden),
+		height var(--basic-transition-delayed-instant);
+}
+ion-content.insults ion-list.generatorOutput.hidden {
+	height: 0;
 }
 
 ion-content.insults ion-list.generatorOutput ion-item,
 ion-content.insults ion-list.generatorOutput.alternate ion-item {
 	background-image: url('./svg/chatbox-secondary.svg');
-	background-size: 90vmin 90vmin;
+	background-size: calc(var(--minDimiension) * 0.9) calc(var(--minDimiension) * 0.9);
 	background-origin: border-box;
 	background-repeat: no-repeat;
 	border-radius: 0;
-	min-height: 90vmin;
+	height: calc(var(--minDimiension) * 0.9);
+	margin: calc(var(--minDimiension) * 0.05);
+	width: calc(var(--minDimiension) * 0.9);
+	min-height: auto;
 	max-height: none;
-	margin-top: 10vmin;
-	padding-top: 5vmin;
-	padding-bottom: 25vmin;
-	padding-inline: 5vmin;
-	margin-inline: 5vmin;
-	width: 90vw;
+	padding-block-start: 0;
+	padding-block-end:  calc(var(--minDimiension) * 0.16);
 }
 ion-content.insults ion-list.generatorOutput.alternate ion-item {
 	background-image: url('./svg/chatbox-tertiary.svg');
@@ -27,13 +53,3 @@ ion-content.insults ion-list.generatorOutput.alternate ion-item {
 ion-content.insults ion-list.generatorOutput ion-item {
 	justify-content: center;
 }
-/*
-ion-content.streets ion-list.generatorOutput ion-item.singularResult {
-	background-color: var(--ion-color-secondary);
-	border: 5px double var(--ion-color-secondary-shade);
-}
-
-ion-content.streets ion-list.generatorOutput.alternate ion-item.singularResult {
-	background-color: var(--ion-color-tertiary);
-	border: 5px double var(--ion-color-tertiary-shade);
-}*/
