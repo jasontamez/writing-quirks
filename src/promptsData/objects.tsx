@@ -2060,7 +2060,8 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	},
 	{
 		id: "28f144ba-0e37-413e-a3c5-e33c444a7e8e",
-		idea: "an ad for a lawyer"
+		idea: "an ad for a lawyer",
+		humanDistress: true
 	},
 	{
 		id: "c39ab6c2-83f4-48ed-b0b2-5142be834d69",
@@ -2452,12 +2453,14 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		idea: "katana",
 		plural: "s",
 		max: 2,
+		historicalFiction: true,
 		samurai: true
 	},
 	{
 		id: "4c7db7d6-ab13-4f31-83ef-58b41caf06d7",
 		idea: "cherry blossoms",
 		plural: true,
+		historicalFiction: true,
 		samurai: true
 	},
 	{
@@ -2477,7 +2480,18 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	{
 		id: "22534519-66b5-4df7-bd98-e699a533fd13",
 		idea: "a vending machine"
-	}
+	},
+	{
+		id: "bd5c4dd5-e650-469c-876a-384313c105b8",
+		idea: "the number X",
+		plural: [
+			"the number ",
+			""
+		],
+		min: 1,
+		max: 99,
+		rateFavorsLower: true
+	},
 ];
 
 const objects: AnObject[] = info.map(bit => ({ ...base, ...bit }));

@@ -275,6 +275,7 @@ const Settings: React.FC = () => {
 							onClick={() => toggle("humanDeathNatural")}
 						>
 							<h2>Natural Human Death</h2>
+							<p>Includes diseases and illnesses.</p>
 						</IonToggle>
 					</IonItem>
 					<IonItem lines="full" className="subtype">
@@ -333,7 +334,7 @@ const Settings: React.FC = () => {
 							<h2>Medieval Fantasy</h2>
 						</IonToggle>
 					</IonItem>
-					<IonItem className="subtype">
+					<IonItem lines="full" className="subtype">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
@@ -344,24 +345,23 @@ const Settings: React.FC = () => {
 							<h2>Superheroes</h2>
 						</IonToggle>
 					</IonItem>
-					<IonItem className="subtype">
+					<IonItem lines="full">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={fantasy && fairyTalesAndUrbanLegends}
-							disabled={!fantasy}
+							checked={fairyTalesAndUrbanLegends}
 							onClick={() => toggle("fairyTalesAndUrbanLegends")}
 						>
 							<h2>Fairy Tales</h2>
 							<p>Classic fairy tales and modern Urban Legends.</p>
 						</IonToggle>
 					</IonItem>
-					<IonItem lines="full" className="subtype">
+
+					<IonItem lines="full">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={fantasy && horror}
-							disabled={!fantasy}
+							checked={horror}
 							onClick={() => toggle("horror")}
 						>
 							<h2>Horror</h2>
@@ -516,7 +516,7 @@ const Settings: React.FC = () => {
 						</IonToggle>
 					</IonItem>
 
-					<IonItem>
+					<IonItem lines="full">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
@@ -526,23 +526,21 @@ const Settings: React.FC = () => {
 							<h2>Illicit Substances</h2>
 						</IonToggle>
 					</IonItem>
-					<IonItem className="subtype">
+					<IonItem lines="full">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={illicitSubstances && alcohol}
-							disabled={!illicitSubstances}
+							checked={alcohol}
 							onClick={() => toggle("alcohol")}
 						>
 							<h2>Alcohol</h2>
 						</IonToggle>
 					</IonItem>
-					<IonItem lines="full" className="subtype">
+					<IonItem lines="full">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={illicitSubstances && tobacco}
-							disabled={!illicitSubstances}
+							checked={tobacco}
 							onClick={() => toggle("tobacco")}
 						>
 							<h2>Tobacco</h2>

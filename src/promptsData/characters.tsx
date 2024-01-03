@@ -394,6 +394,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		idea: "a fortune teller",
 		plural: false,
 		joiner: " who is ",
+		mythsReligionsAndMetaphysics: true,
 		metaphysics: false
 	},
 	{
@@ -850,7 +851,6 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "8468e93b-d96c-4002-8aab-93488e96d34f",
 		idea: "scarab beetles",
 		historicalFiction: true,
-		fantasy: true,
 		horror: true,
 		plural: true
 	},

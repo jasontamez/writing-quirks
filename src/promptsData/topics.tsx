@@ -436,7 +436,8 @@ const info: Omit<Topic, "type">[] = [
 	},
 	{
 		id: "297c129e-44d3-4531-aa36-77a027ca18dc",
-		idea: "gothic horror"
+		idea: "gothic horror",
+		horror: true
 	},
 	{
 		id: "1c64f467-c3ee-4a2a-b2d9-734298b2c957",
@@ -444,7 +445,8 @@ const info: Omit<Topic, "type">[] = [
 	},
 	{
 		id: "ff171358-7035-42c8-8078-544b7feef3dc",
-		idea: "when a dog needs grooming"
+		idea: "when a dog needs grooming",
+		animalDistress: true
 	},
 	{
 		id: "6aac2214-f9dd-4855-8f04-da2b0356860c",
@@ -831,10 +833,6 @@ const info: Omit<Topic, "type">[] = [
 		id: "62538df9-7a1f-49f7-a4ee-5e206cad21ca",
 		idea: "epilepsy",
 		humanDistress: true
-	},
-	{
-		id: "bd5c4dd5-e650-469c-876a-384313c105b8",
-		idea: "the number eight"
 	},
 	{
 		id: "502c993e-3f6a-45d8-ab64-e808bbade194",

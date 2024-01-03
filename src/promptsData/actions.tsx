@@ -253,7 +253,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "3725f9f8-b44f-4ad8-ae8c-df493f7915dc",
-		idea: "meeting the lawyer"
+		idea: "meeting the lawyer",
+		humanDistress: true
 	},
 	{
 		id: "fb86def8-00c4-4db6-9507-e49d2d63dbf0",
