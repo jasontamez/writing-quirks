@@ -53,3 +53,24 @@ ion-content.insults ion-list.generatorOutput.alternate ion-item {
 ion-content.insults ion-list.generatorOutput ion-item {
 	justify-content: center;
 }
+
+/* Scrolling */
+ion-content.insults ion-list.generatorOutput.scrolling {
+	--transition-visible:
+		transform var(--basic-transition-to-hidden),
+		top var(--basic-transition-instant),
+		opacity var(--basic-transition-instant),
+		height var(--basic-transition-instant);
+}
+ion-content.insults ion-list.generatorOutput.alternate.scrolling {
+	--transition-visible:
+		transform var(--basic-transition-to-hidden),
+		top var(--basic-transition-instant),
+		opacity var(--basic-transition-instant),
+		height var(--basic-transition-instant);
+	--transition-hidden:
+		transform var(--basic-transition-to-hidden),
+		top var(--basic-transition-delayed-instant),
+		opacity var(--basic-transition-delayed-instant),
+		height var(--basic-transition-delayed-instant);
+}
