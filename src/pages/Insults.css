@@ -31,6 +31,10 @@ ion-content.insults ion-list.generatorOutput.hidden {
 	height: 0;
 }
 
+ion-content.insults ion-list.generatorOutput ion-item ion-label {
+	font-size: clamp(12px, 7.5vh, 2rem);
+}
+
 ion-content.insults ion-list.generatorOutput ion-item,
 ion-content.insults ion-list.generatorOutput.alternate ion-item {
 	background-image: url('./svg/chatbox-secondary.svg');
