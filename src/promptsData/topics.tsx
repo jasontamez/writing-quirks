@@ -1352,7 +1352,8 @@ const info: Omit<Topic, "type">[] = [
 	},
 	{
 		id: "e2e68718-453d-4e24-ad5a-0951eb52960f",
-		idea: "deep regret"
+		idea: "deep regret",
+		humanDistress: true
 	},
 	{
 		id: "cb922b9b-48f8-4c02-b72b-567c207e6017",

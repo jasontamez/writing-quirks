@@ -5,7 +5,7 @@ const base: (
 	& Pick<
 		Character,
 		"type" | "min" | "max" | "rateBy" | "rateFavorsLower" | "plural" | "article" | "numerals"
-		| "realPerson" | "genderPossessive" | "fictionalCharacter" | "joiner"
+		| "realPerson" | "genderPossessive" | "fictionalCharacter" | "linkToAnAction"
 	>
 ) = {
 	type: "character",
@@ -19,7 +19,7 @@ const base: (
 	realPerson: false,
 	genderPossessive: false,
 	fictionalCharacter: false,
-	joiner: " "
+	linkToAnAction: " "
 };
 const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
@@ -91,7 +91,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "9fb60713-4f08-411c-8251-584ecaa71d2e",
 		idea: "fish in a bucket",
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -148,7 +148,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		idea: "monsters under the bed",
 		plural: true,
 		fairyTalesAndUrbanLegends: true,
-		joiner: " that are ",
+		linkToAnAction: " that are ",
 		monster: true
 	},
 	{
@@ -307,21 +307,21 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "5378e966-04ae-4881-9be4-759a4987ccb4",
 		idea: "leopards that change their spots",
-		joiner: " that are ",
+		linkToAnAction: " that are ",
 		plural: true
 	},
 	{
 		id: "c427dc5d-4a1a-4b54-9adc-6c199974d5e2",
 		idea: "a turtle laying on its back",
 		animalDistress: true,
-		joiner: " that is also ",
+		linkToAnAction: " that is also ",
 		plural: false
 	},
 	{
 		id: "14d0bd11-af46-492a-9965-296575b12ecc",
 		idea: "a captured royal",
 		humanDistress: true,
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -331,7 +331,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "ad156cb4-b050-43c2-8d8a-5b768bf24169",
 		idea: "the last of its species",
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -379,7 +379,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		idea: "an old wizard",
 		fantasy: true,
 		medievalFantasy: true,
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		plural: false
 	},
 	{
@@ -393,7 +393,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "2ac60f1e-83db-4b1d-b583-0edb703ea27d",
 		idea: "a fortune teller",
 		plural: false,
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		mythsReligionsAndMetaphysics: true,
 		metaphysics: false
 	},
@@ -401,7 +401,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "2b7267fd-5120-46c8-a421-42dbb09d91eb",
 		idea: "a lost child",
 		humanDistress: true,
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		plural: false
 	},
 	{
@@ -418,7 +418,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "88767676-caae-4e62-9ca5-9179d8f82b26",
 		idea: "a talking fish",
 		fantasy: true,
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -434,7 +434,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "a5a1c3cd-e490-49e5-aaa9-feb6ec9e3ad9",
 		idea: "a basket case",
 		humanDistress: true,
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -465,7 +465,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "317e9e6f-be66-40bb-a894-537cb5acd1e9",
 		idea: "a flock of seagulls",
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -476,7 +476,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "bdc4a113-805e-40d0-9271-9c7e1c9a8ecb",
 		idea: "the quiet man next door",
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		plural: false,
 		genderPossessive: "his"
 	},
@@ -492,7 +492,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		humanDistress: true,
 		plural: false,
 		genderPossessive: "his",
-		joiner: " who is also ",
+		linkToAnAction: " who is also ",
 		scifi: true
 	},
 	{
@@ -646,7 +646,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "cd5b1699-6778-41e1-81a3-871264eeea09",
 		idea: "the leader of the tribe",
-		joiner: ", who is ",
+		linkToAnAction: ", who is ",
 		plural: false
 	},
 	{
@@ -673,7 +673,9 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "ea0aa16f-04db-4cf1-b1d9-cb62991da63d",
 		idea: "average, silly, unremarkable, yet utterly terrifying clown",
 		max: 3,
-		article: "an"
+		article: "an",
+		humanDistress: true,
+		horror: true
 	},
 	{
 		id: "d0922a00-92f4-4330-bbe6-545c53b7bd59",
@@ -693,7 +695,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "2dad3d0b-3dbe-4594-95cc-beae1bd2cd3d",
 		idea: "a deer in the headlights",
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -704,7 +706,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "d4348360-bfec-4168-8b25-dd97c32dff36",
 		idea: "a treehugger in a tree",
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		plural: false
 	},
 	{
@@ -714,13 +716,13 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		medievalFantasy: true,
 		mythsReligionsAndMetaphysics: true,
 		greekRomanMyth: true,
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
 		id: "d2acc2d6-7fd2-407c-874c-af234d399324",
 		idea: "too many people crammed into a van",
-		joiner: ", and they are ",
+		linkToAnAction: ", and they are ",
 		plural: true
 	},
 	{
@@ -796,7 +798,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "5b4fb5d4-cfe4-40c0-956b-a399bf8413fd",
 		idea: "a swarm of bees",
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -810,7 +812,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "5354b4d6-715d-48af-8350-9aa125287e23",
 		idea: "a crowing rooster",
 		plural: false,
-		joiner: " that is also ",
+		linkToAnAction: " that is also ",
 		genderPossessive: "his"
 	},
 	{
@@ -909,7 +911,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "4ced3562-1f8c-4ab1-9cb4-79602339c6c4",
 		idea: "a ventrilloquist's dummy",
 		horror: true,
-		joiner: " that is ",
+		linkToAnAction: " that is ",
 		plural: false
 	},
 	{
@@ -923,7 +925,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		idea: "a genie in a bottle",
 		plural: false,
 		mythsReligionsAndMetaphysics: true,
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		islam: true
 	},
 	{
@@ -982,7 +984,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		plural: false,
 		fantasy: true,
 		fairyTalesAndUrbanLegends: true,
-		joiner: " and is ",
+		linkToAnAction: " and is ",
 		medievalFantasy: true
 	},
 	{
@@ -1058,7 +1060,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "61035916-1d2a-4591-9891-726ed4c7e4ae",
 		idea: "a judge on TV",
 		plural: false,
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		modern: true
 	},
 	{
@@ -1066,7 +1068,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		idea: "a bucking bronco",
 		plural: false,
 		animalDistress: true,
-		joiner: " that is "
+		linkToAnAction: " that is "
 	},
 	{
 		id: "7194864d-0517-4811-bd34-1c20e07854d7",
@@ -1088,7 +1090,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		humanDeath: true,
 		humanDeathViolent: true,
 		min: 2,
-		joiner: " that are "
+		linkToAnAction: " that are "
 	},
 	{
 		id: "25abb747-48ea-4cf3-be69-5c2914b1361c",
@@ -1371,7 +1373,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 	{
 		id: "d05a13c9-1311-46c6-b1e3-d1448ee2a7bb",
 		idea: "a server in a restaurant",
-		joiner: " who is ",
+		linkToAnAction: " who is ",
 		plural: false
 	},
 	{
@@ -1389,7 +1391,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		plural: false,
 		properName: true,
 		genderPossessive: "his",
-		joiner: ", who is "
+		linkToAnAction: ", who is "
 	},
 	{
 		id: "d6b7fe40-37a5-4982-9759-e11a55c31f49",
@@ -1404,7 +1406,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "c86208ae-2efd-4867-b7bb-3efc3ac1e906",
 		idea: "a competitive eater",
 		plural: false,
-		joiner: " who is "
+		linkToAnAction: " who is "
 	},
 	{
 		id: "d9191f67-f25c-4efd-b36f-bf3eed1cf4e9",
@@ -1479,7 +1481,7 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		id: "0117a234-ae86-47ce-8ed8-0712b926b1f4",
 		idea: "a wise, older person",
 		plural: false,
-		joiner: " who is "
+		linkToAnAction: " who is "
 	},
 	{
 		id: "5e756271-562a-4625-acd7-dd04d57ae660",

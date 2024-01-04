@@ -21,7 +21,7 @@ const intros: Intro[] = [
 	{msg: "Thou art ARTICLE ADJECTIVE1, ADJECTIVE2 NOUN.", hasAdjectiveArticle: true},
 	{msg: "Ne'er before have I seen such ARTICLE NOUN, so ADJECTIVE1 and ADJECTIVE2.", hasNounArticle: true},
 	{msg: "'Tis nothing but ARTICLE ADJECTIVE1 and ADJECTIVE2 NOUN.", hasAdjectiveArticle: true},
-	{msg: "I'd rather meet ARTICLE ADJECTIVE1, ADJECTIVE2 NOUN than thee.", hasAdjectiveArticle: true}
+	{msg: "I'd rather be ARTICLE ADJECTIVE1, ADJECTIVE2 NOUN than be thou.", hasAdjectiveArticle: true}
 ];
 const adjs1: string[] = [
 	"artless", "bawdy", "beslubbering", "bootless", "churlish", "cockered", "clouted", "craven", "currish", "dankish",

@@ -1,17 +1,26 @@
 import React, { Fragment, ReactElement, useEffect, useState } from 'react';
 import {
+	AlertOptions,
+	IonButton,
+	IonButtons,
 	IonContent,
 	IonFab,
 	IonFabButton,
+	IonHeader,
 	IonIcon,
 	IonItem,
+	IonItemDivider,
 	IonLabel,
 	IonList,
+	IonModal,
 	IonPage,
+	IonTitle,
+	IonToolbar,
+	useIonAlert,
 	useIonViewDidEnter,
 	useIonViewWillLeave
 } from '@ionic/react';
-import { refresh } from 'ionicons/icons';
+import { closeCircleSharp, cogSharp, refresh } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { HiddenTopics, saveUsedIdeas } from '../store/writingPromptsSlice';
@@ -56,9 +65,26 @@ const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: HiddenTop
 	return [i, copyOfUsedIdeas, e];
 };
 
+const expandInfo = (idea: Any) => {
+	const {id, idea: text, ...etc} = idea;
+	return Object.entries(etc).map(([prop, value]) => {
+		return `${prop}: ` + (typeof value === "string" ? `"${value}"` : `${value}`)
+	}).join("\n");
+};
+
+const Expander: React.FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>}> = (props) => {
+	const {idea, doAlert} = props;
+	return <p className="ion-text-wrap" onClick={() => doAlert({
+		message: expandInfo(idea),
+		header: idea.idea,
+		cssClass: "expanded"
+	})}>{idea.idea}</p>;
+};
+
 const Prompts: React.FC = () => {
-	const { animationMethod } = useAppSelector(state => state.generalSettings);
+	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
 	const { usedIds, hiddenTopics } = useAppSelector(state => state.writingPromptsSettings);
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [okIdeas, setOkIdeas] = useState<Any[]>([]);
 	const [usedIdeas, setUsedIdeas] = useState<Any[]>([]);
 	const [excludedIdeas, setExcludedIdeas] = useState<Any[]>([]);
@@ -70,6 +96,7 @@ const Prompts: React.FC = () => {
 	const [backgroundIcon, setBackgroundIcon] = useState<number>(Math.floor(Math.random() * 13) - 1);
 	const [backgroundIconAlternate, setBackgroundIconAlternate] = useState<number>(1);
 	const dispatch = useAppDispatch();
+	const [doAlert] = useIonAlert();
 
 	// Returns an idea. Also updates okIdeas and usedIdeas.
 	const makeIdea = (ideas: Any[], previouslyUsed = usedIdeas) => {
@@ -136,7 +163,7 @@ const Prompts: React.FC = () => {
 		const flags: HiddenTopicsArray = [];
 		while(topics.length > 0) {
 			const [prop, value] = topics.shift()!;
-			if(value) {
+			if(!value) {
 				flags.push(prop as keyof HiddenTopics);
 			}
 		}
@@ -194,6 +221,56 @@ const Prompts: React.FC = () => {
 		<IonPage>
 			<PageHeader title="Writing Prompts" />
 			<IonContent className="prompts">
+				<IonModal isOpen={modalOpen} onIonModalDidDismiss={() => setModalOpen(false)}>
+					<IonHeader>
+						<IonToolbar>
+							<IonTitle>Debug Info</IonTitle>
+							<IonButtons slot="end">
+								<IonButton slot="end" onClick={() => setModalOpen(false)}>
+									<IonIcon icon={closeCircleSharp} slot="icon-only" />
+								</IonButton>
+							</IonButtons>
+						</IonToolbar>
+					</IonHeader>
+					<IonContent>
+						<IonList lines="full">
+							<IonItemDivider>Settings</IonItemDivider>
+							{Object.entries(hiddenTopics).map(([prop, value]) => {
+								return (
+									<IonItem key={`hidden-topic-${prop}`}>
+										<IonLabel>{prop}</IonLabel>
+										<IonLabel slot="end">{value ? "true" : "false"}</IonLabel>
+									</IonItem>
+								);
+							})}
+							<IonItemDivider>State</IonItemDivider>
+							<IonItem>
+								<div>
+									<h2>Hidden Topics Array:</h2>
+									<p className="ion-text-wrap">{hiddenTags.join(", ")}</p>
+								</div>
+							</IonItem>
+							<IonItem>
+								<div>
+									<h2>Excluded:</h2>
+									{excludedIdeas.map(idea => <Expander key={`exclude-${idea.id}`} idea={idea} doAlert={doAlert} />)}
+								</div>
+							</IonItem>
+							<IonItem color="medium">
+								<div>
+									<h2>Ok:</h2>
+									{okIdeas.map(idea => <Expander key={`ok-${idea.id}`} idea={idea} doAlert={doAlert} />)}
+								</div>
+							</IonItem>
+							<IonItem>
+								<div>
+									<h2>Used:</h2>
+									{usedIdeas.map(idea => <Expander key={`used-${idea.id}`} idea={idea} doAlert={doAlert} />)}
+								</div>
+							</IonItem>
+						</IonList>
+					</IonContent>
+				</IonModal>
 				<IonList
 					lines="none"
 					className={`${baseClasses}${backgroundIcon}${alternateActive ? " hidden" : ""}`}
@@ -216,6 +293,16 @@ const Prompts: React.FC = () => {
 						<IonIcon icon={refresh} />
 					</IonFabButton>
 				</IonFab>
+				{
+					debug ?
+						<IonFab slot="fixed" horizontal="start" vertical="top">
+							<IonFabButton color="danger" onClick={() => setModalOpen(true)}>
+								<IonIcon icon={cogSharp} />
+							</IonFabButton>
+						</IonFab>
+					:
+						<></>
+				}
 			</IonContent>
 		</IonPage>
 	);

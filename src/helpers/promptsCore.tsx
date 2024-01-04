@@ -159,11 +159,11 @@ function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] }
 	const ideasToDisplay: string[] = [];
 	switch(combination) {
 		case "characteraction":
-			ideasToDisplay.push(`<${idea1}>${one.joiner}<${idea2}>`);
+			ideasToDisplay.push(`<${idea1}>${one.linkToAnAction}<${idea2}>`);
 			FLAGformat = "singleItem";
 			break;
 		case "actioncharacter":
-			ideasToDisplay.push(`<${idea2}>${two.joiner}<${idea1}>`);
+			ideasToDisplay.push(`<${idea2}>${two.linkToAnAction}<${idea1}>`);
 			FLAGformat = "singleItem";
 			break;
 		case "charactercharacter":

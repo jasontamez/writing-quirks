@@ -382,7 +382,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	},
 	{
 		id: "8b6f75be-8659-4e94-b153-6979dc781071",
-		idea: "glowing plutonium",
+		idea: "radioactive material",
 		modern: true,
 		humanDistress: true
 	},

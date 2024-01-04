@@ -68,6 +68,18 @@ ion-alert.warning button.cancel {
 	color: var(--ion-color-warning-contrast);
 }
 
+ion-alert.expanded .alert-wrapper {
+	--ion-text-color: var(--ion-color-primary-contrast);
+	background: var(--ion-color-primary);
+	background-clip: padding-box;
+	border: 5px double var(--ion-color-primary-tint);
+	border-radius: 1em;
+}
+ion-alert.expanded .alert-message {
+	color: var(--ion-color-primary-contrast);
+	white-space: pre-line;
+}
+
 /* Toasts */
 
 ion-toast::part(message) {

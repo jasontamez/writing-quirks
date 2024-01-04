@@ -64,7 +64,7 @@ export interface AnObject extends BasicIdea {
 
 export interface Character extends AnObject {
 	genderPossessive: string | false
-	joiner: string
+	linkToAnAction: string
 	realPerson: boolean
 	fictionalCharacter: boolean
 	monster?: boolean

@@ -5,8 +5,9 @@ ion-content.insults {
 }
 
 ion-content.insults ion-list.generatorOutput {
-	--windowHeight: calc(100vh - 56px - 56px);
-	--minDimiension: min(100vw, var(--windowHeight));
+	--windowHeight: calc(100vh - 56px - 56px - var(--ion-safe-area-top) - var(--ion-safe-area-bottom));
+	--windowWidth: calc(100vw - var(--ion-safe-area-left) - var(--ion-safe-area-right));
+	--minDimiension: min(var(--windowWidth), var(--windowHeight));
 	height: var(--minDimiension);
 	width: 100vw;
 	align-items: center;
@@ -32,7 +33,7 @@ ion-content.insults ion-list.generatorOutput.hidden {
 }
 
 ion-content.insults ion-list.generatorOutput ion-item ion-label {
-	font-size: clamp(12px, 7.5vh, 2rem);
+	font-size: clamp(12px, 6.5vh, 2rem);
 }
 
 ion-content.insults ion-list.generatorOutput ion-item,

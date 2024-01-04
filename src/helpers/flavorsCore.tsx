@@ -38,7 +38,7 @@ const adjectives: Adjective[] = [
 		adjective: "dusty"
 	},
 	{
-		adjective: "electric"
+		adjective: "electrified"
 	},
 	{
 		adjective: "flaming hot"
@@ -50,7 +50,7 @@ const adjectives: Adjective[] = [
 		adjective: "funny-tasting"
 	},
 	{
-		adjective: "gormet"
+		adjective: "gourmet"
 	},
 	{
 		adjective: "room-temperature"

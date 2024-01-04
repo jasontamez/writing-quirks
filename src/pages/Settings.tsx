@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
 	InputChangeEventDetail,
 	InputCustomEvent,
@@ -23,12 +23,12 @@ import {
 import { trashBin } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { AnimationMethod, setAnimationMethod } from '../store/generalSettingsSlice';
+import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
 import { HiddenTopics, clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSlice';
 import packageJson from '../../package.json';
 
 const Settings: React.FC = () => {
-	const { animationMethod } = useAppSelector(state => state.generalSettings);
+	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
 	const { memorySize = 500, hiddenTopics = {}, usedIds = [] } = useAppSelector(state => state.writingPromptsSettings) || {};
 	const {
 		profanity,
@@ -96,8 +96,9 @@ const Settings: React.FC = () => {
 		westAsia,
 		eastAsia
 	} = hiddenTopics;
+	const [debugCounter, setDebugCounter] = useState<number>(0);
 	const dispatch = useAppDispatch();
-	const [doToast] = useIonToast();
+	const [doToast, undoToast] = useIonToast();
 	const toggle = useCallback((prop: keyof HiddenTopics) => {
 		dispatch(toggleHiddenTopic(prop));
 	}, [dispatch]);
@@ -122,6 +123,19 @@ const Settings: React.FC = () => {
 		}
 		dispatch(setMemorySize(Math.floor(maybe)));
 	}, []);
+	const maybeDebug = () => {
+		if(debugCounter >= 6) {
+			setDebugCounter(0);
+			dispatch(toggleDebug());
+			undoToast().then(() => doToast({
+				message: debug ? "Toggling debug off" : "Toggling debug on",
+				position: "middle",
+				duration: 1500
+			}));
+			return;
+		}
+		setDebugCounter(debugCounter + 1);
+	};
 	return (
 		<IonPage>
 			<IonHeader>
@@ -734,7 +748,8 @@ const Settings: React.FC = () => {
 							<h2>Australia and Oceania</h2>
 						</IonToggle>
 					</IonItem>
-					<IonItemDivider>App Info</IonItemDivider>
+
+					<IonItemDivider className="major" onClick={maybeDebug}>App Info</IonItemDivider>
 					<IonItem className="version" lines="none">
 						<h2 className="ion-text-center ion-text-wrap">v.{packageJson.version}</h2>
 						<p className="ion-text-center ion-text-wrap">App icon incorporates pencil icon by <a href="https://www.flaticon.com/free-icons/pencil">Freepik - Flaticon</a>.</p>

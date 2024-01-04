@@ -26,7 +26,8 @@ export interface GeneralSettings {
 	animationMethod: AnimationMethod
 	favorites: FavoritesObject
 	reverseFavoritesSort: boolean
-	separateFavoritesByGenerator?: boolean
+	separateFavoritesByGenerator: boolean
+	debug: boolean
 }
 
 export const generalSettings: GeneralSettings = {
@@ -40,7 +41,8 @@ export const generalSettings: GeneralSettings = {
 		flavors: []
 	},
 	reverseFavoritesSort: false,
-	separateFavoritesByGenerator: true
+	separateFavoritesByGenerator: true,
+	debug: false
 };
 
 const generalSettingsSlice = createSlice({
@@ -73,6 +75,10 @@ const generalSettingsSlice = createSlice({
 		toggleSeparate: (state) => {
 			state.separateFavoritesByGenerator = !state.separateFavoritesByGenerator;
 			return state;
+		},
+		toggleDebug: (state) => {
+			state.debug = !state.debug;
+			return state;
 		}
 	}
 });
@@ -83,7 +89,8 @@ export const {
 	removeFavorite,
 	removeLastFavorite,
 	toggleSort,
-	toggleSeparate
+	toggleSeparate,
+	toggleDebug
 } = generalSettingsSlice.actions;
 
 export default generalSettingsSlice.reducer;

@@ -145,12 +145,16 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "bb586f1b-14fd-40de-a09f-9af002f18cb9",
 		idea: "a stabbing",
-		humanDistress: true
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
 	},
 	{
 		id: "5630d2d3-d3bd-4e02-95af-2c9a5510510a",
 		idea: "a gun going off",
-		humanDistress: true
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
 	},
 	{
 		id: "720c54b3-b765-4c43-9114-9f98f0b6e83c",
@@ -162,7 +166,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		mythsReligionsAndMetaphysics: true,
 		christianity: true,
 		humanDistress: true,
-		preposition: "being"
+		preposition: "being",
+		humanDeath: true
 	},
 	{
 		id: "2f4a713c-91c9-439a-8184-f4cac4c37cbf",

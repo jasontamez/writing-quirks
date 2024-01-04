@@ -230,7 +230,7 @@ const animateAdjectives = new Modifier({
 		"Gluttonous","Grumbling","Gutted","Happy","Honest","Hungry","Immortal","Insane","Joyful","Laughing",
 		"Lazy","Leprous","Lonely","Lost","Lucid","Mad","Mangy","Mended","Merry","Murdered","One-Eyed",
 		"One-Legged","Plastered","Playful","Poor","Pot-bellied","Prancing","Proud","Puking","Punching",
-		"Quick","Quiet","Rabid","Raging","Rambling","Rampaging","Randy","Rich","Running","Scared",
+		"Quick","Quiet","Rabid","Raging","Rambling","Rampaging","Randy","Rich","Rogue","Running","Scared",
 		"Screaming","Shambling","Silly","Singing","Skinny","Slaughtered","Sleeping","Sleepy","Slithering",
 		"Slow","Smiling","Snoring","Sorrowful","Stumbling","Stumpy","Suffering","Surly","Swaggering",
 		"Terrified","Thirsty","Tickled","Tipsy","Tired","Toothless","Toothy","Trotting","Voluptuous",
