@@ -1,11 +1,11 @@
-import { Action } from "./Ideas";
+import { Action, ActionBase, CoreIdea, TypedObject } from "./Ideas";
 
-const base = {
+const base: ActionBase & TypedObject = {
 	type: "action",
 	possessive: false,
 	genericPossessive: "one's"
 };
-const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
+const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "fbc9ae99-ed5f-42ef-9c37-abdebe367105",
 		idea: "digging"
@@ -288,7 +288,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "025cde24-bbc2-45b3-a5c0-59acf9bfd14f",
 		idea: "taking a shower with [THEIR] clothes still on",
-		possessive: true
+		possessive: true,
+		humanDistress: true
 	},
 	{
 		id: "0c509c24-abc7-4a71-a944-122ae312743e",
@@ -311,7 +312,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "4d8e978c-dc43-4e19-ba11-25c8eee99466",
-		idea: "spilling juice on a keyboard"
+		idea: "spilling juice on a keyboard",
+		modern: true
 	},
 	{
 		id: "4e5fc5c5-6386-471e-985f-c6bdbd7a9f46",
@@ -362,7 +364,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "1dc9f008-a7f1-4127-9932-1929372cc444",
-		idea: "being out of medication"
+		idea: "being out of medication",
+		humanDistress: true
 	},
 	{
 		id: "77a32621-f5a2-4ebb-9f96-2e161aa23b98",
@@ -387,7 +390,7 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "c24d45aa-a398-48b2-a029-7ec0dfc60aff",
-		idea: "getting [THEIR] hair did",
+		idea: "getting [THEIR] hair done",
 		possessive: true,
 		modern: true
 	},
@@ -460,7 +463,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "54abaf1a-0759-4f08-a56d-74ad6ceea546",
-		idea: "being at a loss for words"
+		idea: "being at a loss for words",
+		humanDistress: true
 	},
 	{
 		id: "25f2e4dc-4706-42e6-bd11-19b03617e38a",
@@ -526,7 +530,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "f413e61f-6646-46cf-8831-be6cdf191c4a",
 		idea: "faking a death",
-		humanDeath: true
+		humanDeath: true,
+		humanDistress: true
 	},
 	{
 		id: "e17aedcc-4b68-442e-9162-cefb183380d0",
@@ -560,7 +565,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "5c5e94a0-0cc0-41bd-b805-1f158b16e440",
-		idea: "bouncing a check"
+		idea: "overdrafting [THEIR] account",
+		possessive: true
 	},
 	{
 		id: "60490afd-b6ce-4840-adc7-3ea6eb60cbba",
@@ -583,7 +589,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "8a664803-a7d3-4913-9648-baa254d53085",
-		idea: "burning a bridge"
+		idea: "burning a bridge",
+		humanDistress: true
 	},
 	{
 		id: "84aae885-181a-4103-8fa0-d51d2eb6640c",
@@ -621,7 +628,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	{
 		id: "211ec8c5-6b82-480f-bdfd-251cf25d9950",
 		idea: "voting someone off the island",
-		humanDistress: true
+		humanDistress: true,
+		modern: true
 	},
 	{
 		id: "f0510971-daaa-465c-a0a6-a06ccb01f453",
@@ -780,11 +788,14 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "a614ff9b-34cd-47a4-93e2-2a7ed4835761",
-		idea: "not knowing what day it is"
+		idea: "not knowing what day it is",
+		humanDistress: true
 	},
 	{
 		id: "89b3cc66-2457-43dd-86d8-bac00486d1b7",
-		idea: "screeching"
+		idea: "screeching",
+		humanDistress: true,
+		animalDistress: true
 	},
 	{
 		id: "19041248-a878-4453-b624-69bf5a484e3a",
@@ -879,7 +890,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 		idea: "running from a killer",
 		humanDistress: true,
 		humanDeath: true,
-		humanDeathViolent: true
+		humanDeathViolent: true,
+		horror: true
 	},
 	{
 		id: "b8db6fc2-95e3-4cb3-ade1-016fdd030487",
@@ -994,7 +1006,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "e4da5361-666e-447a-b3fb-0dcfb5df6165",
-		idea: "feeling funny"
+		idea: "feeling funny",
+		humanDistress: true
 	},
 	{
 		id: "7aaf4139-7ace-4cd9-9eb3-d0d0852b2239",
@@ -1076,11 +1089,13 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "6212c2f4-7792-4641-afa6-93d23f30c8a1",
-		idea: "groaning"
+		idea: "groaning",
+		humanDistress: true
 	},
 	{
 		id: "f9ba52dd-57dd-45bd-b28d-4300bcb5a648",
-		idea: "falling down, unable to get back up"
+		idea: "falling down and being unable to get back up",
+		humanDistress: true
 	},
 	{
 		id: "9a963a6c-9b2a-47e0-ac58-c93d1856513d",
@@ -1142,7 +1157,8 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "6ba979f3-b9cc-4c77-a95d-c2cdccd3768c",
-		idea: "appearing on a quiz show"
+		idea: "appearing on a quiz show",
+		modern: true
 	},
 	{
 		id: "4a12d4d4-ecd7-44de-8c29-2113743a132d",
@@ -1154,11 +1170,13 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 	},
 	{
 		id: "05929083-d6b8-4cac-af8f-7fdd06568fc4",
-		idea: "being suspicious"
+		idea: "being suspicious",
+		humanDistress: true
 	},
 	{
 		id: "63c1da50-15d6-4643-99dd-ac0a26c4b70b",
-		idea: "acting out of character"
+		idea: "acting out of character",
+		humanDistress: true
 	},
 	{
 		id: "7fb42672-33a1-4d11-9af7-c71c2d5e7740",
@@ -1229,6 +1247,32 @@ const info: (Partial<Action> & Pick<Action, "id" | "idea">)[] = [
 		id: "2fd75082-ba4f-4823-80f2-30842b46b958",
 		idea: "asking someone out on on a date",
 		sexual: true
+	},
+	{
+		id: "ac53fb28-2b47-4366-b2aa-53b64daecf02",
+		idea: "working out"
+	},
+	{
+		id: "d821441a-d6a8-4eaf-91c5-c07e6f65def1",
+		idea: "building muscle"
+	},
+	{
+		id: "fa1f89cb-4cf6-413f-b09c-e16146d47619",
+		idea: "going on a diet"
+	},
+	{
+		id: "ed187aee-2000-4c96-8e4b-e8fb9887f7a9",
+		idea: "taking an IQ test"
+	},
+	{
+		id: "f2eed7e1-4e4d-400c-ac3b-d31563376870",
+		idea: "crossing the street"
+	},
+	{
+		id: "14c802f7-b49f-4144-a7dd-a86644b31669",
+		idea: "swearing at the top of [THEIR] lungs",
+		possessive: true,
+		genericPossessive: "your"
 	}
 ];
 

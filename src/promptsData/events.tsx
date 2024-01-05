@@ -1,12 +1,12 @@
-import { AnEvent } from "./Ideas";
+import { AnEvent, AnEventBase, CoreIdea, TypedObject } from "./Ideas";
 
-const base: (Partial<AnEvent> & Pick<AnEvent, "type" | "plural" | "nonPunctual" | "preposition">) = {
+const base: (AnEventBase & TypedObject) = {
 	type: "event",
 	plural: false,
 	nonPunctual: false,
 	preposition: "dealing with"
 };
-const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
+const info: (Partial<AnEvent> & CoreIdea)[] = [
 	{
 		id: "32a97ee4-45b6-4f52-985a-b96cb1f5963e",
 		idea: "a death in the family",
@@ -18,7 +18,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "c7c30e78-cdf8-4d9f-836c-86b48892392f",
 		idea: "a new baby",
-		nonPunctual: true
+		nonPunctual: true,
+		sexual: true
 	},
 	{
 		id: "c33740ea-c52f-411b-8553-1bbb0a923049",
@@ -61,12 +62,14 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "eab8ebdd-442a-43ea-b32f-897f69ec40f8",
 		idea: "menopause",
 		sexual: true,
-		nonPunctual: true
+		nonPunctual: true,
+		humanDistress: true
 	},
 	{
 		id: "bb78970d-b062-46dc-8506-aca9c8c34bdb",
 		idea: "an x-ray",
-		preposition: "getting"
+		preposition: "getting",
+		humanDistress: true
 	},
 	{
 		id: "de4c8ed0-f0ca-4273-af1f-9d682a60d519",
@@ -103,7 +106,9 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	},
 	{
 		id: "ff2a36ef-6b8d-47b9-ba8b-2525ce204d4d",
-		idea: "an alligator attack"
+		idea: "an alligator attack",
+		humanDistress: true,
+		animalDistress: true
 	},
 	{
 		id: "4fbfd471-eb9a-42f9-9ae5-1cd7db8c08ce",
@@ -158,7 +163,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	},
 	{
 		id: "720c54b3-b765-4c43-9114-9f98f0b6e83c",
-		idea: "a band breaking up"
+		idea: "a band breaking up",
+		humanDistress: true
 	},
 	{
 		id: "e395905b-e1dc-4d27-8e5d-666e282d9b05",
@@ -192,11 +198,14 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	},
 	{
 		id: "1bff6425-4b38-470b-883d-2efbea41813e",
-		idea: "a broken bone"
+		idea: "a broken bone",
+		humanDistress: true,
+		animalDistress: true
 	},
 	{
 		id: "f34b544a-51dd-4cd5-9bb7-6cfe42fb7b35",
-		idea: "a sprained ankle"
+		idea: "a sprained ankle",
+		humanDistress: true
 	},
 	{
 		id: "e36c5e57-9fbe-4e28-b443-31aa8f598b82",
@@ -250,7 +259,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	},
 	{
 		id: "8d070029-27fe-4c2f-895a-8ca1bb67034d",
-		idea: "a panicked phone call"
+		idea: "a panicked phone call",
+		humanDistress: true
 	},
 	{
 		id: "3eda659f-f259-49b6-8a04-13278f1c48bb",
@@ -369,7 +379,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	},
 	{
 		id: "cc3b4fa9-a780-4fc1-a5ba-367c4fd49ea1",
-		idea: "a wipeout"
+		idea: "a wipeout",
+		humanDistress: true
 	},
 	{
 		id: "30b82e12-8842-4daa-ae38-5ef4dd1aef37",
@@ -408,7 +419,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "465a55ce-2282-4da7-9841-175f96df23bd",
 		idea: "something growling in the night",
 		animalDistress: true,
-		humanDistress: true
+		humanDistress: true,
+		horror: true
 	},
 	{
 		id: "2f50af96-4a37-4916-b9ba-c7a0dade44fa",
@@ -452,7 +464,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "b3f57102-f248-4707-a5b1-5e9df5dab64c",
 		idea: "a call that is coming from inside of the house",
 		horror: true,
-		fairyTalesAndUrbanLegends: true
+		fairyTalesAndUrbanLegends: true,
+		humanDistress: true
 	},
 	{
 		id: "cc06d60a-aa03-4f68-8ba8-43bdbc9ea11c",
@@ -471,7 +484,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		id: "c566c514-2a9c-4cd2-ab18-3b3edef5ae06",
 		idea: "a love triangle",
 		humanDistress: true,
-		preposition: "caught in"
+		preposition: "caught in",
+		sexual: true
 	},
 	{
 		id: "dc774fe4-5753-4791-964d-861acc12336c",
@@ -480,7 +494,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	{
 		id: "eacbad91-4c83-4749-ac56-a8f5382bbd4b",
 		idea: "a chase",
-		preposition: "involved in"
+		preposition: "involved in",
+		humanDistress: true
 	},
 	{
 		id: "9092098f-1f18-469e-a1ce-7e59f26811f5",
@@ -488,7 +503,8 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 	},
 	{
 		id: "749a93de-9e25-48f5-9c47-66552f49c573",
-		idea: "a wide-awake nightmare"
+		idea: "a wide-awake nightmare",
+		humanDistress: true
 	},
 	{
 		id: "91ce62ec-3437-4303-94ae-b15a4248bc5d",
@@ -523,6 +539,27 @@ const info: (Partial<AnEvent> & Pick<AnEvent, "id" | "idea">)[] = [
 		idea: "an epic journey",
 		preposition: "having",
 		nonPunctual: true
+	},
+	{
+		id: "0dcf936e-71a1-4f20-ad0a-7a09b8845a28",
+		idea: "deep respect",
+		preposition: "experiencing"
+	},
+	{
+		id: "37689dab-848d-4c55-8fd6-cf03ddae8243",
+		idea: "a cliffhanger ending",
+		humanDistress: true
+	},
+	{
+		id: "1cf36eac-147e-4c9d-95a9-63b4536246c0",
+		idea: "uncontrollable crying",
+		humanDistress: true
+	},
+	{
+		id: "7c3a2bc1-0885-41a1-ac0e-d7456ca10f73",
+		idea: "objectification",
+		humanDistress: true,
+		sexual: true
 	}
 ];
 

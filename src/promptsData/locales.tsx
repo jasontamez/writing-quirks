@@ -1,11 +1,11 @@
-import { Locale } from "./Ideas";
+import { CoreIdea, Locale, LocaleBase, TypedObject } from "./Ideas";
 
-const base: (Partial<Locale> & Pick<Locale, "type" | "specific" | "preposition">) = {
+const base: (LocaleBase & TypedObject) = {
 	type: "locale",
 	specific: true,
 	preposition: "in"
 };
-const info: (Partial<Locale> & Pick<Locale, "id" | "idea">)[] = [
+const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "1ad76381-a303-4707-989b-92ddaa89c513",
 		idea: "Jamaica",
@@ -1302,6 +1302,41 @@ const info: (Partial<Locale> & Pick<Locale, "id" | "idea">)[] = [
 		specific: false,
 		smallSize: true,
 		fantasy: true
+	},
+	{
+		id: "29221b57-1aeb-453d-9bfe-803500fb2085",
+		idea: "a birthday party",
+		specific: false,
+		tinySize: true,
+		preposition: "at"
+	},
+	{
+		id: "b7d39dd1-e1bc-4301-92a8-82feff531935",
+		idea: "Ukraine",
+		mediumSize: true,
+		europe: true,
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
+	},
+	{
+		id: "8b1c0f6c-f7a7-40d0-80b9-c20fd214df36",
+		idea: "the gym",
+		tinySize: true,
+		construct: true,
+		specific: false,
+		preposition: "at"
+	},
+	{
+		id: "f3eac58d-6cd1-4511-84bd-ebcde9b7924d",
+		idea: "an open grave",
+		tinySize: true,
+		construct: true,
+		specific: false,
+		preposition: "next to",
+		horror: true,
+		humanDistress: true,
+		humanDeath: true
 	}
 ];
 

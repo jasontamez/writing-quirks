@@ -6,11 +6,18 @@ import objects from "./objects";
 import times from "./times";
 import topics from "./topics";
 
-export interface BasicIdea {
+export interface CoreIdea {
 	id: string
 	idea: string
-	type: string
+}
 
+export interface TypedObject {
+	type: "action" | "character" | "object" | "event" | "locale" | "time" | "topic"
+}
+
+type TypedIdea = CoreIdea & TypedObject;
+
+export interface BasicIdea extends TypedIdea {
 	profanity?: boolean
 
 	fantasy?: boolean
@@ -52,7 +59,7 @@ export interface BasicIdea {
 	modern?: boolean
 }
 
-export interface AnObject extends BasicIdea {
+export interface AnObjectBase {
 	min: number
 	max: number
 	rateBy: number | "incremental"
@@ -61,16 +68,18 @@ export interface AnObject extends BasicIdea {
 	article: string
 	numerals: boolean
 }
+export type AnObject = BasicIdea & AnObjectBase;
 
-export interface Character extends AnObject {
+export interface CharacterBase extends AnObjectBase {
 	genderPossessive: string | false
 	linkToAnAction: string
 	realPerson: boolean
 	fictionalCharacter: boolean
-	monster?: boolean
+	monster: boolean
 }
+export type Character = BasicIdea & CharacterBase;
 
-export interface Locale extends BasicIdea {
+export interface LocaleBase {
 	specific: boolean
 	preposition: string
 
@@ -90,21 +99,24 @@ export interface Locale extends BasicIdea {
 	westAsia?: boolean
 	eastAsia?: boolean
 }
+export type Locale = BasicIdea & LocaleBase;
 
-export interface AnEvent extends BasicIdea {
+export interface AnEventBase {
 	plural: boolean
 	nonPunctual: boolean
 	preposition: string
 }
+export type AnEvent = BasicIdea & AnEventBase;
 
 export interface Topic extends BasicIdea {}
 
 export interface ATime extends BasicIdea {}
 
-export interface Action extends BasicIdea {
+export interface ActionBase {
 	possessive: boolean
 	genericPossessive: string
 }
+export type Action = BasicIdea & ActionBase;
 
 export type Any =
 	BasicIdea
@@ -132,7 +144,8 @@ export const singleItemFormats: Format[] = [
 	["Topic: ", "."],
 	["Your new muse: ", "."],
 	["Consider ", "."],
-	["Ponder ", " and start writing."]
+	["Ponder ", " and start writing."],
+	["Brainstorm ways to put ", " in a story."]
 ];
 export const doubleItemFormats: Format[] = [
 	["Write about ", " and include ", "."],

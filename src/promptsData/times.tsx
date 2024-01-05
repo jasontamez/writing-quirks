@@ -1,9 +1,9 @@
-import { ATime } from "./Ideas";
+import { ATime, CoreIdea, TypedObject } from "./Ideas";
 
-const base: Pick<ATime, "type"> = {
+const base: TypedObject = {
 	type: "time"
 };
-const info: Omit<ATime, "type">[] = [
+const info: (Partial<ATime> & CoreIdea)[] = [
 	{
 		id: "6cc012a3-d66a-4d0b-8115-3765c55156d7",
 		idea: "on Christmas Eve",
@@ -140,7 +140,8 @@ const info: Omit<ATime, "type">[] = [
 		id: "a4ad3e08-2b66-4e0c-8d85-e1de2ebd7dda",
 		idea: "on Valentine's Day",
 		properName: true,
-		humanDistress: true
+		humanDistress: true,
+		sexual: true
 	},
 	{
 		id: "33c54d94-b739-43be-8cba-dc744bb12216",
@@ -181,6 +182,22 @@ const info: Omit<ATime, "type">[] = [
 	{
 		id: "9e65b509-3668-4b18-9f87-50305a8a9ad9",
 		idea: "on a very ordinary day"
+	},
+	{
+		id: "d4c9b328-dd03-43eb-bac5-ecd69d9c9ee7",
+		idea: "while the sun is still up"
+	},
+	{
+		id: "de6c56ab-5b9a-4e55-a468-287f1f78cb4c",
+		idea: "at sunset"
+	},
+	{
+		id: "b9338221-d8cc-44f2-b6cc-9f74ecb71546",
+		idea: "at sunrise"
+	},
+	{
+		id: "4c4f3a1d-9628-41b6-a4d4-4f99caaaa0f1",
+		idea: "after the sun has gone down"
 	}
 ];
 

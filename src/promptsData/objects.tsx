@@ -1,9 +1,6 @@
-import { AnObject } from "./Ideas";
+import { AnObject, AnObjectBase, CoreIdea, TypedObject } from "./Ideas";
 
-const base: (
-	Partial<AnObject>
-	& Pick<AnObject, "type" | "min" | "max" | "rateBy" | "rateFavorsLower" | "plural" | "article" | "numerals">
-) = {
+const base: (AnObjectBase & TypedObject) = {
 	type: "object",
 	min: 1,
 	max: 5,
@@ -13,7 +10,7 @@ const base: (
 	article: "a",
 	numerals: false
 };
-const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
+const info: (Partial<AnObject> & CoreIdea)[] = [
 	{
 		id: "da00a76a-3984-44a4-8893-c756471f0c97",
 		idea: "licorice"
@@ -2483,7 +2480,7 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 	},
 	{
 		id: "bd5c4dd5-e650-469c-876a-384313c105b8",
-		idea: "the number X",
+		idea: "the number 1",
 		plural: [
 			"the number ",
 			""
@@ -2491,6 +2488,10 @@ const info: (Partial<AnObject> & Pick<AnObject, "id" | "idea">)[] = [
 		min: 1,
 		max: 99,
 		rateFavorsLower: true
+	},
+	{
+		id: "db3a898b-ff58-488b-a8c5-4f329c0425e2",
+		idea: "a block of polished marble"
 	},
 ];
 

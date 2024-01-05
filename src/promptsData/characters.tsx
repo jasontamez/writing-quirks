@@ -1,13 +1,6 @@
-import { Character } from "./Ideas";
+import { Character, CharacterBase, CoreIdea, TypedObject } from "./Ideas";
 
-const base: (
-	Partial<Character>
-	& Pick<
-		Character,
-		"type" | "min" | "max" | "rateBy" | "rateFavorsLower" | "plural" | "article" | "numerals"
-		| "realPerson" | "genderPossessive" | "fictionalCharacter" | "linkToAnAction"
-	>
-) = {
+const base: (CharacterBase & TypedObject) = {
 	type: "character",
 	min: 1,
 	max: 5,
@@ -19,9 +12,10 @@ const base: (
 	realPerson: false,
 	genderPossessive: false,
 	fictionalCharacter: false,
+	monster: false,
 	linkToAnAction: " "
 };
-const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
+const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "1a6a5235-4ef2-470e-92b1-df081b3961f9",
 		idea: "dragon",
@@ -1489,6 +1483,30 @@ const info: (Partial<Character> & Pick<Character, "id" | "idea">)[] = [
 		max: 7,
 		rateFavorsLower: false,
 		rateBy: "incremental"
+	},
+	{
+		id: "ddd60090-18a8-4f33-b91b-38f27697fd47",
+		idea: "some dumbfuck",
+		plural: false,
+		linkToAnAction: " who is ",
+		profanity: true
+	},
+	{
+		id: "0cdf81fc-cd57-43ed-b3a0-f92a1e78a6ce",
+		idea: "an asshole",
+		plural: false,
+		linkToAnAction: " who is ",
+		profanity: true
+	},
+	{
+		id: "a9c6d84f-7238-418f-bd50-734dbf2a331d",
+		idea: "a mother",
+		plural: false
+	},
+	{
+		id: "3c97769e-d4be-4db6-9746-cb1df90c0fe5",
+		idea: "a father",
+		plural: false
 	}
 ];
 

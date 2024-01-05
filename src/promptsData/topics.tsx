@@ -1,9 +1,9 @@
-import { Topic } from "./Ideas";
+import { CoreIdea, Topic, TypedObject } from "./Ideas";
 
-const base: Pick<Topic, "type"> = {
+const base: TypedObject = {
 	type: "topic"
 };
-const info: Omit<Topic, "type">[] = [
+const info: (Partial<Topic> & CoreIdea)[] = [
 	{
 		id: "7d2c2fbe-b3c5-4a7f-9cf1-ebbad47bff47",
 		idea: "film noir"
@@ -521,7 +521,8 @@ const info: Omit<Topic, "type">[] = [
 	{
 		id: "d6c55995-25f5-439c-be7d-1355d6b1cbff",
 		idea: "a fad diet",
-		modern: true
+		modern: true,
+		humanDistress: true
 	},
 	{
 		id: "757dbfd9-5a5c-4e28-a8d7-705e2bd16990",
@@ -574,7 +575,7 @@ const info: Omit<Topic, "type">[] = [
 	},
 	{
 		id: "a84098fa-ad65-4b92-8636-ce7e89069101",
-		idea: "repetition"
+		idea: "mindless repetition"
 	},
 	{
 		id: "a426e1e7-057c-485b-a6df-d922e2d70ac3",
@@ -1424,6 +1425,21 @@ const info: Omit<Topic, "type">[] = [
 	{
 		id: "2366f2e0-868d-4462-89ce-90e41395cd16",
 		idea: "muscle memory"
+	},
+	{
+		id: "434af933-156c-4765-961a-2e938a1e9a05",
+		idea: "some stupid shit",
+		profanity: true
+	},
+	{
+		id: "a1a49391-df26-4db8-9fbe-07c1f58cd834",
+		idea: "pretending that a child is an adult",
+		humanDistress: true
+	},
+	{
+		id: "7974ac58-5c08-42d7-b2d8-da97d69aaf46",
+		idea: "a grave mistake",
+		humanDistress: true
 	}
 ];
 
