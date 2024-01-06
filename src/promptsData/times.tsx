@@ -50,7 +50,7 @@ const info: (Partial<ATime> & CoreIdea)[] = [
 		id: "5de0d3fa-af46-4c54-a6df-d062426da001",
 		idea: "at high noon",
 		properName: true,
-		historicalFiction: true,
+		historical: true,
 		western: true
 	},
 	{
@@ -85,7 +85,7 @@ const info: (Partial<ATime> & CoreIdea)[] = [
 	{
 		id: "40d0f760-81de-4744-8953-dc6f51a765a4",
 		idea: "during the Middle Ages",
-		historicalFiction: true
+		historical: true
 	},
 	{
 		id: "4cb17357-436b-4c5d-b171-d59080070a22",
@@ -113,7 +113,7 @@ const info: (Partial<ATime> & CoreIdea)[] = [
 	{
 		id: "9f714121-588d-4bcb-8966-df1631fa4291",
 		idea: "during prehistoric times",
-		historicalFiction: true
+		historical: true
 	},
 	{
 		id: "fd2e4070-4de1-4281-8009-c0b3d379e351",
@@ -198,6 +198,21 @@ const info: (Partial<ATime> & CoreIdea)[] = [
 	{
 		id: "4c4f3a1d-9628-41b6-a4d4-4f99caaaa0f1",
 		idea: "after the sun has gone down"
+	},
+	{
+		id: "c876288c-1116-4e9f-933c-3698ffb70d70",
+		idea: "during the Roman Empire",
+		historical: true,
+		roman: true
+	},
+	{
+		id: "cb9a1ca0-94e4-4b0c-afcf-348676e6ca4e",
+		idea: "on the Ides of March",
+		historical: true,
+		roman: true,
+		humanDeath: true,
+		humanDistress: true,
+		humanDeathViolent: true
 	}
 ];
 

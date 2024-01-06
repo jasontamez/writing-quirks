@@ -643,7 +643,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		id: "282bb059-06d5-46c2-94e8-8e544da77bbe",
 		idea: "a treasure chest",
 		fantasy: true,
-		historicalFiction: true
+		historical: true
 	},
 	{
 		id: "474647d2-358f-4aee-aece-e0e1c02cbb8f",
@@ -1486,7 +1486,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 	{
 		id: "f864b9a4-11b0-4a89-8d40-841a31067262",
 		idea: "pirate loot",
-		historicalFiction: true
+		historical: true
 	},
 	{
 		id: "259dd3e6-e7c6-4919-b286-ce867f131cd9",
@@ -2450,14 +2450,14 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		idea: "katana",
 		plural: "s",
 		max: 2,
-		historicalFiction: true,
+		historical: true,
 		samurai: true
 	},
 	{
 		id: "4c7db7d6-ab13-4f31-83ef-58b41caf06d7",
 		idea: "cherry blossoms",
 		plural: true,
-		historicalFiction: true,
+		historical: true,
 		samurai: true
 	},
 	{

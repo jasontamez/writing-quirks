@@ -123,7 +123,7 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		id: "bb2ba99a-27ec-498a-8624-db543986f84a",
 		idea: "a standoff, guns drawn",
 		western: true,
-		historicalFiction: true,
+		historical: true,
 		preposition: "in"
 	},
 	{
@@ -560,6 +560,15 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		idea: "objectification",
 		humanDistress: true,
 		sexual: true
+	},
+	{
+		id: "1acafc6b-faf3-42ce-9b68-5c0042cd1774",
+		idea: "a crucifixion",
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true,
+		historical: true,
+		roman: true
 	}
 ];
 

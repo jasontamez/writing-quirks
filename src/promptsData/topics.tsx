@@ -400,7 +400,7 @@ const info: (Partial<Topic> & CoreIdea)[] = [
 		idea: "Victorian values",
 		properName: true,
 		humanDistress: true,
-		historicalFiction: true
+		historical: true
 	},
 	{
 		id: "98a5a486-777d-4be4-831f-7180ca3426df",
@@ -1440,6 +1440,10 @@ const info: (Partial<Topic> & CoreIdea)[] = [
 		id: "7974ac58-5c08-42d7-b2d8-da97d69aaf46",
 		idea: "a grave mistake",
 		humanDistress: true
+	},
+	{
+		id: "234b37ef-62d2-4b23-a49b-babb522acec9",
+		idea: "the hula"
 	}
 ];
 

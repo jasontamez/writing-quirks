@@ -17,7 +17,7 @@ export interface TypedObject {
 
 type TypedIdea = CoreIdea & TypedObject;
 
-export interface BasicIdea extends TypedIdea {
+export interface BasicIdeaFlags {
 	profanity?: boolean
 
 	fantasy?: boolean
@@ -26,9 +26,10 @@ export interface BasicIdea extends TypedIdea {
 	fairyTalesAndUrbanLegends?: boolean
 	horror?: boolean
 
-	historicalFiction?: boolean
+	historical?: boolean
 	western?: boolean
 	samurai?: boolean
+	roman?: boolean
 
 	scifi?: boolean
 	spacefaring?: boolean
@@ -58,6 +59,7 @@ export interface BasicIdea extends TypedIdea {
 
 	modern?: boolean
 }
+export type BasicIdea = TypedIdea & BasicIdeaFlags;
 
 export interface AnObjectBase {
 	min: number
@@ -70,19 +72,20 @@ export interface AnObjectBase {
 }
 export type AnObject = BasicIdea & AnObjectBase;
 
-export interface CharacterBase extends AnObjectBase {
-	genderPossessive: string | false
-	linkToAnAction: string
+export interface CharacterFlags {
 	realPerson: boolean
 	fictionalCharacter: boolean
 	monster: boolean
 }
-export type Character = BasicIdea & CharacterBase;
+export interface CharacterProps extends AnObjectBase {
+	genderPossessive: string | false
+	linkToAnAction: string
+}
+export type CharacterBase = CharacterProps & CharacterFlags;
+export type Character = BasicIdea & CharacterBase ;
 
-export interface LocaleBase {
-	specific: boolean
-	preposition: string
-
+export interface LocaleFlags {
+	nonSpecific?: boolean
 	political?: boolean
 	geographical?: boolean
 	construct?: boolean
@@ -99,11 +102,16 @@ export interface LocaleBase {
 	westAsia?: boolean
 	eastAsia?: boolean
 }
+export interface LocaleBase extends LocaleFlags {
+	preposition: string
+}
 export type Locale = BasicIdea & LocaleBase;
 
-export interface AnEventBase {
-	plural: boolean
+export interface AnEventFlags {
 	nonPunctual: boolean
+}
+export interface AnEventBase extends AnEventFlags {
+	plural: boolean
 	preposition: string
 }
 export type AnEvent = BasicIdea & AnEventBase;
@@ -185,6 +193,7 @@ export const doubleCharacterFormats: Format[] = [
 	["Your tale begins with ", " and ends with ", "."]
 ];
 
+export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEventFlags & Required<LocaleFlags>;
 
 const ideas: Any[] = [
 	...characters,

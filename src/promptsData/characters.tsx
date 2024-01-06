@@ -150,6 +150,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Leonardo da Vinci",
 		properName: true,
 		plural: false,
+		historical: true,
 		genderPossessive: "his",
 		realPerson: true
 	},
@@ -268,6 +269,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Napoleon",
 		properName: true,
 		realPerson: true,
+		historical: true,
 		plural: false,
 		genderPossessive: "his"
 	},
@@ -276,6 +278,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "George Washington",
 		properName: true,
 		realPerson: true,
+		historical: true,
 		plural: false,
 		genderPossessive: "his"
 	},
@@ -284,6 +287,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Dr. Seuss",
 		properName: true,
 		realPerson: true,
+		historical: true,
 		plural: false,
 		genderPossessive: "his"
 	},
@@ -531,6 +535,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		realPerson: true,
 		plural: false,
+		historical: true,
 		genderPossessive: "his"
 	},
 	{
@@ -722,7 +727,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "cb249295-51cf-4811-a5f6-ba58062725fe",
 		idea: "a samurai",
-		historicalFiction: true,
+		historical: true,
 		samurai: true,
 		plural: false,
 		genderPossessive: "his"
@@ -730,7 +735,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "15a8307d-1c19-4436-b347-68d5e16b725d",
 		idea: "a gunslinger",
-		historicalFiction: true,
+		historical: true,
 		western: true,
 		plural: false
 	},
@@ -768,14 +773,14 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "25b29691-0668-4fb4-b325-4b9eb20805a7",
 		idea: "an outlaw",
-		historicalFiction: true,
+		historical: true,
 		western: true,
 		plural: false
 	},
 	{
 		id: "d41a381a-4d31-4a8a-9e36-e30b7804ca9c",
 		idea: "a swashbuckler",
-		historicalFiction: true,
+		historical: true,
 		plural: false
 	},
 	{
@@ -846,7 +851,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "8468e93b-d96c-4002-8aab-93488e96d34f",
 		idea: "scarab beetles",
-		historicalFiction: true,
+		historical: true,
 		horror: true,
 		plural: true
 	},
@@ -1119,6 +1124,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
+		historical: true,
 		realPerson: true,
 		plural: false,
 		genderPossessive: "his",
@@ -1129,6 +1135,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Marie Curie",
 		realPerson: true,
 		plural: false,
+		historical: true,
 		properName: true,
 		genderPossessive: "her"
 	},
@@ -1164,6 +1171,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		humanDeath: true,
 		humanDeathViolent: true,
+		historical: true,
 		plural: false,
 		humanDistress: true,
 		genderPossessive: "her"
@@ -1194,6 +1202,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Julia Child",
 		realPerson: true,
 		plural: false,
+		historical: true,
 		properName: true,
 		genderPossessive: "her"
 	},
@@ -1202,6 +1211,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Queen Victoria",
 		realPerson: true,
 		plural: false,
+		historical: true,
 		properName: true,
 		genderPossessive: "her"
 	},
@@ -1211,6 +1221,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
+		historical: true,
+		roman: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1218,6 +1230,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Eleanor Roosevelt",
 		realPerson: true,
 		plural: false,
+		historical: true,
 		properName: true,
 		genderPossessive: "her"
 	},
@@ -1227,6 +1240,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
+		historical: true,
 		humanDeath: true,
 		genderPossessive: "her"
 	},
@@ -1237,6 +1251,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		humanDeath: true,
 		humanDeathViolent: true,
+		historical: true,
 		plural: false,
 		humanDistress: true,
 		genderPossessive: "her"
@@ -1247,6 +1262,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1256,6 +1272,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		properName: true,
 		humanDistress: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1264,6 +1281,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1273,6 +1291,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		properName: true,
 		humanDistress: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1284,6 +1303,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1292,6 +1312,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1300,6 +1321,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
+		historical: true,
 		genderPossessive: "her"
 	},
 	{
@@ -1507,6 +1529,34 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "3c97769e-d4be-4db6-9746-cb1df90c0fe5",
 		idea: "a father",
 		plural: false
+	},
+	{
+		id: "ac40f9da-5c1a-4975-ac45-3757f3acda87",
+		idea: "a gladiator",
+		plural: false,
+		historical: true,
+		roman: true
+	},
+	{
+		id: "789e5674-e0ab-4008-ad91-513af8d69857",
+		idea: "Julius Caesar",
+		plural: false,
+		historical: true,
+		roman: true
+	},
+	{
+		id: "00ad15e7-69c9-4eb1-8b05-999c51caeb5e",
+		idea: "Homer Simpson",
+		plural: false,
+		fictionalCharacter: true,
+		modern: true
+	},
+	{
+		id: "223533c3-0522-40da-a3ab-e370141e05b7",
+		idea: "Ru Paul",
+		plural: false,
+		realPerson: true,
+		modern: true
 	}
 ];
 

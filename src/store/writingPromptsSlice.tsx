@@ -1,77 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface HiddenTopics {
-	// General
-	profanity: boolean
-
-	sexual: boolean
-
-	modern: boolean
-
-	fantasy: boolean
-	medievalFantasy: boolean
-	superhero: boolean
-	fairyTalesAndUrbanLegends: boolean
-	horror: boolean
-
-	historicalFiction: boolean
-	western: boolean
-	samurai: boolean
-
-	scifi: boolean
-	spacefaring: boolean
-
-	properName: boolean
-
-	mythsReligionsAndMetaphysics: boolean
-	judaism: boolean
-	christianity: boolean
-	islam: boolean
-	greekRomanMyth: boolean
-	metaphysics: boolean
-
-	illicitSubstances: boolean
-	alcohol: boolean
-	tobacco: boolean
-
-	humanDistress: boolean
-	humanDeath: boolean
-	humanDeathNatural: boolean
-	humanDeathViolent: boolean
-
-	animalDistress: boolean
-	animalDeath: boolean
-
-	// Events
-	nonPunctual: boolean
-
-	// Characters
-	realPerson: boolean
-	fictionalCharacter: boolean
-	monster: boolean
-
-	// Locale
-	political: boolean
-	geographical: boolean
-	construct: boolean
-
-	largeSize: boolean
-	mediumSize: boolean
-	smallSize: boolean
-	tinySize: boolean
-
-	americas: boolean
-	europe: boolean
-	africa: boolean
-	oceania: boolean
-	westAsia: boolean
-	eastAsia: boolean
-}
+import { IdeaFlagsObject } from '../promptsData/Ideas';
 
 export interface WritingPromptsSettings {
 	usedIds: string[]
 	memorySize: number
-	hiddenTopics: HiddenTopics
+	hiddenTopics: IdeaFlagsObject
 }
 
 export const writingPromptsSettings: WritingPromptsSettings = {
@@ -90,9 +23,10 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		fairyTalesAndUrbanLegends: true,
 		horror: true,
 	
-		historicalFiction: true,
+		historical: true,
 		western: true,
 		samurai: true,
+		roman: true,
 	
 		scifi: true,
 		spacefaring: true,
@@ -127,6 +61,7 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		monster: true,
 	
 		// Locale
+		nonSpecific: true,
 		political: true,
 		geographical: true,
 		construct: true,
@@ -173,7 +108,7 @@ const writingPromptsSlice = createSlice({
 			state.memorySize = payload;
 			return state;
 		},
-		toggleHiddenTopic: (state, action: PayloadAction<keyof HiddenTopics>) => {
+		toggleHiddenTopic: (state, action: PayloadAction<keyof IdeaFlagsObject>) => {
 			const { payload } = action;
 			state.hiddenTopics[payload] = !state.hiddenTopics[payload];
 			return state;

@@ -2,7 +2,6 @@ import { CoreIdea, Locale, LocaleBase, TypedObject } from "./Ideas";
 
 const base: (LocaleBase & TypedObject) = {
 	type: "locale",
-	specific: true,
 	preposition: "in"
 };
 const info: (Partial<Locale> & CoreIdea)[] = [
@@ -28,7 +27,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "a beaver dam",
 		americas: true,
 		preposition: "by",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -44,7 +43,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "242a9c88-4691-4c42-a377-a0bb91e35976",
 		idea: "an igloo",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -68,7 +67,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "79e24848-55e1-4412-a837-de9e4d8becb5",
 		idea: "a dome",
 		preposition: "inside",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -101,7 +100,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "3c1e5fe6-b4b6-49ff-a2e2-076cc42ab3ba",
 		idea: "a large newspaper",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -111,7 +110,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		preposition: "on",
 		fantasy: true,
 		horror: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		smallSize: true
 	},
@@ -149,7 +148,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "a8209700-e479-41df-9093-cbf600ffcb50",
 		idea: "a temple",
 		mythsReligionsAndMetaphysics: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -157,7 +156,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "f0f4b25a-891d-4c07-93f2-4e6f0d0de9e2",
 		idea: "a boat on land",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -235,7 +234,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "ea11944d-c18c-437f-a2fd-39bfe80e9023",
 		idea: "a hammock",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -276,7 +275,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "be5275f7-a7d7-4473-8334-d4d118bf9635",
 		idea: "a brick road",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -284,20 +283,20 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "92bb04f6-0ec1-4280-b197-482e19b50fac",
 		idea: "a city on fire",
 		humanDistress: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		smallSize: true
 	},
 	{
 		id: "31c2e6f7-1575-44a4-80e4-af5a5a367b03",
 		idea: "a famous birthplace",
-		specific: false,
+		nonSpecific: true,
 		smallSize: true
 	},
 	{
 		id: "7b5b6860-b4d3-43e8-bbf0-fea96e31d6fc",
 		idea: "a rainy forest",
-		specific: false,
+		nonSpecific: true,
 		geographical: true,
 		smallSize: true
 	},
@@ -307,7 +306,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		preposition: "near",
 		scifi: true,
 		spacefaring: true,
-		specific: false,
+		nonSpecific: true,
 		geographical: true,
 		tinySize: true
 	},
@@ -315,7 +314,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "7aacedc8-d207-493a-b1d4-b0feec189a82",
 		idea: "a circus tent",
 		preposition: "under",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -374,7 +373,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "73471c43-1c61-42ed-b90a-c6d3432985b8",
 		idea: "a train platform",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -425,14 +424,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "e70cfc8d-7b06-4dbb-b735-0b61faeeab76",
 		idea: "a country club",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "b0100eb6-9324-4339-8226-7b219744d5b0",
 		idea: "a crib",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -441,7 +440,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "a cathedral",
 		mythsReligionsAndMetaphysics: true,
 		christianity: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -456,14 +455,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "77513018-8f18-41ae-a474-340ee840adc3",
 		idea: "a country no one has heard of",
-		specific: false,
+		nonSpecific: true,
 		political: true,
 		smallSize: true
 	},
 	{
 		id: "ec592382-e17b-49de-9104-67e62c15460b",
 		idea: "a courtroom",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -471,14 +470,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "7f637766-c525-4594-ba9e-0dfbca6596b2",
 		idea: "a farm",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "3f2ef1e9-fe62-47ab-aaee-bc9b57ca41bf",
 		idea: "a cave",
-		specific: false,
+		nonSpecific: true,
 		geographical: true,
 		smallSize: true
 	},
@@ -486,14 +485,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "9f9f31fe-b31a-4b79-a618-83856776ab83",
 		idea: "a condo",
 		modern: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "2b3b0313-49b0-4cce-a5a3-e9e5c29c1aac",
 		idea: "an apartment",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -501,7 +500,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "b7cb3019-7c3e-45ac-b310-8982b38f79e6",
 		idea: "a duplex",
 		modern: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -509,7 +508,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "962bce48-e7c9-4def-a6cc-dc73d5477fda",
 		idea: "a mobile home",
 		modern: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -518,7 +517,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "a Winnebago",
 		properName: true,
 		modern: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -526,7 +525,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "6b15f678-ec89-4884-8cc1-eeb4d1d80d1b",
 		idea: "a houseboat",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -534,21 +533,21 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "52c4d61b-f30b-450d-af29-108c246a795f",
 		idea: "a yacht",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "dc67c573-a4cf-4152-ab9f-61e0b6d48951",
 		idea: "a doghouse",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "299bebab-79f1-44c8-ad04-c5c1cdd60156",
 		idea: "a shack in the woods",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -556,7 +555,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "9853707e-c279-4b2a-8dcf-adef51a5556d",
 		idea: "within an underpass",
 		preposition: "beneath",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -566,7 +565,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		preposition: "at",
 		properName: true,
 		modern: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -574,7 +573,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "8993a33a-8ffc-4326-b73f-054ea57ec152",
 		idea: "a ferris wheel",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -582,7 +581,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "cc50ed2c-4a25-47a2-94f9-32750bc88ea6",
 		idea: "a submarine",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -590,7 +589,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "b2696a21-268e-4e09-a740-dfea4c564336",
 		idea: "grandmother's mansion",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -598,7 +597,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "6ca92ab9-54e1-48e6-aabd-d5fb34e71572",
 		idea: "a fork in the road",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -607,14 +606,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "a crippled plane",
 		preposition: "on",
 		humanDistress: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "e4b6dfa4-7f18-4cdc-8daa-217f08496b0c",
 		idea: "an empire",
-		specific: false,
+		nonSpecific: true,
 		political: true,
 		mediumSize: true
 	},
@@ -631,7 +630,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "e111c780-7f74-49fb-96d9-cc2d814459b4",
 		idea: "the post office",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -639,13 +638,13 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "f5cbc5db-5fa5-495c-a075-668ee46f559a",
 		idea: "far away",
 		preposition: "somewhere",
-		specific: false,
+		nonSpecific: true,
 		geographical: true
 	},
 	{
 		id: "36c81ce5-e493-425b-9541-b67543225413",
 		idea: "an empty tower",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -653,7 +652,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "d8b4035c-9073-44ac-b52f-733ab76b48a0",
 		idea: "a laundromat",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -661,7 +660,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "c9ec1809-bf31-4048-af73-97da97fce303",
 		idea: "a mountain peak",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		geographical: true,
 		smallSize: true
 	},
@@ -669,7 +668,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "7d261606-202e-4c4f-933e-ff034c6f52bf",
 		idea: "an ancient cemetery",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -691,7 +690,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		properName: true,
 		europe: true,
 		westAsia: true,
-		historicalFiction: true,
+		historical: true,
 		tinySize: true
 	},
 	{
@@ -699,6 +698,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "the Taj Mahal",
 		preposition: "at",
 		properName: true,
+		historical: true,
 		westAsia: true,
 		tinySize: true
 	},
@@ -766,7 +766,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "the World Cup",
 		preposition: "at",
 		properName: true,
-		specific: false,
+		nonSpecific: true,
 		smallSize: true
 	},
 	{
@@ -780,7 +780,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "55bea60a-767b-4b34-8ecf-5a55b3a7e506",
 		idea: "a carnival",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -788,7 +788,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "587740f3-c0b7-47dd-9d49-0d89359694ef",
 		idea: "a haunted house",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -827,7 +827,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "e7704920-8e55-4b38-8087-ecb859d4b1d3",
 		idea: "the middle of nowhere",
-		specific: false,
+		nonSpecific: true,
 		geographical: true
 	},
 	{
@@ -879,7 +879,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "5d9001f2-efd4-433e-a95c-1d7bd7bf1385",
 		idea: "a plateau",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		geographical: true,
 		mediumSize: true
 	},
@@ -889,7 +889,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		preposition: "by",
 		humanDistress: true,
 		humanDeath: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -897,7 +897,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "5f87a43d-a3f5-4a74-ba8a-32304bedc1c2",
 		idea: "a river",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		geographical: true,
 		mediumSize: true
 	},
@@ -912,7 +912,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "b2057a79-5393-4c7d-8106-834e1b898d2c",
 		idea: "a maze of corridors, all alike",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -920,7 +920,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "980af9e5-2ba7-4286-92a0-18c266dbcf2a",
 		idea: "a painted pathway",
 		preposition: "on",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
@@ -929,7 +929,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "a better place",
 		mythsReligionsAndMetaphysics: true,
 		christianity: true,
-		specific: false,
+		nonSpecific: true,
 		construct: true
 	},
 	{
@@ -1063,7 +1063,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		preposition: "at",
 		properName: true,
 		americas: true,
-		specific: false,
+		nonSpecific: true,
 		smallSize: true
 	},
 	{
@@ -1077,35 +1077,35 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "435cce17-0130-4b89-a322-0187926cba81",
 		idea: "a bedroom",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "2b996a92-90ad-430e-bc65-c4de25ab217d",
 		idea: "a bathroom",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "9dc8c9c7-6769-4f47-8753-4cd5cf065d25",
 		idea: "a wedding",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "d9c724b4-0f2b-4445-82d0-a9891d27cfb3",
 		idea: "an ancient kingdom",
-		specific: false,
+		nonSpecific: true,
 		political: true,
 		smallSize: true
 	},
 	{
 		id: "8383deb4-b6c9-4756-81b3-4a3325c9074d",
 		idea: "a gas station",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true,
 		preposition: "at"
 	},
@@ -1129,14 +1129,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		christianity: true,
 		fantasy: true,
 		medievalFantasy: true,
-		historicalFiction: true
+		historical: true
 	},
 	{
 		id: "ed1ed1bf-4caf-4bf4-8038-903bd18a4f02",
 		idea: "the market",
 		preposition: "at",
 		tinySize: true,
-		specific: false
+		nonSpecific: true
 	},
 	{
 		id: "1a7d13ae-2113-44d0-860b-7c8ea96ec202",
@@ -1149,13 +1149,13 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "39639b1d-339f-4680-9d64-7084e7295f38",
 		idea: "a day-care center",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true
 	},
 	{
 		id: "6b300484-f0ef-4001-a718-f7e55db01d30",
 		idea: "a nursery",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true
 	},
 	{
@@ -1168,14 +1168,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "f0e1a0c8-f949-47c2-9280-b4fce895a900",
 		idea: "a wide, empty desert",
-		specific: false,
+		nonSpecific: true,
 		smallSize: true,
 		preposition: "lost in"
 	},
 	{
 		id: "434844c3-bfe5-4541-aba1-5dacea6b42b0",
 		idea: "the second house on the right",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true,
 		preposition: "at"
 	},
@@ -1223,20 +1223,20 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "831749a0-3e33-4b64-92e1-c4b895d4d2f5",
 		idea: "a woodland mansion",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		construct: true,
 		tinySize: true
 	},
 	{
 		id: "bae22de2-2499-48c0-97d0-c099a2eb17f2",
 		idea: "a dark forest",
-		specific: false,
+		nonSpecific: true,
 		smallSize: true
 	},
 	{
 		id: "d7022ff5-e702-485a-94e3-253c968f9518",
 		idea: "a wasteland",
-		specific: false,
+		nonSpecific: true,
 		smallSize: true,
 		humanDistress: true,
 		humanDeath: true,
@@ -1254,7 +1254,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		id: "5967b3af-0969-42bb-a391-58e782492917",
 		idea: "a duck pond",
 		preposition: "at",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true
 	},
 	{
@@ -1268,21 +1268,21 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "e77425dd-1dc3-450a-8cc7-59e3de156f86",
 		idea: "a bank",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true,
 		construct: true
 	},
 	{
 		id: "528415a8-a35a-463c-bfb5-ea7819ecbdda",
 		idea: "a stable",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true,
 		construct: true
 	},
 	{
 		id: "f60080fd-b217-47e0-965c-ea8e63ac1b02",
 		idea: "along the Mississippi River",
-		specific: false,
+		nonSpecific: true,
 		mediumSize: true,
 		geographical: true,
 		properName: true,
@@ -1291,7 +1291,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "2d8f36cf-e8f0-426b-b3df-b64046d19784",
 		idea: "a golf course",
-		specific: false,
+		nonSpecific: true,
 		smallSize: true,
 		construct: true,
 		preposition: "on"
@@ -1299,14 +1299,14 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "54ae5576-89c2-4f08-bfa6-1625a05a2d47",
 		idea: "a city of fungus",
-		specific: false,
+		nonSpecific: true,
 		smallSize: true,
 		fantasy: true
 	},
 	{
 		id: "29221b57-1aeb-453d-9bfe-803500fb2085",
 		idea: "a birthday party",
-		specific: false,
+		nonSpecific: true,
 		tinySize: true,
 		preposition: "at"
 	},
@@ -1324,7 +1324,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "the gym",
 		tinySize: true,
 		construct: true,
-		specific: false,
+		nonSpecific: true,
 		preposition: "at"
 	},
 	{
@@ -1332,11 +1332,21 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "an open grave",
 		tinySize: true,
 		construct: true,
-		specific: false,
+		nonSpecific: true,
 		preposition: "next to",
 		horror: true,
 		humanDistress: true,
 		humanDeath: true
+	},
+	{
+		id: "f3eac58d-6cd1-4511-84bd-ebcde9b7924d",
+		idea: "the Colosseum",
+		tinySize: true,
+		construct: true,
+		humanDistress: true,
+		humanDeath: true,
+		historical: true,
+		roman: true
 	}
 ];
 

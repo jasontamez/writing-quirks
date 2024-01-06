@@ -13,9 +13,10 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "cccac651-fb5b-4b4f-8e1c-f3b988dfab8b",
 		idea: "fighting with swords",
-		historicalFiction: true,
+		historical: true,
 		fantasy: true,
 		medievalFantasy: true,
+		roman: true,
 		humanDeath: true,
 		humanDeathViolent: true,
 		humanDistress: true
@@ -355,7 +356,7 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "daf14afe-c269-481b-8798-bf15654ce0de",
 		idea: "riding off into the sunset",
-		historicalFiction: true,
+		historical: true,
 		western: true
 	},
 	{
@@ -469,7 +470,7 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "25f2e4dc-4706-42e6-bd11-19b03617e38a",
 		idea: "throwing a hand axe",
-		historicalFiction: true,
+		historical: true,
 		western: true
 	},
 	{
@@ -1273,6 +1274,11 @@ const info: (Partial<Action> & CoreIdea)[] = [
 		idea: "swearing at the top of [THEIR] lungs",
 		possessive: true,
 		genericPossessive: "your"
+	},
+	{
+		id: "9ca0fbfb-24e9-4d37-96d6-6c5028bd6911",
+		idea: "dressing in drag",
+		sexual: true
 	}
 ];
 

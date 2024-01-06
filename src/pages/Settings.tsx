@@ -24,7 +24,8 @@ import { trashBin } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
-import { HiddenTopics, clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSlice';
+import { clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSlice';
+import { IdeaFlagsObject } from '../promptsData/Ideas';
 import packageJson from '../../package.json';
 
 const Settings: React.FC = () => {
@@ -43,9 +44,10 @@ const Settings: React.FC = () => {
 		fairyTalesAndUrbanLegends,
 		horror,
 
-		historicalFiction,
+		historical,
 		western,
 		samurai,
+		roman,
 
 		scifi,
 		spacefaring,
@@ -80,6 +82,7 @@ const Settings: React.FC = () => {
 		monster,
 
 		// Locale
+		nonSpecific,
 		political,
 		geographical,
 		construct,
@@ -99,7 +102,7 @@ const Settings: React.FC = () => {
 	const [debugCounter, setDebugCounter] = useState<number>(0);
 	const dispatch = useAppDispatch();
 	const [doToast, undoToast] = useIonToast();
-	const toggle = useCallback((prop: keyof HiddenTopics) => {
+	const toggle = useCallback((prop: keyof IdeaFlagsObject) => {
 		dispatch(toggleHiddenTopic(prop));
 	}, [dispatch]);
 	const maybeSetMemorySize = useCallback((e: InputCustomEvent<InputChangeEventDetail>) => {
@@ -386,29 +389,41 @@ const Settings: React.FC = () => {
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={historicalFiction}
-							onClick={() => toggle("historicalFiction")}
+							checked={historical}
+							onClick={() => toggle("historical")}
 						>
-							<h2>Historical Fiction</h2>
+							<h2>Historical Events</h2>
+							<p>Includes people, locations, activities, etc. that were prominent in the distant past but are no longer prominent today.</p>
 						</IonToggle>
 					</IonItem>
 					<IonItem className="subtype">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={historicalFiction && western}
-							disabled={!historicalFiction}
+							checked={historical && western}
+							disabled={!historical}
 							onClick={() => toggle("western")}
 						>
 							<h2>The Old West</h2>
+						</IonToggle>
+					</IonItem>
+					<IonItem className="subtype">
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={historical && roman}
+							disabled={!historical}
+							onClick={() => toggle("roman")}
+						>
+							<h2>The Roman Empire</h2>
 						</IonToggle>
 					</IonItem>
 					<IonItem lines="full" className="subtype">
 						<IonToggle
 							labelPlacement="start"
 							enableOnOffLabels
-							checked={historicalFiction && samurai}
-							disabled={!historicalFiction}
+							checked={historical && samurai}
+							disabled={!historical}
 							onClick={() => toggle("samurai")}
 						>
 							<h2>Japanese Feudalism</h2>
@@ -447,7 +462,7 @@ const Settings: React.FC = () => {
 							onClick={() => toggle("modern")}
 						>
 							<h2>Modern</h2>
-							<p>Things that primarily took place or rose to prominence since the mid-20th century</p>
+							<p>Things that primarily took place or rose to prominence since the mid-20th century.</p>
 						</IonToggle>
 					</IonItem>
 
@@ -609,6 +624,17 @@ const Settings: React.FC = () => {
 					</IonItem>
 
 					<IonItemDivider>Locations</IonItemDivider>
+					<IonItem>
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={nonSpecific}
+							onClick={() => toggle("nonSpecific")}
+						>
+							<h2>Non-specific Locations</h2>
+							<p>A busy intersection, a board meeting, a coffee shop, e.g.</p>
+						</IonToggle>
+					</IonItem>
 					<IonItem>
 						<IonToggle
 							labelPlacement="start"

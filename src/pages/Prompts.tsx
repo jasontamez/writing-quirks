@@ -23,17 +23,17 @@ import {
 import { closeCircleSharp, cogSharp, refresh } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { HiddenTopics, saveUsedIdeas } from '../store/writingPromptsSlice';
+import { saveUsedIdeas } from '../store/writingPromptsSlice';
 import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import getIdeaString from '../helpers/promptsCore';
 import getRandom from '../helpers/getRandom';
-import rawIdeas, { Any } from "../promptsData/Ideas";
+import rawIdeas, { Any, IdeaFlagsObject } from "../promptsData/Ideas";
 import './Prompts.css';
 
-type HiddenTopicsArray = (keyof HiddenTopics)[];
+type IdeaFlagsObjectArray = (keyof IdeaFlagsObject)[];
 
-const filterIdeas = (usedIds: string[], flags: HiddenTopicsArray, ideas = rawIdeas) => {
+const filterIdeas = (usedIds: string[], flags: IdeaFlagsObjectArray, ideas = rawIdeas) => {
 	const i: Any[] = []; // included
 	const e: Any[] = []; // excluded (hidden)
 	const u: Any[] = []; // used
@@ -53,7 +53,7 @@ const filterIdeas = (usedIds: string[], flags: HiddenTopicsArray, ideas = rawIde
 	return [i, u, e];
 };
 
-const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: HiddenTopicsArray) => {
+const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: IdeaFlagsObjectArray) => {
 	const toRestore: Any[] = [];
 	const copyOfUsedIdeas = usedIdeas.slice();
 	const firstInNewUsedList = usedIds[0];
@@ -88,7 +88,7 @@ const Prompts: React.FC = () => {
 	const [okIdeas, setOkIdeas] = useState<Any[]>([]);
 	const [usedIdeas, setUsedIdeas] = useState<Any[]>([]);
 	const [excludedIdeas, setExcludedIdeas] = useState<Any[]>([]);
-	const [hiddenTags, setHiddenTags] = useState<HiddenTopicsArray>([]);
+	const [hiddenTags, setHiddenTags] = useState<IdeaFlagsObjectArray>([]);
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 	const [currentIdeaString, setCurrentIdeaString] = useState<string>("");
 	const [ideaShown, setIdeaShown] = useState<ReactElement>(<></>);
@@ -160,11 +160,11 @@ const Prompts: React.FC = () => {
 		}
 		// Construct list of topics we don't want to see.
 		const topics = Object.entries(hiddenTopics);
-		const flags: HiddenTopicsArray = [];
+		const flags: IdeaFlagsObjectArray = [];
 		while(topics.length > 0) {
 			const [prop, value] = topics.shift()!;
 			if(!value) {
-				flags.push(prop as keyof HiddenTopics);
+				flags.push(prop as keyof IdeaFlagsObject);
 			}
 		}
 		// Find the list of ok ideas
