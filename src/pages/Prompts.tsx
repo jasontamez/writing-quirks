@@ -23,7 +23,7 @@ import {
 import { closeCircleSharp, cogSharp, refresh } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { saveUsedIdeas } from '../store/writingPromptsSlice';
+import { saveUsedIdeas } from '../store/writingPromptsSettingsSlice';
 import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import getIdeaString from '../helpers/promptsCore';

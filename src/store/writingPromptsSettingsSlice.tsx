@@ -87,7 +87,7 @@ const trimIdeas = (ideas: string[], max: number) => {
 	return ideas;
 };
 
-const writingPromptsSlice = createSlice({
+const writingPromptsSettingsSlice = createSlice({
 	name: 'writingPromptsSettings',
 	initialState: writingPromptsSettings,
 	reducers: {
@@ -121,6 +121,6 @@ export const {
 	clearUsedIdeas,
 	setMemorySize,
 	toggleHiddenTopic
-} = writingPromptsSlice.actions;
+} = writingPromptsSettingsSlice.actions;
 
-export default writingPromptsSlice.reducer;
+export default writingPromptsSettingsSlice.reducer;

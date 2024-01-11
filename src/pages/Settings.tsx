@@ -24,7 +24,7 @@ import { trashBin } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
-import { clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSlice';
+import { clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSettingsSlice';
 import { IdeaFlagsObject } from '../promptsData/Ideas';
 import packageJson from '../../package.json';
 

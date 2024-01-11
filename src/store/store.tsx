@@ -14,7 +14,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
 import generalSettingsSlice, { generalSettings } from './generalSettingsSlice';
-import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPromptsSlice';
+import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPromptsSettingsSlice';
 
 //
 //
