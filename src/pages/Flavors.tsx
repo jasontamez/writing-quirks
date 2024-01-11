@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
@@ -7,7 +7,7 @@ import SimpleGenerator from '../components/SimpleGenerator';
 import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import getRandom from '../helpers/getRandom';
-import getFlavor from '../helpers/flavorsCore';
+import { getFlavor, createFlavorInfo, Flavor } from '../helpers/flavorsCore';
 import './Flavors.css';
 
 const intros = [
@@ -26,7 +26,8 @@ const intros = [
 	'Gordon Ramsey called my dinner a steaming pile of',
 	'The first-graders decided to eat',
 	"I don't regret sampling",
-	'Try the new Subway sub:'
+	'Try the new Subway sub:',
+	"The alien food goop tasted like"
 ];
 
 const Flavors: React.FC = () => {
@@ -37,8 +38,10 @@ const Flavors: React.FC = () => {
 	const [introAlternate, setIntroAlternate] = useState<string>("");
 	const { animationMethod } = useAppSelector(state => state.generalSettings);
 
+	const flavors = useMemo(() => createFlavorInfo(), []);
+
 	const makeFlavor = (alternate = false) => {
-		const output = getFlavor();
+		const output = getFlavor(flavors);
 		if(alternate) {
 			setIntroAlternate(getRandom(intros, [intro, introAlternate]));
 			setFlavorAlternate(output);

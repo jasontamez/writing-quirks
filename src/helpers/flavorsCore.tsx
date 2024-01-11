@@ -16,7 +16,13 @@ type Adjective = AdjectiveBasic & Partial<NounBasic>;
 
 type Noun = NounBasic & Partial<AdjectiveBasic>;
 
-type Flavor = Adjective | Noun | (Adjective & Noun);
+export type Flavor = Adjective | Noun | (Adjective & Noun);
+
+interface Data {
+	nouns?: Noun[]
+	adjectives?: Adjective[]
+	flavors?: Flavor[]
+}
 
 const adjectives: Adjective[] = [
 	{
@@ -454,12 +460,47 @@ const flavors: Flavor[] = [
 	}
 ];
 
+export const createFlavorInfo = (...input: Flavor[]): Data => {
+	const n = nouns.slice();
+	const a = adjectives.slice();
+	const f = flavors.slice();
+	input.forEach(item => {
+		const { adjective, noun } = item;
+		if(adjective) {
+			if(noun) {
+				f.push(item);
+			} else {
+				a.push(item as Adjective);
+			}
+		} else if (noun) {
+			n.push(item as Noun);
+		}
+		// else: Error
+	});
+	return {
+		nouns: n,
+		adjectives: a,
+		flavors: f
+	};
+};
+
 let previousAdjective: Adjective;
 let previousNoun: Noun;
 
-const getFlavor = () => {
-	const n = getRandom([...nouns, ...flavors], [previousNoun, previousAdjective]) as Noun;
-	const adj = getRandom([...adjectives, ...flavors], [previousAdjective, previousNoun, n]) as Adjective;
+export const getFlavor = (input: Data) => {
+	const {
+		nouns = [],
+		adjectives = [],
+		flavors = [],
+	} = input;
+	const n = getRandom(
+		[...nouns, ...flavors],
+		[previousNoun, previousAdjective]
+	) as Noun;
+	const adj = getRandom(
+		[...adjectives, ...flavors],
+		[previousAdjective, previousNoun, n]
+	) as Adjective;
 	previousNoun = n;
 	previousAdjective = adj;
 	const {adjective, postAdjective, requiresSingular} = adj;
@@ -467,5 +508,3 @@ const getFlavor = () => {
 	const base: string = requiresSingular ? noun : (basicPlural ? noun + "s" : plural || noun);
 	return postAdjective ? `${base} ${adjective}` : `${adjective} ${base}`;
 };
-
-export default getFlavor;
