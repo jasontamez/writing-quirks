@@ -15,6 +15,8 @@ import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
 
 import generalSettingsSlice, { generalSettings } from './generalSettingsSlice';
 import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPromptsSettingsSlice';
+import infoFlavorsSlice, { infoFlavors } from './infoFlavorsSlice';
+import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
 
 //
 //
@@ -22,7 +24,9 @@ import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPr
 // ----- USE THIS to put in temporary changes for testing.
 const initialAppState = {
 	generalSettings,
-	writingPromptsSettings
+	writingPromptsSettings,
+	infoFlavors,
+	infoStreets
 };
 // ----- END
 //
@@ -30,13 +34,8 @@ const initialAppState = {
 
 // BELOW is where version adjustments can happen
 const migrations = {
-	4: (state: any) => {
-		const newState = {...state};
-		newState.generalSettings = {...newState.generalSettings};
-		delete newState.generalSettings.maxFavorites;
-		delete newState.generalSettings.maxFavoritesPerGen;
-		newState.generalSettings.reverseFavoritesSort = false;
-		newState.generalSettings.separateFavoritesByGenerator = true;
+	5: (state: any) => {
+		const newState = {...state, infoFlavors, infoStreets};
 		return newState;
 	}
 };
@@ -47,7 +46,9 @@ const migrations = {
 const reducerConfig = {
 	// SLICES here
 	generalSettings: generalSettingsSlice,
-	writingPromptsSettings: writingPromptsSettingsSlice
+	writingPromptsSettings: writingPromptsSettingsSlice,
+	infoFlavors: infoFlavorsSlice,
+	infoStreets: infoStreetsSlice
 };
 const stateReconciler = (incomingState: any, originalState: any, reducedState: any, config: any) => {
 //	if(incomingState && originalState && (incomingState.appSettings.theme !== originalState.appSettings.theme)) {
@@ -57,7 +58,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 4,
+	version: 5,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })

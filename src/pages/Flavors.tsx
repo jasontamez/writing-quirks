@@ -7,7 +7,7 @@ import SimpleGenerator from '../components/SimpleGenerator';
 import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import getRandom from '../helpers/getRandom';
-import { getFlavor, createFlavorInfo, Flavor } from '../helpers/flavorsCore';
+import { getFlavor, createFlavorInfo } from '../helpers/flavorsCore';
 import './Flavors.css';
 
 const intros = [
@@ -36,9 +36,11 @@ const Flavors: React.FC = () => {
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 	const [intro, setIntro] = useState<string>("");
 	const [introAlternate, setIntroAlternate] = useState<string>("");
-	const { animationMethod } = useAppSelector(state => state.generalSettings);
+	const { generalSettings, infoFlavors } = useAppSelector(state => state);
+	const { animationMethod } = generalSettings;
+	const { flavors: fff } = infoFlavors;
 
-	const flavors = useMemo(() => createFlavorInfo(), []);
+	const flavors = useMemo(() => createFlavorInfo(fff), [fff]);
 
 	const makeFlavor = (alternate = false) => {
 		const output = getFlavor(flavors);

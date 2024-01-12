@@ -5,7 +5,7 @@ import { refresh } from 'ionicons/icons';
 import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import FaveButton from '../components/FaveButton';
-import { createStreetName, createStreetInfo, UserStreetInfo } from '../helpers/streetNamesCore';
+import { createStreetName, createStreetInfo } from '../helpers/streetNamesCore';
 import { useAppSelector } from '../store/hooks';
 import './Streets.css';
 
@@ -13,8 +13,9 @@ const Streets: React.FC = () => {
 	const [street, setStreet] = useState<string>("");
 	const [streetAlternate, setStreetAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
-	const { animationMethod } = useAppSelector(state => state.generalSettings);
-	const data = useMemo(() => createStreetInfo(), []);
+	const { generalSettings, infoStreets } = useAppSelector(state => state);
+	const { animationMethod } = generalSettings;
+	const data = useMemo(() => createStreetInfo(infoStreets), [infoStreets]);
 
 	const makeStreet = (alternate = false) => {
 		const output = createStreetName(data);
