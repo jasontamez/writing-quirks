@@ -1,5 +1,6 @@
 import getRandom from "../helpers/getRandom";
-import { InfoStreets, Street } from "../store/infoStreetsSlice";
+import { Street } from "../store/data/streets";
+import { InfoStreets } from "../store/infoStreetsSlice";
 
 interface Data {
 	firstHalf: Street[]

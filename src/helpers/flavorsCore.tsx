@@ -1,4 +1,5 @@
-import { Adjective, Flavor, FlavorsInfo, Noun } from "../store/infoFlavorsSlice"
+import { FlavorsInfo } from "../store/infoFlavorsSlice"
+import { Adjective, Flavor, Noun } from "../store/data/flavors"
 import getRandom from "./getRandom"
 
 export const createFlavorInfo = (...input: Flavor[]): FlavorsInfo => {

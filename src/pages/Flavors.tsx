@@ -10,26 +10,6 @@ import getRandom from '../helpers/getRandom';
 import { getFlavor, createFlavorInfo } from '../helpers/flavorsCore';
 import './Flavors.css';
 
-const intros = [
-	'Guy Fierri once spent a week eating nothing but',
-	'Julia Child was famous for her',
-	"It's a good thing when Martha Stewart cooks",
-	'The latest Master Chef won with something she called',
-	'Never eat',
-	'I remember when the school cafeteria served',
-	'IHOP now serves',
-	'The new McSomething has a center of',
-	'The Olive Garden now has unlimited',
-	'Golden Corral proudly serves',
-	"You know you can't resist trying",
-	'A meal fit for a king',
-	'Gordon Ramsey called my dinner a steaming pile of',
-	'The first-graders decided to eat',
-	"I don't regret sampling",
-	'Try the new Subway sub:',
-	"The alien food goop tasted like"
-];
-
 const Flavors: React.FC = () => {
 	const [flavor, setFlavor] = useState<string>("");
 	const [flavorAlternate, setFlavorAlternate] = useState<string>("");
@@ -38,7 +18,7 @@ const Flavors: React.FC = () => {
 	const [introAlternate, setIntroAlternate] = useState<string>("");
 	const { generalSettings, infoFlavors } = useAppSelector(state => state);
 	const { animationMethod } = generalSettings;
-	const { flavors: fff } = infoFlavors;
+	const { flavors: fff, intros } = infoFlavors;
 
 	const flavors = useMemo(() => createFlavorInfo(fff), [fff]);
 
