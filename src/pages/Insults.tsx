@@ -60,16 +60,16 @@ const Insults: React.FC = () => {
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 
 	const createInsult = (alternate = false) => {
-		const intro = getRandom(intros, lastIntro, setLastIntro);
+		const intro = getRandom(intros, { last: lastIntro, setterFunc: setLastIntro });
 		let [adj1, adj2, noun] = [
 			...(Math.floor(Math.random() * 2) ? [
-				getRandom(adjs1, lastAdj1, setLastAdj1),
-				getRandom(adjs2, lastAdj2, setLastAdj2)
+				getRandom(adjs1, { last: lastAdj1, setterFunc: setLastAdj1 }),
+				getRandom(adjs2, { last: lastAdj2, setterFunc: setLastAdj2 })
 			] : [
-				getRandom(adjs2, lastAdj2, setLastAdj2),
-				getRandom(adjs1, lastAdj1, setLastAdj1)
+				getRandom(adjs2, { last: lastAdj2, setterFunc: setLastAdj2 }),
+				getRandom(adjs1, { last: lastAdj1, setterFunc: setLastAdj1 })
 			]),
-			getRandom(nouns, lastNoun, setLastNoun)
+			getRandom(nouns, { last: lastNoun, setterFunc: setLastNoun })
 		];
 		let {msg, hasNounArticle, hasAdjectiveArticle} = intro;
 		if(pluralNouns[noun]) {

@@ -58,20 +58,20 @@ const Babbles: React.FC = () => {
 
 	const makeBabble = (alternate = false) => {
 		let the = getRandom(prep);
-		const adjective = getRandom(adj, lastAdj, setLastAdj);
+		const adjective = getRandom(adj, { last: lastAdj, setterFunc: setLastAdj});
 		if(the === "a" && vowels.indexOf(adjective.charAt(0)) > -1) {
 			the = "an";
 		}
 		if(alternate) {
-			setIntroAlternate(getRandom(introString, [intro, introAlternate]));
+			setIntroAlternate(getRandom(introString, { last: [intro, introAlternate] }));
 			setBabbleAlternate(
-				`${getRandom(verb, lastVerb, setLastVerb)} ${the} ${adjective} ${getRandom(noun, lastNoun, setLastNoun)}`
+				`${getRandom(verb, { last: lastVerb, setterFunc: setLastVerb })} ${the} ${adjective} ${getRandom(noun, { last: lastNoun, setterFunc: setLastNoun })}`
 			);
 			return;
 		}
-		setIntro(getRandom(introString, [introAlternate, intro]));
+		setIntro(getRandom(introString, { last: [introAlternate, intro] }));
 		setBabble(
-			`${getRandom(verb, lastVerb, setLastVerb)} ${the} ${adjective} ${getRandom(noun, lastNoun, setLastNoun)}`
+			`${getRandom(verb, { last: lastVerb, setterFunc: setLastVerb })} ${the} ${adjective} ${getRandom(noun, { last: lastNoun, setterFunc: setLastNoun })}`
 		);
 	}
 	useEffect(() => {

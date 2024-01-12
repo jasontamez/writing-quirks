@@ -1,4 +1,4 @@
-import getRandom, { getRandomSpecial } from "../helpers/getRandom";
+import getRandom from "../helpers/getRandom";
 import { InfoStreets, Street } from "../store/infoStreetsSlice";
 
 interface Data {
@@ -29,8 +29,9 @@ export const createStreetInfo = (info: InfoStreets): Data => {
 	};
 };
 
-function notPrevious (input: Street) {
-	return input === previousOne || input === previousTwo || input.text === previousThree;
+const randomOptions = {
+	compareFunc: (input: Street) => input === previousOne || input === previousTwo || input.text === previousThree,
+	converter: (e: string): Street => ({ text: `E-SSN-1: ${e}` })
 }
 
 export const createStreetName = (data: Data) => {
@@ -39,8 +40,8 @@ export const createStreetName = (data: Data) => {
 		lastHalf,
 		roads = []
 	} = data;
-	const partOne = getRandomSpecial<Street>(firstHalf, notPrevious);
-	const partTwo = getRandomSpecial<Street>(lastHalf, notPrevious);
+	const partOne = getRandom<Street>(firstHalf, randomOptions);
+	const partTwo = getRandom<Street>(lastHalf, randomOptions);
 	// check first part
 	let flipFlag = (partOne.double && partOne.alt && (Math.floor(Math.random() * 100) < 50));
 	let chanceOfTwoWords = (partOne.chanceFirstTwoWordName) || 5;
@@ -65,7 +66,7 @@ export const createStreetName = (data: Data) => {
 	chanceOfTwoWords += (partTwo.modChanceEndTwoWordName || 0);
 	// Complete the name...
 	const partOneText = flipFlag ? (partOne.alt as string) : partOne.text;
-	const partThree = getRandom(roads, [partOneText, partTwo.text]); // We can repeat "Street" and the like as much as we want!
+	const partThree = getRandom(roads, {last: [partOneText, partTwo.text]}); // We can repeat "Street" and the like as much as we want!
 	previousOne = partOne;
 	previousTwo = partTwo;
 	previousThree = partThree;

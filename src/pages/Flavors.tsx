@@ -45,11 +45,11 @@ const Flavors: React.FC = () => {
 	const makeFlavor = (alternate = false) => {
 		const output = getFlavor(flavors);
 		if(alternate) {
-			setIntroAlternate(getRandom(intros, [intro, introAlternate]));
+			setIntroAlternate(getRandom(intros, {last: [intro, introAlternate]}));
 			setFlavorAlternate(output);
 			return;
 		}
-		setIntro(getRandom(intros, [introAlternate, intro]));
+		setIntro(getRandom(intros, {last: [introAlternate, intro]}));
 		setFlavor(output);
 	};
 

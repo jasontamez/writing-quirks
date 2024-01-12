@@ -139,10 +139,10 @@ const Prompts: React.FC = () => {
 		// Display
 		if(alternate) {
 			setIdeaShownAlternate(<>{toShow}</>);
-			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], [backgroundIcon, backgroundIconAlternate]));
+			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], {last: [backgroundIcon, backgroundIconAlternate]}));
 		} else {
 			setIdeaShown(<>{toShow}</>);
-			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], [backgroundIcon, backgroundIconAlternate]));
+			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], {last: [backgroundIcon, backgroundIconAlternate]}));
 		}
 	};
 
