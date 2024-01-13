@@ -19,7 +19,7 @@ import infoFlavorsSlice, { infoFlavors } from './infoFlavorsSlice';
 import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
 import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
 //import infoTavernsSlice, { infoTaverns } from './infoTavernsSlice';
-//import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
+import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
 //import infoPromptsSlice, { infoPrompts } from './infoPromptsSlice';
 
 //
@@ -33,7 +33,7 @@ const initialAppState = {
 	infoStreets,
 	infoBabbles,
 //	infoTaverns,
-//	infoInsults,
+	infoInsults,
 //	infoPrompts
 };
 // ----- END
@@ -49,7 +49,7 @@ const migrations = {
 			infoStreets,
 			infoBabbles,
 		//	infoTaverns,
-		//	infoInsults,
+			infoInsults,
 		//	infoPrompts
 		};
 		return newState;
@@ -67,7 +67,7 @@ const reducerConfig = {
 	infoStreets: infoStreetsSlice,
 	infoBabbles: infoBabblesSlice,
 //	infoTaverns: infoTavernsSlice,
-//	infoInsults: infoInsultsSlice,
+	infoInsults: infoInsultsSlice,
 //	infoPrompts: infoPromptsSlice
 };
 const stateReconciler = (incomingState: any, originalState: any, reducedState: any, config: any) => {
