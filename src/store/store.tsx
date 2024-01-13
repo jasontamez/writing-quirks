@@ -17,6 +17,10 @@ import generalSettingsSlice, { generalSettings } from './generalSettingsSlice';
 import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPromptsSettingsSlice';
 import infoFlavorsSlice, { infoFlavors } from './infoFlavorsSlice';
 import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
+import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
+//import infoTavernsSlice, { infoTaverns } from './infoTavernsSlice';
+//import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
+//import infoPromptsSlice, { infoPrompts } from './infoPromptsSlice';
 
 //
 //
@@ -26,7 +30,11 @@ const initialAppState = {
 	generalSettings,
 	writingPromptsSettings,
 	infoFlavors,
-	infoStreets
+	infoStreets,
+	infoBabbles,
+//	infoTaverns,
+//	infoInsults,
+//	infoPrompts
 };
 // ----- END
 //
@@ -35,7 +43,15 @@ const initialAppState = {
 // BELOW is where version adjustments can happen
 const migrations = {
 	5: (state: any) => {
-		const newState = {...state, infoFlavors, infoStreets};
+		const newState = {
+			...state,
+			infoFlavors,
+			infoStreets,
+			infoBabbles,
+		//	infoTaverns,
+		//	infoInsults,
+		//	infoPrompts
+		};
 		return newState;
 	}
 };
@@ -48,7 +64,11 @@ const reducerConfig = {
 	generalSettings: generalSettingsSlice,
 	writingPromptsSettings: writingPromptsSettingsSlice,
 	infoFlavors: infoFlavorsSlice,
-	infoStreets: infoStreetsSlice
+	infoStreets: infoStreetsSlice,
+	infoBabbles: infoBabblesSlice,
+//	infoTaverns: infoTavernsSlice,
+//	infoInsults: infoInsultsSlice,
+//	infoPrompts: infoPromptsSlice
 };
 const stateReconciler = (incomingState: any, originalState: any, reducedState: any, config: any) => {
 //	if(incomingState && originalState && (incomingState.appSettings.theme !== originalState.appSettings.theme)) {
