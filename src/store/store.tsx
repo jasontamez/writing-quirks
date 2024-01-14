@@ -18,7 +18,8 @@ import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPr
 import infoFlavorsSlice, { infoFlavors } from './infoFlavorsSlice';
 import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
 import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
-//import infoTavernsSlice, { infoTaverns } from './infoTavernsSlice';
+import infoTavernsSlice from './infoTavernsSlice';
+import infoTaverns from './data/taverns';
 import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
 //import infoPromptsSlice, { infoPrompts } from './infoPromptsSlice';
 
@@ -32,7 +33,7 @@ const initialAppState = {
 	infoFlavors,
 	infoStreets,
 	infoBabbles,
-//	infoTaverns,
+	infoTaverns,
 	infoInsults,
 //	infoPrompts
 };
@@ -48,7 +49,7 @@ const migrations = {
 			infoFlavors,
 			infoStreets,
 			infoBabbles,
-		//	infoTaverns,
+			infoTaverns,
 			infoInsults,
 		//	infoPrompts
 		};
@@ -66,7 +67,7 @@ const reducerConfig = {
 	infoFlavors: infoFlavorsSlice,
 	infoStreets: infoStreetsSlice,
 	infoBabbles: infoBabblesSlice,
-//	infoTaverns: infoTavernsSlice,
+	infoTaverns: infoTavernsSlice,
 	infoInsults: infoInsultsSlice,
 //	infoPrompts: infoPromptsSlice
 };

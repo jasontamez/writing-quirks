@@ -12,21 +12,22 @@ import { useAppSelector } from '../store/hooks';
 import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import FaveButton from '../components/FaveButton';
-import getNucleus from '../helpers/tavernsCore';
+import getName from '../helpers/tavernsCore';
 import './Taverns.css';
 
 const Locations: React.FC = () => {
 	const [location, setLocation] = useState<string>("");
 	const [locationAlternate, setLocationAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
-	const { animationMethod } = useAppSelector(state => state.generalSettings);
+	const { generalSettings, infoTaverns } = useAppSelector(state => state);
+	const { animationMethod } = generalSettings;
 
 	const makeLocation = (alternate = false) => {
 		if(alternate) {
-			setLocationAlternate(getNucleus());
+			setLocationAlternate(getName(infoTaverns));
 			return;
 		}
-		setLocation(getNucleus());
+		setLocation(getName(infoTaverns));
 	}
 	useEffect(() => {
 		makeLocation();
