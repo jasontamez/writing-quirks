@@ -41,7 +41,7 @@ const initialAppState = {
 
 // BELOW is where version adjustments can happen
 const migrations = {
-	5: (state: any) => {
+	6: (state: any) => {
 		const newState = {
 			...state,
 			infoFlavors,
@@ -76,7 +76,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 5,
+	version: 6,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })
@@ -93,7 +93,8 @@ const store = configureStore({
 					FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER
 				],
 			},
-	})
+		}
+	)
 });
 const persistor = persistStore(store);
 const storeInfo = { store, persistor };

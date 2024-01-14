@@ -2,17 +2,18 @@ import { FlavorsInfo } from "../store/infoFlavorsSlice"
 import { Adjective, Flavor, Noun } from "../store/data/flavors"
 import getRandom from "./getRandom"
 
-export const createFlavorInfo = (...input: Flavor[]): FlavorsInfo => {
+export const createFlavorInfo = (input: Flavor[]): FlavorsInfo => {
 	const n: Noun[] = [];
 	const a: Adjective[] = [];
 	input.forEach(item => {
 		const { adjective, noun } = item;
 		if(adjective) {
 			a.push(item as Adjective);
-		} else if (noun) {
+		}
+		if (noun) {
 			n.push(item as Noun);
 		}
-		// else: Error
+		// else: Error?
 	});
 	return {
 		nouns: n,

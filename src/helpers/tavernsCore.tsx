@@ -1,4 +1,18 @@
-import { F, Format, ModifierGroup, PluralNoun, TavernsInfo } from "../store/data/taverns";
+import { ERROR_MOD_GROUP, ERROR_NOUN_GROUP, F, Format, ModifierGroup, Noun, NounGroup, PluralNoun, TavernsInfo } from "../store/data/taverns";
+import getRandom from "./getRandom";
+
+type NounData = [NounGroup, Noun];
+type ModifierData = [ModifierGroup, string];
+
+interface ModifiersObject {
+	[key: string]: ModifierData[]
+}
+
+export interface TavernData {
+	nouns: NounData[]
+	totalNouns: number
+	modifiersObject: ModifiersObject
+}
 
 function replaceNounWithPluralNoun (input: Format): Format {
 	return input.map((bit) => {
@@ -11,34 +25,32 @@ function replaceNounWithPluralNoun (input: Format): Format {
 	});
 }
 
-function getModifierFormat (group: string, which: number, allModifiers: ModifierGroup[]): any {
-	let modifierGroup: ModifierGroup;
-	if(allModifiers.every(mod => {
-		if(group === mod.id) {
-			modifierGroup = mod;
-			return false;
-		}
-		return true;
-	})) {
-		throw new Error("Invalid modifier ID?");
-	}
-	const { format: rawFormat, members, modifiers, modifierChance, modifierLengths, totalModifiers } = modifierGroup!;
-	let { andChance, theChance } = modifierGroup!;
-	let format: Format = rawFormat.map(bit => bit === F.This ? members[which] : bit);
+function getModifierFormat (group: ModifierGroup, text: string, modifiersObject: ModifiersObject): any {
+	const { format: rawFormat, modifiers, modifierChance, modifierLengths, totalModifiers } = group;
+	let { andChance, theChance } = group;
+	let format: Format = rawFormat.map(bit => bit === F.This ? text : bit);
 	// Check if we're modifying again...
 	if(Math.floor(Math.random() * 100) < modifierChance) {
-		// Apply new modifier
-		let whichMod = Math.floor(Math.random() * totalModifiers);
-		let whichGroup = 0;
-		while(whichMod > modifierLengths[whichGroup]) {
-			whichMod -= modifierLengths[whichGroup];
-			whichGroup++;
-		}
+		// Create list of possibles
+		const mods: ModifierData[] = modifiers.map(n => modifiersObject[n]!).reduce((all, grouping) => {
+			all.push(...grouping);
+			return all;
+		}, []);
+		const [modGroup, modText] = getRandom(
+			mods,
+			{
+				converter: (e: string): ModifierData => {
+					const temp = {...ERROR_MOD_GROUP};
+					temp.members.push(e);
+					return [temp, e];
+				}
+			}
+		)
 		const {
 			andChance: andMod,
 			theChance: theMod,
 			format: modFormat
-		} = getModifierFormat(modifiers[whichGroup], whichMod, allModifiers);
+		} = getModifierFormat(modGroup, modText, modifiersObject);
 		andChance += andMod;
 		theChance += theMod;
 		format = format.map(bit => {
@@ -62,7 +74,7 @@ function parseFormat (format: Format, nounPhrase: PluralNoun, and: string, the: 
 	const [singular, plural] = nounPhrase;
 	const formatted = format.map((bit) => {
 		if(Array.isArray(bit)) {
-			return parseFormat(bit, nounPhrase, and, the);
+			return parseFormat(bit, nounPhrase, and, "");
 		} else if (bit === F.Noun) {
 			return singular + and;
 		} else if (bit === F.PluralNoun) {
@@ -74,62 +86,104 @@ function parseFormat (format: Format, nounPhrase: PluralNoun, and: string, the: 
 	return formatted.join("");
 }
 
-let previousNucleus = -1;
+export function createTavernData (info: TavernsInfo): TavernData {
+	const { nouns: n, totalNouns, allModifiers } = info;
+	const nouns: NounData[] = [];
+	n.forEach(group => {
+		group.members.forEach(noun => {
+			nouns.push([group, noun]);
+		});
+	});
+	const modifiersObject: ModifiersObject = {};
+	allModifiers.forEach(mod => {
+		const allMods: ModifierData[] = [];
+		mod.members.forEach(bit => allMods.push([mod, bit]));
+		modifiersObject[mod.id] = allMods;
+	});
+	return {
+		nouns,
+		totalNouns,
+		modifiersObject
+	};
+}
 
-function getName (info: TavernsInfo, previous: number = -1): string {
+let previousNucleus: NounData;
+
+function getName (info: TavernData, previous: NounData | null = null): string {
 	// Use a random noun to form a name
-	const { nouns, nounLengths, totalNouns, allModifiers } = info;
+	const { nouns, totalNouns, modifiersObject } = info;
 	// Get a random seed
-	let which: number;
-	do {
-		which = Math.floor(Math.random() * totalNouns);
-	} while (previous !== which && previousNucleus !== which);
-	const originalWhich = which;
-	let group = 0;
-	while(which >= nounLengths[group]) {
-		which =- nounLengths[group];
-		group++;
-	}
-	const noun = nouns[group];
-	const { members, modifiers, modifierChance, modifierLengths, totalModifiers } = noun;
-	let { andChance, theChance } = noun;
-	const word = members[which];
+	const [group, word] = getRandom(
+		nouns,
+		{
+			converter: (e: string): NounData => {
+				const temp = {...ERROR_NOUN_GROUP};
+				temp.members.push(e);
+				return [temp, e];
+			},
+			compareFunc: (pair: NounData) => {
+				const [group, text] = pair;
+				if(previous && group === previous[0] && text === previous[1]) {
+					return false;
+				} else if(previousNucleus && group === previousNucleus[0] && text === previousNucleus[1]) {
+					return false;
+				}
+				return true;
+			}
+		}
+	);
+	const { members, modifiers, modifierChance, modifierLengths, totalModifiers } = group;
+	let { andChance, theChance } = group;
 	const nounPhrase: PluralNoun = typeof word === "string" ? [word, word + "s"] : word;
 	const format: Format = [];
+	// Do we need to modify?
 	if(Math.floor(Math.random() * 100) < modifierChance) {
-		// Modify!
-		let whichMod = Math.floor(Math.random() * totalModifiers);
-		let whichGroup = 0;
-		while(whichMod > modifierLengths[whichGroup]) {
-			whichMod -= modifierLengths[whichGroup];
-			whichGroup++;
-		}
+		// Create list of possibles
+		const mods: ModifierData[] = modifiers.map(n => modifiersObject[n]!).reduce((all, grouping) => {
+			all.push(...grouping);
+			return all;
+		}, []);
+		const [modGroup, modText] = getRandom(
+			mods,
+			{
+				converter: (e: string): ModifierData => {
+					const temp = {...ERROR_MOD_GROUP};
+					temp.members.push(e);
+					return [temp, e];
+				}
+			}
+		);
 		const {
 			andChance: andMod,
 			theChance: theMod,
 			format: modFormat
-		} = getModifierFormat(modifiers[whichGroup], whichMod, allModifiers);
+		} = getModifierFormat(modGroup, modText, modifiersObject);
 		format.push(...modFormat);
 		andChance += andMod;
 		theChance += theMod;
+	} else {
+		// No modification? Display the name by itself.
+		format.push(F.Noun);
+		// Add a 'the' (ignored if this is an "and" situation)
+		theChance = 100;
 	}
 	// Prepare for and/the
 	let the = "";
 	let and = "";
 	// If we're returning an "and" part, ignore any further and/the chances for now.
-	if(previous === -1) {
-		// Save this noun;
-		previousNucleus = originalWhich;
+	if(!previous) {
 		// "And" chance
-		if(andChance < Math.floor(Math.random() * 100)) {
+		if(andChance > Math.floor(Math.random() * 100)) {
 			// Get another noun
-			and = " and " + getName(info, originalWhich);
+			and = " and " + getName(info, [group, word]);
 		}
 		// "The" chance
-		if(theChance < Math.floor(Math.random() * 100)) {
+		if(theChance > Math.floor(Math.random() * 100)) {
 			// Add a "the"
 			the = "The ";
 		}
+		// Save this noun;
+		previousNucleus = [group, word];
 	}
 	return parseFormat(format, nounPhrase, and, the);
 }

@@ -15,69 +15,69 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		profanity: false,
 
 		sexual: false,
-	
+
 		modern: true,
-	
+
 		fantasy: true,
 		medievalFantasy: true,
 		superhero: true,
 		fairyTalesAndUrbanLegends: true,
 		horror: true,
-	
+
 		historical: true,
 		western: true,
 		samurai: true,
 		roman: true,
-	
+
 		scifi: true,
 		spacefaring: true,
-	
+
 		properName: true,
-	
+
 		mythsReligionsAndMetaphysics: true,
 		judaism: true,
 		christianity: true,
 		islam: true,
 		greekRomanMyth: true,
 		metaphysics: true,
-	
+
 		illicitSubstances: true,
 		alcohol: true,
 		tobacco: true,
-	
+
 		humanDistress: true,
 		humanDeath: true,
 		humanDeathNatural: true,
 		humanDeathViolent: true,
-	
+
 		animalDistress: true,
 		animalDeath: true,
 
 		// Events
 		nonPunctual: true,
-	
+
 		// Characters
 		realPerson: true,
 		fictionalCharacter: true,
 		monster: true,
-	
+
 		// Locale
 		nonSpecific: true,
 		political: true,
 		geographical: true,
 		construct: true,
-	
+
 		largeSize: true,
 		mediumSize: true,
 		smallSize: true,
 		tinySize: true,
-	
+
 		americas: true,
 		europe: true,
 		africa: true,
 		oceania: true,
 		westAsia: true,
-		eastAsia: true	
+		eastAsia: true
 	},
 	ideas
 };

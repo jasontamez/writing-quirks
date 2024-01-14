@@ -202,7 +202,7 @@ function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] }
 				// (any) TIME
 				// (any) LOCALE
 				ideasToDisplay.push(`<${idea1}> <${idea2}>`);
-				FLAGformat = "singleItem";	
+				FLAGformat = "singleItem";
 			} else {
 				// All other combos
 				ideasToDisplay.push(`<${idea1}>`, `<${idea2}>`);

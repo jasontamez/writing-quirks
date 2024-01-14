@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
 	IonContent,
 	IonFab,
@@ -12,7 +12,7 @@ import { useAppSelector } from '../store/hooks';
 import PageHeader from '../components/PageHeader';
 import SimpleGenerator from '../components/SimpleGenerator';
 import FaveButton from '../components/FaveButton';
-import getName from '../helpers/tavernsCore';
+import getName, { createTavernData } from '../helpers/tavernsCore';
 import './Taverns.css';
 
 const Locations: React.FC = () => {
@@ -22,12 +22,14 @@ const Locations: React.FC = () => {
 	const { generalSettings, infoTaverns } = useAppSelector(state => state);
 	const { animationMethod } = generalSettings;
 
+	const tavernData = useMemo(() => createTavernData(infoTaverns), [infoTaverns]);
+
 	const makeLocation = (alternate = false) => {
 		if(alternate) {
-			setLocationAlternate(getName(infoTaverns));
+			setLocationAlternate(getName(tavernData));
 			return;
 		}
-		setLocation(getName(infoTaverns));
+		setLocation(getName(tavernData));
 	}
 	useEffect(() => {
 		makeLocation();

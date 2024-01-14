@@ -31,7 +31,10 @@ export const createStreetInfo = (info: InfoStreets): Data => {
 };
 
 const randomOptions = {
-	compareFunc: (input: Street) => input === previousOne || input === previousTwo || input.text === previousThree,
+	compareFunc: (input: Street) => {
+		const { text } = input;
+		return text !== previousOne.text && text !== previousTwo.text && text !== previousThree;
+	},
 	converter: (e: string): Street => ({ text: `E-SSN-1: ${e}` })
 }
 

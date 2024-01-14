@@ -13,12 +13,14 @@ function reportLoop() {
 function getRandom<T> (total: T[]): T;
 function getRandom<T> (total: T[], options: { last: T | T[], converter?: (a: string) => T }): T;
 function getRandom<T> (total: T[], options: { compareFunc: (a: T) => boolean, converter?: (a: string) => T }): T;
+function getRandom<T> (total: T[], options: { converter: (a: string) => T }): T;
 function getRandom<T> (total: T[], options: any = null): T {
 	const { last, compareFunc, converter } = options || {};
 	let result: false | T = false;
 	const length = total.length;
 	try {
 		if (compareFunc) {
+			// compareFunc returns TRUE if ok, FALSE if invalid
 			do {
 				result = total[Math.floor(Math.random() * length)];
 				maybeKillLoop();

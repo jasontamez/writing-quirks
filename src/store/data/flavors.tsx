@@ -150,7 +150,7 @@ export const flavors: Flavor[] = [
 	{
 		noun: "coffee",
 		plural: "coffee grounds",
-		adjective: "coffee-flavored"
+		adjective: "coffee-infused"
 	},
 	{
 		noun: "cotton ball",
@@ -255,7 +255,7 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "mushroom",
-		adjective: "mushroom-flavored",
+		adjective: "mushroom",
 		basicPlural: true
 	},
 	{
@@ -264,12 +264,12 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "olive",
-		adjective: "olive-flavored",
+		adjective: "olive",
 		basicPlural: true
 	},
 	{
 		noun: "onion",
-		adjective: "onion-flavored",
+		adjective: "onion",
 		basicPlural: true
 	},
 	{

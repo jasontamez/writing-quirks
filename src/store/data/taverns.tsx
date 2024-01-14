@@ -12,9 +12,11 @@ interface Group {
 
 export type PluralNoun = [string, string | null];
 
-interface NounGroup extends Group {
+export interface NounGroup extends Group {
 	members: (string | PluralNoun)[]
 }
+
+export type Noun = PluralNoun | string;
 
 export enum F {
 	This,
@@ -45,6 +47,18 @@ export interface TavernsInfo {
 //
 //
 
+export const ERROR_MOD_GROUP: ModifierGroup = {
+	description: "",
+	id: "null",
+	format: [F.This, F.Noun],
+	members: [],
+	modifiers: [],
+	modifierChance: 0,
+	andChance: 0,
+	theChance: 0,
+	modifierLengths: [],
+	totalModifiers: 0
+};
 // arr, format, modifiers = [], modifierChance = 25, andChance = 0, theChance = 0
 const baseModifierGroup: Omit<ModifierGroup, "id" | "description"> = {
 	members: [],
@@ -290,6 +304,16 @@ const modifierMap = modifierGroups.map(mg => mg.id);
 //
 //
 
+export const ERROR_NOUN_GROUP: NounGroup = {
+	description: "",
+	members: [],
+	modifiers: [],
+	modifierChance: 0,
+	andChance: 0,
+	theChance: 0,
+	modifierLengths: [],
+	totalModifiers: 0
+};
 //arr = [], modifiers = [], modifierChance = 98, andChance = 10, theChance = 65
 const baseNounGroup: Omit<NounGroup, "description" | "members"> = {
 	modifiers: [],
