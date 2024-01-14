@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, useEffect, useState } from 'react';
+import React, { Fragment, ReactElement, useCallback, useEffect, useState } from 'react';
 import {
 	AlertOptions,
 	IonButton,
@@ -28,12 +28,12 @@ import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import getIdeaString from '../helpers/promptsCore';
 import getRandom from '../helpers/getRandom';
-import rawIdeas, { Any, IdeaFlagsObject } from "../promptsData/Ideas";
+import { Any, IdeaFlagsObject } from "../promptsData/Ideas";
 import './Prompts.css';
 
 type IdeaFlagsObjectArray = (keyof IdeaFlagsObject)[];
 
-const filterIdeas = (usedIds: string[], flags: IdeaFlagsObjectArray, ideas = rawIdeas) => {
+const filterIdeas = (usedIds: string[], flags: IdeaFlagsObjectArray, ideas: Any[]) => {
 	const i: Any[] = []; // included
 	const e: Any[] = []; // excluded (hidden)
 	const u: Any[] = []; // used
@@ -83,7 +83,7 @@ const Expander: React.FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>
 
 const Prompts: React.FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
-	const { usedIds, hiddenTopics } = useAppSelector(state => state.writingPromptsSettings);
+	const { usedIds, hiddenTopics, ideas } = useAppSelector(state => state.writingPromptsSettings);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [okIdeas, setOkIdeas] = useState<Any[]>([]);
 	const [usedIdeas, setUsedIdeas] = useState<Any[]>([]);
@@ -116,7 +116,7 @@ const Prompts: React.FC = () => {
 	const displayIdea = (ideaString: string, alternate = false) => {
 		// Convert to array of elements
 		const toShow: ReactElement[] = [];
-		let leftover = ideaString;
+		let leftover = ideaString.replace(/><(.)>/g, "$1>");
 		let unmatched = true;
 		let count = 0;
 		let plain = "";
@@ -152,12 +152,7 @@ const Prompts: React.FC = () => {
 		setAlternateActive(!alternateActive);
 	};
 
-	// Initial setup
-	useIonViewDidEnter(() => {
-		if(okIdeas.length > 0) {
-			// We've aready set things up.
-			return;
-		}
+	const setUpIdeas = useCallback(() => {
 		// Construct list of topics we don't want to see.
 		const topics = Object.entries(hiddenTopics);
 		const flags: IdeaFlagsObjectArray = [];
@@ -168,18 +163,34 @@ const Prompts: React.FC = () => {
 			}
 		}
 		// Find the list of ok ideas
-		const [valid, invalid, excluded] = filterIdeas(usedIds, flags);
-		// Generate the first idea
-		displayIdea(makeIdea(valid, invalid), alternateActive);
+		const [valid, invalid, excluded] = filterIdeas(usedIds, flags, ideas);
 		// Save excluded ideas
 		setExcludedIdeas(excluded);
 		// Save the list of topics
 		setHiddenTags(flags);
+		// Return valid/invalid list if we need to use it ASAP.
+		return [valid, invalid];
+	}, [usedIds, hiddenTopics, ideas]);
+
+	// Initial setup
+	useIonViewDidEnter(() => {
+		if(okIdeas.length > 0) {
+			// We've aready set things up.
+			return;
+		}
+		const [valid, invalid] = setUpIdeas();
+		// Generate the first idea
+		displayIdea(makeIdea(valid, invalid), alternateActive);
 	});
 	// Reset display for next time
 	useIonViewWillLeave(() => {
 		setAlternateActive(false);
 	});
+
+	// When the list of ideas changes
+	useEffect(() => {
+		setUpIdeas();
+	}, [ideas]);
 
 	// When the list of used ideas changes
 	useEffect(() => {
@@ -194,7 +205,7 @@ const Prompts: React.FC = () => {
 			const index = usedIds.indexOf(first);
 			if(index < 0) {
 				// not found?? just use the whole thing, I guess
-				const [i, u, e] = filterIdeas(usedIds, hiddenTags);
+				const [i, u, e] = filterIdeas(usedIds, hiddenTags, ideas);
 				setOkIdeas(i);
 				setUsedIdeas(u);
 				setExcludedIdeas(e);
@@ -213,7 +224,7 @@ const Prompts: React.FC = () => {
 			// New ideas added and old ideas removed
 			// This SHOULD be handled by the system
 		}
-	}, [usedIds]);
+	}, [usedIds, usedIdeas, hiddenTags, ideas, okIdeas, excludedIdeas]);
 
 	const baseClasses = animationMethod + " generatorOutput icon";
 

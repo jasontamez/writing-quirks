@@ -1,5 +1,3 @@
-import { SetStateAction, Dispatch } from "react";
-
 let _COUNTER = 0;
 function maybeKillLoop () {
 	_COUNTER++;
@@ -13,10 +11,10 @@ function reportLoop() {
 }
 
 function getRandom<T> (total: T[]): T;
-function getRandom<T> (total: T[], options: { last: T | T[], setterFunc?: Dispatch<SetStateAction<T>>, converter?: (a: string) => T }): T;
+function getRandom<T> (total: T[], options: { last: T | T[], converter?: (a: string) => T }): T;
 function getRandom<T> (total: T[], options: { compareFunc: (a: T) => boolean, converter?: (a: string) => T }): T;
 function getRandom<T> (total: T[], options: any = null): T {
-	const { last, setterFunc, compareFunc, converter } = options || {};
+	const { last, compareFunc, converter } = options || {};
 	let result: false | T = false;
 	const length = total.length;
 	try {
@@ -41,7 +39,6 @@ function getRandom<T> (total: T[], options: any = null): T {
 		return converter ? converter(reportLoop()) : (reportLoop() as T);
 	}
 	_COUNTER = 0;
-	setterFunc && setterFunc(result);
 	return result;
 }
 

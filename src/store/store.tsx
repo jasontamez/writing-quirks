@@ -18,10 +18,9 @@ import writingPromptsSettingsSlice, { writingPromptsSettings } from './writingPr
 import infoFlavorsSlice, { infoFlavors } from './infoFlavorsSlice';
 import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
 import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
+import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
 import infoTavernsSlice from './infoTavernsSlice';
 import infoTaverns from './data/taverns';
-import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
-//import infoPromptsSlice, { infoPrompts } from './infoPromptsSlice';
 
 //
 //
@@ -34,8 +33,7 @@ const initialAppState = {
 	infoStreets,
 	infoBabbles,
 	infoTaverns,
-	infoInsults,
-//	infoPrompts
+	infoInsults
 };
 // ----- END
 //
@@ -51,8 +49,8 @@ const migrations = {
 			infoBabbles,
 			infoTaverns,
 			infoInsults,
-		//	infoPrompts
 		};
+		newState.writingPromptsSettings.ideas = writingPromptsSettings.ideas;
 		return newState;
 	}
 };
@@ -68,8 +66,7 @@ const reducerConfig = {
 	infoStreets: infoStreetsSlice,
 	infoBabbles: infoBabblesSlice,
 	infoTaverns: infoTavernsSlice,
-	infoInsults: infoInsultsSlice,
-//	infoPrompts: infoPromptsSlice
+	infoInsults: infoInsultsSlice
 };
 const stateReconciler = (incomingState: any, originalState: any, reducedState: any, config: any) => {
 //	if(incomingState && originalState && (incomingState.appSettings.theme !== originalState.appSettings.theme)) {
