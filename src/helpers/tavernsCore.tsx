@@ -1,4 +1,5 @@
-import { ERROR_MOD_GROUP, ERROR_NOUN_GROUP, F, Format, ModifierGroup, Noun, NounGroup, PluralNoun, TavernsInfo } from "../store/data/taverns";
+import { ERROR_MOD_GROUP, ERROR_NOUN_GROUP, F, Format, ModifierGroup, Noun, NounGroup, PluralNoun } from "../store/data/taverns";
+import { InfoTaverns } from "../store/infoTavernsSlice";
 import getRandom from "./getRandom";
 
 type NounData = [NounGroup, Noun];
@@ -10,7 +11,6 @@ interface ModifiersObject {
 
 export interface TavernData {
 	nouns: NounData[]
-	totalNouns: number
 	modifiersObject: ModifiersObject
 }
 
@@ -26,7 +26,7 @@ function replaceNounWithPluralNoun (input: Format): Format {
 }
 
 function getModifierFormat (group: ModifierGroup, text: string, modifiersObject: ModifiersObject): any {
-	const { format: rawFormat, modifiers, modifierChance, modifierLengths, totalModifiers } = group;
+	const { format: rawFormat, modifiers, modifierChance } = group;
 	let { andChance, theChance } = group;
 	let format: Format = rawFormat.map(bit => bit === F.This ? text : bit);
 	// Check if we're modifying again...
@@ -86,8 +86,8 @@ function parseFormat (format: Format, nounPhrase: PluralNoun, and: string, the: 
 	return formatted.join("");
 }
 
-export function createTavernData (info: TavernsInfo): TavernData {
-	const { nouns: n, totalNouns, allModifiers } = info;
+export function createTavernData (info: InfoTaverns): TavernData {
+	const { nouns: n, modifiers: m } = info;
 	const nouns: NounData[] = [];
 	n.forEach(group => {
 		group.members.forEach(noun => {
@@ -95,14 +95,13 @@ export function createTavernData (info: TavernsInfo): TavernData {
 		});
 	});
 	const modifiersObject: ModifiersObject = {};
-	allModifiers.forEach(mod => {
+	m.forEach(mod => {
 		const allMods: ModifierData[] = [];
 		mod.members.forEach(bit => allMods.push([mod, bit]));
 		modifiersObject[mod.id] = allMods;
 	});
 	return {
 		nouns,
-		totalNouns,
 		modifiersObject
 	};
 }
@@ -111,7 +110,7 @@ let previousNucleus: NounData;
 
 function getName (info: TavernData, previous: NounData | null = null): string {
 	// Use a random noun to form a name
-	const { nouns, totalNouns, modifiersObject } = info;
+	const { nouns, modifiersObject } = info;
 	// Get a random seed
 	const [group, word] = getRandom(
 		nouns,
@@ -132,7 +131,7 @@ function getName (info: TavernData, previous: NounData | null = null): string {
 			}
 		}
 	);
-	const { members, modifiers, modifierChance, modifierLengths, totalModifiers } = group;
+	const { members, modifiers, modifierChance } = group;
 	let { andChance, theChance } = group;
 	const nounPhrase: PluralNoun = typeof word === "string" ? [word, word + "s"] : word;
 	const format: Format = [];

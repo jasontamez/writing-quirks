@@ -4,10 +4,8 @@ interface Group {
 	description: string
 	modifiers: string[]
 	modifierChance: NumericRange<0, 100>
-	modifierLengths: number[]
 	andChance: number
 	theChance: number
-	totalModifiers: number
 }
 
 export type PluralNoun = [string, string | null];
@@ -55,9 +53,7 @@ export const ERROR_MOD_GROUP: ModifierGroup = {
 	modifiers: [],
 	modifierChance: 0,
 	andChance: 0,
-	theChance: 0,
-	modifierLengths: [],
-	totalModifiers: 0
+	theChance: 0
 };
 // arr, format, modifiers = [], modifierChance = 25, andChance = 0, theChance = 0
 const baseModifierGroup: Omit<ModifierGroup, "id" | "description"> = {
@@ -66,9 +62,7 @@ const baseModifierGroup: Omit<ModifierGroup, "id" | "description"> = {
 	modifiers: [],
 	modifierChance: 25,
 	andChance: 0,
-	theChance: 0,
-	modifierLengths: [],
-	totalModifiers: 0
+	theChance: 0
 };
 const signageModifiers: ModifierGroup = ({
 	...baseModifierGroup,
@@ -278,7 +272,7 @@ const placeAdjectiveModifiers: ModifierGroup = ({
 	theChance: 50
 });
 
-const modifierGroups = [
+export const modifierGroups = [
 	signageModifiers,
 	ownershipModifiers,
 	numericModifiers,
@@ -294,8 +288,6 @@ const modifierGroups = [
 	animatePartModifiers,
 	placeAdjectiveModifiers
 ];
-const modifierLengths = modifierGroups.map(mg => mg.members.length);
-const modifierMap = modifierGroups.map(mg => mg.id);
 
 
 //
@@ -310,18 +302,14 @@ export const ERROR_NOUN_GROUP: NounGroup = {
 	modifiers: [],
 	modifierChance: 0,
 	andChance: 0,
-	theChance: 0,
-	modifierLengths: [],
-	totalModifiers: 0
+	theChance: 0
 };
 //arr = [], modifiers = [], modifierChance = 98, andChance = 10, theChance = 65
 const baseNounGroup: Omit<NounGroup, "description" | "members"> = {
 	modifiers: [],
 	modifierChance: 98,
 	andChance: 10,
-	theChance: 65,
-	modifierLengths: [],
-	totalModifiers: 0
+	theChance: 65
 };
 const objectNouns: NounGroup = ({
 	...baseNounGroup,
@@ -450,34 +438,5 @@ const placeNouns: NounGroup = ({
 	theChance: 200
 });
 
-const nounGroups = [objectNouns, animalNouns, animateNouns, personNouns, placeNouns];
-const nounLengths = nounGroups.map(ng => ng.members.length);
-const totalNouns = nounLengths.reduce((prev, next) => prev + next);
+export const nounGroups = [objectNouns, animalNouns, animateNouns, personNouns, placeNouns];
 
-function calculateModifierLengths (input: Group) {
-	const { modifiers } = input;
-	let total = 0;
-	modifiers.forEach(id => {
-		const modNum = modifierMap.indexOf(id);
-		if(modNum < 0) {
-			throw new Error("WTF?");
-		}
-		const modifier = modifierGroups[modNum];
-		const amount = modifier.members.length;
-		total += amount;
-		input.modifierLengths.push(amount);
-	});
-	input.totalModifiers = total;
-}
-
-// Set modifier lengths/totals
-[...modifierGroups, ...nounGroups].forEach(group => calculateModifierLengths(group));
-
-const tavernsInfo: TavernsInfo = {
-	nouns: nounGroups,
-	nounLengths,
-	totalNouns,
-	allModifiers: modifierGroups
-};
-
-export default tavernsInfo;

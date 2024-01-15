@@ -19,8 +19,7 @@ import infoFlavorsSlice, { infoFlavors } from './infoFlavorsSlice';
 import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
 import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
 import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
-import infoTavernsSlice from './infoTavernsSlice';
-import infoTaverns from './data/taverns';
+import infoTavernsSlice, { infoTaverns } from './infoTavernsSlice';
 
 //
 //

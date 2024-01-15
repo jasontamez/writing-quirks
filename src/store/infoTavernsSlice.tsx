@@ -1,9 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import tavernsInfo from './data/taverns';
+import { ModifierGroup, modifierGroups, NounGroup, nounGroups } from './data/taverns';
+
+export interface InfoTaverns {
+	nouns: NounGroup[]
+	modifiers: ModifierGroup[]
+}
+
+export const infoTaverns: InfoTaverns = {
+	nouns: nounGroups,
+	modifiers: modifierGroups
+};
 
 const infoTavernsSlice = createSlice({
 	name: 'infoTaverns',
-	initialState: tavernsInfo,
+	initialState: infoTaverns,
 	reducers: {
 		toggleDebug: (state) => {
 			return state;
