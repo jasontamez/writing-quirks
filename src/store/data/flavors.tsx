@@ -200,7 +200,8 @@ export const nouns: Noun[] = [
 		noun: "fudge"
 	},
 	{
-		noun: "frog leg"
+		noun: "frog leg",
+		basicPlural: true
 	},
 	{
 		noun: "grape",

@@ -116,19 +116,20 @@ const Prompts: React.FC = () => {
 	const displayIdea = (ideaString: string, alternate = false) => {
 		// Convert to array of elements
 		const toShow: ReactElement[] = [];
-		let leftover = ideaString.replace(/><(.)>/g, "$1>");
+		let leftover = ideaString;
 		let unmatched = true;
 		let count = 0;
 		let plain = "";
 		do {
-			let m = leftover.match(/^(.*?)<([^>]+)>(.*)$/);
+			let m = leftover.match(/^(.*?)(\S*?)<([^>]+)>(\S*)(.*)$/);
 			if(m) {
+				const [ignore, pre, punctuation1, main, punctuation2, post] = m;
 				toShow.push(
-					<Fragment key={`fragmentPiece${count++}`}>{m[1]}</Fragment>,
-					<i key={`italicPiece${count++}`}>{m[2]}</i>
+					<Fragment key={`fragmentPiece${count++}`}>{pre}</Fragment>,
+					<i key={`italicPiece${count++}`}>{punctuation1}{main}{punctuation2}</i>
 				);
-				plain = plain + m[1] + m[2];
-				leftover = m[3];
+				plain = plain + pre + punctuation1 + main + punctuation2;
+				leftover = post;
 			} else {
 				unmatched = false;
 			}

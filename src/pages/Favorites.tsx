@@ -16,7 +16,7 @@ import {
 	IonToggle,
 	IonToolbar
 } from '@ionic/react';
-import { ellipsisVertical, settingsSharp, trashOutline } from 'ionicons/icons';
+import { settingsSharp, trashOutline } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { FaveInfo, FavoritesObject, favoriteNames, removeFavorite, toggleSeparate, toggleSort } from '../store/generalSettingsSlice';
@@ -50,7 +50,7 @@ const Fave: FC<PropsItem> = (props) => {
 			<IonItem className="favorite">
 				<div className="content">
 					{content}
-					<IonIcon icon={ellipsisVertical} className="handle" size="small" />
+					<IonIcon src="svg/drag-handle.svg" className="handle" size="small" />
 				</div>
 			</IonItem>
 			<IonItemOptions side="end">

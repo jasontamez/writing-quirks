@@ -169,25 +169,25 @@ export const doubleItemFormats: Format[] = [
 	["Consider how ", " can be an alternative to ", "."],
 	["Think about ", ", and then consider ", "."],
 	["Write about ", " and ", "."],
-	["How does ", " affect ", "<?> Or vice versa?"],
+	["How does ", " affect ", "? Or vice versa?"],
 	["Brainstorm ways to connect ", " with ", "."]
 ];
 export const doubleLocaleFormats: Format[] = [
 	["Create a story set ", "."],
 	["Your tale begins and ends ", "."],
-	["What happens ", "<?>"],
+	["What happens ", "?"],
 	["Ruminate on goings-on ", "."],
 	["Set your story ", "."],
 	["Imagine what happens ", "."]
 ];
 export const doubleCharacterFormats: Format[] = [
-	["What happens when ", [" meets ", " meet "], "<?>"],
+	["What happens when ", [" meets ", " meet "], "?"],
 	["Imagine a conflict between ", " and ", "."],
 	["", " and ", " walk into a bar..."],
 	["Set ", " against ", " in your story."],
 	["Write about ", " partnering with ", "."],
 	["", [" encounters ", " encounter "], " as your story begins."],
-	["", [" is upset with ", " are upset with "], "<!>"],
+	["", [" is upset with ", " are upset with "], "!"],
 	["", [" is following ", " are following "], " as your story begins."],
 	["", [" is visiting ", " are visiting "], " as your story begins."],
 	["Your tale begins with ", " and ends with ", "."]
