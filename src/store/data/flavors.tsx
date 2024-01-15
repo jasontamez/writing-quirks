@@ -18,10 +18,35 @@ export type Flavor = (AdjectiveBasic & NounBasic) | Adjective | Noun;
 
 export const adjectives: Adjective[] = [
 	{
-		adjective: "airy"
+		adjective: "baked"
+	},
+	{
+		adjective: "barbecued"
+	},
+	{
+		adjective: "basil"
+	},
+	{
+		adjective: "bitter"
+	},
+	{
+		adjective: "broasted"
 	},
 	{
 		adjective: "burned"
+	},
+	{
+		adjective: "butterscotch"
+	},
+	{
+		adjective: "casserole",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		adjective: "cookies",
+		requiresSingular: true,
+		postAdjective: true
 	},
 	{
 		adjective: "crispy"
@@ -36,7 +61,12 @@ export const adjectives: Adjective[] = [
 		adjective: "dusty"
 	},
 	{
-		adjective: "electrified"
+		adjective: "falafels",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		adjective: "fancy"
 	},
 	{
 		adjective: "flaming hot"
@@ -45,38 +75,155 @@ export const adjectives: Adjective[] = [
 		adjective: "flavorless"
 	},
 	{
+		adjective: "fried"
+	},
+	{
 		adjective: "funny-tasting"
+	},
+	{
+		adjective: "ginger"
 	},
 	{
 		adjective: "gourmet"
 	},
 	{
+		adjective: "hazelnut"
+	},
+	{
+		adjective: "hummus",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		adjective: "jasmine"
+	},
+	{
+		adjective: "juniper"
+	},
+	{
+		adjective: "light and airy"
+	},
+	{
+		adjective: "lollipops",
+		postAdjective: true,
+		requiresSingular: true
+	},
+	{
+		adjective: "lukewarm"
+	},
+	{
+		adjective: "molten"
+	},
+	{
+		adjective: "omelettes",
+		postAdjective: true,
+		requiresSingular: true
+	},
+	{
+		adjective: "pastries",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		adjective: "poached"
+	},
+	{
+		adjective: "pudding",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
 		adjective: "room-temperature"
+	},
+	{
+		adjective: "rosemary"
 	},
 	{
 		adjective: "rotten"
 	},
 	{
+		adjective: "saffron"
+	},
+	{
+		adjective: "sandwiches",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		adjective: "soapy"
+	},
+	{
+		adjective: "sour"
+	},
+	{
+		adjective: "spice",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
 		adjective: "stale"
+	},
+	{
+		adjective: "stir fry",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		adjective: "sweet"
 	},
 	{
 		adjective: "that went bad",
 		postAdjective: true
 	},
 	{
+		adjective: "thousand-year-old"
+	},
+	{
 		adjective: "warm"
+	},
+	{
+		adjective: "yogurt",
+		postAdjective: true,
+		requiresSingular: true
 	}
 ];
 
 export const nouns: Noun[] = [
 	{
-		noun: "bread"
+		noun: "brownie",
+		basicPlural: true
 	},
 	{
 		noun: "cake"
 	},
 	{
+		noun: "fudge"
+	},
+	{
+		noun: "frog leg"
+	},
+	{
+		noun: "grape",
+		basicPlural: true
+	},
+	{
+		noun: "linguini"
+	},
+	{
 		noun: "pie"
+	},
+	{
+		noun: "popcorn"
+	},
+	{
+		noun: "spaghetti"
+	},
+	{
+		noun: "toffee"
+	},
+	{
+		noun: "tortilla",
+		basicPlural: true
 	},
 	{
 		noun: "stew"
@@ -85,8 +232,18 @@ export const nouns: Noun[] = [
 
 export const flavors: Flavor[] = [
 	{
+		noun: "almond",
+		adjective: "almond",
+		basicPlural: true
+	},
+	{
 		noun: "apple",
 		adjective: "apple-flavored",
+		basicPlural: true
+	},
+	{
+		noun: "avocado",
+		adjective: "avocado",
 		basicPlural: true
 	},
 	{
@@ -105,12 +262,28 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "beer",
-		adjective: "beer-flavored"
+		adjective: "beer",
+		requiresSingular: true,
+		postAdjective: true
+	},
+	{
+		noun: "beet",
+		adjective: "beet-flavored",
+		basicPlural: true
+	},
+	{
+		noun: "blueberry",
+		plural: "blueberries",
+		adjective: "blueberry"
 	},
 	{
 		noun: "booger",
 		adjective: "booger-flavored",
 		basicPlural: true
+	},
+	{
+		noun: "bread",
+		adjective: "breaded"
 	},
 	{
 		noun: "broccoli",
@@ -121,9 +294,19 @@ export const flavors: Flavor[] = [
 		adjective: "buttery"
 	},
 	{
+		noun: "caramel",
+		adjective: "caramel"
+	},
+	{
 		noun: "carrot",
 		adjective: "carrot-flavored",
 		basicPlural: true
+	},
+	{
+		noun: "cashew",
+		adjective: "with cashews",
+		basicPlural: true,
+		postAdjective: true
 	},
 	{
 		noun: "cheese",
@@ -139,6 +322,12 @@ export const flavors: Flavor[] = [
 		adjective: "chicken-flavored"
 	},
 	{
+		noun: "chorizo",
+		adjective: "chorizo",
+		postAdjective: true,
+		requiresSingular: true
+	},
+	{
 		noun: "chocolate",
 		adjective: "chocolate"
 	},
@@ -146,6 +335,11 @@ export const flavors: Flavor[] = [
 		noun: "cinnamon stick",
 		adjective: "cinnamon",
 		basicPlural: true
+	},
+	{
+		noun: "coconut",
+		basicPlural: true,
+		adjective: "coconut"
 	},
 	{
 		noun: "coffee",
@@ -159,11 +353,18 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "cotton candy",
-		adjective: "cotton candy-flavored"
+		adjective: "cotton candy",
+		postAdjective: true,
+		requiresSingular: true
 	},
 	{
 		noun: "cough syrup",
 		adjective: "cough syrup-infused"
+	},
+	{
+		noun: "cranberry",
+		plural: "cranberries",
+		adjective: "cranberry"
 	},
 	{
 		noun: "cream",
@@ -177,19 +378,29 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "eggnog",
-		adjective: "eggnog-flavored"
+		adjective: "in eggnog",
+		postAdjective: true
+	},
+	{
+		noun: "garlic",
+		adjective: "garlic"
 	},
 	{
 		noun: "grass",
-		adjective: "grass-flavored"
+		adjective: "grassy"
 	},
 	{
 		noun: "gravy",
-		adjective: "gravy-smothered"
+		adjective: "smothered in gravy",
+		postAdjective: true
 	},
 	{
 		noun: "ham",
 		adjective: "ham-flavored"
+	},
+	{
+		noun: "honey",
+		adjective: "honey-covered"
 	},
 	{
 		noun: "horseradish",
@@ -215,7 +426,17 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "kale",
-		adjective: "kale-flavored"
+		adjective: "with kale",
+		postAdjective: true
+	},
+	{
+		noun: "ketchip",
+		adjective: "with ketchup",
+		postAdjective: true
+	},
+	{
+		noun: "kiwi",
+		adjective: "kiwi"
 	},
 	{
 		noun: "kitty litter",
@@ -241,13 +462,19 @@ export const flavors: Flavor[] = [
 		adjective: "licorice"
 	},
 	{
+		noun: "lime juice",
+		adjective: "lime juice-infused"
+	},
+	{
 		noun: "mango",
 		plural: "mangoes",
-		adjective: "mango-flavored"
+		adjective: "mango"
 	},
 	{
 		noun: "milk",
-		adjective: "milky"
+		adjective: "milk",
+		postAdjective: true,
+		requiresSingular: true
 	},
 	{
 		noun: "mud",
@@ -257,6 +484,11 @@ export const flavors: Flavor[] = [
 		noun: "mushroom",
 		adjective: "mushroom",
 		basicPlural: true
+	},
+	{
+		noun: "mustard",
+		adjective: "with mustard",
+		postAdjective: true
 	},
 	{
 		noun: "oil",
@@ -273,6 +505,20 @@ export const flavors: Flavor[] = [
 		basicPlural: true
 	},
 	{
+		noun: "orange",
+		adjective: "orange",
+		basicPlural: true
+	},
+	{
+		noun: "papaya",
+		basicPlural: true,
+		adjective: "papaya"
+	},
+	{
+		noun: "passion fruit",
+		adjective: "passion fruit"
+	},
+	{
 		noun: "peach",
 		plural: "peaches",
 		adjective: "peach-flavored"
@@ -282,6 +528,11 @@ export const flavors: Flavor[] = [
 		adjective: "with peanuts",
 		postAdjective: true,
 		basicPlural: true
+	},
+	{
+		noun: "peanut butter",
+		adjective: "in peanut butter",
+		postAdjective: true
 	},
 	{
 		noun: "pea",
@@ -298,13 +549,33 @@ export const flavors: Flavor[] = [
 		adjective: "extra minty"
 	},
 	{
+		noun: "pickle",
+		adjective: "pickled",
+		basicPlural: true
+	},
+	{
 		noun: "pine needle",
 		adjective: "pine-scented",
 		basicPlural: true
 	},
 	{
-		noun: "popcorn",
-		adjective: "popcorn-flavored"
+		noun: "pineapple",
+		adjective: "pineapple",
+		basicPlural: true
+	},
+	{
+		noun: "pistachio",
+		adjective: "pistachio",
+		basicPlural: true
+	},
+	{
+		noun: "plum",
+		adjective: "plum",
+		basicPlural: true
+	},
+	{
+		noun: "pomegranite",
+		adjective: "pomegranite"
 	},
 	{
 		noun: "potato",
@@ -322,6 +593,11 @@ export const flavors: Flavor[] = [
 		basicPlural: true
 	},
 	{
+		noun: "raspberry",
+		plural: "raspberries",
+		adjective: "raspberry"
+	},
+	{
 		noun: "ranch dressing",
 		adjective: "smothered in ranch dressing",
 		postAdjective: true
@@ -332,8 +608,9 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "rice",
-		adjective: "with rice",
-		postAdjective: true
+		adjective: "rice",
+		postAdjective: true,
+		requiresSingular: true
 	},
 	{
 		noun: "rum",
@@ -376,6 +653,11 @@ export const flavors: Flavor[] = [
 		adjective: "steak and"
 	},
 	{
+		noun: "strawberry",
+		plural: "strawberries",
+		adjective: "strawberry"
+	},
+	{
 		noun: "syrup",
 		adjective: "syrup-covered"
 	},
@@ -392,7 +674,9 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "tea",
-		adjective: "tea-flavored"
+		adjective: "tea",
+		postAdjective: true,
+		requiresSingular: true
 	},
 	{
 		noun: "toast",
@@ -403,7 +687,7 @@ export const flavors: Flavor[] = [
 	{
 		noun: "tomato",
 		plural: "tomatoes",
-		adjective: "tomato-flavored"
+		adjective: "tomato"
 	},
 	{
 		noun: "toothpaste",
@@ -434,17 +718,23 @@ export const flavors: Flavor[] = [
 	},
 	{
 		noun: "water",
-		adjective: "watery"
+		adjective: "water",
+		postAdjective: true,
+		requiresSingular: true
 	},
 	{
 		noun: "watermelon",
-		adjective: "watermelon-flavored",
+		adjective: "watermelon",
 		basicPlural: true
 	},
 	{
 		noun: "whipped cream",
 		adjective: "with whipped cream",
 		postAdjective: true
+	},
+	{
+		noun: "whiskey",
+		adjective: "whiskey-infused"
 	},
 	{
 		noun: "wood",
