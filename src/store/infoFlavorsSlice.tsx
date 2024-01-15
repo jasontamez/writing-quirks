@@ -20,14 +20,16 @@ const infoFlavorsSlice = createSlice({
 	name: 'infoFlavors',
 	initialState: infoFlavors,
 	reducers: {
-		toggleDebug: (state) => {
-			return state;
+		resetFlavors: (state) => {
+			return {
+				...infoFlavors
+			};
 		}
 	}
 });
 
 export const {
-	toggleDebug
+	resetFlavors
 } = infoFlavorsSlice.actions;
 
 export default infoFlavorsSlice.reducer;

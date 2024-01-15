@@ -21,14 +21,16 @@ const infoBabblesSlice = createSlice({
 	name: 'infoBabbles',
 	initialState: infoBabbles,
 	reducers: {
-		toggleDebug: (state) => {
-			return state;
+		resetBabbles: (state) => {
+			return {
+				...infoBabbles
+			};
 		}
 	}
 });
 
 export const {
-	toggleDebug
+	resetBabbles
 } = infoBabblesSlice.actions;
 
 export default infoBabblesSlice.reducer;

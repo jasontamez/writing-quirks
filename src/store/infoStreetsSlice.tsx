@@ -15,14 +15,16 @@ const infoStreetsSlice = createSlice({
 	name: 'infoStreets',
 	initialState: infoStreets,
 	reducers: {
-		toggleDebug: (state) => {
-			return state;
+		resetStreets: (state) => {
+			return {
+				...infoStreets
+			};
 		}
 	}
 });
 
 export const {
-	toggleDebug
+	resetStreets
 } = infoStreetsSlice.actions;
 
 export default infoStreetsSlice.reducer;

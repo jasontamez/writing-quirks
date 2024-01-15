@@ -24,9 +24,14 @@ import { trashBin } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
-import { clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSettingsSlice';
+import { clearUsedIdeas, resetPrompts, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSettingsSlice';
 import { IdeaFlagsObject } from '../promptsData/Ideas';
 import packageJson from '../../package.json';
+import { resetBabbles } from '../store/infoBabblesSlice';
+import { resetFlavors } from '../store/infoFlavorsSlice';
+import { resetInsults } from '../store/infoInsultsSlice';
+import { resetStreets } from '../store/infoStreetsSlice';
+import { resetTaverns } from '../store/infoTavernsSlice';
 
 const Settings: React.FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
@@ -210,6 +215,16 @@ const Settings: React.FC = () => {
 								value="scrolling"
 							>Scrolling</IonSelectOption>
 						</IonSelect>
+					</IonItem>
+					<IonItem button onClick={() => {
+						dispatch(resetBabbles());
+						dispatch(resetFlavors());
+						dispatch(resetPrompts());
+						dispatch(resetInsults());
+						dispatch(resetStreets());
+						dispatch(resetTaverns());
+					}}>
+						<IonLabel>Reset All Ideas/Prompts/etc</IonLabel>
 					</IonItem>
 
 					<IonItemDivider className="major">Writing Prompts Settings</IonItemDivider>

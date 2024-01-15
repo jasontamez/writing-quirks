@@ -15,14 +15,16 @@ const infoTavernsSlice = createSlice({
 	name: 'infoTaverns',
 	initialState: infoTaverns,
 	reducers: {
-		toggleDebug: (state) => {
-			return state;
+		resetTaverns: (state) => {
+			return {
+				...infoTaverns
+			} as InfoTaverns;
 		}
 	}
 });
 
 export const {
-	toggleDebug
+	resetTaverns
 } = infoTavernsSlice.actions;
 
 export default infoTavernsSlice.reducer;

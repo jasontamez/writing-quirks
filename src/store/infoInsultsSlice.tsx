@@ -19,14 +19,16 @@ const infoInsultsSlice = createSlice({
 	name: 'infoInsults',
 	initialState: infoInsults,
 	reducers: {
-		toggleDebug: (state) => {
-			return state;
+		resetInsults: (state) => {
+			return {
+				...infoInsults
+			};
 		}
 	}
 });
 
 export const {
-	toggleDebug
+	resetInsults
 } = infoInsultsSlice.actions;
 
 export default infoInsultsSlice.reducer;

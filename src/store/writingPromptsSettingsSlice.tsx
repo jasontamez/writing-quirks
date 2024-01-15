@@ -114,6 +114,12 @@ const writingPromptsSettingsSlice = createSlice({
 			const { payload } = action;
 			state.hiddenTopics[payload] = !state.hiddenTopics[payload];
 			return state;
+		},
+		resetPrompts: (state) => {
+			return {
+				...state,
+				ideas
+			};
 		}
 	}
 });
@@ -122,7 +128,8 @@ export const {
 	saveUsedIdeas,
 	clearUsedIdeas,
 	setMemorySize,
-	toggleHiddenTopic
+	toggleHiddenTopic,
+	resetPrompts
 } = writingPromptsSettingsSlice.actions;
 
 export default writingPromptsSettingsSlice.reducer;
