@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Adjective, adjectives, Determiner, determiners, intros, nouns, verbs } from './data/babbles';
 
 export interface BabblesInfo {
+	acceptNew: boolean
+	acceptUpdates: boolean
 	intros: string[]
 	nouns: string[]
 	verbs: string[]
@@ -10,6 +12,8 @@ export interface BabblesInfo {
 }
 
 export const infoBabbles: BabblesInfo = {
+	acceptNew: true,
+	acceptUpdates: true,
 	intros,
 	adjectives,
 	nouns,
@@ -25,12 +29,26 @@ const infoBabblesSlice = createSlice({
 			return {
 				...infoBabbles
 			};
+		},
+		toggleAcceptNew: (state) => {
+			return {
+				...state,
+				acceptNew: !state.acceptNew
+			};
+		},
+		toggleAcceptUpdates: (state) => {
+			return {
+				...state,
+				acceptUpdates: !state.acceptUpdates
+			};
 		}
 	}
 });
 
 export const {
-	resetBabbles
+	resetBabbles,
+	toggleAcceptNew,
+	toggleAcceptUpdates
 } = infoBabblesSlice.actions;
 
 export default infoBabblesSlice.reducer;

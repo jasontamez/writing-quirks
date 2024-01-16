@@ -2,11 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ModifierGroup, modifierGroups, NounGroup, nounGroups } from './data/taverns';
 
 export interface InfoTaverns {
+	acceptNew: boolean
+	acceptUpdates: boolean
 	nouns: NounGroup[]
 	modifiers: ModifierGroup[]
 }
 
 export const infoTaverns: InfoTaverns = {
+	acceptNew: true,
+	acceptUpdates: true,
 	nouns: nounGroups,
 	modifiers: modifierGroups
 };
@@ -18,13 +22,27 @@ const infoTavernsSlice = createSlice({
 		resetTaverns: (state) => {
 			return {
 				...infoTaverns
-			} as InfoTaverns;
+			};
+		},
+		toggleAcceptNew: (state) => {
+			return {
+				...state,
+				acceptNew: !state.acceptNew
+			};
+		},
+		toggleAcceptUpdates: (state) => {
+			return {
+				...state,
+				acceptUpdates: !state.acceptUpdates
+			};
 		}
 	}
 });
 
 export const {
-	resetTaverns
+	resetTaverns,
+	toggleAcceptNew,
+	toggleAcceptUpdates
 } = infoTavernsSlice.actions;
 
 export default infoTavernsSlice.reducer;

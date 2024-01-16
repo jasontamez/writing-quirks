@@ -6,6 +6,8 @@ export interface WritingPromptsSettings {
 	memorySize: number
 	hiddenTopics: IdeaFlagsObject
 	ideas: Any[]
+	acceptNew: boolean
+	acceptUpdates: boolean
 }
 
 export const writingPromptsSettings: WritingPromptsSettings = {
@@ -79,7 +81,9 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		westAsia: true,
 		eastAsia: true
 	},
-	ideas
+	ideas,
+	acceptNew: true,
+	acceptUpdates: true
 };
 
 const trimIdeas = (ideas: string[], max: number) => {
@@ -117,8 +121,21 @@ const writingPromptsSettingsSlice = createSlice({
 		},
 		resetPrompts: (state) => {
 			return {
+				...writingPromptsSettings,
 				...state,
 				ideas
+			};
+		},
+		toggleAcceptNew: (state) => {
+			return {
+				...state,
+				acceptNew: !state.acceptNew
+			};
+		},
+		toggleAcceptUpdates: (state) => {
+			return {
+				...state,
+				acceptUpdates: !state.acceptUpdates
 			};
 		}
 	}
@@ -129,7 +146,9 @@ export const {
 	clearUsedIdeas,
 	setMemorySize,
 	toggleHiddenTopic,
-	resetPrompts
+	resetPrompts,
+	toggleAcceptNew,
+	toggleAcceptUpdates
 } = writingPromptsSettingsSlice.actions;
 
 export default writingPromptsSettingsSlice.reducer;

@@ -33,14 +33,14 @@ export const getFlavor = (input: FlavorsInfo) => {
 		nouns,
 		{
 			last: [previousNoun, previousAdjective],
-			converter: (e: string): Noun => ({ noun: `E-ROF-1: ${e}` })
+			converter: (e: string): Noun => ({ id: "error-rof-1", noun: `E-ROF-1: ${e}` })
 		}
 	) as Noun;
 	const adj = getRandom(
 		adjectives,
 		{
 			last: [previousAdjective, previousNoun, n],
-			converter: (e: string): Adjective => ({ adjective: `E-ROF-2: ${e}` })
+			converter: (e: string): Adjective => ({ id: "error-rof-2", adjective: `E-ROF-2: ${e}` })
 		}
 	) as Adjective;
 	previousNoun = n;

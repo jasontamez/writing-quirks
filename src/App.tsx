@@ -56,6 +56,7 @@ const Babbles = lazy(() => import("./pages/Babbles"));
 const Insults = lazy(() => import("./pages/Insults"));
 const Flavors = lazy(() => import("./pages/Flavors"));
 const Favorites = lazy(() => import("./pages/Favorites"));
+const EditFlavors = lazy(() => import("./pages/editing/EditFlavors"));
 
 const App: React.FC = () => {
 	const navigator = useIonRouter();
@@ -100,6 +101,7 @@ const App: React.FC = () => {
 						<Route exact path="/flavors" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
 						<Route exact path="/favorites" render={() => <Suspense fallback={<Loading />}><Favorites /></Suspense>} />
 						<Route exact path="/settings" render={() => <Settings />} />
+						<Route exact path="/editflavors" render={() => <Suspense fallback={<Loading />}><EditFlavors /></Suspense>} />
 						<Route exact path="/" render={() => <Main />} />
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">

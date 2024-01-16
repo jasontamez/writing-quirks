@@ -7,11 +7,15 @@ export interface FlavorsInfo {
 }
 
 interface InfoFlavors {
+	acceptNew: boolean
+	acceptUpdates: boolean
 	flavors: Flavor[]
 	intros: string[]
 }
 
 export const infoFlavors: InfoFlavors = {
+	acceptNew: true,
+	acceptUpdates: true,
 	flavors: [...adjectives, ...nouns, ...flavors],
 	intros
 };
@@ -22,14 +26,52 @@ const infoFlavorsSlice = createSlice({
 	reducers: {
 		resetFlavors: (state) => {
 			return {
-				...infoFlavors
+				...infoFlavors,
+				...state,
+				flavors: [...adjectives, ...nouns, ...flavors],
+				intros
+			};
+		},
+		toggleAcceptNew: (state) => {
+			return {
+				...state,
+				acceptNew: !state.acceptNew
+			};
+		},
+		toggleAcceptUpdates: (state) => {
+			return {
+				...state,
+				acceptUpdates: !state.acceptUpdates
+			};
+		},
+		setIntros: (state, action: PayloadAction<string[]>) => {
+			return {
+				...state,
+				intros: action.payload
+			};
+		},
+		editFlavor: (state, action: PayloadAction<Flavor>) => {
+			const { payload } = action;
+			const { id } = payload;
+			return {
+				...state,
+				flavors: state.flavors.map(item => {
+					if(item.id === id) {
+						return payload;
+					}
+					return item;
+				})
 			};
 		}
 	}
 });
 
 export const {
-	resetFlavors
+	resetFlavors,
+	toggleAcceptNew,
+	toggleAcceptUpdates,
+	setIntros,
+	editFlavor
 } = infoFlavorsSlice.actions;
 
 export default infoFlavorsSlice.reducer;

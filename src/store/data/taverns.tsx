@@ -22,14 +22,14 @@ export enum F {
 	PluralNoun
 }
 
-type ProtoFormat = string | F;
+type BasicFormat = string | F;
 
-export type Format = (ProtoFormat | Format)[];
+export type Format = (BasicFormat | Format)[];
 
 export interface ModifierGroup extends Group {
 	id: string
 	members: string[]
-	format: Format
+	format: BasicFormat[]
 }
 
 export interface TavernsInfo {
@@ -118,9 +118,9 @@ const prepPhraseModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "prepPhraseModifiers",
 	description: "Prepositional Phrase Group",
-	members: ["Beneath the Mountain","Beneath the Sea","by the Castle","by the Keep","by the River","by the Sea",
-		"in the Sky","of the Castle","of the Lake","of the Mountain","on the Lake","on the River",
-		"Under the Mountain","Under the Sea"],
+	members: ["Beneath the Mountain","Beneath the Sea","by the Castle","by the Keep","by the River",
+		"by the Sea","in the Sky","of the Castle","of the Lake","of the Mountain","on the Lake",
+		"on the River","Under the Mountain","Under the Sea"],
 	format: [F.Noun, " ", F.This],
 	modifiers: [
 		"ordinalModifiers",
@@ -237,8 +237,8 @@ const personPartModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "personPartModifiers",
 	description: "Person Part Group",
-	members: ["Armpit","Aunt","Beard","Belly","Family","Finger","Fingernail","Fingernails","Fingers","Fist","Lips",
-		"Pleasure","Toe","Toenail","Toenails","Toes","Uncle"],
+	members: ["Armpit","Aunt","Beard","Belly","Family","Finger","Fingernail","Fingernails","Fingers","Fist",
+		"Lips","Pleasure","Toe","Toenail","Toenails","Toes","Uncle"],
 	format: [F.Noun, "'s ", F.This],
 	modifierChance: 0,
 	andChance: -50,
@@ -248,8 +248,9 @@ const animatePartModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "animatePartModifiers",
 	description: "Animate Part Group",
-	members: ["Blood","Ear","Ears","Eye","Eyes","Footprint","Footprints","Gaze","Head","Heart","Liver","Nose","Prayer",
-		"Rump","Scent","Sleep","Spleen","Stare","Tears","Teeth","Throat","Tooth","Trousers","Ulcer","Voice"],
+	members: ["Blood","Ear","Ears","Eye","Eyes","Footprint","Footprints","Gaze","Head","Heart","Liver","Nose",
+		"Prayer","Rump","Scent","Sleep","Spleen","Stare","Tears","Teeth","Throat","Tooth","Trousers","Ulcer",
+		"Voice"],
 	format: [F.Noun, "'s ", F.This],
 	modifierChance: 0,
 	andChance: -50,
@@ -272,7 +273,7 @@ const placeAdjectiveModifiers: ModifierGroup = ({
 	theChance: 50
 });
 
-export const modifierGroups = [
+export const modifierGroups: ModifierGroup[] = [
 	signageModifiers,
 	ownershipModifiers,
 	numericModifiers,
@@ -319,10 +320,10 @@ const objectNouns: NounGroup = ({
 		["Bush","Bushes"],["Cactus","Cacti"],"Candle","Candlestick","Cane","Card","Cauldron","Cedar","Chain",
 		"Chainmail","Chant",["Cherry","Cherries"],["Chessman","Chessmen"],"Cloak","Clock","Cobweb","Codpiece",
 		"Cog",["Compass","Compasses"],"Cudgel","Cypher","Dagger",["Deck of Cards","Decks of Cards"],"Delight",
-		"Doll","Drum","Egg","Eggplant","Fiddle","Fireplace","Flag","Flagon","Flask","Flower","Flute",
-		"Fork","Frost","Garter","Gauntlet","Gazebo","Grain","Halo","Hammer","Handle","Harp","Harpoon",
-		"Hatchet","Haystack","Headdress","Hole","Hook","Jewel","Kazoo","Keg","Kettle","Key",["Knife","Knives"],
-		"Lance","Lantern",["Lotus","Lotuses"],"Lute","Mandolin",["Memory","Memories"],"Moon","Mug","Night","Oak",
+		"Doll","Drum","Egg","Eggplant","Fiddle","Fireplace","Flag","Flagon","Flask","Flower","Flute","Fork",
+		"Frost","Garter","Gauntlet","Gazebo","Grain","Halo","Hammer","Handle","Harp","Harpoon","Hatchet",
+		"Haystack","Headdress","Hole","Hook","Jewel","Kazoo","Keg","Kettle","Key",["Knife","Knives"],"Lance",
+		"Lantern",["Lotus","Lotuses"],"Lute","Mandolin",["Memory","Memories"],"Moon","Mug","Night","Oak",
 		"Ore","Organ",["Peach","Peaches"],"Perfume","Piano","Pie","Pillow","Pipe","Pistol","Pot","Puzzle",
 		"Rapier","Rhinestone","Rifle","Rim","Robe","Rock","Rose","Rotgut","Sack","Sail","Scroll","Sheath",
 		"Sheet","Shield","Shoe","Shot","Sign","Skull","Spear","Spellbook","Sphere","Spittoon","Spoon",
@@ -342,20 +343,21 @@ const objectNouns: NounGroup = ({
 const animalNouns: NounGroup = ({
 	...baseNounGroup,
 	description: "Animals Group",
-	members: ["Alligator","Baboon","Badger","Banshee","Barnacle","Basilisk","Bat","Bear","Boar","Bronco","Buck",
-		["Buffalo",null],"Bull",["Butterfly","Butterflies"],["Carp",null],"Cat","Chicken","Clam","Cockatoo",
-		"Cockatrice","Cow","Coyote","Crane",["Crawfish",null],"Crow",["Deer",null],"Djinn","Dog","Donkey","Dragon",
-		"Duck","Eagle","Eel","Elephant",["Elk",null],["Finch","Finches"],"Flea",["Fox","Foxes"],"Frog","Giraffe",
-		"Goat",["Goldfish",null],["Goose","Geese"],"Gorgon","Gorilla","Greyhound","Gryphon","Gull","Hamster","Hare",
-		["Harpy","Harpies"],"Hart","Hawk","Hippo","Hippogriff","Horse","Hound","Hydra","Hyena","Jaguar",
-		["Jellyfish",null],"Kitten",["Koi",null],"Kraken","Lamb","Lamprey","Lion","Lizard","Llama","Magpie","Marmot",
-		"Monkey","Monster",["Moose",null],"Mule","Narwhal",["Octopus","Octopuses"],"Otter","Owl","Owlbear","Oyster",
-		"Panda","Parrot","Peacock",["Pegasus","Pegasi"],"Penguin",["Phoenix","Phoenixes"],"Pig","Pigeon",
-		["Pony","Ponies"],"Possum",["Puppy","Puppies"],"Quail","Rabbit","Raccoon","Ram","Rat","Raven","Razorback",
-		["Rhinoceros","Rhinos"],"Roc","Rook","Rooster","Salamander","Salmon",["Sasquatch","Sasquatches"],"Seahorse",
-		"Serpent","Shark",["Sheep",null],"Skunk","Snail","Snake","Spider","Squirrel","Stag",["Starfish",null],"Stoat",
-		"Swan",["Thrush","Thrushes"],"Thunderbird","Tiger","Toad",["Trout",null],["Tuna",null],"Turtle","Unicorn",
-		["Walrus","Walruses"],"Weasel","Whale","Whelp",["Wolf","Wolves"],"Wolfhound","Wombat","Wyvern",["Yeti",null]],
+	members: ["Alligator","Baboon","Badger","Banshee","Barnacle","Basilisk","Bat","Bear","Boar","Bronco",
+		"Buck",["Buffalo",null],"Bull",["Butterfly","Butterflies"],["Carp",null],"Cat","Chicken","Clam",
+		"Cockatoo","Cockatrice","Cow","Coyote","Crane",["Crawfish",null],"Crow",["Deer",null],"Djinn","Dog",
+		"Donkey","Dragon","Duck","Eagle","Eel","Elephant",["Elk",null],["Finch","Finches"],"Flea",
+		["Fox","Foxes"],"Frog","Giraffe","Goat",["Goldfish",null],["Goose","Geese"],"Gorgon","Gorilla",
+		"Greyhound","Gryphon","Gull","Hamster","Hare",["Harpy","Harpies"],"Hart","Hawk","Hippo","Hippogriff",
+		"Horse","Hound","Hydra","Hyena","Jaguar",["Jellyfish",null],"Kitten",["Koi",null],"Kraken","Lamb",
+		"Lamprey","Lion","Lizard","Llama","Magpie","Marmot","Monkey","Monster",["Moose",null],"Mule","Narwhal",
+		["Octopus","Octopuses"],"Otter","Owl","Owlbear","Oyster","Panda","Parrot","Peacock",["Pegasus","Pegasi"],
+		"Penguin",["Phoenix","Phoenixes"],"Pig","Pigeon",["Pony","Ponies"],"Possum",["Puppy","Puppies"],"Quail",
+		"Rabbit","Raccoon","Ram","Rat","Raven","Razorback",["Rhinoceros","Rhinos"],"Roc","Rook","Rooster",
+		"Salamander","Salmon",["Sasquatch","Sasquatches"],"Seahorse","Serpent","Shark",["Sheep",null],"Skunk",
+		"Snail","Snake","Spider","Squirrel","Stag",["Starfish",null],"Stoat","Swan",["Thrush","Thrushes"],
+		"Thunderbird","Tiger","Toad",["Trout",null],["Tuna",null],"Turtle","Unicorn",["Walrus","Walruses"],
+		"Weasel","Whale","Whelp",["Wolf","Wolves"],"Wolfhound","Wombat","Wyvern",["Yeti",null]],
 	modifiers: [
 		"animalPartModifiers",
 		"animalPeopleModifiers",
@@ -388,20 +390,21 @@ const animateNouns: NounGroup = ({
 const personNouns: NounGroup = ({
 	...baseNounGroup,
 	description: "Persons Group",
-	members: ["Admiral","Alchemist","Angel","Archer","Assassin","Baker","Barrister","Beggar","Blacksmith","Boy",
-		"Bugbear","Butcher","Captain","Centaur","Chamberlain","Cowboy","Crone","Damsel","Daughter","Demon","Devil",
-		"Doctor","Doppelganger","Druid","Drunk","Dryad","Dunce",["Dwarf","Dwarves"],"Dungeoneer",["Elf","Elves"],
-		"Eunuch",["Fairy","Fairies"],"Fencer",["Fisherman","Fishermen"],"Fool","Forester","Friend","Geezer","General",
-		"Ghost","Ghoul","Giant","Girl","Gnoll","Gnome","Goblin","Governor","Guest","Gunslinger","Guzzler","Hag",
-		["Hangman","Hangmen"],"Harlot","Harvester","Herald","Hermit","Hobo","Human","Imp",["Incubus","Incubi"],
-		"Jester","Joker","Judge","Kobold",["Lady","Ladies"],"Lawyer","Liar","Lancer",["Lich","Liches"],"Lord",
-		"Lumberjack","Lunatic",["Madman","Madmen"],"Maid",["Man","Men"],["Marksman","Marksmen"],"Mason","Master",
-		"Merchant","Mermaid",["Merman","Mermen"],"Milkmaid","Miner","Minister","Minotaur","Monk",["Mummy","Mummies"],
-		"Necromancer","Ninja","Noble","Nurse","Nymph","Ogre","Oracle","Orc","Paladin","Peasant","Peddler","Phantom",
-		"Pixie","Priest","Ranger","Rogue","Sailor","Scarecrow","Senator",["Sentry","Sentries"],"Servant","Shepherd",
-		"Siren","Soldier","Son","Specter",["Spy","Spies"],"Steward","Stowaway","Student",["Succubus","Succubi"],
-		"Swashbuckler","Thug",["Thief","Thieves"],"Titan","Traveler","Troll","Twin","Tyrant","Vampire","Victor",
-		"Virgin","Warlock",["Watchman","Watchmen"],"Wanderer","Wayfarer",["Wench","Wenches"],["Werewolf","Werewolves"],
+	members: ["Admiral","Alchemist","Angel","Archer","Assassin","Baker","Barrister","Beggar","Blacksmith",
+		"Boy","Bugbear","Butcher","Captain","Centaur","Chamberlain","Cowboy","Crone","Damsel","Daughter",
+		"Demon","Devil","Doctor","Doppelganger","Druid","Drunk","Dryad","Dunce",["Dwarf","Dwarves"],
+		"Dungeoneer",["Elf","Elves"],"Eunuch",["Fairy","Fairies"],"Fencer",["Fisherman","Fishermen"],"Fool",
+		"Forester","Friend","Geezer","General","Ghost","Ghoul","Giant","Girl","Gnoll","Gnome","Goblin",
+		"Governor","Guest","Gunslinger","Guzzler","Hag",["Hangman","Hangmen"],"Harlot","Harvester","Herald",
+		"Hermit","Hobo","Human","Imp",["Incubus","Incubi"],"Jester","Joker","Judge","Kobold",["Lady","Ladies"],
+		"Lawyer","Liar","Lancer",["Lich","Liches"],"Lord","Lumberjack","Lunatic",["Madman","Madmen"],"Maid",
+		["Man","Men"],["Marksman","Marksmen"],"Mason","Master","Merchant","Mermaid",["Merman","Mermen"],
+		"Milkmaid","Miner","Minister","Minotaur","Monk",["Mummy","Mummies"],"Necromancer","Ninja","Noble",
+		"Nurse","Nymph","Ogre","Oracle","Orc","Paladin","Peasant","Peddler","Phantom","Pixie","Priest","Ranger",
+		"Rogue","Sailor","Scarecrow","Senator",["Sentry","Sentries"],"Servant","Shepherd","Siren","Soldier",
+		"Son","Specter",["Spy","Spies"],"Steward","Stowaway","Student",["Succubus","Succubi"],"Swashbuckler",
+		"Thug",["Thief","Thieves"],"Titan","Traveler","Troll","Twin","Tyrant","Vampire","Victor","Virgin",
+		"Warlock",["Watchman","Watchmen"],"Wanderer","Wayfarer",["Wench","Wenches"],["Werewolf","Werewolves"],
 		"Whore","Widow","Widower",["Witch","Witches"],"Wizard",["Woman","Women"],"Youth","Zombie"],
 	modifiers: [
 		"numericModifiers",
@@ -438,5 +441,5 @@ const placeNouns: NounGroup = ({
 	theChance: 200
 });
 
-export const nounGroups = [objectNouns, animalNouns, animateNouns, personNouns, placeNouns];
+export const nounGroups: NounGroup[] = [objectNouns, animalNouns, animateNouns, personNouns, placeNouns];
 

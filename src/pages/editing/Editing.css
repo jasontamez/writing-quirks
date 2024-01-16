@@ -1,0 +1,65 @@
+/* Favorites */
+
+ion-list.editing {
+	padding-block: 0;
+}
+ion-list.editing ion-item:last-child {
+	padding-block-end: 4em;
+}
+ion-modal ion-list.editing ion-item:last-child {
+	padding-block-end: 0;
+}
+ion-list.editing ion-item {
+	background: var(--ion-color-step-50);
+}
+ion-list.editing ion-item p,
+ion-list.editing ion-item h2 {
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+ion-list.editing ion-item p {
+	font-size: 0.8rem;
+	padding: 0;
+	text-indent: 0;
+	color: var(--ion-color-step-500);
+	width: 100%;
+	margin-block: 0;
+}
+ion-list.editing ion-item h2 {
+	font-size: 1.1rem;
+	margin: 0.25em 0;
+}
+ion-list.editing ion-item.editingItem::part(native) {
+	--inner-padding-end: 0;
+	padding-block: 0.25em;
+}
+ion-list.editing ion-item.editingItem div.content {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 100%;
+}
+ion-list.editing ion-item.editingItem div.content .handle {
+	flex-grow: 0;
+	flex-shrink: 0;
+	padding-inline: 0.5em;
+	align-self: center;
+}
+ion-list.editing ion-item.editingItem div.content .text {
+	white-space: normal !important;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+ion-list.editing ion-textarea {
+	background: var(--ion-color-dark);
+	padding-inline: 1em;
+	padding-block: 0.25em;
+	--padding-top: 0;
+	--padding-bottom: 0;
+}
+ion-list.editing ion-input.editable {
+	background: var(--ion-color-step-100);
+	--padding-start: 0.5em !important;
+	--padding-end: 0.5em;
+}
