@@ -20,7 +20,7 @@ import {
 	IonToolbar,
 	useIonToast
 } from '@ionic/react';
-import { trashBin } from 'ionicons/icons';
+import { chevronForward, trashBin } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
@@ -788,6 +788,17 @@ const Settings: React.FC = () => {
 						>
 							<h2>Australia and Oceania</h2>
 						</IonToggle>
+					</IonItem>
+
+					<IonItemDivider>Advanced Settings</IonItemDivider>
+					<IonItem lines="full">
+						<IonLabel>
+							<p><strong>CAUTION:</strong> The following pages allow you to modify the base info of the various generators. Use carefully.</p>
+						</IonLabel>
+					</IonItem>
+					<IonItem button routerDirection="forward" routerLink="/editflavors">
+						<IonLabel>Edit Flavors</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 
 					<IonItemDivider className="major" onClick={maybeDebug}>App Info</IonItemDivider>

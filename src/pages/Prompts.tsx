@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { FC, Fragment, ReactElement, useCallback, useEffect, useState } from 'react';
 import {
 	AlertOptions,
 	IonButton,
@@ -72,7 +72,7 @@ const expandInfo = (idea: Any) => {
 	}).join("\n");
 };
 
-const Expander: React.FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>}> = (props) => {
+const Expander: FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>}> = (props) => {
 	const {idea, doAlert} = props;
 	return <p className="ion-text-wrap" onClick={() => doAlert({
 		message: expandInfo(idea),
@@ -81,7 +81,7 @@ const Expander: React.FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>
 	})}>{idea.idea}</p>;
 };
 
-const Prompts: React.FC = () => {
+const Prompts: FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
 	const { usedIds, hiddenTopics, ideas } = useAppSelector(state => state.writingPromptsSettings);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);

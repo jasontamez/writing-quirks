@@ -46,6 +46,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './theme/app.css';
+import yesNoAlert from './helpers/yesNoAlert';
 
 setupIonicReact();
 
@@ -56,7 +57,7 @@ const Babbles = lazy(() => import("./pages/Babbles"));
 const Insults = lazy(() => import("./pages/Insults"));
 const Flavors = lazy(() => import("./pages/Flavors"));
 const Favorites = lazy(() => import("./pages/Favorites"));
-const EditFlavors = lazy(() => import("./pages/editing/EditFlavors"));
+const FlavorEdits = lazy(() => import("./pages/editing/FlavorsEdit"));
 
 const App: React.FC = () => {
 	const navigator = useIonRouter();
@@ -66,23 +67,13 @@ const App: React.FC = () => {
 		Capacitor.addListener('backButton', (ev: BackButtonListenerEvent) => {
 			if(!navigator.canGoBack()) {
 				// Are we trying to exit the app?
-				doAlert({
+				yesNoAlert({
 					header: "Exit App?",
 					cssClass: "warning",
 					message: "Do you want to exit the app?",
-					buttons: [
-						{
-							text: "Cancel",
-							role: "cancel",
-							cssClass: "cancel"
-						},
-						{
-							text: "Yes, exit!",
-							cssClass: "submit",
-							role: "destructive",
-							handler: Capacitor.exitApp
-						}
-					]
+					submit: "Yes, Exit",
+					handler: Capacitor.exitApp,
+					doAlert
 				});
 			}
 		});
@@ -101,7 +92,7 @@ const App: React.FC = () => {
 						<Route exact path="/flavors" render={() => <Suspense fallback={<Loading />}><Flavors /></Suspense>} />
 						<Route exact path="/favorites" render={() => <Suspense fallback={<Loading />}><Favorites /></Suspense>} />
 						<Route exact path="/settings" render={() => <Settings />} />
-						<Route exact path="/editflavors" render={() => <Suspense fallback={<Loading />}><EditFlavors /></Suspense>} />
+						<Route exact path="/editflavors" render={() => <Suspense fallback={<Loading />}><FlavorEdits /></Suspense>} />
 						<Route exact path="/" render={() => <Main />} />
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">

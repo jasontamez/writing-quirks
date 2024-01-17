@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
 	IonButton,
 	IonButtons,
@@ -18,34 +18,75 @@ import {
 	IonTextarea,
 	IonTitle,
 	IonToggle,
-	IonToolbar
+	IonToolbar,
+	useIonAlert,
+	useIonToast
 } from '@ionic/react';
 import { add, pencilOutline, save, settingsSharp, trashOutline } from 'ionicons/icons';
 
+import { deleteFlavor, setIntros, toggleAcceptNew, toggleAcceptUpdates } from '../../store/infoFlavorsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setIntros, toggleAcceptNew, toggleAcceptUpdates } from '../../store/infoFlavorsSlice';
 import { Flavor } from '../../store/data/flavors';
+
 import { $i } from '../../helpers/dollarsignExports';
-import EditFlavorModal from './EditFlavorsModal';
+import yesNoAlert from '../../helpers/yesNoAlert';
+import toaster from '../../helpers/toaster';
+
+import FlavorEditModal from './FlavorsModalEdit';
 import './Editing.css';
+import FlavorAddModal from './FlavorsModalAdd';
 
 interface FlavorItem {
 	flavor: Flavor
+	all: Flavor[]
 }
 
 const FlavorLine: FC<FlavorItem> = (props) => {
-	const [modalOpen, setModalOpen] = useState<boolean>(false);
-	const { flavor } = props;
+	const dispatch = useAppDispatch();
+	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
+	const [ doAlert ] = useIonAlert();
+	const [ doToast, undoToast ] = useIonToast();
+	const { flavor, all } = props;
 	const {
 		id,
 		adjective,
 		noun
 	} = flavor;
 	const title = adjective ? (noun ? `${noun} / ${adjective}` : "/ " + adjective) : noun + " /";
+	const maybeDelete = useCallback(() => {
+		if(all.length <= 3) {
+			return toaster({
+				message: "Cannot delete: A minimum of three flavors are required for the tool to function.",
+				color: "danger",
+				duration: 5000,
+				position: "middle",
+				doToast,
+				undoToast
+			});
+		}
+		yesNoAlert({
+			header: `${title}?`,
+			message: "Are you sure you want to delete this? It cannot be undone.",
+			cssClass: "danger",
+			submit: "Yes, Delete This",
+			handler: () => {
+				dispatch(deleteFlavor(flavor));
+				toaster({
+					message: "Deleted.",
+					color: "danger",
+					duration: 2500,
+					position: "middle",
+					doToast,
+					undoToast
+				});
+			},
+			doAlert
+		});
+	}, [title, doAlert, dispatch, doToast, undoToast, all]);
 	const ID = `FlavorLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
-			<EditFlavorModal flavor={flavor} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />
+			<FlavorEditModal flavor={flavor} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="text">{title}</div>
@@ -53,7 +94,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 				</div>
 			</IonItem>
 			<IonItemOptions side="end">
-				<IonItemOption color="danger">
+				<IonItemOption color="danger" onClick={maybeDelete}>
 					<IonIcon slot="icon-only" icon={trashOutline} />
 				</IonItemOption>
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
@@ -64,15 +105,18 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 	);
 };
 
-const flavorItem = (item: Flavor) => <FlavorLine flavor={item} key={`${item.id}-editingPage`} />;
+const flavorItem = (
+	item: Flavor,
+	i: number,
+	all: Flavor[]
+) => <FlavorLine all={all} flavor={item} key={`${item.id}-editingFlavors`} />;
 
-// TO-DO: Delete flavor
-// TO-DO: Make sure there are at least three intros (and three flavors)
-
-const EditFlavors: FC = () => {
+const FlavorEdits: FC = () => {
 	const { flavors, intros, acceptNew, acceptUpdates } = useAppSelector(state => state.infoFlavors);
 	const [ introductions, setIntroductions ] = useState<string>("");
 	const [ sortedFlavors, setSortedFlavors ] = useState<Flavor[]>([]);
+	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
+	const [ doToast, undoToast ] = useIonToast();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -80,14 +124,26 @@ const EditFlavors: FC = () => {
 		const box = $i("flavorIntroTextBox");
 		const v = ((box && box.value) || "").trim();
 		const intros = v.split(/\s*\n\s*/);
+		if(intros.length < 3) {
+			return toaster({
+				message: "Cannot save: A minimum of three introductions are required.",
+				color: "danger",
+				duration: 3000,
+				position: "middle",
+				doToast,
+				undoToast
+			});
+		}
 		dispatch(setIntros(intros));
 	}, [dispatch]);
+	// Set up introductions box
 	useEffect(() => {
 		const strung = intros.join("\n");
 		setIntroductions(strung);
 		const box = $i("flavorIntroTextBox");
 		box && (box.value = strung);
 	}, [intros]);
+	// Sort flavors for presentation
 	useEffect(() => {
 		const f = [...flavors];
 		f.sort((a: Flavor, b: Flavor) => {
@@ -111,6 +167,7 @@ const EditFlavors: FC = () => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>
+				<FlavorAddModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 				<IonList lines="full" className="editing">
 					<IonItem>
 						<IonToggle
@@ -153,7 +210,7 @@ const EditFlavors: FC = () => {
 					</IonItem>
 				</IonList>
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
-					<IonFabButton color="tertiary">
+					<IonFabButton color="tertiary" onClick={() => setModalOpen(true)}>
 						<IonIcon icon={add} />
 					</IonFabButton>
 				</IonFab>
@@ -162,4 +219,4 @@ const EditFlavors: FC = () => {
 	);
 };
 
-export default EditFlavors;
+export default FlavorEdits;

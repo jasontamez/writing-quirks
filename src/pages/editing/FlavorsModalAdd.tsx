@@ -8,27 +8,21 @@ import {
 	useIonAlert,
 	useIonToast
 } from "@ionic/react";
+import { v4 as uuidv4 } from "uuid";
 
 import { Flavor } from "../../store/data/flavors";
 import { useAppDispatch } from "../../store/hooks";
-import { editFlavor, deleteFlavor } from "../../store/infoFlavorsSlice";
+import { addFlavor } from "../../store/infoFlavorsSlice";
 
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
-import BasicEditModal from "./_ModalEdit";
+import BasicAddModal from "./_ModalAdd";
 
 interface ModalProps {
-	flavor: Flavor
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
-	itemId: string
 }
-
-const closeSlider = (id: string) => {
-	const what = $i(id);
-	what && what.close && what.close();
-};
 
 const translateFlavorAdj = (input: Pick<Flavor, "adjective" | "postAdjective" | "requiresSingular">) => {
 	const {
@@ -58,18 +52,15 @@ const translateFlavorNoun = (input: Pick<Flavor, "noun" | "plural" | "basicPlura
 	return `extreme ${noun} // juicy ${noun}`;
 };
 
-const FlavorEditModal: FC<ModalProps> = (props) => {
+const FlavorAddModal: FC<ModalProps> = (props) => {
 	const {
-		flavor,
 		modalOpen,
 		setModalOpen,
-		itemId
 	} = props;
 
 	const dispatch = useAppDispatch();
 	const [doToast, undoToast] = useIonToast();
 	const [doAlert] = useIonAlert();
-	const [ID, setID] = useState<string>("");
 	const [pAdj, setPAdj] = useState<boolean>(false);
 	const [reqSing, setReqSing] = useState<boolean>(false);
 	const [basic, setBasic] = useState<boolean>(false);
@@ -80,23 +71,8 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 	const [a, setA] = useState<string>("");
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const {
-			adjective,
-			postAdjective,
-			requiresSingular,
-			noun,
-			plural,
-			basicPlural
-		} = flavor;
-		if(
-			adjective ? adjective === a : !a
-			&& noun ? noun === n : !n
-			&& plural ? plural === p : !p
-			&& !!basicPlural === basic
-			&& !!postAdjective === pAdj
-			&& !!requiresSingular === reqSing
-		) {
-			// No changes
+		if(!a && !n) {
+			// Nothing to save
 			closeModal();
 		}
 		yesNoAlert({
@@ -116,7 +92,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		const n = (nBox && nBox.value && nBox.value.trim()) || "";
 		const p = (pBox && pBox.value && pBox.value.trim()) || "";
 		const flavor: Flavor = {
-			id: ID,
+			id: uuidv4(),
 			adjective: a,
 			noun: n
 		};
@@ -146,7 +122,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		if(a && reqSing) {
 			flavor.requiresSingular = true;
 		}
-		dispatch(editFlavor(flavor));
+		dispatch(addFlavor(flavor));
 		closeModal();
 		toaster({
 			message: "Saved.",
@@ -156,7 +132,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			doToast,
 			undoToast
 		});
-	}, [dispatch, ID, pAdj, reqSing, basic, closeModal]);
+	}, [dispatch, pAdj, reqSing, basic, closeModal]);
 	// set example adj
 	useEffect(() => {
 		setExampleAdj(translateFlavorAdj({adjective: a, postAdjective: pAdj, requiresSingular: reqSing}));
@@ -165,64 +141,30 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 	useEffect(() => {
 		setExampleNoun(translateFlavorNoun({noun: n, plural: p, basicPlural: basic}));
 	}, [n, p, basic]);
-	const doDelete = useCallback(() => {
-		dispatch(deleteFlavor(flavor));
-		closeModal();
-		toaster({
-			message: "Deleted.",
-			color: "danger",
-			duration: 2500,
-			position: "middle",
-			doToast,
-			undoToast
-		});
-	}, [flavor, closeModal, doToast, undoToast]);
-	const maybeDelete = useCallback(() => {
-		yesNoAlert({
-			header: "Delete this?",
-			message: "This action cannot be undone. Are you sure?",
-			cssClass: "danger",
-			submit: "Yes, Delete This",
-			handler: doDelete,
-			doAlert
-		});
-	}, [doDelete, doAlert]);
 
 	const onOpen = useCallback(() => {
-		const {
-			id,
-			adjective,
-			postAdjective,
-			requiresSingular,
-			noun,
-			plural,
-			basicPlural
-		} = flavor;
-		setID(id);
-		setPAdj(postAdjective || false);
-		setReqSing(requiresSingular || false);
-		setBasic(basicPlural || false);
+		setPAdj(false);
+		setReqSing(false);
+		setBasic(false);
 		const aBox = $i("editAdj");
 		const nBox = $i("editNoun");
 		const pBox = $i("editPlural");
-		aBox && aBox.value !== undefined && (aBox.value = adjective || "");
-		nBox && nBox.value !== undefined && (nBox.value = noun || "");
-		pBox && pBox.value !== undefined && (pBox.value = plural || "");
-		setA(adjective || "");
-		setN(noun || "");
-		setP(plural || "");
-	}, [flavor, setPAdj, setReqSing, setBasic, setA, setN, setP, setID]);
+		aBox && aBox.value !== undefined && (aBox.value = "");
+		nBox && nBox.value !== undefined && (nBox.value = "");
+		pBox && pBox.value !== undefined && (pBox.value = "");
+		setA("");
+		setN("");
+		setP("");
+	}, [setPAdj, setReqSing, setBasic, setA, setN, setP]);
 
 	return (
-		<BasicEditModal
+		<BasicAddModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={onOpen}
 			title="Flavor"
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
-			itemId={itemId}
-			maybeDelete={maybeDelete}
 		>
 			<>
 				<IonItemDivider>Noun Properties</IonItemDivider>
@@ -301,8 +243,8 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					</IonLabel>
 				</IonItem>
 			</>
-		</BasicEditModal>
+		</BasicAddModal>
 	);
 }
 
-export default FlavorEditModal;
+export default FlavorAddModal;

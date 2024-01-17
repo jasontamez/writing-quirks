@@ -62,6 +62,21 @@ const infoFlavorsSlice = createSlice({
 					return item;
 				})
 			};
+		},
+		deleteFlavor: (state, action: PayloadAction<Flavor>) => {
+			const { payload } = action;
+			const { id } = payload;
+			return {
+				...state,
+				flavors: state.flavors.filter(item => item.id !== id)
+			};
+		},
+		addFlavor: (state, action: PayloadAction<Flavor>) => {
+			const { payload } = action;
+			return {
+				...state,
+				flavors: [...state.flavors, payload]
+			};
 		}
 	}
 });
@@ -71,7 +86,9 @@ export const {
 	toggleAcceptNew,
 	toggleAcceptUpdates,
 	setIntros,
-	editFlavor
+	editFlavor,
+	deleteFlavor,
+	addFlavor
 } = infoFlavorsSlice.actions;
 
 export default infoFlavorsSlice.reducer;
