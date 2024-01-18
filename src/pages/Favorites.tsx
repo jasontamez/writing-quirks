@@ -50,7 +50,7 @@ const Fave: FC<PropsItem> = (props) => {
 			<IonItem className="favorite">
 				<div className="content">
 					{content}
-					<IonIcon src="svg/drag-handle.svg" className="handle" size="small" />
+					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
 				</div>
 			</IonItem>
 			<IonItemOptions side="end">

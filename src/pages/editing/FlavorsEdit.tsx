@@ -90,7 +90,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="text">{title}</div>
-					<IonIcon src="svg/drag-handle.svg" className="handle" size="small" />
+					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
 				</div>
 			</IonItem>
 			<IonItemOptions side="end">
