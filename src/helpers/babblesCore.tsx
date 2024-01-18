@@ -3,7 +3,7 @@ import { BabblesInfo } from "../store/infoBabblesSlice";
 import getRandom from "./getRandom"
 
 let lastIntro: string = "";
-let lastAdj: Adjective = { text: "null" };
+let lastAdj: Adjective = { id: "null", text: "null" };
 let lastVerb: string = "";
 let lastNoun: string = "";
 

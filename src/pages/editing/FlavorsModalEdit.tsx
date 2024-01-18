@@ -25,11 +25,6 @@ interface ModalProps {
 	itemId: string
 }
 
-const closeSlider = (id: string) => {
-	const what = $i(id);
-	what && what.close && what.close();
-};
-
 const translateFlavorAdj = (input: Pick<Flavor, "adjective" | "postAdjective" | "requiresSingular">) => {
 	const {
 		adjective,
@@ -109,9 +104,9 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("editAdj");
-		const nBox = $i("editNoun");
-		const pBox = $i("editPlural");
+		const aBox = $i("editFlavorAdj");
+		const nBox = $i("editFlavorNoun");
+		const pBox = $i("editFlavorPlural");
 		const a = (aBox && aBox.value && aBox.value.trim()) || "";
 		const n = (nBox && nBox.value && nBox.value.trim()) || "";
 		const p = (pBox && pBox.value && pBox.value.trim()) || "";
@@ -199,9 +194,9 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		setPAdj(postAdjective || false);
 		setReqSing(requiresSingular || false);
 		setBasic(basicPlural || false);
-		const aBox = $i("editAdj");
-		const nBox = $i("editNoun");
-		const pBox = $i("editPlural");
+		const aBox = $i("editFlavorAdj");
+		const nBox = $i("editFlavorNoun");
+		const pBox = $i("editFlavorPlural");
 		aBox && aBox.value !== undefined && (aBox.value = adjective || "");
 		nBox && nBox.value !== undefined && (nBox.value = noun || "");
 		pBox && pBox.value !== undefined && (pBox.value = plural || "");
@@ -226,7 +221,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 				<IonItem>Noun</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="editNoun"
+						id="editFlavorNoun"
 						className="editable"
 						inputmode="text"
 						onIonInput={(e) => {
@@ -247,7 +242,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 				<IonItem>Special Plural (if needed)</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="editPlural"
+						id="editFlavorPlural"
 						className="editable"
 						inputmode="text"
 						onIonInput={(e) => {
@@ -266,7 +261,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 				<IonItem>Adjective</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="editAdj"
+						id="editFlavorAdj"
 						className="editable"
 						inputmode="text"
 						onIonInput={(e) => {

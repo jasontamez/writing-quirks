@@ -15,6 +15,7 @@ import {
 	IonPage,
 	IonSelect,
 	IonSelectOption,
+	IonText,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
@@ -25,14 +26,14 @@ import { chevronForward, trashBin } from 'ionicons/icons';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
 import { clearUsedIdeas, resetPrompts, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSettingsSlice';
-import { IdeaFlagsObject } from '../promptsData/Ideas';
-import packageJson from '../../package.json';
 import { resetBabbles } from '../store/infoBabblesSlice';
 import { resetFlavors } from '../store/infoFlavorsSlice';
 import { resetInsults } from '../store/infoInsultsSlice';
 import { resetStreets } from '../store/infoStreetsSlice';
 import { resetTaverns } from '../store/infoTavernsSlice';
 import toaster from '../helpers/toaster';
+import { IdeaFlagsObject } from '../promptsData/Ideas';
+import packageJson from '../../package.json';
 
 const Settings: React.FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
@@ -229,7 +230,7 @@ const Settings: React.FC = () => {
 						dispatch(resetStreets());
 						dispatch(resetTaverns());
 					}}>
-						<IonLabel>Reset All Ideas/Prompts/etc</IonLabel>
+						<IonLabel><IonText color="danger">Reset All Ideas/Prompts/etc</IonText></IonLabel>
 					</IonItem>
 
 					<IonItemDivider className="major">Writing Prompts Settings</IonItemDivider>
@@ -801,8 +802,12 @@ const Settings: React.FC = () => {
 							<p><strong>CAUTION:</strong> The following pages allow you to modify the base info of the various generators. Use carefully.</p>
 						</IonLabel>
 					</IonItem>
-					<IonItem button routerDirection="forward" routerLink="/editflavors">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editflavors">
 						<IonLabel>Edit Flavors</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editbabbles">
+						<IonLabel>Edit Technobabbles</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 

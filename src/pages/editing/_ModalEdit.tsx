@@ -27,6 +27,7 @@ interface ModalProps {
 	maybeDelete: MouseEventHandler<HTMLIonButtonElement>
 	maybeSave: MouseEventHandler<HTMLIonButtonElement>
 	children: ReactElement
+	undeleteable?: boolean
 }
 
 const closeSlider = (id: string) => {
@@ -44,6 +45,7 @@ const BasicEditModal: FC<ModalProps> = (props) => {
 		maybeClose,
 		maybeDelete,
 		maybeSave,
+		undeleteable,
 		children
 	} = props;
 
@@ -70,12 +72,17 @@ const BasicEditModal: FC<ModalProps> = (props) => {
 			</IonContent>
 			<IonFooter>
 				<IonToolbar>
-					<IonButtons slot="start">
-						<IonButton onClick={maybeDelete} color="danger">
-							<IonIcon icon={closeCircle} slot="start" />
-							<IonLabel>Delete</IonLabel>
-						</IonButton>
-					</IonButtons>
+					{
+						undeleteable ?
+							<></>
+						:
+							<IonButtons slot="start">
+								<IonButton onClick={maybeDelete} color="danger">
+									<IonIcon icon={closeCircle} slot="start" />
+									<IonLabel>Delete</IonLabel>
+								</IonButton>
+							</IonButtons>
+					}
 					<IonButtons slot="end">
 						<IonButton onClick={maybeSave} color="success">
 							<IonIcon icon={save} slot="start" />

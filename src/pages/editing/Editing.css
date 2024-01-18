@@ -36,7 +36,7 @@ ion-list.editing ion-item.editingItem::part(native) {
 ion-list.editing ion-item.editingItem div.content {
 	display: flex;
 	flex-flow: row nowrap;
-	justify-content: space-between;
+	justify-content: flex-end;
 	align-items: flex-start;
 	width: 100%;
 }
@@ -48,8 +48,15 @@ ion-list.editing ion-item.editingItem div.content .handle {
 }
 ion-list.editing ion-item.editingItem div.content .text {
 	white-space: normal !important;
-	flex-grow: 1;
+	flex-grow: 2;
 	flex-shrink: 1;
+}
+ion-list.editing ion-item.editingItem div.content .weight {
+	white-space: normal !important;
+	flex-grow: 0;
+	flex-shrink: 1;
+	font-style: italic;
+	font-size: 0.9em;
 }
 ion-list.editing ion-textarea {
 	background: var(--ion-color-dark);
