@@ -17,13 +17,18 @@ interface Alert {
 const yesNoAlert = (props: Alert) => {
 	const {
 		header,
-		cssClass,
 		message,
 		submit,
 		handler,
 		notDestructive,
 		doAlert
 	} = props;
+	let cssClass = props.cssClass;
+	if(cssClass) {
+		cssClass = cssClass + " yesNoAlert";
+	} else {
+		cssClass = "yesNoAlert";
+	}
 	doAlert({
 		header,
 		cssClass,

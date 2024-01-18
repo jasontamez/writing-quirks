@@ -50,7 +50,7 @@ ion-alert .alert-wrapper {
 	border-radius: 1em;
 }
 
-ion-alert button {
+ion-alert.yesNoAlert button.alert-button {
 	border-radius: 0.5em;
 }
 
