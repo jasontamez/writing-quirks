@@ -4,6 +4,7 @@ import { heart } from 'ionicons/icons';
 
 import { FavoritesObject, addFavorite, removeLastFavorite } from '../store/generalSettingsSlice';
 import { useAppDispatch } from '../store/hooks';
+import toaster from '../helpers/toaster';
 
 interface FaveProps {
 	prop: keyof FavoritesObject
@@ -13,7 +14,7 @@ interface FaveProps {
 const FaveButton: React.FC<FaveProps> = (props) => {
 	const { prop, text } = props;
 	const [touched, setTouched] = useState<boolean>(false);
-	const [doToast, undoToast] = useIonToast();
+	const toast = useIonToast();
 	const dispatch = useAppDispatch();
 	useEffect(() => {
 		setTouched(false);
@@ -22,22 +23,24 @@ const FaveButton: React.FC<FaveProps> = (props) => {
 		if(touched) {
 			setTouched(false);
 			dispatch(removeLastFavorite(prop));
-			undoToast().then(() => doToast({
+			toaster({
 				message: `Removed from favorites.`,
 				color: "warning",
 				duration: 1800,
-				position: "middle"
-			}));
+				position: "middle",
+				toast
+			});
 			return;
 		}
 		setTouched(true);
 		dispatch(addFavorite([prop, text]));
-		undoToast().then(() => doToast({
+		toaster({
 			message: `Saved to favorites.`,
 			color: "success",
 			duration: 1800,
-			position: "middle"
-		}));
+			position: "middle",
+			toast
+		});
 	}, [touched, prop, text, dispatch]);
 
 	return (

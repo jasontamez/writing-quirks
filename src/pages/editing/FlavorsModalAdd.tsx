@@ -59,7 +59,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 	} = props;
 
 	const dispatch = useAppDispatch();
-	const [doToast, undoToast] = useIonToast();
+	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const [pAdj, setPAdj] = useState<boolean>(false);
 	const [reqSing, setReqSing] = useState<boolean>(false);
@@ -83,7 +83,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal]);
+	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
 		const aBox = $i("editAdj");
 		const nBox = $i("editNoun");
@@ -102,8 +102,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 				message: "Flavors must contain at least a 'noun' or 'adjective' entry.",
 				color: "warning",
 				position: "middle",
-				doToast,
-				undoToast
+				toast
 			});
 		} else if(!a) {
 			delete flavor.adjective;
@@ -129,10 +128,9 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 			color: "success",
 			duration: 2500,
 			position: "middle",
-			doToast,
-			undoToast
+			toast
 		});
-	}, [dispatch, pAdj, reqSing, basic, closeModal]);
+	}, [dispatch, pAdj, reqSing, basic, closeModal, toast]);
 	// set example adj
 	useEffect(() => {
 		setExampleAdj(translateFlavorAdj({adjective: a, postAdjective: pAdj, requiresSingular: reqSing}));

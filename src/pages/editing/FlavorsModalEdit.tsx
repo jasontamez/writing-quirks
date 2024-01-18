@@ -67,7 +67,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 	} = props;
 
 	const dispatch = useAppDispatch();
-	const [doToast, undoToast] = useIonToast();
+	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const [ID, setID] = useState<string>("");
 	const [pAdj, setPAdj] = useState<boolean>(false);
@@ -126,8 +126,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 				message: "Flavors must contain at least a 'noun' or 'adjective' entry.",
 				color: "warning",
 				position: "middle",
-				doToast,
-				undoToast
+				toast
 			});
 		} else if(!a) {
 			delete flavor.adjective;
@@ -153,8 +152,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			color: "success",
 			duration: 2500,
 			position: "middle",
-			doToast,
-			undoToast
+			toast
 		});
 	}, [dispatch, ID, pAdj, reqSing, basic, closeModal]);
 	// set example adj
@@ -173,10 +171,9 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			color: "danger",
 			duration: 2500,
 			position: "middle",
-			doToast,
-			undoToast
+			toast
 		});
-	}, [flavor, closeModal, doToast, undoToast]);
+	}, [flavor, closeModal, toast]);
 	const maybeDelete = useCallback(() => {
 		yesNoAlert({
 			header: "Delete this?",

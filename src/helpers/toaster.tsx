@@ -1,5 +1,4 @@
-import { ToastButton, ToastOptions } from "@ionic/react"
-import { HookOverlayOptions } from "@ionic/react/dist/types/hooks/HookOverlayOptions"
+import { ToastButton, UseIonToastResult } from "@ionic/react"
 
 interface Toast {
 	color?: string
@@ -7,11 +6,7 @@ interface Toast {
 	buttons?: ToastButton[]
 	duration?: number
 	position?: "top" | "middle" | "bottom"
-	doToast: {
-		(message: string, duration?: number | undefined): Promise<void>;
-		(options: ToastOptions & HookOverlayOptions): Promise<void>;
-	}
-	undoToast: () => Promise<void>
+	toast: UseIonToastResult
 }
 
 const toaster = (props: Toast) => {
@@ -19,8 +14,7 @@ const toaster = (props: Toast) => {
 		color = "primary",
 		message,
 		duration = 5000,
-		doToast,
-		undoToast,
+		toast,
 		position,
 		buttons = [
 			{
@@ -29,6 +23,7 @@ const toaster = (props: Toast) => {
 			}
 		]
 	} = props;
+	const [ doToast, undoToast ] = toast;
 	undoToast().then(() => doToast({
 		message,
 		duration,

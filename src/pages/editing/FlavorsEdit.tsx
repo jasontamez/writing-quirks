@@ -33,8 +33,8 @@ import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
 import FlavorEditModal from './FlavorsModalEdit';
-import './Editing.css';
 import FlavorAddModal from './FlavorsModalAdd';
+import './Editing.css';
 
 interface FlavorItem {
 	flavor: Flavor
@@ -45,7 +45,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 	const dispatch = useAppDispatch();
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const [ doAlert ] = useIonAlert();
-	const [ doToast, undoToast ] = useIonToast();
+	const toast = useIonToast();
 	const { flavor, all } = props;
 	const {
 		id,
@@ -60,8 +60,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 				color: "danger",
 				duration: 5000,
 				position: "middle",
-				doToast,
-				undoToast
+				toast
 			});
 		}
 		yesNoAlert({
@@ -76,13 +75,12 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 					color: "danger",
 					duration: 2500,
 					position: "middle",
-					doToast,
-					undoToast
+					toast
 				});
 			},
 			doAlert
 		});
-	}, [title, doAlert, dispatch, doToast, undoToast, all]);
+	}, [title, doAlert, dispatch, toast, all]);
 	const ID = `FlavorLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
@@ -116,7 +114,7 @@ const FlavorEdits: FC = () => {
 	const [ introductions, setIntroductions ] = useState<string>("");
 	const [ sortedFlavors, setSortedFlavors ] = useState<Flavor[]>([]);
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
-	const [ doToast, undoToast ] = useIonToast();
+	const toast = useIonToast();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -130,8 +128,7 @@ const FlavorEdits: FC = () => {
 				color: "danger",
 				duration: 3000,
 				position: "middle",
-				doToast,
-				undoToast
+				toast
 			});
 		}
 		dispatch(setIntros(intros));

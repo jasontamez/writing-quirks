@@ -32,6 +32,7 @@ import { resetFlavors } from '../store/infoFlavorsSlice';
 import { resetInsults } from '../store/infoInsultsSlice';
 import { resetStreets } from '../store/infoStreetsSlice';
 import { resetTaverns } from '../store/infoTavernsSlice';
+import toaster from '../helpers/toaster';
 
 const Settings: React.FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
@@ -106,7 +107,7 @@ const Settings: React.FC = () => {
 	} = hiddenTopics;
 	const [debugCounter, setDebugCounter] = useState<number>(0);
 	const dispatch = useAppDispatch();
-	const [doToast, undoToast] = useIonToast();
+	const toast = useIonToast();
 	const toggle = useCallback((prop: keyof IdeaFlagsObject) => {
 		dispatch(toggleHiddenTopic(prop));
 	}, [dispatch]);
@@ -114,19 +115,21 @@ const Settings: React.FC = () => {
 		const plain = (e.target as HTMLIonInputElement)!.value;
 		const maybe = Number(plain);
 		if(isNaN(maybe)) {
-			return doToast({
+			return toaster({
 				message: `ERROR: "${plain}" is not a number.`,
 				color: "danger",
 				duration: 3000,
-				position: "top"
+				position: "top",
+				toast
 			});
 		} else if(maybe < 0 || maybe > 500) {
 			//ignore invalid value
-			return doToast({
+			return toaster({
 				message: `ERROR: "${plain}" is ${maybe < 0 ? "too small" : "too large"}.`,
 				color: "danger",
 				duration: 3000,
-				position: "top"
+				position: "top",
+				toast
 			});
 		}
 		dispatch(setMemorySize(Math.floor(maybe)));
@@ -135,11 +138,12 @@ const Settings: React.FC = () => {
 		if(debugCounter >= 6) {
 			setDebugCounter(0);
 			dispatch(toggleDebug());
-			undoToast().then(() => doToast({
+			toaster({
 				message: debug ? "Toggling debug off" : "Toggling debug on",
 				position: "middle",
-				duration: 1500
-			}));
+				duration: 1500,
+				toast
+			});
 			return;
 		}
 		setDebugCounter(debugCounter + 1);
@@ -168,11 +172,12 @@ const Settings: React.FC = () => {
 						cssClass: "submit",
 						handler: () => {
 							dispatch(clearUsedIdeas());
-							doToast({
+							toaster({
 								message: "Ideas cleared.",
 								color: "danger",
 								duration: 3000,
-								position: "middle"
+								position: "middle",
+								toast
 							})
 						}
 					}
