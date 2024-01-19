@@ -810,6 +810,10 @@ const Settings: React.FC = () => {
 						<IonLabel>Edit Technobabbles</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editinsults">
+						<IonLabel>Edit Insults</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
 
 					<IonItemDivider className="major" onClick={maybeDebug}>App Info</IonItemDivider>
 					<IonItem className="version" lines="none">

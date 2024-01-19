@@ -92,9 +92,14 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 				</div>
 			</IonItem>
 			<IonItemOptions side="end">
-				<IonItemOption color="danger" onClick={maybeDelete}>
-					<IonIcon slot="icon-only" icon={trashOutline} />
-				</IonItemOption>
+				{
+					all.length > 3 ?
+						<IonItemOption color="danger" onClick={maybeDelete}>
+							<IonIcon slot="icon-only" icon={trashOutline} />
+						</IonItemOption>
+					:
+						<></>
+				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
 				</IonItemOption>

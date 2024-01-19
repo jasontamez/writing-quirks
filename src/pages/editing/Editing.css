@@ -4,7 +4,10 @@ ion-list.editing {
 	padding-block: 0;
 }
 ion-list.editing ion-item:last-child {
-	padding-block-end: 4em;
+	padding-block-end: 5em;
+}
+ion-list.editing ion-item-sliding:last-child {
+	margin-block-end: 5em;
 }
 ion-modal ion-list.editing ion-item:last-child {
 	padding-block-end: 0;
@@ -50,6 +53,11 @@ ion-list.editing ion-item.editingItem div.content .text {
 	white-space: normal !important;
 	flex-grow: 2;
 	flex-shrink: 1;
+}
+ion-list.editing ion-item.editingItem div.content .text {
+	white-space: nowrap !important;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 ion-list.editing ion-item.editingItem div.content .weight {
 	white-space: normal !important;

@@ -23,6 +23,8 @@ import {
 } from 'ionicons/icons';
 import { App as Capacitor, BackButtonListenerEvent } from '@capacitor/app';
 
+import yesNoAlert from './helpers/yesNoAlert';
+
 import Settings from './pages/Settings';
 import Main from './pages/Main';
 import Loading from './pages/Loading';
@@ -46,7 +48,6 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import './theme/app.css';
-import yesNoAlert from './helpers/yesNoAlert';
 
 setupIonicReact();
 
@@ -59,6 +60,7 @@ const Flavors = lazy(() => import("./pages/Flavors"));
 const Favorites = lazy(() => import("./pages/Favorites"));
 const FlavorEdits = lazy(() => import("./pages/editing/FlavorsEdit"));
 const BabblesEdit = lazy(() => import("./pages/editing/BabblesEdit"));
+const InsultsEdit = lazy(() => import("./pages/editing/InsultsEdit"));
 
 const App: React.FC = () => {
 	const navigator = useIonRouter();
@@ -95,6 +97,7 @@ const App: React.FC = () => {
 						<Route exact path="/settings" render={() => <Settings />} />
 						<Route exact path="/editflavors" render={() => <Suspense fallback={<Loading />}><FlavorEdits /></Suspense>} />
 						<Route exact path="/editbabbles" render={() => <Suspense fallback={<Loading />}><BabblesEdit /></Suspense>} />
+						<Route exact path="/editinsults" render={() => <Suspense fallback={<Loading />}><InsultsEdit /></Suspense>} />
 						<Route exact path="/" render={() => <Main />} />
 					</IonRouterOutlet>
 					<IonTabBar slot="bottom">
