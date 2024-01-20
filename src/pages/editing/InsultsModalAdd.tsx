@@ -2,15 +2,17 @@ import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "reac
 import {
 	IonInput,
 	IonItem,
-	IonRange,
+	IonSelect,
+	IonSelectOption,
 	IonToggle,
+	SelectCustomEvent,
 	useIonAlert,
 	useIonToast
 } from "@ionic/react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Adjective, Determiner, WeightRange } from "../../store/data/babbles";
-import { addAdjective, addDeterminer } from "../../store/infoBabblesSlice";
+import { addAdjective1, addAdjective2, addNoun } from "../../store/infoInsultsSlice";
+import { Noun, Adjective } from "../../store/data/insults";
 import { useAppDispatch } from "../../store/hooks";
 
 import { $i } from "../../helpers/dollarsignExports";
@@ -21,26 +23,27 @@ import BasicAddModal from "./_ModalAdd";
 interface ModalProps {
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
-	adjective?: boolean
+	adj?: number
 }
 
-const BabblesAddModal: FC<ModalProps> = (props) => {
+const InsultsAddModal: FC<ModalProps> = (props) => {
 	const {
 		modalOpen,
 		setModalOpen,
-		adjective
+		adj
 	} = props;
 
-	const [weight, setWeight] = useState<WeightRange>(1);
 	const [an, setAn] = useState<boolean>(false);
+	const [plural, setPlural] = useState<boolean>(false);
+	const [dummy, setDummy] = useState<"a" | "an" | "some">("a");
 
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const aBox = $i("addBabbleAdjDet");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const iBox = $i("addInsultAdjNoun");
+		const a = (iBox && iBox.value && iBox.value.trim()) || "";
 		if(!a) {
 			// Nothing to save
 			return closeModal();
@@ -55,8 +58,8 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("addBabbleAdjDet");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const iBox = $i("addInsultAdjNoun");
+		const a = (iBox && iBox.value && iBox.value.trim()) || "";
 		if(!a) {
 			// ERROR
 			return toaster({
@@ -65,21 +68,22 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 				position: "middle",
 				toast
 			});
-		} else if (adjective) {
-			const adj: Adjective = {
+		} else if (adj) {
+			const adjective: Adjective = {
 				id: uuidv4(),
 				text: a
 			};
-			an && (adj.an = true);
-			dispatch(addAdjective(adj));
+			an && (adjective.an = true);
+			dispatch(adj === 1 ? addAdjective1(adjective) : addAdjective2(adjective));
 		} else {
-			// Determiner
-			const det: Determiner = {
+			// Noun
+			const n: Noun = {
 				id: uuidv4(),
-				text: a,
-				weight
+				text: a
 			};
-			dispatch(addDeterminer(det));
+			an && (n.an = true);
+			plural && (n.plural = true);
+			dispatch(addNoun(n));
 		}
 		toaster({
 			message: "Saved.",
@@ -89,36 +93,37 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 			toast
 		});
 		closeModal();
-	}, [dispatch, weight, an, closeModal, toast]);
+	}, [dispatch, plural, an, adj, closeModal, toast]);
 
 	const onOpen = useCallback(() => {
 		setAn(false);
-		setWeight(1);
-		const aBox = $i("addBabbleAdjDet");
-		aBox && aBox.value !== undefined && (aBox.value = "");
-	}, [setAn, setWeight]);
+		setPlural(false);
+		setDummy("a");
+		const iBox = $i("addInsultAdjNoun");
+		iBox && iBox.value !== undefined && (iBox.value = "");
+	}, [setAn, setPlural]);
 
 	return (
 		<BasicAddModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={onOpen}
-			title="Technobabble"
+			title={adj ? "Adjective" : "Noun"}
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
 			<>
-				<IonItem>{adjective ? "Adjective" : "Determiner"}</IonItem>
+				<IonItem>{adj ? "Adjective" : "Noun"}</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="addBabbleAdjDet"
+						id="addInsultAdjNoun"
 						className="editable"
 						inputmode="text"
 					/>
 				</IonItem>
 				<IonItem>
 					{
-						adjective ?
+						adj ?
 							<IonToggle
 								labelPlacement="start"
 								enableOnOffLabels
@@ -126,19 +131,25 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 								onClick={() => setAn(!an)}
 							>Uses "an" instead of "a"</IonToggle>
 						:
-							<IonRange
-								label="Weight:"
-								labelPlacement="start"
-								pin
-								ticks
-								snaps
-								color="primary"
-								min={1}
-								max={10}
-								step={1}
-								value={weight || 1}
-								onIonChange={(e) => setWeight(e.target.value as WeightRange)}
-							/>
+							<IonSelect
+								label="Choose one:"
+								onIonChange={(e: SelectCustomEvent) => {
+									const v = e.detail.value;
+									if(v === "some") {
+										setPlural(true);
+										setAn(false);
+									} else {
+										setPlural(false);
+										setAn(v === "an");
+									}
+									setDummy(v);
+								}}
+								value={dummy}
+							>
+								<IonSelectOption value="a">Uses "a"</IonSelectOption>
+								<IonSelectOption value="an">Uses "an"</IonSelectOption>
+								<IonSelectOption value="some">Is plural</IonSelectOption>
+							</IonSelect>
 					}
 				</IonItem>
 			</>
@@ -146,4 +157,4 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 	);
 }
 
-export default BabblesAddModal;
+export default InsultsAddModal;

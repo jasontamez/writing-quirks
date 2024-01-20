@@ -286,7 +286,7 @@ const BabblesEdit: FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Flavors - Advanced Settings</IonTitle>
+					<IonTitle>Technobabble - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />

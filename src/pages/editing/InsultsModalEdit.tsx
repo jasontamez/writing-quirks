@@ -1,32 +1,36 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, ReactElement } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
 import {
 	IonInput,
 	IonItem,
-	IonLabel,
-	IonRange,
+	IonSelect,
+	IonSelectOption,
 	IonText,
 	IonToggle,
+	SelectCustomEvent,
 	useIonAlert,
 	useIonToast
 } from "@ionic/react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { Adjective, Determiner, WeightRange } from "../../store/data/babbles";
-import { deleteAdjective, deleteDeterminer, editAdjective, editDeterminer } from "../../store/infoBabblesSlice";
+import { Adjective, Noun } from "../../store/data/insults";
 
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
 import BasicEditModal from "./_ModalEdit";
-import { Format, Noun } from "../../store/data/insults";
-import { deleteAdjective1, deleteAdjective2, deleteFormat, deleteNoun, editFormat, editNoun } from "../../store/infoInsultsSlice";
+import {
+	deleteAdjective1,
+	deleteAdjective2,
+	deleteNoun,
+	editAdjective1,
+	editAdjective2,
+	editNoun
+} from "../../store/infoInsultsSlice";
 
 interface ModalProps {
 	adjective?: Adjective
 	adjNum?: 1 | 2
-	determiner?: Determiner
 	noun?: Noun
-	format?: Format
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
 	itemId: string
@@ -37,37 +41,32 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 		adjective = null,
 		adjNum = 1,
 		noun = null,
-		format = null,
 		modalOpen,
 		setModalOpen,
 		itemId
 	} = props;
-	if(!adjective && !noun && !format) {
-		return <IonText color="danger">ERROR: Did not find adjective or noun or format for modal. ({itemId})</IonText>;
+	if(!adjective && !noun) {
+		return <IonText color="danger">ERROR: Did not find adjective or noun for modal. ({itemId})</IonText>;
 	}
 
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 
-	const [weight, setWeight] = useState<WeightRange>(1);
 	const [an, setAn] = useState<boolean>(false);
 	const [plural, setPlural] = useState<boolean>(false);
-	const [formatString, setFormatString] = useState<string>("");
-	const [editedFormat, setEditedFormat] = useState<Format>([]);
+	const [dummy, setDummy] = useState<"a" | "an" | "some">("a");
 
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
 		let okToClose = true;
-		const aBox = $i("editInsultAdjNoun");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const iBox = $i("editInsultAdjNoun");
+		const a = (iBox && iBox.value && iBox.value.trim()) || "";
 		if(adjective) {
 			okToClose = (a === adjective.text && an === !!adjective.an);
-		} else if (noun) {
-			okToClose = (a === noun.text && an === !!noun.an);
 		} else {
-			//format
-			okToClose = (format!.slice(1).join("") === formatString);
+			// Noun
+			okToClose = (a === noun!.text && an === !!noun!.an);
 		}
 		if(okToClose) {
 			// No changes
@@ -81,11 +80,11 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, an, weight]);
+	}, [closeModal, an, doAlert, adjective, noun]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("editInsultAdjNoun");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
-		if(format ? !formatString : !a) {
+		const iBox = $i("editInsultAdjNoun");
+		const a = (iBox && iBox.value && iBox.value.trim()) || "";
+		if(!a) {
 			return toaster({
 				message: "Cannot save a blank item.",
 				color: "danger",
@@ -93,12 +92,6 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 				position: "middle",
 				toast
 			});	
-		} else if(format) {
-			const edited: Format = [
-				format[0],
-				...editedFormat
-			];
-			dispatch(editFormat(edited));
 		} else if(noun) {
 			const edited: Noun = {
 				id: noun.id,
@@ -114,7 +107,7 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 				text: a
 			};
 			an && (edited.an = true);
-			dispatch(editAdjective(edited));
+			dispatch(adjNum === 1 ? editAdjective1(edited) : editAdjective2(edited));
 		}
 		closeModal();
 		toaster({
@@ -124,16 +117,14 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, weight, an, plural, editedFormat, formatString, toast]);
+	}, [dispatch, an, plural, toast]);
 
 	const doDelete = useCallback(() => {
 		if(adjective) {
 			dispatch(adjNum === 1 ? deleteAdjective1(adjective) : deleteAdjective2(adjective));
-		} else if (noun) {
-			dispatch(deleteNoun(noun));
 		} else {
-			// format
-			dispatch(deleteFormat(format![0] as string));
+			// Noun
+			dispatch(deleteNoun(noun!));
 		}
 		closeModal();
 		toaster({
@@ -143,7 +134,7 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [adjective, noun, format, adjNum, closeModal, toast]);
+	}, [adjective, noun, adjNum, closeModal, toast]);
 	const maybeDelete = useCallback(() => {
 		yesNoAlert({
 			header: "Delete this?",
@@ -159,34 +150,32 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 		if(adjective) {
 			// Set up Adjective
 			const { text, an } = adjective;
-			const aBox = $i("editInsultAdjNoun");
-			aBox && aBox.value !== undefined && (aBox.value = text || "");
+			const iBox = $i("editInsultAdjNoun");
+			iBox && iBox.value !== undefined && (iBox.value = text || "");
 			setAn(!!an);
-		} else if (noun) {
+		} else {
 			// Set up Noun
-			const { text, an, plural } = noun;
-			const aBox = $i("editInsultAdjNoun");
-			aBox && aBox.value !== undefined && (aBox.value = text || "");
+			const { text, an, plural } = noun!;
+			const iBox = $i("editInsultAdjNoun");
+			iBox && iBox.value !== undefined && (iBox.value = text || "");
 			setAn(!!an);
 			setPlural(!!plural);
-		} else {
-			// Set up Format
-			setEditedFormat(format!.slice(1));
+			setDummy(an ? "an" : (plural ? "some" : "a"));
 		}
-	}, [adjective, noun, format, setAn, setPlural, setEditedFormat]);
+	}, [adjective, noun, setAn, setPlural]);
 
 	return (
 		<BasicEditModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={onOpen}
-			title={adjective ? "Adjective" : "Determiner"}
+			title={adjective ? "Adjective" : "Noun"}
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 			itemId={itemId}
 			maybeDelete={maybeDelete}
 		>
-			{adjective || noun ? (<>
+			<>
 				<IonItem>{adjective ? "Adjective" : "Noun"}</IonItem>
 				<IonItem lines="full">
 					<IonInput
@@ -194,25 +183,39 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 						className="editable"
 						inputmode="text"
 					/>
-					</IonItem>
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={an}
-						onClick={() => setAn(!an)}
-					>Uses "an" instead of "a"</IonToggle>
+				</IonItem>
+				<IonItem>
 					{
-						noun ? (
+						adjective ?
 							<IonToggle
 								labelPlacement="start"
 								enableOnOffLabels
-								checked={plural}
-								onClick={() => setPlural(!plural)}
-							>This is a plural noun</IonToggle>
-						) : <></>
+								checked={an}
+								onClick={() => setAn(!an)}
+							>Uses "an" instead of "a"</IonToggle>
+						:
+							<IonSelect
+								label="Choose one:"
+								onIonChange={(e: SelectCustomEvent) => {
+									const v = e.detail.value;
+									if(v === "some") {
+										setPlural(true);
+										setAn(false);
+									} else {
+										setPlural(false);
+										setAn(v === "an");
+									}
+									setDummy(v);
+								}}
+								value={dummy}
+							>
+								<IonSelectOption value="a">Uses "a"</IonSelectOption>
+								<IonSelectOption value="an">Uses "an"</IonSelectOption>
+								<IonSelectOption value="some">Is plural</IonSelectOption>
+							</IonSelect>
 					}
-			</>) : (<>
-			</>)}
+				</IonItem>
+			</>
 		</BasicEditModal>
 	);
 }

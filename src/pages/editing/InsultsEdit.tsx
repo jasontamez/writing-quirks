@@ -3,9 +3,6 @@ import {
 	IonButton,
 	IonButtons,
 	IonContent,
-	IonFab,
-	IonFabButton,
-	IonFabList,
 	IonHeader,
 	IonIcon,
 	IonItem,
@@ -21,7 +18,7 @@ import {
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { add, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
+import { addCircle, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
 
 import {
 	deleteNoun,
@@ -40,8 +37,9 @@ import toaster from '../../helpers/toaster';
 
 import InsultsEditModal from './InsultsModalEdit';
 import InsultsFormatEditModal from './InsultsModalEditFormat';
-import InsultsAddModal from './BabblesModalAdd';
+import InsultsAddModal from './InsultsModalAdd';
 import './Editing.css';
+import InsultsAddFormatModal from './InsultsModalAddFormat';
 
 interface NounItem {
 	item: Noun
@@ -279,9 +277,10 @@ const InsultsEdit: FC = () => {
 		adjectives2,
 		nouns
 	} = useAppSelector(state => state.infoInsults);
-	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
-	const [ modalTwoOpen, setModalTwoOpen ] = useState<boolean>(false);
-	const toast = useIonToast();
+	const [ modalA1Open, setModalA1Open ] = useState<boolean>(false);
+	const [ modalA2Open, setModalA2Open ] = useState<boolean>(false);
+	const [ modalNOpen, setModalNOpen ] = useState<boolean>(false);
+	const [ modalFOpen, setModalFOpen ] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -290,7 +289,7 @@ const InsultsEdit: FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Flavors - Advanced Settings</IonTitle>
+					<IonTitle>Insults - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
@@ -299,8 +298,10 @@ const InsultsEdit: FC = () => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>
-				<InsultsAddModal adjective modalOpen={modalOpen} setModalOpen={setModalOpen} />
-				<InsultsAddModal modalOpen={modalTwoOpen} setModalOpen={setModalTwoOpen} />
+				<InsultsAddModal adj={1} modalOpen={modalA1Open} setModalOpen={setModalA1Open} />
+				<InsultsAddModal adj={2} modalOpen={modalA2Open} setModalOpen={setModalA2Open} />
+				<InsultsAddModal modalOpen={modalNOpen} setModalOpen={setModalNOpen} />
+				<InsultsAddFormatModal modalOpen={modalFOpen} setModalOpen={setModalFOpen} />
 				<IonList lines="full" className="editing">
 					<IonItem>
 						<IonToggle
@@ -326,22 +327,37 @@ const InsultsEdit: FC = () => {
 					</IonItem>
 					<IonItemDivider>Adjectives (Singular)</IonItemDivider>
 					{ adjectives1.map(adjectiveItem1) }
+					<IonItem lines="full" className="addButtonItem">
+						<IonButton color="success" slot="end" onClick={() => setModalA1Open(true)}>
+							<IonIcon slot="start" icon={addCircle} />
+							Add New Adjective Here
+						</IonButton>
+					</IonItem>
 					<IonItemDivider>Adjectives (Two-Words)</IonItemDivider>
 					{ adjectives2.map(adjectiveItem2) }
+					<IonItem lines="full" className="addButtonItem">
+						<IonButton color="success" slot="end" onClick={() => setModalA2Open(true)}>
+							<IonIcon slot="start" icon={addCircle} />
+							Add New Adjective Here
+						</IonButton>
+					</IonItem>
 					<IonItemDivider>Nouns</IonItemDivider>
 					{ nouns.map(nounItem) }
+					<IonItem lines="full" className="addButtonItem">
+						<IonButton color="success" slot="end" onClick={() => setModalNOpen(true)}>
+							<IonIcon slot="start" icon={addCircle} />
+							Add New Noun
+						</IonButton>
+					</IonItem>
 					<IonItemDivider>Formats</IonItemDivider>
 					{ formats.map(formatItem) }
+					<IonItem lines="full" className="addButtonItem">
+						<IonButton color="success" slot="end" onClick={() => setModalFOpen(true)}>
+							<IonIcon slot="start" icon={addCircle} />
+							Add New Format
+						</IonButton>
+					</IonItem>
 				</IonList>
-				<IonFab slot="fixed" horizontal="end" vertical="bottom">
-					<IonFabButton color="tertiary">
-						<IonIcon icon={add} />
-					</IonFabButton>
-					<IonFabList side="top">
-						<IonFabButton color="primary" onClick={() => setModalOpen(true)}>Adj</IonFabButton>
-						<IonFabButton color="secondary" onClick={() => setModalTwoOpen(true)}>Det</IonFabButton>
-					</IonFabList>
-				</IonFab>
 			</IonContent>
 		</IonPage>
 	);

@@ -13,21 +13,20 @@ import {
 	useIonToast
 } from "@ionic/react";
 import { addCircle, construct, trash } from "ionicons/icons";
+import { v4 as uuidv4 } from "uuid";
 
-import { useAppDispatch } from "../../store/hooks";
+import { addFormat } from "../../store/infoInsultsSlice";
 import { EFormat, Format, FormatBit } from "../../store/data/insults";
-import { deleteFormat, editFormat } from "../../store/infoInsultsSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 import { translateFormat } from "../../helpers/insultsCore";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
-import BasicEditModal from "./_ModalEdit";
+import BasicAddModal from "./_ModalAdd";
 
 interface ModalProps {
-	format: Format
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
-	itemId: string
 }
 
 interface FormatLineProps {
@@ -42,7 +41,7 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 	const [alertOpen, setAlertOpen] = useState<boolean>(false);
 	let which: number;
 	let display: string;
-	const id = `formatEditBit${index}`;
+	const id = `formatAddBit${index}`;
 	const {
 		ADJECTIVE,
 		ARTICLE_ADJECTIVE,
@@ -135,20 +134,16 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 	);
 };
 
-const InsultsFormatEditModal: FC<ModalProps> = (props) => {
+const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 	const {
-		format,
 		modalOpen,
-		setModalOpen,
-		itemId
+		setModalOpen
 	} = props;
-	const dispatch = useAppDispatch();
-	const toast = useIonToast();
-	const [doAlert] = useIonAlert();
 
-	const [formatString, setFormatString] = useState<string>("");
-	const [editedFormat, setEditedFormat] = useState<Format>([]);
+	const [] = useState<boolean>(false);
 	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
+	const [addingFormat, setAddingFormat] = useState<Format>([]);
+	const [addingFormatString, setAddingFormatString] = useState<string>("");
 
 	const {
 		ADJECTIVE,
@@ -157,34 +152,13 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 		ARTICLE_NOUN
 	} = EFormat;
 
-	const changeBit = useCallback((i: number, result: FormatBit) => {
-		const newFormat = editedFormat.slice();
-		newFormat[i] = result;
-		setEditedFormat(newFormat)
-		setFormatString(translateFormat(newFormat));
-	}, [editedFormat, setEditedFormat, setFormatString]);
-	const deleteBit = useCallback((i: number) => {
-		const newFormat = editedFormat.slice();
-		newFormat.splice(i, 1);
-		setEditedFormat(newFormat)
-		setFormatString(translateFormat(newFormat));
-	}, [editedFormat, setEditedFormat, setFormatString]);
-	const formatLine = useCallback(
-		(bit: FormatBit, i: number) =>
-			<FormatLine
-				item={bit}
-				index={i}
-				doChange={changeBit}
-				doDelete={deleteBit}
-				key={`editingInsultFormat-${i}`}
-			/>,
-		[changeBit]
-	);
-
+	const dispatch = useAppDispatch();
+	const toast = useIonToast();
+	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		if(translateFormat(format.slice(1)) === formatString) {
-			// No changes
+		if(!addingFormatString) {
+			// Nothing to save
 			return closeModal();
 		}
 		yesNoAlert({
@@ -195,23 +169,23 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, format, formatString]);
+	}, [closeModal, doAlert, addingFormatString]);
 	const maybeSave = useCallback(() => {
-		if(!formatString) {
+		if(!addingFormatString) {
+			// ERROR
 			return toaster({
 				message: "Cannot save a blank format.",
-				color: "danger",
-				duration: 2500,
+				color: "warning",
 				position: "middle",
 				toast
-			});	
+			});
 		}
 		// Need to test that all parts exist: two adj, one noun
-		const final: Format = [format[0]];
+		const final: Format = [];
 		let adj = 0;
 		let n = 0;
 		let prev: string = "";
-		editedFormat.forEach(bit => {
+		addingFormat.forEach(bit => {
 			switch(bit) {
 				case ADJECTIVE:
 				case ARTICLE_ADJECTIVE:
@@ -241,7 +215,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 				toast
 			});	
 		}
-		dispatch(editFormat(final));
+		dispatch(addFormat([uuidv4(), ...final]));
 		closeModal();
 		toaster({
 			message: "Saved.",
@@ -250,66 +224,67 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, format, editedFormat, formatString, toast]);
-
-	const doDelete = useCallback(() => {
-		dispatch(deleteFormat(format![0] as string));
-		closeModal();
-		toaster({
-			message: "Deleted.",
-			color: "danger",
-			duration: 2500,
-			position: "middle",
-			toast
-		});
-	}, [format, closeModal, toast]);
-	const maybeDelete = useCallback(() => {
-		yesNoAlert({
-			header: "Delete this?",
-			message: "This action cannot be undone. Are you sure?",
-			cssClass: "danger",
-			submit: "Yes, Delete This",
-			handler: doDelete,
-			doAlert
-		});
-	}, [doDelete, doAlert]);
+	}, [dispatch, closeModal, toast, addingFormat, addingFormatString]);
 
 	const onOpen = useCallback(() => {
-		const working = format.slice(1);
-		setEditedFormat(working);
-		setFormatString(translateFormat(working));
-	}, [format, setEditedFormat, setFormatString]);
+		setAddingFormat([]);
+		setAddingFormatString("");
+	}, [setAddingFormat, setAddingFormatString]);
 
 	const onReorder = useCallback((event: CustomEvent<ItemReorderEventDetail>) => {
-		const completed = event.detail.complete(editedFormat);
-		setEditedFormat(completed);
-		setFormatString(translateFormat(completed));
-	}, [editedFormat, setEditedFormat]);
+		const completed = event.detail.complete(addingFormat);
+		setAddingFormat(completed);
+		setAddingFormatString(translateFormat(completed));
+	}, [addingFormat, setAddingFormat, setAddingFormatString]);
+
+	const changeBit = useCallback((i: number, result: FormatBit) => {
+		const newFormat = addingFormat.slice();
+		newFormat[i] = result;
+		setAddingFormat(newFormat)
+		setAddingFormatString(translateFormat(newFormat));
+	}, [addingFormat, setAddingFormat, setAddingFormatString]);
+	const deleteBit = useCallback((i: number) => {
+		const newFormat = addingFormat.slice();
+		newFormat.splice(i, 1);
+		setAddingFormat(newFormat)
+		setAddingFormatString(translateFormat(newFormat));
+	}, [addingFormat, setAddingFormat, setAddingFormatString]);
+	const formatLine = useCallback(
+		(bit: FormatBit, i: number) =>
+			<FormatLine
+				item={bit}
+				index={i}
+				doChange={changeBit}
+				doDelete={deleteBit}
+				key={`editingInsultFormat-${i}`}
+			/>,
+		[changeBit]
+	);
 
 	return (
-		<BasicEditModal
+		<BasicAddModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={onOpen}
 			title="Format"
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
-			itemId={itemId}
-			maybeDelete={maybeDelete}
 		>
 			<>
-				<IonItemDivider>Format</IonItemDivider>
+			<IonItemDivider>Format</IonItemDivider>
 				<IonItem lines="full">
 					<IonLabel>
-						<div className="ion-text-wrap"><strong>Current Format:</strong> <em>{formatString}</em></div>
+						<div className="ion-text-wrap">
+							<strong>Current Format:</strong> <em>{addingFormatString || "(nothing yet)"}</em>
+						</div>
 					</IonLabel>
 				</IonItem>
 				<IonItemDivider>Current Parts</IonItemDivider>
 				<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
-					{editedFormat.map(formatLine)}
+					{addingFormat.map(formatLine)}
 				</IonReorderGroup>
 				<IonAlert
-					trigger={`editFormatAddPart-${itemId}`}
+					trigger="addInsultFormatPart"
 					header="Add Type"
 					buttons={[
 						{
@@ -319,9 +294,9 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 									setAddAlertOpen(true);
 								} else {
 									// Save the new value
-									const newFormat = [...editedFormat, choice];
-									setEditedFormat(newFormat);
-									setFormatString(translateFormat(newFormat));
+									const newFormat = [...addingFormat, choice];
+									setAddingFormat(newFormat);
+									setAddingFormatString(translateFormat(newFormat));
 								}
 							}
 						}
@@ -362,7 +337,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 					buttons={[
 						{
 							text: "Ok",
-							handler: (obj: { txt: string }) => setEditedFormat([...editedFormat, obj.txt])
+							handler: (obj: { txt: string }) => setAddingFormat([...addingFormat, obj.txt])
 						}
 					]}
 					inputs={[
@@ -373,14 +348,14 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 					]}
 				/>
 				<IonItem lines="full">
-					<IonButton color="success" slot="end" id={`editFormatAddPart-${itemId}`}>
+					<IonButton color="success" slot="end" id={`addInsultFormatPart`}>
 						<IonIcon slot="start" icon={addCircle} />
 						Add New Part
 					</IonButton>
 				</IonItem>
 			</>
-		</BasicEditModal>
+		</BasicAddModal>
 	);
 }
 
-export default InsultsFormatEditModal;
+export default InsultsAddFormatModal;

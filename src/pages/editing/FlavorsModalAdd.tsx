@@ -85,9 +85,9 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("editAdj");
-		const nBox = $i("editNoun");
-		const pBox = $i("editPlural");
+		const aBox = $i("addFlavorAdj");
+		const nBox = $i("addFlavorNoun");
+		const pBox = $i("addFlavorPlural");
 		const a = (aBox && aBox.value && aBox.value.trim()) || "";
 		const n = (nBox && nBox.value && nBox.value.trim()) || "";
 		const p = (pBox && pBox.value && pBox.value.trim()) || "";
@@ -144,9 +144,9 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 		setPAdj(false);
 		setReqSing(false);
 		setBasic(false);
-		const aBox = $i("editAdj");
-		const nBox = $i("editNoun");
-		const pBox = $i("editPlural");
+		const aBox = $i("addFlavorAdj");
+		const nBox = $i("addFlavorNoun");
+		const pBox = $i("addFlavorPlural");
 		aBox && aBox.value !== undefined && (aBox.value = "");
 		nBox && nBox.value !== undefined && (nBox.value = "");
 		pBox && pBox.value !== undefined && (pBox.value = "");
@@ -169,7 +169,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 				<IonItem>Noun</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="editNoun"
+						id="addFlavorNoun"
 						className="editable"
 						inputmode="text"
 						onIonInput={(e) => {
@@ -190,7 +190,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 				<IonItem>Special Plural (if needed)</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="editPlural"
+						id="addFlavorPlural"
 						className="editable"
 						inputmode="text"
 						onIonInput={(e) => {
@@ -209,7 +209,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 				<IonItem>Adjective</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="editAdj"
+						id="addFlavorAdj"
 						className="editable"
 						inputmode="text"
 						onIonInput={(e) => {
