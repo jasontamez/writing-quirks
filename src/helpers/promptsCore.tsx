@@ -132,6 +132,8 @@ function assembleFormat (FLAGformat: keyof Previously, ideas: string[], plural: 
 		}
 		return portion;
 	});
+	// Remove id string
+	chosenFormat.shift();
 	// Assemble the format with the ideas
 	let final: string[] = [chosenFormat.shift()!];
 	while(chosenFormat.length > 0) {

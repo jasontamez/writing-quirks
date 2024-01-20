@@ -139,58 +139,58 @@ export type Any =
 export type Format = (string | string[])[];
 
 export const singleItemFormats: Format[] = [
-	["Create a story about ", "."],
-	["Write about ", "."],
-	["Picture this: ", "."],
-	["", " could be the nucleus of a story."],
-	["You can write about ", "."],
-	["Go write about ", "."],
-	["Here's a story seed: ", "."],
-	["Imagine ", "."],
-	["Try writing about ", "."],
-	["Contemplate ", " and imagine what happens."],
-	["Topic: ", "."],
-	["Your new muse: ", "."],
-	["Consider ", "."],
-	["Ponder ", " and start writing."],
-	["Brainstorm ways to put ", " in a story."]
+	["id1", "Create a story about ", "."],
+	["id2", "Write about ", "."],
+	["id3", "Picture this: ", "."],
+	["id4", "", " could be the nucleus of a story."],
+	["id5", "You can write about ", "."],
+	["id6", "Go write about ", "."],
+	["id7", "Here's a story seed: ", "."],
+	["id8", "Imagine ", "."],
+	["id9", "Try writing about ", "."],
+	["id10", "Contemplate ", " and imagine what happens."],
+	["id11", "Topic: ", "."],
+	["id12", "Your new muse: ", "."],
+	["id13", "Consider ", "."],
+	["id14", "Ponder ", " and start writing."],
+	["id15", "Brainstorm ways to put ", " in a story."]
 ];
 export const doubleItemFormats: Format[] = [
-	["Write about ", " and include ", "."],
-	["Ponder ", " and ", " before you start writing."],
-	["", " could be a part of a story about ", "."],
-	["Go write about ", ", but also have ", " be important."],
-	["Put ", " and ", " together."],
-	["Picture ", " with ", "..."],
-	["Try writing about ", " and ", "."],
-	["Here's a story seed: ", " mixed up with ", "."],
-	["Your new muses: ", " and ", "."],
-	["Scrutinize ", " through the lens of ", "."],
-	["Consider how ", " can be an alternative to ", "."],
-	["Think about ", ", and then consider ", "."],
-	["Write about ", " and ", "."],
-	["How does ", " affect ", "? Or vice versa?"],
-	["Brainstorm ways to connect ", " with ", "."]
+	["id21", "Write about ", " and include ", "."],
+	["id22", "Ponder ", " and ", " before you start writing."],
+	["id23", "", " could be a part of a story about ", "."],
+	["id24", "Go write about ", ", but also have ", " be important."],
+	["id25", "Put ", " and ", " together."],
+	["id26", "Picture ", " with ", "..."],
+	["id27", "Try writing about ", " and ", "."],
+	["id28", "Here's a story seed: ", " mixed up with ", "."],
+	["id39", "Your new muses: ", " and ", "."],
+	["id30", "Scrutinize ", " through the lens of ", "."],
+	["id31", "Consider how ", " can be an alternative to ", "."],
+	["id32", "Think about ", ", and then consider ", "."],
+	["id33", "Write about ", " and ", "."],
+	["id34", "How does ", " affect ", "? Or vice versa?"],
+	["id35", "Brainstorm ways to connect ", " with ", "."]
 ];
 export const doubleLocaleFormats: Format[] = [
-	["Create a story set ", "."],
-	["Your tale begins and ends ", "."],
-	["What happens ", "?"],
-	["Ruminate on goings-on ", "."],
-	["Set your story ", "."],
-	["Imagine what happens ", "."]
+	["id41", "Create a story set ", "."],
+	["id42", "Your tale begins and ends ", "."],
+	["id43", "What happens ", "?"],
+	["id44", "Ruminate on goings-on ", "."],
+	["id45", "Set your story ", "."],
+	["id46", "Imagine what happens ", "."]
 ];
 export const doubleCharacterFormats: Format[] = [
-	["What happens when ", [" meets ", " meet "], "?"],
-	["Imagine a conflict between ", " and ", "."],
-	["", " and ", " walk into a bar..."],
-	["Set ", " against ", " in your story."],
-	["Write about ", " partnering with ", "."],
-	["", [" encounters ", " encounter "], " as your story begins."],
-	["", [" is upset with ", " are upset with "], "!"],
-	["", [" is following ", " are following "], " as your story begins."],
-	["", [" is visiting ", " are visiting "], " as your story begins."],
-	["Your tale begins with ", " and ends with ", "."]
+	["id51", "What happens when ", [" meets ", " meet "], "?"],
+	["id52", "Imagine a conflict between ", " and ", "."],
+	["id53", "", " and ", " walk into a bar..."],
+	["id54", "Set ", " against ", " in your story."],
+	["id55", "Write about ", " partnering with ", "."],
+	["id56", "", [" encounters ", " encounter "], " as your story begins."],
+	["id57", "", [" is upset with ", " are upset with "], "!"],
+	["id58", "", [" is following ", " are following "], " as your story begins."],
+	["id59", "", [" is visiting ", " are visiting "], " as your story begins."],
+	["id60", "Your tale begins with ", " and ends with ", "."]
 ];
 
 export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEventFlags & Required<LocaleFlags>;

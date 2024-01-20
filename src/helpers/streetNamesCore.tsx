@@ -8,8 +8,8 @@ interface Data {
 	roads: string[]
 }
 
-let previousOne: Street = { text: "null" };
-let previousTwo: Street = { text: "null" };
+let previousOne: Street = { id: "null", text: "null" };
+let previousTwo: Street = { id: "null", text: "null" };
 let previousThree: string = "";
 
 export const createStreetInfo = (info: InfoStreets): Data => {
@@ -35,7 +35,7 @@ const randomOptions = {
 		const { text } = input;
 		return text !== previousOne.text && text !== previousTwo.text && text !== previousThree;
 	},
-	converter: (e: string): Street => ({ text: `E-SSN-1: ${e}` })
+	converter: (e: string): Street => ({ id: "e-ssn-1", text: `E-SSN-1: ${e}` })
 }
 
 export const createStreetName = (data: Data) => {

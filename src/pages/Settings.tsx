@@ -796,7 +796,7 @@ const Settings: React.FC = () => {
 						</IonToggle>
 					</IonItem>
 
-					<IonItemDivider>Advanced Settings</IonItemDivider>
+					<IonItemDivider className="major">Advanced Settings</IonItemDivider>
 					<IonItem lines="full">
 						<IonLabel>
 							<p><strong>CAUTION:</strong> The following pages allow you to modify the base info of the various generators. Use carefully.</p>

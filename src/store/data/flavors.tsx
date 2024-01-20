@@ -537,8 +537,8 @@ export const flavors: Flavor[] = [
 		postAdjective: true
 	},
 	{
-		id: "ketchip",
-		noun: "ketchip",
+		id: "ketchup",
+		noun: "ketchup",
 		adjective: "with ketchup",
 		postAdjective: true
 	},

@@ -1,6 +1,7 @@
 import NumericRange from "../../helpers/numericRangeType"
 
 interface Group {
+	id: string
 	description: string
 	modifiers: string[]
 	modifierChance: NumericRange<0, 100>
@@ -27,7 +28,6 @@ type BasicFormat = string | F;
 export type Format = (BasicFormat | Format)[];
 
 export interface ModifierGroup extends Group {
-	id: string
 	members: string[]
 	format: BasicFormat[]
 }
@@ -298,6 +298,7 @@ export const modifierGroups: ModifierGroup[] = [
 //
 
 export const ERROR_NOUN_GROUP: NounGroup = {
+	id: "null",
 	description: "",
 	members: [],
 	modifiers: [],
@@ -306,13 +307,14 @@ export const ERROR_NOUN_GROUP: NounGroup = {
 	theChance: 0
 };
 //arr = [], modifiers = [], modifierChance = 98, andChance = 10, theChance = 65
-const baseNounGroup: Omit<NounGroup, "description" | "members"> = {
+const baseNounGroup: Omit<NounGroup, "description" | "members" | "id"> = {
 	modifiers: [],
 	modifierChance: 98,
 	andChance: 10,
 	theChance: 65
 };
 const objectNouns: NounGroup = ({
+	id: "objectnouns",
 	...baseNounGroup,
 	description: "Objects Group",
 	members: ["Amulet","Antler","Anvil","Apple","Armor","Arrow","Axe","Banjo","Barrel","Beehive","Bell",
@@ -341,6 +343,7 @@ const objectNouns: NounGroup = ({
 	]
 });
 const animalNouns: NounGroup = ({
+	id: "animalnouns",
 	...baseNounGroup,
 	description: "Animals Group",
 	members: ["Alligator","Baboon","Badger","Banshee","Barnacle","Basilisk","Bat","Bear","Boar","Bronco",
@@ -372,6 +375,7 @@ const animalNouns: NounGroup = ({
 	]
 });
 const animateNouns: NounGroup = ({
+	id: "animatenouns",
 	...baseNounGroup,
 	description: "Animates Group",
 	members: ["Boat","Carriage","Cart","Chariot","Cloud","Dinghy","Galleon","Gate","Hurricane","Night","River",
@@ -388,6 +392,7 @@ const animateNouns: NounGroup = ({
 	]
 });
 const personNouns: NounGroup = ({
+	id: "personnouns",
 	...baseNounGroup,
 	description: "Persons Group",
 	members: ["Admiral","Alchemist","Angel","Archer","Assassin","Baker","Barrister","Beggar","Blacksmith",
@@ -420,6 +425,7 @@ const personNouns: NounGroup = ({
 	theChance: 100
 });
 const placeNouns: NounGroup = ({
+	id: "placenouns",
 	...baseNounGroup,
 	description: "Places Group",
 	members: ["Aerie","Alehouse","Alley","Bar","Bog","Bridge","Cafe","Castle","Cavern","Cellar","Corner","Cove",
