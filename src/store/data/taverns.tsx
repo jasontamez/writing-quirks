@@ -56,7 +56,7 @@ export const ERROR_MOD_GROUP: ModifierGroup = {
 	theChance: 0
 };
 // arr, format, modifiers = [], modifierChance = 25, andChance = 0, theChance = 0
-const baseModifierGroup: Omit<ModifierGroup, "id" | "description"> = {
+export const baseModifierGroup: Omit<ModifierGroup, "id" | "description"> = {
 	members: [],
 	format: [],
 	modifiers: [],
@@ -67,7 +67,7 @@ const baseModifierGroup: Omit<ModifierGroup, "id" | "description"> = {
 const signageModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "signageModifiers",
-	description: "Signage Group",
+	description: "Signage",
 	members: ["Mark","Sign","Sign","Sign","Symbol"],
 	format: [F.This, " of the ", F.Noun],
 	modifierChance: 0,
@@ -77,7 +77,7 @@ const signageModifiers: ModifierGroup = ({
 const ownershipModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "ownershipModifiers",
-	description: "Ownership Group",
+	description: "Ownerships",
 	members: ["Abbot","Bishop","Centaur","Count","Daughter","Dragon","Duchess","Duke","Earl","Father","Fool",
 		"Gargoyle","Gryphon","Hangman","King","Knight","Mother","Prince","Princess","Queen","Servant",
 		"Snake","Troll","Vagabond","Wayfarer","Widow","Widower","Wizard"],
@@ -91,7 +91,7 @@ const ownershipModifiers: ModifierGroup = ({
 const numericModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "numericModifiers",
-	description: "Numeric Group",
+	description: "Numerics",
 	members: ["Two","Three","Three","Three","Four","Five","Six","Seven","Seven","Seven",
 		"Eight","Nine","Ten","Eleven","Twelve","Thirteen","Sixteen","Seventeen",
 		"Ninety-Nine","Twin"],
@@ -105,7 +105,7 @@ const numericModifiers: ModifierGroup = ({
 const ordinalModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "ordinalModifiers",
-	description: "Ordinal Group",
+	description: "Ordinals",
 	members: ["First","Second","Seventh","Eleventh","Last","Third","Thirteenth"],
 	format: [F.This, " ", F.Noun],
 	modifiers: [
@@ -117,7 +117,7 @@ const ordinalModifiers: ModifierGroup = ({
 const prepPhraseModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "prepPhraseModifiers",
-	description: "Prepositional Phrase Group",
+	description: "Prepositional Phrases",
 	members: ["Beneath the Mountain","Beneath the Sea","by the Castle","by the Keep","by the River",
 		"by the Sea","in the Sky","of the Castle","of the Lake","of the Mountain","on the Lake",
 		"on the River","Under the Mountain","Under the Sea"],
@@ -133,7 +133,7 @@ const prepPhraseModifiers: ModifierGroup = ({
 const generalAdjectiveModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "generalAdjectiveModifiers",
-	description: "General Adjective Group",
+	description: "General Adjectives",
 	members: ["Alabaster","Amber","Ancient","Angelic","Azure","Backwards","Beautiful","Beloved","Big","Black",
 		"Blue","Bottom","Braided","Brass","Bronze","Brown","Burning","Clay","Cloven","Cobblestone","Cold",
 		"Copper","Creative","Crimson","Crooked","Dark","Deep","Devilish","Diamond","Dirty","Divine","Driest",
@@ -160,7 +160,7 @@ const generalAdjectiveModifiers: ModifierGroup = ({
 const animateAdjectiveModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "animateAdjectiveModifiers",
-	description: "Animate Adjective Group",
+	description: "Animate Adjectives",
 	members: ["Angry","Baby","Bawdy","Bearded","Belching","Blabbering","Blind","Blind","Bloated","Bloody",
 		"Blushing","Brave","Brazen","Burly","Charming","Crawling","Crazy","Cringing","Crippled",
 		"Dancing","Dead","Deaf","Destitute","Devious","Difficult","Dire","Dreaming","Drowned","Drunk",
@@ -185,7 +185,7 @@ const animateAdjectiveModifiers: ModifierGroup = ({
 const objectAdjectiveModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "objectAdjectiveModifiers",
-	description: "Object Adjective Group",
+	description: "Object Adjectives",
 	members: ["Bent","Bottomless","Broken","Cracked","Fried","Grimy","Gritty","Leaky","Missing","Musty",
 		"Nicked","Oiled","Patched","Rusted","Shattered","Stolen","Swiveling","Tangled","Well-Worn"],
 	format: [F.This, " ", F.Noun],
@@ -202,7 +202,7 @@ const objectAdjectiveModifiers: ModifierGroup = ({
 const ownedObjectModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "ownedObjectModifiers",
-	description: "Owned Object Group",
+	description: "Owned Objects",
 	members: ["Arms","Battle","Book","Bunch","Cabbage","Carpet","Cat","Club","Coins","Cudgel","Cups","Dog",
 		"Dream","Duds","Farm","Flag","Flower","Folly","Hat","Horse","Hovel","Light","Marbles","Mead","Mug",
 		"Nightmare","Pillow","Revenge","Shovel","Socks","Staff","Temple","Tree","Voice","Wand","Well"],
@@ -214,7 +214,7 @@ const ownedObjectModifiers: ModifierGroup = ({
 const animalPeopleModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "animalPeopleModifiers",
-	description: "Animal-People Group",
+	description: "Animal-Peoples",
 	members: ["Buster","Herder","Hunter","Keeper","Master","Slayer"],
 	format: [F.Noun, " ", F.This],
 	modifierChance: 0,
@@ -224,7 +224,7 @@ const animalPeopleModifiers: ModifierGroup = ({
 const animalPartModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "animalPartModifiers",
-	description: "Animal Part Group",
+	description: "Animal Parts",
 	members: ["Bane","Beak","Bollocks","Breath","Claw","Claws","Egg","Eggs","Fang","Fangs","Gizzard","Guts",
 		"Haunch","Head","Hoof","Hooves","Horn","Horns","Intestine","Jaw","Lair","Luck","Nest","Perch",
 		"Tail","Talons","Tusk","Tusks","Wing","Wings"],
@@ -236,7 +236,7 @@ const animalPartModifiers: ModifierGroup = ({
 const personPartModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "personPartModifiers",
-	description: "Person Part Group",
+	description: "Person Parts",
 	members: ["Armpit","Aunt","Beard","Belly","Family","Finger","Fingernail","Fingernails","Fingers","Fist",
 		"Lips","Pleasure","Toe","Toenail","Toenails","Toes","Uncle"],
 	format: [F.Noun, "'s ", F.This],
@@ -247,7 +247,7 @@ const personPartModifiers: ModifierGroup = ({
 const animatePartModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "animatePartModifiers",
-	description: "Animate Part Group",
+	description: "Animate Parts",
 	members: ["Blood","Ear","Ears","Eye","Eyes","Footprint","Footprints","Gaze","Head","Heart","Liver","Nose",
 		"Prayer","Rump","Scent","Sleep","Spleen","Stare","Tears","Teeth","Throat","Tooth","Trousers","Ulcer",
 		"Voice"],
@@ -259,7 +259,7 @@ const animatePartModifiers: ModifierGroup = ({
 const placeAdjectiveModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "placeAdjectiveModifiers",
-	description: "Place Adjective Group",
+	description: "Place Adjectives",
 	members: ["Brick","Carpeted","Cramped","Flooded","Gabled","Hilltop","Isolated","Rainy","Rambling","Shady",
 		"Shingled","Spacious","Wobbly"],
 	format: [F.This, " ", F.Noun],
@@ -307,7 +307,7 @@ export const ERROR_NOUN_GROUP: NounGroup = {
 	theChance: 0
 };
 //arr = [], modifiers = [], modifierChance = 98, andChance = 10, theChance = 65
-const baseNounGroup: Omit<NounGroup, "description" | "members" | "id"> = {
+export const baseNounGroup: Omit<NounGroup, "description" | "members" | "id"> = {
 	modifiers: [],
 	modifierChance: 98,
 	andChance: 10,
@@ -316,7 +316,7 @@ const baseNounGroup: Omit<NounGroup, "description" | "members" | "id"> = {
 const objectNouns: NounGroup = ({
 	id: "objectnouns",
 	...baseNounGroup,
-	description: "Objects Group",
+	description: "Objects",
 	members: ["Amulet","Antler","Anvil","Apple","Armor","Arrow","Axe","Banjo","Barrel","Beehive","Bell",
 		"Blade",["Body","Bodies"],"Book","Bottle","Bow","Breastplate","Brew","Broadsword","Bucket","Bullet",
 		["Bush","Bushes"],["Cactus","Cacti"],"Candle","Candlestick","Cane","Card","Cauldron","Cedar","Chain",
@@ -345,7 +345,7 @@ const objectNouns: NounGroup = ({
 const animalNouns: NounGroup = ({
 	id: "animalnouns",
 	...baseNounGroup,
-	description: "Animals Group",
+	description: "Animals",
 	members: ["Alligator","Baboon","Badger","Banshee","Barnacle","Basilisk","Bat","Bear","Boar","Bronco",
 		"Buck",["Buffalo",null],"Bull",["Butterfly","Butterflies"],["Carp",null],"Cat","Chicken","Clam",
 		"Cockatoo","Cockatrice","Cow","Coyote","Crane",["Crawfish",null],"Crow",["Deer",null],"Djinn","Dog",
@@ -377,7 +377,7 @@ const animalNouns: NounGroup = ({
 const animateNouns: NounGroup = ({
 	id: "animatenouns",
 	...baseNounGroup,
-	description: "Animates Group",
+	description: "Animates",
 	members: ["Boat","Carriage","Cart","Chariot","Cloud","Dinghy","Galleon","Gate","Hurricane","Night","River",
 		"Road","Ship","Spirit","Star","Statue","Storm","Sun","Tentacle",["Tornado","Tornadoes"],"Tumbleweed",
 		"Wagon","Whisper","Yacht"],
@@ -394,7 +394,7 @@ const animateNouns: NounGroup = ({
 const personNouns: NounGroup = ({
 	id: "personnouns",
 	...baseNounGroup,
-	description: "Persons Group",
+	description: "Persons",
 	members: ["Admiral","Alchemist","Angel","Archer","Assassin","Baker","Barrister","Beggar","Blacksmith",
 		"Boy","Bugbear","Butcher","Captain","Centaur","Chamberlain","Cowboy","Crone","Damsel","Daughter",
 		"Demon","Devil","Doctor","Doppelganger","Druid","Drunk","Dryad","Dunce",["Dwarf","Dwarves"],
@@ -427,7 +427,7 @@ const personNouns: NounGroup = ({
 const placeNouns: NounGroup = ({
 	id: "placenouns",
 	...baseNounGroup,
-	description: "Places Group",
+	description: "Places",
 	members: ["Aerie","Alehouse","Alley","Bar","Bog","Bridge","Cafe","Castle","Cavern","Cellar","Corner","Cove",
 		"Crevice","Den","Dungeon","Edge","End","Flophouse","Garden","Grill","Grove","Hall","Haven","Hideaway",
 		"Home","House","Iceberg","Inn","Keep","Kitchen","Labyrinth",["Library","Libraries"],"Lighthouse",

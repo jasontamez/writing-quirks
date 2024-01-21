@@ -131,7 +131,7 @@ function getName (info: TavernData, previous: NounData | null = null): string {
 			}
 		}
 	);
-	const { members, modifiers, modifierChance } = group;
+	const { modifiers, modifierChance } = group;
 	let { andChance, theChance } = group;
 	const nounPhrase: PluralNoun = typeof word === "string" ? [word, word + "s"] : word;
 	const format: Format = [];

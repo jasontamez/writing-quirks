@@ -35,6 +35,48 @@ const infoTavernsSlice = createSlice({
 				...state,
 				acceptUpdates: !state.acceptUpdates
 			};
+		},
+		addNounGroup: (state, action: PayloadAction<NounGroup>) => {
+			return {
+				...state,
+				nouns: [...state.nouns, action.payload]
+			};
+		},
+		addModifierGroup: (state, action: PayloadAction<ModifierGroup>) => {
+			return {
+				...state,
+				modifiers: [...state.modifiers, action.payload]
+			};
+		},
+		editNounGroup: (state, action: PayloadAction<NounGroup>) => {
+			const { payload } = action;
+			const { id } = payload;
+			return {
+				...state,
+				nouns: state.nouns.map(n => n.id === id ? payload : n)
+			};
+		},
+		editModifierGroup: (state, action: PayloadAction<ModifierGroup>) => {
+			const { payload } = action;
+			const { id } = payload;
+			return {
+				...state,
+				modifiers: state.modifiers.map(m => m.id === id ? payload : m)
+			};
+		},
+		deleteNounGroup: (state, action: PayloadAction<string>) => {
+			const { payload } = action;
+			return {
+				...state,
+				nouns: state.nouns.filter(n => n.id !== payload)
+			};
+		},
+		deleteModifierGroup: (state, action: PayloadAction<string>) => {
+			const { payload } = action;
+			return {
+				...state,
+				modifiers: state.modifiers.filter(m => m.id !== payload)
+			};
 		}
 	}
 });
@@ -42,7 +84,13 @@ const infoTavernsSlice = createSlice({
 export const {
 	resetTaverns,
 	toggleAcceptNew,
-	toggleAcceptUpdates
+	toggleAcceptUpdates,
+	addModifierGroup,
+	addNounGroup,
+	editModifierGroup,
+	editNounGroup,
+	deleteModifierGroup,
+	deleteNounGroup
 } = infoTavernsSlice.actions;
 
 export default infoTavernsSlice.reducer;

@@ -21,29 +21,24 @@ import {
 import { addCircle, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
 
 import {
-	deleteNoun,
-	deleteAdjective1,
-	deleteAdjective2,
-	deleteFormat,
 	toggleAcceptNew,
-	toggleAcceptUpdates
-} from '../../store/infoInsultsSlice';
+	toggleAcceptUpdates,
+	deleteModifierGroup,
+	deleteNounGroup
+} from '../../store/infoTavernsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Adjective, Noun, Format } from '../../store/data/insults';
+import { ModifierGroup, NounGroup } from "../../store/data/taverns";
 
-import { translateFormat } from '../../helpers/insultsCore';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
-import InsultsEditModal from './InsultsModalEdit';
-import InsultsFormatEditModal from './InsultsModalEditFormat';
-import InsultsAddModal from './InsultsModalAdd';
-import InsultsAddFormatModal from './InsultsModalAddFormat';
+//import TavernsEditModal from './TavernsModalEdit';
+//import TavernsAddModal from './TavernsModalAdd';
 import './Editing.css';
 
 interface NounItem {
-	item: Noun
-	all: Noun[]
+	item: NounGroup
+	all: NounGroup[]
 }
 const NounLine: FC<NounItem> = (props) => {
 	const dispatch = useAppDispatch();
@@ -53,12 +48,14 @@ const NounLine: FC<NounItem> = (props) => {
 	const { item, all } = props;
 	const {
 		id,
-		text
+		description,
+		modifiers,
+		members
 	} = item;
 	const maybeDelete = useCallback(() => {
-		if(all.length <= 3) {
+		if(all.length <= 1) {
 			return toaster({
-				message: "Cannot delete: A minimum of three nouns are required for the tool to function.",
+				message: "Cannot delete: At least one noun group is required for the tool to function.",
 				color: "danger",
 				duration: 5000,
 				position: "middle",
@@ -66,12 +63,12 @@ const NounLine: FC<NounItem> = (props) => {
 			});
 		}
 		yesNoAlert({
-			header: `${text}?`,
+			header: `${description}?`,
 			message: "Are you sure you want to delete this? It cannot be undone.",
 			cssClass: "danger",
 			submit: "Yes, Delete This",
 			handler: () => {
-				dispatch(deleteNoun(item));
+				dispatch(deleteNounGroup(id));
 				toaster({
 					message: "Deleted.",
 					color: "danger",
@@ -82,14 +79,17 @@ const NounLine: FC<NounItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast]);
-	const ID = `InsultNounLine-${id}`;
+	}, [description, doAlert, dispatch, toast]);
+	const ID = `TavernNounLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
-			<InsultsEditModal noun={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />
+			{"<TavernsEditModal noun={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"}
 			<IonItem className="editingItem">
 				<div className="content">
-					<div className="text">{text}</div>
+					<div className="doubleText">
+						<div className="text">{description}</div>
+						<div className="info">{modifiers.length} mods; Includes: <em>{members.join(", ")}</em></div>
+					</div>
 					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
 				</div>
 			</IonItem>
@@ -110,108 +110,31 @@ const NounLine: FC<NounItem> = (props) => {
 	);
 };
 const nounItem = (
-	item: Noun,
+	item: NounGroup,
 	i: number,
-	all: Noun[]
-) => <NounLine all={all} item={item} key={`${item.id}-editingInsultsNoun`} />;
+	all: NounGroup[]
+) => <NounLine all={all} item={item} key={`${item.id}-editingTavernsNoun`} />;
 
-interface AdjectiveItem {
-	item: Adjective
-	all: Adjective[]
-	adjNum: 1 | 2
+interface ModifierItem {
+	item: ModifierGroup
+	all: ModifierGroup[]
 }
-const AdjectiveLine: FC<AdjectiveItem> = (props) => {
-	const dispatch = useAppDispatch();
-	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
-	const [ doAlert ] = useIonAlert();
-	const toast = useIonToast();
-	const { item, all, adjNum = 1 } = props;
-	const {
-		id,
-		text
-	} = item;
-	const maybeDelete = useCallback(() => {
-		if(all.length <= 3) {
-			return toaster({
-				message: "Cannot delete: A minimum of three adjectives in each group are required for the tool to function.",
-				color: "danger",
-				duration: 5000,
-				position: "middle",
-				toast
-			});
-		}
-		yesNoAlert({
-			header: `${text}?`,
-			message: "Are you sure you want to delete this? It cannot be undone.",
-			cssClass: "danger",
-			submit: "Yes, Delete This",
-			handler: () => {
-				dispatch(adjNum === 1 ? deleteAdjective1(item) : deleteAdjective2(item));
-				toaster({
-					message: "Deleted.",
-					color: "danger",
-					duration: 2500,
-					position: "middle",
-					toast
-				});
-			},
-			doAlert
-		});
-	}, [text, doAlert, dispatch, toast, all]);
-	const ID = `AdjectiveLine-${id}`;
-	return (
-		<IonItemSliding id={ID}>
-			<InsultsEditModal adjective={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />
-			<IonItem className="editingItem">
-				<div className="content">
-					<div className="text">{text}</div>
-					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
-				</div>
-			</IonItem>
-			<IonItemOptions side="end">
-				{
-					all.length > 3 ?
-						<IonItemOption color="danger" onClick={maybeDelete}>
-							<IonIcon slot="icon-only" icon={trashOutline} />
-						</IonItemOption>
-					:
-						<></>
-				}
-				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
-					<IonIcon slot="icon-only" icon={pencilOutline} />
-				</IonItemOption>
-			</IonItemOptions>
-		</IonItemSliding>
-	);
-};
-const adjectiveItem1 = (
-	item: Adjective,
-	i: number,
-	all: Adjective[]
-) => <AdjectiveLine adjNum={1} all={all} item={item} key={`${item.id}-editingInsultsAdj`} />;
-const adjectiveItem2 = (
-	item: Adjective,
-	i: number,
-	all: Adjective[]
-) => <AdjectiveLine adjNum={2} all={all} item={item} key={`${item.id}-editingInsultsAdj`} />;
-
-//InsultsFormatEditModal
-interface FormatItem {
-	item: Format
-	all: Format[]
-}
-const FormatLine: FC<FormatItem> = (props) => {
+const ModifierLine: FC<ModifierItem> = (props) => {
 	const dispatch = useAppDispatch();
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const [ doAlert ] = useIonAlert();
 	const toast = useIonToast();
 	const { item, all } = props;
-	const [id, ...format] = item;
-	const formatString = translateFormat(format);
+	const {
+		id,
+		description,
+		modifiers,
+		members
+	} = item;
 	const maybeDelete = useCallback(() => {
-		if(all.length <= 3) {
+		if(all.length <= 1) {
 			return toaster({
-				message: "Cannot delete: A minimum of three formats are required for the tool to function.",
+				message: "Cannot delete: At least one modifier group is required for the tool to function.",
 				color: "danger",
 				duration: 5000,
 				position: "middle",
@@ -219,12 +142,12 @@ const FormatLine: FC<FormatItem> = (props) => {
 			});
 		}
 		yesNoAlert({
-			header: `${formatString}?`,
+			header: `${description}?`,
 			message: "Are you sure you want to delete this? It cannot be undone.",
 			cssClass: "danger",
 			submit: "Yes, Delete This",
 			handler: () => {
-				dispatch(deleteFormat(id as string));
+				dispatch(deleteModifierGroup(id));
 				toaster({
 					message: "Deleted.",
 					color: "danger",
@@ -235,14 +158,14 @@ const FormatLine: FC<FormatItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [all, formatString, doAlert, dispatch, toast]);
-	const ID = `InsultFormatLine-${id}`;
+	}, [description, doAlert, dispatch, toast, all]);
+	const ID = `AdjectiveLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
-			<InsultsFormatEditModal format={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />
+			{"<TavernsEditModal adjective={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"}
 			<IonItem className="editingItem">
 				<div className="content">
-					<div className="text truncate">{formatString}</div>
+					<div className="text">{description}</div>
 					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
 				</div>
 			</IonItem>
@@ -262,25 +185,21 @@ const FormatLine: FC<FormatItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const formatItem = (
-	item: Format,
+const modifierItem = (
+	item: ModifierGroup,
 	i: number,
-	all: Format[]
-) => <FormatLine all={all} item={item} key={`${item[0]}-editingInsultsNoun`} />;
+	all: ModifierGroup[]
+) => <ModifierLine all={all} item={item} key={`${item.id}-editingTavernsAdj`} />;
 
-const InsultsEdit: FC = () => {
+const TavernsEdit: FC = () => {
 	const {
 		acceptNew,
 		acceptUpdates,
-		formats,
-		adjectives1,
-		adjectives2,
-		nouns
-	} = useAppSelector(state => state.infoInsults);
-	const [ modalA1Open, setModalA1Open ] = useState<boolean>(false);
-	const [ modalA2Open, setModalA2Open ] = useState<boolean>(false);
-	const [ modalNOpen, setModalNOpen ] = useState<boolean>(false);
-	const [ modalFOpen, setModalFOpen ] = useState<boolean>(false);
+		nouns,
+		modifiers
+	} = useAppSelector(state => state.infoTaverns);
+	const [ modalNounOpen, setModalNounOpen ] = useState<boolean>(false);
+	const [ modalModifierOpen, setModalModifierOpen ] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -289,7 +208,7 @@ const InsultsEdit: FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Insults - Advanced Settings</IonTitle>
+					<IonTitle>Taverns - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
@@ -298,10 +217,8 @@ const InsultsEdit: FC = () => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>
-				<InsultsAddModal adj={1} modalOpen={modalA1Open} setModalOpen={setModalA1Open} />
-				<InsultsAddModal adj={2} modalOpen={modalA2Open} setModalOpen={setModalA2Open} />
-				<InsultsAddModal modalOpen={modalNOpen} setModalOpen={setModalNOpen} />
-				<InsultsAddFormatModal modalOpen={modalFOpen} setModalOpen={setModalFOpen} />
+				{"<TavernsAddModal adj={1} modalOpen={modalNounOpen} setModalOpen={setModalNounOpen} />"}
+				{"<TavernsAddModal adj={2} modalOpen={modalModifierOpen} setModalOpen={setModalModifierOpen} />"}
 				<IonList lines="full" className="editing">
 					<IonItem>
 						<IonToggle
@@ -310,8 +227,8 @@ const InsultsEdit: FC = () => {
 							checked={acceptNew}
 							onClick={togAccNew}
 						>
-							<h2>Accept New Insults</h2>
-							<p>When the app updates, if there are new insult components available, add them to my device.</p>
+							<h2>Accept New Taverns</h2>
+							<p>When the app updates, if there are new tavern components available, add them to my device.</p>
 						</IonToggle>
 					</IonItem>
 					<IonItem>
@@ -321,40 +238,24 @@ const InsultsEdit: FC = () => {
 							checked={acceptUpdates}
 							onClick={togAccUpd}
 						>
-							<h2>Update Old Insults</h2>
-							<p>When the app updates, if there are changes to old insult components on this device, update them.</p>
+							<h2>Update Old Taverns</h2>
+							<p>When the app updates, if there are changes to old tavern components on this device, update them.</p>
 						</IonToggle>
 					</IonItem>
-					<IonItemDivider>Adjectives (Singular)</IonItemDivider>
-					{ adjectives1.map(adjectiveItem1) }
-					<IonItem lines="full" className="addButtonItem">
-						<IonButton color="success" slot="end" onClick={() => setModalA1Open(true)}>
-							<IonIcon slot="start" icon={addCircle} />
-							Add New Adjective Here
-						</IonButton>
-					</IonItem>
-					<IonItemDivider>Adjectives (Two-Words)</IonItemDivider>
-					{ adjectives2.map(adjectiveItem2) }
-					<IonItem lines="full" className="addButtonItem">
-						<IonButton color="success" slot="end" onClick={() => setModalA2Open(true)}>
-							<IonIcon slot="start" icon={addCircle} />
-							Add New Adjective Here
-						</IonButton>
-					</IonItem>
-					<IonItemDivider>Nouns</IonItemDivider>
+					<IonItemDivider>Noun Groups</IonItemDivider>
 					{ nouns.map(nounItem) }
 					<IonItem lines="full" className="addButtonItem">
-						<IonButton color="success" slot="end" onClick={() => setModalNOpen(true)}>
+						<IonButton color="success" slot="end" onClick={() => setModalNounOpen(true)}>
 							<IonIcon slot="start" icon={addCircle} />
-							Add New Noun
+							Add New Noun Group
 						</IonButton>
 					</IonItem>
-					<IonItemDivider>Formats</IonItemDivider>
-					{ formats.map(formatItem) }
+					<IonItemDivider>Modifier Groups</IonItemDivider>
+					{ modifiers.map(modifierItem) }
 					<IonItem lines="full" className="addButtonItem">
-						<IonButton color="success" slot="end" onClick={() => setModalFOpen(true)}>
+						<IonButton color="success" slot="end" onClick={() => setModalModifierOpen(true)}>
 							<IonIcon slot="start" icon={addCircle} />
-							Add New Format
+							Add New Modifier Group
 						</IonButton>
 					</IonItem>
 				</IonList>
@@ -363,4 +264,4 @@ const InsultsEdit: FC = () => {
 	);
 };
 
-export default InsultsEdit;
+export default TavernsEdit;

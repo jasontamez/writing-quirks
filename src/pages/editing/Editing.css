@@ -52,23 +52,36 @@ ion-list.editing ion-item.editingItem div.content .handle {
 	padding-inline: 0.5em;
 	align-self: center;
 }
+ion-list.editing ion-item.editingItem div.content .doubleText {
+	flex-grow: 2;
+	flex-shrink: 1;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+ion-list.editing ion-item.editingItem div.content .text,
+ion-list.editing ion-item.editingItem div.content .info {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
 ion-list.editing ion-item.editingItem div.content .text {
 	white-space: normal !important;
 	flex-grow: 2;
 	flex-shrink: 1;
 }
-ion-list.editing ion-item.editingItem div.content .text {
-	white-space: nowrap !important;
-	text-overflow: ellipsis;
-	overflow: hidden;
+ion-list.editing ion-item.editingItem div.content .weight,
+ion-list.editing ion-item.editingItem div.content .extra,
+ion-list.editing ion-item.editingItem div.content .info {
+	flex-grow: 0;
+	flex-shrink: 1;
+	font-size: 0.9em;
+
 }
 ion-list.editing ion-item.editingItem div.content .weight,
 ion-list.editing ion-item.editingItem div.content .extra {
 	white-space: normal !important;
-	flex-grow: 0;
-	flex-shrink: 1;
 	font-style: italic;
-	font-size: 0.9em;
 }
 ion-list.editing ion-textarea {
 	background: var(--ion-color-dark);

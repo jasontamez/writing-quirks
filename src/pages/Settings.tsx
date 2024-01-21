@@ -802,6 +802,10 @@ const Settings: React.FC = () => {
 							<p><strong>CAUTION:</strong> The following pages allow you to modify the base info of the various generators. Use carefully.</p>
 						</IonLabel>
 					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/edittaverns">
+						<IonLabel>Edit Taverns</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editstreets">
 						<IonLabel>Edit Streets</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
