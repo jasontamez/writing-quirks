@@ -1,5 +1,7 @@
 import NumericRange from "../../helpers/numericRangeType"
 
+export type WeightRange = NumericRange<1, 10>;
+
 export interface Street {
 	id: string
 	text: string
@@ -13,7 +15,7 @@ export interface Street {
 export interface Road {
 	id: string
 	text: string
-	weight: NumericRange<1, 10>
+	weight: WeightRange
 }
 
 export const streets: Street[] = [

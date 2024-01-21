@@ -195,6 +195,7 @@ const adjectiveItem2 = (
 	all: Adjective[]
 ) => <AdjectiveLine adjNum={2} all={all} item={item} key={`${item.id}-editingInsultsAdj`} />;
 
+//InsultsFormatEditModal
 interface FormatItem {
 	item: Format
 	all: Format[]

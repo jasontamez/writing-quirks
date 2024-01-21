@@ -62,7 +62,8 @@ ion-list.editing ion-item.editingItem div.content .text {
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
-ion-list.editing ion-item.editingItem div.content .weight {
+ion-list.editing ion-item.editingItem div.content .weight,
+ion-list.editing ion-item.editingItem div.content .extra {
 	white-space: normal !important;
 	flex-grow: 0;
 	flex-shrink: 1;
