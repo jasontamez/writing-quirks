@@ -17,6 +17,7 @@ export type PluralNoun = [string, string | null];
 
 export interface NounGroup extends Group {
 	members: (string | PluralNoun)[]
+	separator: string
 }
 
 export type Noun = PluralNoun | string;
@@ -304,6 +305,7 @@ export const modifierGroups: ModifierGroup[] = [
 export const ERROR_NOUN_GROUP: NounGroup = {
 	id: "null",
 	description: "",
+	separator: "/",
 	members: [],
 	modifiers: [],
 	modifierChance: 0,
@@ -312,6 +314,7 @@ export const ERROR_NOUN_GROUP: NounGroup = {
 };
 //arr = [], modifiers = [], modifierChance = 98, andChance = 10, theChance = 65
 export const baseNounGroup: Omit<NounGroup, "description" | "members" | "id"> = {
+	separator: "/",
 	modifiers: [],
 	modifierChance: 98,
 	andChance: 10,

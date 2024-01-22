@@ -32,6 +32,33 @@ ion-list.editing ion-item h2 {
 	font-size: 1.1rem;
 	margin: 0.25em 0;
 }
+ion-list.editing ion-item ion-range ion-label {
+	flex-grow: 0 !important;
+	flex-shrink: 2;
+}
+ion-list.editing ion-item.chunky {
+	background: var(--ion-color-dark);
+	padding-block: 0.25em;
+}
+ion-list.editing ion-item.chunky .chunk {
+	display: inline-flex;
+	flex-flow: row nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 0.75em;
+	padding-block: 0.1em;
+	padding-inline-start: 0.25em;
+	padding-inline-end: 0.75em;
+	margin-block: 0.25em;
+	margin-inline: 0.25em;
+	background: var(--ion-color-step-150);
+	border-radius: 0.5em;
+}
+ion-list.editing ion-item .chunk .icon ion-button {
+	font-weight: 0.75em;
+	--padding-start: 0.1em;
+	--padding-end: 0.1em;
+}
 ion-list.editing ion-item.editingItem::part(native) {
 	--inner-padding-end: 0;
 	padding-block: 0.25em;
@@ -42,7 +69,7 @@ ion-list.editing ion-item.addButtonItem::part(native) {
 ion-list.editing ion-item.editingItem div.content {
 	display: flex;
 	flex-flow: row nowrap;
-	justify-content: flex-end;
+	justify-content: flex-start;
 	align-items: flex-start;
 	width: 100%;
 }
@@ -59,9 +86,13 @@ ion-list.editing ion-item.editingItem div.content .doubleText {
 	flex-flow: column nowrap;
 	justify-content: flex-start;
 	align-items: flex-start;
+	min-width: 0;
+	max-width: 100%;
 }
-ion-list.editing ion-item.editingItem div.content .text,
 ion-list.editing ion-item.editingItem div.content .info {
+	white-space: nowrap;
+	padding-inline: 0.5em;
+	max-width: 100%;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
@@ -75,13 +106,13 @@ ion-list.editing ion-item.editingItem div.content .extra,
 ion-list.editing ion-item.editingItem div.content .info {
 	flex-grow: 0;
 	flex-shrink: 1;
-	font-size: 0.9em;
-
+	font-size: 0.75em;
 }
 ion-list.editing ion-item.editingItem div.content .weight,
 ion-list.editing ion-item.editingItem div.content .extra {
 	white-space: normal !important;
 	font-style: italic;
+	padding-inline-end: 0.5em
 }
 ion-list.editing ion-textarea {
 	background: var(--ion-color-dark);

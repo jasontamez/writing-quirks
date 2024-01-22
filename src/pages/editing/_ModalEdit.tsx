@@ -56,10 +56,11 @@ const BasicEditModal: FC<ModalProps> = (props) => {
 			onIonModalWillPresent={() => closeSlider(itemId)}
 			onIonModalDidPresent={onOpen}
 			backdropDismiss={false}
+			aria-labelledby="editTitle"
 		>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Edit {title}</IonTitle>
+					<IonTitle id="editTitle">Edit {title}</IonTitle>
 					<IonButtons slot="end">
 						<IonButton onClick={maybeClose}><IonIcon icon={closeCircle} /></IonButton>
 					</IonButtons>

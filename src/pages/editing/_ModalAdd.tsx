@@ -42,10 +42,11 @@ const BasicAddModal: FC<ModalProps> = (props) => {
 			onIonModalDidDismiss={closeModal}
 			onIonModalDidPresent={onOpen}
 			backdropDismiss={false}
+			aria-labelledby="addTitle"
 		>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Add {title}</IonTitle>
+					<IonTitle id="addTitle">Add {title}</IonTitle>
 					<IonButtons slot="end">
 						<IonButton onClick={maybeClose}><IonIcon icon={closeCircle} /></IonButton>
 					</IonButtons>

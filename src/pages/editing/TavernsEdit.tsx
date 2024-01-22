@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import {
 	IonButton,
 	IonButtons,
@@ -33,7 +33,7 @@ import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
 //import TavernsEditModal from './TavernsModalEdit';
-//import TavernsAddModal from './TavernsModalAdd';
+import TavernsAddNounModal from './TavernsModalNounAdd';
 import './Editing.css';
 
 interface NounItem {
@@ -52,6 +52,7 @@ const NounLine: FC<NounItem> = (props) => {
 		modifiers,
 		members
 	} = item;
+	const membersString = useMemo(() => members.map(m => typeof m === "string" ? m : m[0]).join(", "), [members]);
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
 			return toaster({
@@ -81,14 +82,15 @@ const NounLine: FC<NounItem> = (props) => {
 		});
 	}, [description, doAlert, dispatch, toast]);
 	const ID = `TavernNounLine-${id}`;
+	const modsNum = modifiers.length;
 	return (
 		<IonItemSliding id={ID}>
-			{"<TavernsEditModal noun={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"}
+			{/*"<TavernsEditModal noun={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"*/}
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="doubleText">
 						<div className="text">{description}</div>
-						<div className="info">{modifiers.length} mods; Includes: <em>{members.join(", ")}</em></div>
+						<div className="info">{modsNum === 1 ? "1 mod" : `${modsNum} mods`}; Members: <em>{membersString}</em></div>
 					</div>
 					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
 				</div>
@@ -131,6 +133,7 @@ const ModifierLine: FC<ModifierItem> = (props) => {
 		modifiers,
 		members
 	} = item;
+	const modsNum = modifiers.length;
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
 			return toaster({
@@ -162,10 +165,13 @@ const ModifierLine: FC<ModifierItem> = (props) => {
 	const ID = `AdjectiveLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
-			{"<TavernsEditModal adjective={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"}
+			{/*"<TavernsEditModal modifier={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"*/}
 			<IonItem className="editingItem">
 				<div className="content">
-					<div className="text">{description}</div>
+					<div className="doubleText">
+						<div className="text">{description}</div>
+						<div className="info">{modsNum === 1 ? "1 submod" : `${modsNum} submods`}; Members: <em>{members.join(", ")}</em></div>
+					</div>
 					<IonIcon src="svg/slide-handle.svg" className="handle" size="small" />
 				</div>
 			</IonItem>
@@ -217,8 +223,8 @@ const TavernsEdit: FC = () => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>
-				{"<TavernsAddModal adj={1} modalOpen={modalNounOpen} setModalOpen={setModalNounOpen} />"}
-				{"<TavernsAddModal adj={2} modalOpen={modalModifierOpen} setModalOpen={setModalModifierOpen} />"}
+				<TavernsAddNounModal modalOpen={modalNounOpen} setModalOpen={setModalNounOpen} modifiers={modifiers} />
+				<TavernsAddNounModal modalOpen={modalModifierOpen} setModalOpen={setModalModifierOpen} modifiers={modifiers} />
 				<IonList lines="full" className="editing">
 					<IonItem>
 						<IonToggle

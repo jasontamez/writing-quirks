@@ -63,7 +63,7 @@ export const createStreetName = (data: Data) => {
 			}
 		} else {
 			// No alternate. Ensure we're two words instead of one.
-			chanceOfTwoWords = 500;
+			chanceOfTwoWords = 200;
 		}
 	}
 	// Check second part
