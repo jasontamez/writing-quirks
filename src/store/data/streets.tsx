@@ -1,12 +1,14 @@
 import NumericRange from "../../helpers/numericRangeType"
 
-export type WeightRange = NumericRange<1, 10>;
+export type WeightRange = NumericRange<1, 11>;
+
+export type Percentage = NumericRange<-200, 201>;
 
 export interface Street {
 	id: string
 	text: string
-	chanceFirstTwoWordName?: number // default 5
-	modChanceEndTwoWordName?: number // default 0
+	chanceFirstTwoWordName?: Percentage // default 5
+	modChanceEndTwoWordName?: Percentage // default 0
 	alt?: string
 	double?: boolean
 	prefix?: boolean

@@ -1,6 +1,6 @@
 import NumericRange from "../../helpers/numericRangeType";
 
-export type WeightRange = NumericRange<1, 10>;
+export type WeightRange = NumericRange<1, 11>;
 
 export interface Determiner {
 	id: string

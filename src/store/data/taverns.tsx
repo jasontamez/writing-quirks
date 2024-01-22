@@ -1,12 +1,16 @@
 import NumericRange from "../../helpers/numericRangeType"
 
+export type Percentage = NumericRange<0, 101>;
+
+export type ChangeRange = NumericRange<-200, 201>;
+
 interface Group {
 	id: string
 	description: string
 	modifiers: string[]
-	modifierChance: NumericRange<0, 100>
-	andChance: number
-	theChance: number
+	modifierChance: Percentage
+	andChance: ChangeRange
+	theChance: ChangeRange
 }
 
 export type PluralNoun = [string, string | null];

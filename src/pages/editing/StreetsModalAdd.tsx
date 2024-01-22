@@ -2,6 +2,7 @@ import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "reac
 import {
 	IonInput,
 	IonItem,
+	IonLabel,
 	IonRange,
 	IonToggle,
 	useIonAlert,
@@ -9,7 +10,7 @@ import {
 } from "@ionic/react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Street, Road, WeightRange } from "../../store/data/streets";
+import { Street, Road, WeightRange, Percentage } from "../../store/data/streets";
 import { addRoad, addStreet } from "../../store/infoStreetsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
@@ -35,8 +36,8 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 	const [prefix, setPrefix] = useState<boolean>(false);
 	const [suffix, setSuffix] = useState<boolean>(false);
 	const [double, setDouble] = useState<boolean>(false);
-	const [chanceFirstTwoWordName, setChance] = useState<number>(5);
-	const [modChanceEndTwoWordName, setMod] = useState<number>(0);
+	const [chanceFirstTwoWordName, setChance] = useState<Percentage>(5);
+	const [modChanceEndTwoWordName, setMod] = useState<Percentage>(0);
 
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
@@ -207,6 +208,7 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 									label="Two-Word Name Base Chance:"
 									labelPlacement="start"
 									pin
+									pinFormatter={(n) => `${n}%`}
 									ticks
 									snaps
 									color="primary"
@@ -214,8 +216,10 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 									max={200}
 									step={1}
 									value={chanceFirstTwoWordName}
-									onIonChange={(e) => setChance(e.target.value as number)}
-								/>
+									onIonChange={(e) => setChance(e.target.value as Percentage)}
+								>
+									<IonLabel slot="end">({chanceFirstTwoWordName}%)</IonLabel>
+								</IonRange>
 							</IonItem>
 						:
 							<></>
@@ -234,6 +238,7 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 									label="Modify Two-Word Name Chance:"
 									labelPlacement="start"
 									pin
+									pinFormatter={(n) => `${n}%`}
 									ticks
 									snaps
 									color="primary"
@@ -241,8 +246,10 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 									max={200}
 									step={1}
 									value={modChanceEndTwoWordName}
-									onIonChange={(e) => setMod(e.target.value as number)}
-								/>
+									onIonChange={(e) => setMod(e.target.value as Percentage)}
+								>
+									<IonLabel slot="end">({modChanceEndTwoWordName}%)</IonLabel>
+								</IonRange>
 							</IonItem>
 						:
 							<></>
