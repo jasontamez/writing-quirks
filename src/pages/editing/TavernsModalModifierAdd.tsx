@@ -251,7 +251,7 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		[setMods, mods]
 	);
 	const modLine = useCallback(
-		(mod: ModifierGroup) => <Mod modifier={mod} deleter={delMod} />,
+		(mod: ModifierGroup) => <Mod key={`TavernAddModifier-Mod-${mod.id}`} modifier={mod} deleter={delMod} />,
 		[delMod]
 	);
 	const delFormat = useCallback(
@@ -259,7 +259,7 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		[setFormat, format]
 	);
 	const formatLine = useCallback(
-		(item: BasicFormat, i: number) => <FormatBit info={item} i={i} deleter={delFormat} />,
+		(item: BasicFormat, i: number) => <FormatBit key={`TavernAddModifier-Format-${i}`} info={item} i={i} deleter={delFormat} />,
 		[delFormat]
 	);
 

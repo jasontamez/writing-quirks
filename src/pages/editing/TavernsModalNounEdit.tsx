@@ -258,7 +258,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	}, []);
 
 	const delMod = useCallback((mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)), [setMods, mods]);
-	const modLine = useCallback((mod: ModifierGroup) => <Mod modifier={mod} deleter={delMod} />, []);
+	const modLine = useCallback(
+		(mod: ModifierGroup) => <Mod key={`EditTavernNoun-Mod-${mod.id}`} modifier={mod} deleter={delMod} />,
+		[delMod]
+	);
 
 	const returnMods = useCallback((mods: ModifierGroup[]) => setMods(mods), [setMods]);
 
