@@ -15,8 +15,8 @@ import {
 import { addCircle, closeCircle } from "ionicons/icons";
 import { v4 as uuidv4 } from "uuid";
 
-import { ChangeRange, ModifierGroup, NounGroup, Percentage, PluralNoun } from "../../store/data/taverns";
-import { addNounGroup } from "../../store/infoTavernsSlice";
+import { BasicFormat, ChangeRange, F, ModifierGroup, Percentage } from "../../store/data/taverns";
+import { addModifierGroup } from "../../store/infoTavernsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
 import { $i } from "../../helpers/dollarsignExports";
@@ -46,6 +46,41 @@ const Mod: FC<Mod> = (props) => {
 				><IonIcon icon={closeCircle} slot="icon-only" /></IonButton>
 			</div>
 			<div className="text">{modifier.description}</div>
+		</div>
+	);
+};
+
+interface FormatProps {
+	info: BasicFormat
+	i: number
+	deleter: (i: number) => void
+}
+const FormatBit: FC<FormatProps> = (props) => {
+	const { info, i, deleter } = props;
+	let text = "";
+	switch(info) {
+		case F.This:
+			text = "<Modifier>";
+			break;
+		case F.Noun:
+			text = "<Noun>";
+			break;
+		case F.PluralNoun:
+			text = "<Plural Noun>";
+			break;
+		default:
+			text = JSON.stringify(info);
+	}
+	return (
+		<div className="chunk">
+			<div className="icon">
+				<IonButton
+					fill="clear"
+					color="danger"
+					onClick={() => deleter(i)}
+				><IonIcon icon={closeCircle} slot="icon-only" /></IonButton>
+			</div>
+			<div className="text">{text}</div>
 		</div>
 	);
 };
@@ -84,28 +119,30 @@ const ModAlert: FC<ModSelector> = (props) => {
 	);
 };
 
-const TavernsAddNounModal: FC<ModalProps> = (props) => {
+const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 	const {
 		modalOpen,
 		setModalOpen,
 		modifiers
 	} = props;
 
-	const [separator, setSeparator] = useState<string>("/");
 	const [mods, setMods] = useState<ModifierGroup[]>([]);
-	const [modifierChance, setModifierChance] = useState<Percentage>(25);
+	const [modifierChance, setModifierChance] = useState<Percentage>(0);
 	const [andChance, setAndChance] = useState<ChangeRange>(0);
 	const [theChance, setTheChance] = useState<ChangeRange>(0);
 	const [textareaValue, setTextareaValue] = useState<string>("");
+	const [format, setFormat] = useState<BasicFormat[]>([]);
+	const [hasThis, setHasThis] = useState<boolean>(false);
+	const [hasNoun, setHasNoun] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
+		const dBox = $i("addModifierGroupDescription");
 		const d = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
+		const mBox = $i("addModifierMembers");
 		const m = (mBox && mBox.value && mBox.value.trim()) || "";
 		if(!d && !m) {
 			// Nothing to save
@@ -121,23 +158,23 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
+		const dBox = $i("addModifierGroupDescription");
 		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
+		const mBox = $i("addModifierMembers");
 		const m: string = (mBox && mBox.value && mBox.value.trim()) || "";
-		const members = m.split(/\n/).map(member => {
-			if(member.indexOf(separator) > -1) {
-				const [sing, plural, ...etc] = member.split(separator);
-				return [sing.trim(), plural.trim()] as PluralNoun;
-			}
-			return member.trim();
-		}).filter(member => member);
+		const members = m.split(/\n/).map(member => member.trim()).filter(member => member);
 		const errors: string[] = [];
 		if(!d) {
 			errors.push("missing description");
 		}
 		if(members.length < 3) {
 			errors.push("needs at least 3 members");
+		}
+		if(!hasThis) {
+			errors.push("format is missing descriptor");
+		}
+		if(!hasNoun) {
+			errors.push("format is missing noun");
 		}
 		if(mods.length > 0 && modifierChance === 0) {
 			errors.push("modifiers are provided but modifier chance is 0%");
@@ -155,17 +192,17 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				toast
 			});
 		} else {
-			const noun: NounGroup = {
+			const modifier: ModifierGroup = {
 				id: uuidv4(),
 				description: d,
 				members,
-				separator,
 				modifierChance,
 				modifiers: mods.map(m => m.id),
 				andChance,
-				theChance
+				theChance,
+				format
 			};
-			dispatch(addNounGroup(noun));
+			dispatch(addModifierGroup(modifier));
 		}
 		toaster({
 			message: "Saved.",
@@ -177,22 +214,26 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		closeModal();
 	}, [
 		dispatch,
-		separator,
 		modifierChance,
 		mods,
 		andChance,
-		theChance
+		theChance,
+		hasThis,
+		hasNoun
 	]);
 
 	const onOpen = useCallback(() => {
 		setMods([]);
-		setModifierChance(25);
+		setModifierChance(0);
 		setAndChance(0);
 		setTheChance(0);
 		setTextareaValue("");
-		const dBox = $i("addNounGroupDescription");
+		setFormat([]);
+		setHasThis(false);
+		setHasNoun(false);
+		const dBox = $i("addModifierGroupDescription");
 		dBox && dBox.value !== undefined && (dBox.value = "");
-		const mBox = $i("addNounMembers");
+		const mBox = $i("addModifierMembers");
 		mBox && mBox.value !== undefined && (mBox.value = "");
 	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
 
@@ -205,15 +246,29 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		}
 	}, []);
 
-	const delMod = useCallback((mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)), [setMods, mods]);
-	const modLine = useCallback((mod: ModifierGroup) => <Mod modifier={mod} deleter={delMod} />, []);
+	const delMod = useCallback(
+		(mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)),
+		[setMods, mods]
+	);
+	const modLine = useCallback(
+		(mod: ModifierGroup) => <Mod modifier={mod} deleter={delMod} />,
+		[delMod]
+	);
+	const delFormat = useCallback(
+		(index: number) => setFormat(format.filter((m, i) => i !== index)),
+		[setFormat, format]
+	);
+	const formatLine = useCallback(
+		(item: BasicFormat, i: number) => <FormatBit info={item} i={i} deleter={delFormat} />,
+		[delFormat]
+	);
 
 	return (
 		<BasicAddModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={onOpen}
-			title="Noun Group"
+			title="Modifier Group"
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
@@ -222,7 +277,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				<IonItem>Description</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="addNounGroupDescription"
+						id="addModifierGroupDescription"
 						className="editable"
 						inputmode="text"
 						aria-label="Description box"
@@ -231,7 +286,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				<IonItem>Members</IonItem>
 				<IonItem>
 					<IonTextarea
-						id="addNounMembers"
+						id="addModifierMembers"
 						value={textareaValue}
 						rows={7}
 						inputmode="text"
@@ -239,17 +294,6 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 						onKeyDown={allowEnterInTextArea}
 						onIonChange={(e) => setTextareaValue(e.target.value || "")}
 					></IonTextarea>
-				</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="separator"
-						className="editable"
-						inputmode="text"
-						label="Special Plural Separator:"
-						labelPlacement="start"
-						value={separator}
-						onIonChange={e => setSeparator(e.detail.value || "")}
-					/>
 				</IonItem>
 				<IonItem>Possible Modifiers</IonItem>
 				<IonItem className="chunky">
@@ -263,7 +307,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				</IonItem>
 				<IonItem lines="full">
 					<IonRange
-						label="Chance of Modifier:"
+						label="Chance of Extra Modifier:"
 						labelPlacement="start"
 						pin
 						pinFormatter={(n) => `${n}%`}
@@ -279,9 +323,67 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 						<IonLabel slot="end">({modifierChance}%)</IonLabel>
 					</IonRange>
 				</IonItem>
+				<IonAlert
+					trigger="addFormatButton"
+					header="Add Text"
+					backdropDismiss={false}
+					buttons={[
+						{
+							text: "Cancel"
+						},
+						{
+							text: "Save",
+							handler: (input: { info: string }) => setFormat([...format, input.info])
+						}
+					]}
+					inputs={[
+						{
+							label: "Don't forget leading/trailing spaces:",
+							name: "info",
+							type: "text"
+						}
+					]}
+				/>
+				<IonItem>Modifier Format</IonItem>
+				<IonItem className="chunky">
+					<div>{format.map(formatLine)}</div>
+				</IonItem>
+				<IonItem lines="full" className="ion-text-center">
+					<IonButton id="addFormatButton" color="primary">
+						<IonIcon icon={addCircle} slot="start" />
+						<IonLabel>Text</IonLabel>
+					</IonButton>
+					{hasThis ? <></> : (
+						<IonButton
+							onClick={() => { setFormat([...format, F.This]); setHasThis(true)}}
+							color="secondary"
+						>
+							<IonIcon icon={addCircle} slot="start" />
+							<IonLabel>&lt;This Modifier&gt;</IonLabel>
+						</IonButton>
+					)}
+					{hasNoun ? <></> : (
+						<>
+							<IonButton
+								onClick={() => { setFormat([...format, F.Noun]); setHasNoun(true)}}
+								color="tertiary"
+							>
+								<IonIcon icon={addCircle} slot="start" />
+								<IonLabel>&lt;Noun&gt;</IonLabel>
+							</IonButton>
+							<IonButton
+								onClick={() => { setFormat([...format, F.PluralNoun]); setHasNoun(true)}}
+								color="tertiary"
+							>
+								<IonIcon icon={addCircle} slot="start" />
+								<IonLabel>&lt;Plural Noun&gt;</IonLabel>
+							</IonButton>
+						</>
+					)}
+				</IonItem>
 				<IonItem lines="full">
 					<IonRange
-						label={'"And" Chance:'}
+						label={'Modify "And" Chance:'}
 						labelPlacement="start"
 						pin
 						pinFormatter={(n) => `${n}%`}
@@ -299,7 +401,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				</IonItem>
 				<IonItem lines="full">
 					<IonRange
-						label={'"The" Chance:'}
+						label={'Modify "The" Chance:'}
 						labelPlacement="start"
 						pin
 						pinFormatter={(n) => `${n}%`}
@@ -320,4 +422,4 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	);
 }
 
-export default TavernsAddNounModal;
+export default TavernsAddModifierModal;

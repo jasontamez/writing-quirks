@@ -32,20 +32,23 @@ import { ModifierGroup, NounGroup } from "../../store/data/taverns";
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
-//import TavernsEditModal from './TavernsModalEdit';
+import TavernsEditNounModal from './TavernsModalNounEdit';
+import TavernsEditModifierModal from './TavernsModalModifierEdit';
+import TavernsAddModifierModal from './TavernsModalModifierAdd';
 import TavernsAddNounModal from './TavernsModalNounAdd';
 import './Editing.css';
 
 interface NounItem {
 	item: NounGroup
 	all: NounGroup[]
+	allModifiers: ModifierGroup[]
 }
 const NounLine: FC<NounItem> = (props) => {
 	const dispatch = useAppDispatch();
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const [ doAlert ] = useIonAlert();
 	const toast = useIonToast();
-	const { item, all } = props;
+	const { item, all, allModifiers } = props;
 	const {
 		id,
 		description,
@@ -85,7 +88,14 @@ const NounLine: FC<NounItem> = (props) => {
 	const modsNum = modifiers.length;
 	return (
 		<IonItemSliding id={ID}>
-			{/*"<TavernsEditModal noun={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"*/}
+			<TavernsEditNounModal
+				noun={item}
+				all={all}
+				modalOpen={modalOpen}
+				setModalOpen={setModalOpen}
+				itemId={ID}
+				modifiers={allModifiers}
+			/>
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="doubleText">
@@ -111,11 +121,6 @@ const NounLine: FC<NounItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const nounItem = (
-	item: NounGroup,
-	i: number,
-	all: NounGroup[]
-) => <NounLine all={all} item={item} key={`${item.id}-editingTavernsNoun`} />;
 
 interface ModifierItem {
 	item: ModifierGroup
@@ -165,7 +170,13 @@ const ModifierLine: FC<ModifierItem> = (props) => {
 	const ID = `AdjectiveLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
-			{/*"<TavernsEditModal modifier={item} modalOpen={modalOpen} setModalOpen={setModalOpen} itemId={ID} />"*/}
+			<TavernsEditModifierModal
+				modifier={item}
+				modalOpen={modalOpen}
+				setModalOpen={setModalOpen}
+				itemId={ID}
+				modifiers={all}
+			/>
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="doubleText">
@@ -210,6 +221,12 @@ const TavernsEdit: FC = () => {
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
 
+	const nounItem = useCallback(
+		(item: NounGroup) =>
+			<NounLine allModifiers={modifiers} all={nouns} item={item} key={`${item.id}-editingTavernsNoun`} />,
+		[modifiers, nouns]
+	);
+	
 	return (
 		<IonPage>
 			<IonHeader>
@@ -224,7 +241,7 @@ const TavernsEdit: FC = () => {
 			</IonHeader>
 			<IonContent>
 				<TavernsAddNounModal modalOpen={modalNounOpen} setModalOpen={setModalNounOpen} modifiers={modifiers} />
-				<TavernsAddNounModal modalOpen={modalModifierOpen} setModalOpen={setModalModifierOpen} modifiers={modifiers} />
+				<TavernsAddModifierModal modalOpen={modalModifierOpen} setModalOpen={setModalModifierOpen} modifiers={modifiers} />
 				<IonList lines="full" className="editing">
 					<IonItem>
 						<IonToggle
@@ -251,7 +268,7 @@ const TavernsEdit: FC = () => {
 					<IonItemDivider>Noun Groups</IonItemDivider>
 					{ nouns.map(nounItem) }
 					<IonItem lines="full" className="addButtonItem">
-						<IonButton color="success" slot="end" onClick={() => setModalNounOpen(true)}>
+						<IonButton color="primary" slot="end" onClick={() => setModalNounOpen(true)}>
 							<IonIcon slot="start" icon={addCircle} />
 							Add New Noun Group
 						</IonButton>
@@ -259,7 +276,7 @@ const TavernsEdit: FC = () => {
 					<IonItemDivider>Modifier Groups</IonItemDivider>
 					{ modifiers.map(modifierItem) }
 					<IonItem lines="full" className="addButtonItem">
-						<IonButton color="success" slot="end" onClick={() => setModalModifierOpen(true)}>
+						<IonButton color="primary" slot="end" onClick={() => setModalModifierOpen(true)}>
 							<IonIcon slot="start" icon={addCircle} />
 							Add New Modifier Group
 						</IonButton>

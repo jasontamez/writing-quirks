@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, KeyboardEventHandler } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, useState, KeyboardEventHandler, useMemo } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -13,22 +13,26 @@ import {
 	useIonToast
 } from "@ionic/react";
 import { addCircle, closeCircle } from "ionicons/icons";
-import { v4 as uuidv4 } from "uuid";
 
 import { ChangeRange, ModifierGroup, NounGroup, Percentage, PluralNoun } from "../../store/data/taverns";
-import { addNounGroup } from "../../store/infoTavernsSlice";
+import { deleteNounGroup, editNounGroup } from "../../store/infoTavernsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
-import BasicAddModal from "./_ModalAdd";
+import BasicEditModal from "./_ModalEdit";
 
 interface ModalProps {
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
 	modifiers: ModifierGroup[]
+	itemId: string
+	noun: NounGroup
+	all: NounGroup[]
 }
+
+interface ModifierObject { [key: string]: ModifierGroup }
 
 interface Mod {
 	modifier: ModifierGroup
@@ -52,18 +56,17 @@ const Mod: FC<Mod> = (props) => {
 
 interface ModSelector {
 	all: ModifierGroup[]
+	modObject: ModifierObject
 	chosen: ModifierGroup[]
 	returner: (mods: ModifierGroup[]) => void
 }
 const ModAlert: FC<ModSelector> = (props) => {
-	const { all, chosen, returner } = props;
-	const obj: { [key: string]: boolean } = {};
-	chosen.forEach(mod => (obj[mod.id] = true));
+	const { all, modObject, chosen, returner } = props;
 	const inputs: AlertInput[] = all.map(mod => ({
 		label: mod.description,
 		type: "checkbox",
 		value: mod,
-		checked: !!obj[mod.id]
+		checked: !!modObject[mod.id]
 	}));
 	return (
 		<IonAlert
@@ -88,7 +91,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	const {
 		modalOpen,
 		setModalOpen,
-		modifiers
+		modifiers,
+		itemId,
+		noun,
+		all
 	} = props;
 
 	const [separator, setSeparator] = useState<string>("/");
@@ -103,9 +109,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
+		// TO-DO: edit this
+		const dBox = $i("editNounGroupDescription");
 		const d = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
+		const mBox = $i("editNounMembers");
 		const m = (mBox && mBox.value && mBox.value.trim()) || "";
 		if(!d && !m) {
 			// Nothing to save
@@ -121,9 +128,9 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
+		const dBox = $i("editNounGroupDescription");
 		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
+		const mBox = $i("editNounMembers");
 		const m: string = (mBox && mBox.value && mBox.value.trim()) || "";
 		const members = m.split(/\n/).map(member => {
 			if(member.indexOf(separator) > -1) {
@@ -155,8 +162,8 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				toast
 			});
 		} else {
-			const noun: NounGroup = {
-				id: uuidv4(),
+			const n: NounGroup = {
+				...noun,
 				description: d,
 				members,
 				separator,
@@ -165,7 +172,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				andChance,
 				theChance
 			};
-			dispatch(addNounGroup(noun));
+			dispatch(editNounGroup(n));
 		}
 		toaster({
 			message: "Saved.",
@@ -183,18 +190,63 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		andChance,
 		theChance
 	]);
+	const maybeDelete = useCallback(() => {
+		if(all.length <= 1) {
+			return toaster({
+				message: "Cannot delete: At least one noun group is required for the tool to function.",
+				color: "danger",
+				duration: 5000,
+				position: "middle",
+				toast
+			});
+		}
+		yesNoAlert({
+			message: "Are you sure you want to delete this? It cannot be undone.",
+			cssClass: "danger",
+			submit: "Yes, Delete This",
+			handler: () => {
+				dispatch(deleteNounGroup(noun.id));
+				toaster({
+					message: "Deleted.",
+					color: "danger",
+					duration: 2500,
+					position: "middle",
+					toast
+				});
+			},
+			doAlert
+		});
+	}, [doAlert, dispatch, toast, noun, all]);
+
+	const modObject = useMemo(() => {
+		const obj: ModifierObject = {};
+		modifiers.forEach(mod => (obj[mod.id] = mod));
+		return obj;	
+	}, [modifiers]);
 
 	const onOpen = useCallback(() => {
-		setMods([]);
-		setModifierChance(25);
-		setAndChance(0);
-		setTheChance(0);
-		setTextareaValue("");
-		const dBox = $i("addNounGroupDescription");
-		dBox && dBox.value !== undefined && (dBox.value = "");
-		const mBox = $i("addNounMembers");
-		mBox && mBox.value !== undefined && (mBox.value = "");
-	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
+		const {
+			description,
+			members,
+			modifiers: modIds,
+			modifierChance,
+			andChance,
+			theChance,
+			separator
+		} = noun;
+		setMods(modIds.map(mod => modObject[mod]));
+		setModifierChance(modifierChance);
+		setAndChance(andChance);
+		setTheChance(theChance);
+		const dBox = $i("editNounGroupDescription");
+		dBox && dBox.value !== undefined && (dBox.value = description);
+		const membersString: string = members
+			.map(member => typeof member === "string" ? member : member.join(separator))
+			.join("\n");
+		const mBox = $i("editNounMembers");
+		mBox && mBox.value !== undefined && (mBox.value = membersString);
+		setTextareaValue(membersString);
+	}, [noun, modObject, setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
 
 	const allowEnterInTextArea: KeyboardEventHandler<HTMLIonTextareaElement> = useCallback((e) => {
 		if(e.key === "Enter" && e.target) {
@@ -208,21 +260,31 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	const delMod = useCallback((mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)), [setMods, mods]);
 	const modLine = useCallback((mod: ModifierGroup) => <Mod modifier={mod} deleter={delMod} />, []);
 
+	const returnMods = useCallback((mods: ModifierGroup[]) => setMods(mods), [setMods]);
+
 	return (
-		<BasicAddModal
+		<BasicEditModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={onOpen}
+			itemId={itemId}
 			title="Noun Group"
-			maybeSave={maybeSave}
 			maybeClose={maybeClose}
+			maybeDelete={maybeDelete}
+			maybeSave={maybeSave}
+			undeleteable={all.length <= 1}
 		>
 			<>
-				<ModAlert all={modifiers} chosen={mods} returner={(mods: ModifierGroup[]) => setMods(mods)} />
+				<ModAlert
+					modObject={modObject}
+					all={modifiers}
+					chosen={mods}
+					returner={returnMods}
+				/>
 				<IonItem>Description</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="addNounGroupDescription"
+						id="editNounGroupDescription"
 						className="editable"
 						inputmode="text"
 						aria-label="Description box"
@@ -231,7 +293,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				<IonItem>Members</IonItem>
 				<IonItem>
 					<IonTextarea
-						id="addNounMembers"
+						id="editNounMembers"
 						value={textareaValue}
 						rows={7}
 						inputmode="text"
@@ -316,7 +378,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 					</IonRange>
 				</IonItem>
 			</>
-		</BasicAddModal>
+		</BasicEditModal>
 	);
 }
 

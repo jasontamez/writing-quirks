@@ -28,7 +28,7 @@ export enum F {
 	PluralNoun
 }
 
-type BasicFormat = string | F;
+export type BasicFormat = string | F;
 
 export type Format = (BasicFormat | Format)[];
 
