@@ -83,7 +83,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, doAlert]);
+	}, [closeModal, doAlert, a, n]);
 	const maybeSave = useCallback(() => {
 		const aBox = $i("addFlavorAdj");
 		const nBox = $i("addFlavorNoun");

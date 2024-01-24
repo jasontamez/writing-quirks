@@ -45,10 +45,6 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 		setModalOpen,
 		itemId
 	} = props;
-	if(!adjective && !noun) {
-		return <IonText color="danger">ERROR: Did not find adjective or noun for modal. ({itemId})</IonText>;
-	}
-
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
@@ -117,7 +113,7 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, an, plural, toast]);
+	}, [dispatch, an, plural, toast, adjective, noun, adjNum, closeModal]);
 
 	const doDelete = useCallback(() => {
 		if(adjective) {
@@ -134,7 +130,7 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [adjective, noun, adjNum, closeModal, toast]);
+	}, [adjective, noun, adjNum, closeModal, toast, dispatch]);
 	const maybeDelete = useCallback(() => {
 		yesNoAlert({
 			header: "Delete this?",
@@ -163,6 +159,10 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 			setDummy(an ? "an" : (plural ? "some" : "a"));
 		}
 	}, [adjective, noun, setAn, setPlural]);
+
+	if(!adjective && !noun) {
+		return <IonText color="danger">ERROR: Did not find adjective or noun for modal. ({itemId})</IonText>;
+	}
 
 	return (
 		<BasicEditModal

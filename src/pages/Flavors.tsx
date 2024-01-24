@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
@@ -22,7 +22,7 @@ const Flavors: React.FC = () => {
 
 	const flavors = useMemo(() => createFlavorInfo(fff), [fff]);
 
-	const makeFlavor = (alternate = false) => {
+	const makeFlavor = useCallback((alternate = false) => {
 		const output = getFlavor(flavors);
 		if(alternate) {
 			setIntroAlternate(getRandom(intros, {last: [intro, introAlternate]}));
@@ -31,11 +31,11 @@ const Flavors: React.FC = () => {
 		}
 		setIntro(getRandom(intros, {last: [introAlternate, intro]}));
 		setFlavor(output);
-	};
+	}, [flavors, intros, intro, introAlternate]);
 
 	useEffect(() => {
 		makeFlavor();
-	}, []);
+	}, [makeFlavor]);
 
 	// Reset display for next time
 	useIonViewWillLeave(() => {

@@ -40,10 +40,6 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 		prefixes,
 		suffixes
 	} = props;
-	if(!road && !street) {
-		return <IonText color="danger">ERROR: modal is missing street or road ({itemId})</IonText>;
-	}
-
 	const [weight, setWeight] = useState<WeightRange>(1);
 	const [prefix, setPrefix] = useState<boolean>(false);
 	const [suffix, setSuffix] = useState<boolean>(false);
@@ -179,7 +175,8 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 		chanceFirstTwoWordName,
 		modChanceEndTwoWordName,
 		closeModal,
-		toast
+		toast,
+		road
 	]);
 	const maybeDelete = useCallback(() => {
 		if(street) {
@@ -219,7 +216,7 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 			},
 			doAlert
 		});
-	}, [street, road, doAlert, dispatch, toast]);
+	}, [street, road, doAlert, dispatch, toast, prefix, prefixes, suffix, suffixes]);
 
 	const onOpen = useCallback(() => {
 		const sBox = $i("editStreet");
@@ -244,6 +241,10 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 			setWeight(road!.weight);
 		}
 	}, [setPrefix, setSuffix, setDouble, setWeight, setChance, setMod, road, street]);
+
+	if(!road && !street) {
+		return <IonText color="danger">ERROR: modal is missing street or road ({itemId})</IonText>;
+	}
 
 	return (
 		<BasicEditModal

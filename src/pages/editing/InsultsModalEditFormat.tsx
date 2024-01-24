@@ -178,7 +178,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 				doDelete={deleteBit}
 				key={`editingInsultFormat-${i}`}
 			/>,
-		[changeBit]
+		[changeBit, deleteBit]
 	);
 
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
@@ -195,7 +195,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, format, formatString]);
+	}, [closeModal, format, formatString, doAlert]);
 	const maybeSave = useCallback(() => {
 		if(!formatString) {
 			return toaster({
@@ -250,7 +250,18 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, format, editedFormat, formatString, toast]);
+	}, [
+		dispatch,
+		format,
+		editedFormat,
+		formatString,
+		toast,
+		ADJECTIVE,
+		ARTICLE_ADJECTIVE,
+		NOUN,
+		ARTICLE_NOUN,
+		closeModal
+	]);
 
 	const doDelete = useCallback(() => {
 		dispatch(deleteFormat(format![0] as string));
@@ -262,7 +273,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [format, closeModal, toast]);
+	}, [format, closeModal, toast, dispatch]);
 	const maybeDelete = useCallback(() => {
 		yesNoAlert({
 			header: "Delete this?",

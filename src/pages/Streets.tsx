@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
@@ -17,16 +17,16 @@ const Streets: React.FC = () => {
 	const { animationMethod } = generalSettings;
 	const data = useMemo(() => createStreetInfo(infoStreets), [infoStreets]);
 
-	const makeStreet = (alternate = false) => {
+	const makeStreet = useCallback((alternate = false) => {
 		const output = createStreetName(data);
 		if(alternate) {
 			setStreetAlternate(output);
 			return;
 		}
 		setStreet(output);
-	};
+	}, [data]);
 
-	useEffect(() => makeStreet(), []);
+	useEffect(() => makeStreet(), [makeStreet]);
 
 	// Reset display for next time
 	useIonViewWillLeave(() => {

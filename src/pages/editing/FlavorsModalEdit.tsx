@@ -102,7 +102,17 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal]);
+	}, [
+		closeModal,
+		basic,
+		doAlert,
+		flavor,
+		a,
+		n,
+		p,
+		pAdj,
+		reqSing
+	]);
 	const maybeSave = useCallback(() => {
 		const aBox = $i("editFlavorAdj");
 		const nBox = $i("editFlavorNoun");
@@ -149,7 +159,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, ID, pAdj, reqSing, basic, closeModal]);
+	}, [dispatch, ID, pAdj, reqSing, basic, closeModal, toast]);
 	// set example adj
 	useEffect(() => {
 		setExampleAdj(translateFlavorAdj({adjective: a, postAdjective: pAdj, requiresSingular: reqSing}));
@@ -168,7 +178,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [flavor, closeModal, toast]);
+	}, [flavor, closeModal, toast, dispatch]);
 	const maybeDelete = useCallback(() => {
 		yesNoAlert({
 			header: "Delete this?",

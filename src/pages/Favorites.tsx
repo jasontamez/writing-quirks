@@ -44,7 +44,7 @@ type AllFavesObject = [string, keyof FavoritesObject, string, number];
 const Fave: FC<PropsItem> = (props) => {
 	const { content, prop, text, time } = props;
 	const dispatch = useAppDispatch();
-	const removeFunc = useCallback(() => dispatch(removeFavorite([prop, text, time])), [prop, text, time]);
+	const removeFunc = useCallback(() => dispatch(removeFavorite([prop, text, time])), [prop, text, time, dispatch]);
 	return (
 		<IonItemSliding>
 			<IonItem className="favorite">

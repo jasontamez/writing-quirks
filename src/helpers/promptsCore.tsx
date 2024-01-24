@@ -45,6 +45,7 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 				// singular = false
 				return [idea, false];
 			}
+			break;
 		case "object":
 			// Continue
 			break;

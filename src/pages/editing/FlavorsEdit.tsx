@@ -80,7 +80,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [title, doAlert, dispatch, toast, all]);
+	}, [title, doAlert, dispatch, toast, all, flavor]);
 	const ID = `FlavorLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
@@ -137,7 +137,7 @@ const FlavorEdits: FC = () => {
 			});
 		}
 		dispatch(setIntros(intros));
-	}, [dispatch]);
+	}, [dispatch, toast]);
 	// Set up introductions box
 	useEffect(() => {
 		const strung = intros.join("\n");

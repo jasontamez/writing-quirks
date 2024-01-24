@@ -41,7 +41,7 @@ const FaveButton: React.FC<FaveProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [touched, prop, text, dispatch]);
+	}, [touched, prop, text, dispatch, toast]);
 
 	return (
 		<IonFab slot="fixed" horizontal="start" vertical="bottom">

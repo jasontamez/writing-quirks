@@ -89,7 +89,7 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 			toast
 		});
 		closeModal();
-	}, [dispatch, weight, an, closeModal, toast]);
+	}, [dispatch, weight, an, closeModal, toast, adjective]);
 
 	const onOpen = useCallback(() => {
 		setAn(false);

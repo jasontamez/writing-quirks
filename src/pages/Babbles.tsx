@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	IonContent,
 	IonFab,
@@ -23,7 +23,7 @@ const Babbles: React.FC = () => {
 	const [babbleAlternate, setBabbleAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 
-	const makeBabble = (alternate = false) => {
+	const makeBabble = useCallback((alternate = false) => {
 		const { intro, text } = createBabble(infoBabbles);
 		if(alternate) {
 			setIntroAlternate(intro);
@@ -32,10 +32,10 @@ const Babbles: React.FC = () => {
 		}
 		setIntro(intro);
 		setBabble(text);
-	}
+	}, [infoBabbles]);
 	useEffect(() => {
 		makeBabble();
-	}, []);
+	}, [makeBabble]);
 
 	// Reset display for next time
 	useIonViewWillLeave(() => {

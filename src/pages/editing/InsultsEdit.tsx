@@ -82,7 +82,7 @@ const NounLine: FC<NounItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast]);
+	}, [text, doAlert, dispatch, toast, item, all.length]);
 	const ID = `InsultNounLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
@@ -157,7 +157,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast, all]);
+	}, [text, doAlert, dispatch, toast, all, item, adjNum]);
 	const ID = `AdjectiveLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
@@ -234,7 +234,7 @@ const FormatLine: FC<FormatItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [all, formatString, doAlert, dispatch, toast]);
+	}, [all, formatString, doAlert, dispatch, toast, id]);
 	const ID = `InsultFormatLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>

@@ -79,7 +79,7 @@ const DeterminerLine: FC<DeterminerItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast, permanent]);
+	}, [text, doAlert, dispatch, toast, permanent, item]);
 	const ID = `DeterminerLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
@@ -119,8 +119,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 	const { item, all } = props;
 	const {
 		id,
-		text,
-		an
+		text
 	} = item;
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 3) {
@@ -149,7 +148,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast, all]);
+	}, [text, doAlert, dispatch, toast, all, item]);
 	const ID = `AdjectiveLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>

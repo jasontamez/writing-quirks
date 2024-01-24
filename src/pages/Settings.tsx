@@ -134,7 +134,7 @@ const Settings: React.FC = () => {
 			});
 		}
 		dispatch(setMemorySize(Math.floor(maybe)));
-	}, []);
+	}, [dispatch, toast]);
 	const maybeDebug = () => {
 		if(debugCounter >= 6) {
 			setDebugCounter(0);

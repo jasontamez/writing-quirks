@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { IonContent, IonFab, IonFabButton, IonIcon, IonPage, useIonViewWillLeave } from '@ionic/react';
 import { refresh } from 'ionicons/icons';
 
@@ -15,17 +15,17 @@ const Insults: React.FC = () => {
 	const [insultAlternate, setInsultAlternate] = useState<string>("");
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 
-	const createInsult = (alternate = false) => {
+	const createInsult = useCallback((alternate = false) => {
 		const msg = getInsult(infoInsults);
 		if(alternate) {
 			setInsultAlternate(msg);
 			return;
 		}
 		setInsult(msg);
-	}
+	}, [infoInsults]);
 	useEffect(() => {
 		createInsult();
-	}, []);
+	}, [createInsult]);
 
 	// Reset display for next time
 	useIonViewWillLeave(() => {

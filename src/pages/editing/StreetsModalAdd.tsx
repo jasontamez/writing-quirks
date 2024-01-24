@@ -125,7 +125,8 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 		chanceFirstTwoWordName,
 		modChanceEndTwoWordName,
 		closeModal,
-		toast
+		toast,
+		road
 	]);
 
 	const onOpen = useCallback(() => {

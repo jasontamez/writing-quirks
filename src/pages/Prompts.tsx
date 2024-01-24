@@ -50,7 +50,11 @@ const filterIdeas = (usedIds: string[], flags: IdeaFlagsObjectArray, ideas: Any[
 			e.push(idea);
 		}
 	});
-	return [i, u, e];
+	return {
+		included: i,
+		used: u,
+		excluded: e
+	};
 };
 
 const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: IdeaFlagsObjectArray) => {
@@ -61,8 +65,12 @@ const restoreIdeas = (usedIds: string[], usedIdeas: Any[], hiddenTags: IdeaFlags
 		toRestore.push(copyOfUsedIdeas.shift()!);
 	}
 	// Check for hidden topics
-	const [i, u, e] = filterIdeas([], hiddenTags, toRestore);
-	return [i, copyOfUsedIdeas, e];
+	const {included, excluded} = filterIdeas([], hiddenTags, toRestore);
+	return {
+		included: included,
+		used: copyOfUsedIdeas,
+		excluded: excluded
+	};
 };
 
 const expandInfo = (idea: Any) => {
@@ -123,7 +131,7 @@ const Prompts: FC = () => {
 		do {
 			let m = leftover.match(/^(.*?)(\S*?)<([^>]+)>(\S*)(.*)$/);
 			if(m) {
-				const [ignore, pre, punctuation1, main, punctuation2, post] = m;
+				const [pre, punctuation1, main, punctuation2, post] = m.slice(1);
 				toShow.push(
 					<Fragment key={`fragmentPiece${count++}`}>{pre}</Fragment>,
 					<i key={`italicPiece${count++}`}>{punctuation1}{main}{punctuation2}</i>
@@ -164,13 +172,13 @@ const Prompts: FC = () => {
 			}
 		}
 		// Find the list of ok ideas
-		const [valid, invalid, excluded] = filterIdeas(usedIds, flags, ideas);
+		const {included, used, excluded} = filterIdeas(usedIds, flags, ideas);
 		// Save excluded ideas
 		setExcludedIdeas(excluded);
 		// Save the list of topics
 		setHiddenTags(flags);
 		// Return valid/invalid list if we need to use it ASAP.
-		return [valid, invalid];
+		return [included, used];
 	}, [usedIds, hiddenTopics, ideas]);
 
 	// Initial setup
@@ -191,7 +199,7 @@ const Prompts: FC = () => {
 	// When the list of ideas changes
 	useEffect(() => {
 		setUpIdeas();
-	}, [ideas]);
+	}, [setUpIdeas]);
 
 	// When the list of used ideas changes
 	useEffect(() => {
@@ -206,17 +214,17 @@ const Prompts: FC = () => {
 			const index = usedIds.indexOf(first);
 			if(index < 0) {
 				// not found?? just use the whole thing, I guess
-				const [i, u, e] = filterIdeas(usedIds, hiddenTags, ideas);
-				setOkIdeas(i);
-				setUsedIdeas(u);
-				setExcludedIdeas(e);
+				const {included, used, excluded} = filterIdeas(usedIds, hiddenTags, ideas);
+				setOkIdeas(included);
+				setUsedIdeas(used);
+				setExcludedIdeas(excluded);
 			} else {
 				// find the ideas that were shifted off the used list
-				const [i, u, e] = restoreIdeas(usedIds, usedIdeas, hiddenTags);
+				const {included, used, excluded} = restoreIdeas(usedIds, usedIdeas, hiddenTags);
 				// Save everything
-				setOkIdeas(okIdeas.concat(i));
-				setUsedIdeas(u);
-				setExcludedIdeas(excludedIdeas.concat(e));
+				setOkIdeas(okIdeas.concat(included));
+				setUsedIdeas(used);
+				setExcludedIdeas(excludedIdeas.concat(excluded));
 			}
 		} else if (prevLen < usedLen) {
 			// New ideas added

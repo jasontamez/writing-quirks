@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	IonContent,
 	IonFab,
@@ -24,16 +24,16 @@ const Locations: React.FC = () => {
 
 	const tavernData = useMemo(() => createTavernData(infoTaverns), [infoTaverns]);
 
-	const makeLocation = (alternate = false) => {
+	const makeLocation = useCallback((alternate = false) => {
 		if(alternate) {
 			setLocationAlternate(getName(tavernData));
 			return;
 		}
 		setLocation(getName(tavernData));
-	}
+	}, [tavernData]);
 	useEffect(() => {
 		makeLocation();
-	}, []);
+	}, [makeLocation]);
 
 	const doLocation = () => {
 		makeLocation(!alternateActive);

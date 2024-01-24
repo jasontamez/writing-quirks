@@ -140,7 +140,6 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 		setModalOpen
 	} = props;
 
-	const [] = useState<boolean>(false);
 	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
 	const [addingFormat, setAddingFormat] = useState<Format>([]);
 	const [addingFormatString, setAddingFormatString] = useState<string>("");
@@ -224,7 +223,17 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, closeModal, toast, addingFormat, addingFormatString]);
+	}, [
+		dispatch,
+		closeModal,
+		toast,
+		addingFormat,
+		addingFormatString,
+		ADJECTIVE,
+		ARTICLE_ADJECTIVE,
+		NOUN,
+		ARTICLE_NOUN
+	]);
 
 	const onOpen = useCallback(() => {
 		setAddingFormat([]);
@@ -258,7 +267,7 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 				doDelete={deleteBit}
 				key={`editingInsultFormat-${i}`}
 			/>,
-		[changeBit]
+		[changeBit, deleteBit]
 	);
 
 	return (

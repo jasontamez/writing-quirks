@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
 	IonButton,
 	IonButtons,
@@ -39,12 +39,12 @@ import StreetsEditModal from './StreetsModalEdit';
 import StreetsAddModal from './StreetsModalAdd';
 import './Editing.css';
 
-interface StreetItem {
+interface StreetItemProps {
 	item: Street
 	prefixes: number
 	suffixes: number
 }
-const StreetItem: FC<StreetItem> = (props) => {
+const StreetItem: FC<StreetItemProps> = (props) => {
 	const dispatch = useAppDispatch();
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const [ doAlert ] = useIonAlert();
@@ -92,7 +92,7 @@ const StreetItem: FC<StreetItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast]);
+	}, [text, doAlert, dispatch, toast, item, prefix, prefixes, suffix, suffixes]);
 	const ID = `StreetStreetLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
@@ -133,11 +133,11 @@ const StreetItem: FC<StreetItem> = (props) => {
 	);
 };
 
-interface RoadItem {
+interface RoadItemProps {
 	item: Road
 	all: Road[]
 }
-const RoadItem: FC<RoadItem> = (props) => {
+const RoadItem: FC<RoadItemProps> = (props) => {
 	const dispatch = useAppDispatch();
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const [ doAlert ] = useIonAlert();
@@ -175,7 +175,7 @@ const RoadItem: FC<RoadItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [text, doAlert, dispatch, toast]);
+	}, [text, doAlert, dispatch, toast, item, all.length]);
 	const ID = `StreetRoadLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>

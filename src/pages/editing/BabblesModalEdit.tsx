@@ -2,7 +2,6 @@ import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "reac
 import {
 	IonInput,
 	IonItem,
-	IonLabel,
 	IonRange,
 	IonText,
 	IonToggle,
@@ -35,9 +34,6 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 		setModalOpen,
 		itemId
 	} = props;
-	if(!adjective && !determiner) {
-		return <IonText color="danger">ERROR: Did not find adjective or determiner for modal. ({itemId})</IonText>;
-	}
 
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
@@ -74,7 +70,7 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, an, weight]);
+	}, [closeModal, an, weight, adjective, determiner, permanent, doAlert]);
 	const maybeSave = useCallback(() => {
 		const aBox = $i("editBabbleAdjDet");
 		const a = (aBox && aBox.value && aBox.value.trim()) || "";
@@ -113,7 +109,7 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [dispatch, weight, an, toast]);
+	}, [dispatch, weight, an, toast, adjective, closeModal, determiner, permanent]);
 
 	const doDelete = useCallback(() => {
 		if(permanent) {
@@ -128,7 +124,7 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [adjective, determiner, closeModal, toast, permanent]);
+	}, [adjective, determiner, closeModal, toast, permanent, dispatch]);
 	const maybeDelete = useCallback(() => {
 		if(permanent) {
 			return;
@@ -159,6 +155,9 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 		}
 	}, [adjective, determiner, setAn, setWeight]);
 
+	if(!adjective && !determiner) {
+		return <IonText color="danger">ERROR: Did not find adjective or determiner for modal. ({itemId})</IonText>;
+	}
 	return (
 		<BasicEditModal
 			modalOpen={modalOpen}

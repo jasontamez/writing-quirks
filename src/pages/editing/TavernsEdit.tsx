@@ -83,7 +83,7 @@ const NounLine: FC<NounItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [description, doAlert, dispatch, toast]);
+	}, [description, doAlert, dispatch, toast, id, all.length]);
 	const ID = `TavernNounLine-${id}`;
 	const modsNum = modifiers.length;
 	return (
@@ -166,7 +166,7 @@ const ModifierLine: FC<ModifierItem> = (props) => {
 			},
 			doAlert
 		});
-	}, [description, doAlert, dispatch, toast, all]);
+	}, [description, doAlert, dispatch, toast, all, id]);
 	const ID = `AdjectiveLine-${id}`;
 	return (
 		<IonItemSliding id={ID}>
