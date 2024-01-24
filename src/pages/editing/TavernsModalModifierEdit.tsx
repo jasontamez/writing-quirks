@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, KeyboardEventHandler, useMemo } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, useState, useMemo } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -13,12 +13,12 @@ import {
 	useIonToast
 } from "@ionic/react";
 import { addCircle, closeCircle } from "ionicons/icons";
-import { v4 as uuidv4 } from "uuid";
 
 import { BasicFormat, ChangeRange, F, ModifierGroup, Percentage } from "../../store/data/taverns";
 import { deleteModifierGroup, editModifierGroup } from "../../store/infoTavernsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
+import allowEnterInTextArea from "../../helpers/textAreaKludge";
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
@@ -34,11 +34,11 @@ interface ModalProps {
 
 interface ModifierObject { [key: string]: ModifierGroup }
 
-interface Mod {
+interface ModProps {
 	modifier: ModifierGroup
 	deleter: (m: ModifierGroup) => void
 }
-const Mod: FC<Mod> = (props) => {
+const Mod: FC<ModProps> = (props) => {
 	const { modifier, deleter } = props;
 	return (
 		<div className="chunk">
@@ -123,6 +123,8 @@ const ModAlert: FC<ModSelector> = (props) => {
 	);
 };
 
+const stringFormat = (input: BasicFormat[]) => input.map(input => typeof input === "string" ? input : `<<${input}>>`);
+
 const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 	const {
 		modalOpen,
@@ -146,11 +148,28 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
+		const {
+			description,
+			modifiers,
+			modifierChance: mc,
+			andChance: ac,
+			theChance: tc,
+			members,
+			format: f
+		} = modifier;
 		const dBox = $i("editModifierGroupDescription");
 		const d = (dBox && dBox.value && dBox.value.trim()) || "";
 		const mBox = $i("editModifierMembers");
 		const m = (mBox && mBox.value && mBox.value.trim()) || "";
-		if(!d && !m) {
+		if(
+			d === description
+			&& m === members.join("\n")
+			&& modifierChance === mc
+			&& andChance === ac
+			&& theChance === tc
+			&& stringFormat(format) === stringFormat(f)
+			&& mods.map(mod => mod.id).join(",") === modifiers.join(",")
+		) {
 			// Nothing to save
 			return closeModal();
 		}
@@ -162,9 +181,8 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, doAlert]);
+	}, [closeModal, doAlert, modifierChance, andChance, theChance, format, mods, modifier]);
 	const maybeSave = useCallback(() => {
-		// TO-DO: edit this
 		const dBox = $i("editModifierGroupDescription");
 		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
 		const mBox = $i("editModifierMembers");
@@ -185,9 +203,6 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 		}
 		if(mods.length > 0 && modifierChance === 0) {
 			errors.push("modifiers are provided but modifier chance is 0%");
-		}
-		if(mods.length === 0 && modifierChance > 0) {
-			errors.push("no modifiers provided but modifier chance is > 0%");
 		}
 		if(errors.length > 0) {
 			// ERROR
@@ -226,7 +241,11 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 		andChance,
 		theChance,
 		hasThis,
-		hasNoun
+		hasNoun,
+		closeModal,
+		format,
+		modifier,
+		toast
 	]);
 
 	const maybeDelete = useCallback(() => {
@@ -286,16 +305,7 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 		const mBox = $i("editModifierMembers");
 		mBox && mBox.value !== undefined && (mBox.value = membersString);
 		setTextareaValue(membersString);
-	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
-
-	const allowEnterInTextArea: KeyboardEventHandler<HTMLIonTextareaElement> = useCallback((e) => {
-		if(e.key === "Enter" && e.target) {
-			const THIS = e.target as HTMLIonTextareaElement;
-			if(THIS.value !== undefined ) {
-				THIS.value = THIS.value + "\n";
-			}
-		}
-	}, []);
+	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue, modifier, modObject]);
 
 	const delMod = useCallback(
 		(mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)),

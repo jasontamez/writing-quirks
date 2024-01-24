@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, KeyboardEventHandler } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -19,6 +19,7 @@ import { BasicFormat, ChangeRange, F, ModifierGroup, Percentage } from "../../st
 import { addModifierGroup } from "../../store/infoTavernsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
+import allowEnterInTextArea from "../../helpers/textAreaKludge";
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
@@ -30,11 +31,11 @@ interface ModalProps {
 	modifiers: ModifierGroup[]
 }
 
-interface Mod {
+interface ModProps {
 	modifier: ModifierGroup
 	deleter: (m: ModifierGroup) => void
 }
-const Mod: FC<Mod> = (props) => {
+const Mod: FC<ModProps> = (props) => {
 	const { modifier, deleter } = props;
 	return (
 		<div className="chunk">
@@ -179,9 +180,6 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		if(mods.length > 0 && modifierChance === 0) {
 			errors.push("modifiers are provided but modifier chance is 0%");
 		}
-		if(mods.length === 0 && modifierChance > 0) {
-			errors.push("no modifiers provided but modifier chance is > 0%");
-		}
 		if(errors.length > 0) {
 			// ERROR
 			return toaster({
@@ -219,7 +217,10 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		andChance,
 		theChance,
 		hasThis,
-		hasNoun
+		hasNoun,
+		closeModal,
+		format,
+		toast
 	]);
 
 	const onOpen = useCallback(() => {
@@ -236,15 +237,6 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		const mBox = $i("addModifierMembers");
 		mBox && mBox.value !== undefined && (mBox.value = "");
 	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
-
-	const allowEnterInTextArea: KeyboardEventHandler<HTMLIonTextareaElement> = useCallback((e) => {
-		if(e.key === "Enter" && e.target) {
-			const THIS = e.target as HTMLIonTextareaElement;
-			if(THIS.value !== undefined ) {
-				THIS.value = THIS.value + "\n";
-			}
-		}
-	}, []);
 
 	const delMod = useCallback(
 		(mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)),

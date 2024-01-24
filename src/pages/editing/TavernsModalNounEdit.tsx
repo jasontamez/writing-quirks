@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, KeyboardEventHandler, useMemo } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, useState, useMemo } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -18,6 +18,7 @@ import { ChangeRange, ModifierGroup, NounGroup, Percentage, PluralNoun } from ".
 import { deleteNounGroup, editNounGroup } from "../../store/infoTavernsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
+import allowEnterInTextArea from "../../helpers/textAreaKludge";
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
@@ -34,11 +35,11 @@ interface ModalProps {
 
 interface ModifierObject { [key: string]: ModifierGroup }
 
-interface Mod {
+interface ModProps {
 	modifier: ModifierGroup
 	deleter: (m: ModifierGroup) => void
 }
-const Mod: FC<Mod> = (props) => {
+const Mod: FC<ModProps> = (props) => {
 	const { modifier, deleter } = props;
 	return (
 		<div className="chunk">
@@ -57,11 +58,10 @@ const Mod: FC<Mod> = (props) => {
 interface ModSelector {
 	all: ModifierGroup[]
 	modObject: ModifierObject
-	chosen: ModifierGroup[]
 	returner: (mods: ModifierGroup[]) => void
 }
 const ModAlert: FC<ModSelector> = (props) => {
-	const { all, modObject, chosen, returner } = props;
+	const { all, modObject, returner } = props;
 	const inputs: AlertInput[] = all.map(mod => ({
 		label: mod.description,
 		type: "checkbox",
@@ -109,12 +109,26 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		// TO-DO: edit this
+		const {
+			description,
+			modifiers,
+			modifierChance: mc,
+			andChance: ac,
+			theChance: tc,
+			members
+		} = noun;
 		const dBox = $i("editNounGroupDescription");
 		const d = (dBox && dBox.value && dBox.value.trim()) || "";
 		const mBox = $i("editNounMembers");
 		const m = (mBox && mBox.value && mBox.value.trim()) || "";
-		if(!d && !m) {
+		if(
+			d === description
+			&& modifierChance === mc
+			&& andChance === ac
+			&& theChance === tc
+			&& mods.map(mod => mod.id).join(",") === modifiers.join(",")
+			&& m === members.map(member => typeof member === "string" ? member : member.join(separator)).join("\n")
+		) {
 			// Nothing to save
 			return closeModal();
 		}
@@ -126,7 +140,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, doAlert]);
+	}, [closeModal, doAlert, andChance, theChance, mods, noun, separator, modifierChance]);
 	const maybeSave = useCallback(() => {
 		const dBox = $i("editNounGroupDescription");
 		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
@@ -134,7 +148,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		const m: string = (mBox && mBox.value && mBox.value.trim()) || "";
 		const members = m.split(/\n/).map(member => {
 			if(member.indexOf(separator) > -1) {
-				const [sing, plural, ...etc] = member.split(separator);
+				const [sing, plural] = member.split(separator);
 				return [sing.trim(), plural.trim()] as PluralNoun;
 			}
 			return member.trim();
@@ -148,9 +162,6 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		}
 		if(mods.length > 0 && modifierChance === 0) {
 			errors.push("modifiers are provided but modifier chance is 0%");
-		}
-		if(mods.length === 0 && modifierChance > 0) {
-			errors.push("no modifiers provided but modifier chance is > 0%");
 		}
 		if(errors.length > 0) {
 			// ERROR
@@ -188,7 +199,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		modifierChance,
 		mods,
 		andChance,
-		theChance
+		theChance,
+		closeModal,
+		noun,
+		toast
 	]);
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
@@ -248,15 +262,6 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		setTextareaValue(membersString);
 	}, [noun, modObject, setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
 
-	const allowEnterInTextArea: KeyboardEventHandler<HTMLIonTextareaElement> = useCallback((e) => {
-		if(e.key === "Enter" && e.target) {
-			const THIS = e.target as HTMLIonTextareaElement;
-			if(THIS.value !== undefined ) {
-				THIS.value = THIS.value + "\n";
-			}
-		}
-	}, []);
-
 	const delMod = useCallback((mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)), [setMods, mods]);
 	const modLine = useCallback(
 		(mod: ModifierGroup) => <Mod key={`EditTavernNoun-Mod-${mod.id}`} modifier={mod} deleter={delMod} />,
@@ -281,7 +286,6 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 				<ModAlert
 					modObject={modObject}
 					all={modifiers}
-					chosen={mods}
 					returner={returnMods}
 				/>
 				<IonItem>Description</IonItem>
