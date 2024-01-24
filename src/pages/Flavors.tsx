@@ -22,16 +22,16 @@ const Flavors: React.FC = () => {
 
 	const flavors = useMemo(() => createFlavorInfo(fff), [fff]);
 
-	const makeFlavor = useCallback((alternate = false) => {
+	const makeFlavor = useCallback((last: string[] = [], alternate = false) => {
 		const output = getFlavor(flavors);
 		if(alternate) {
-			setIntroAlternate(getRandom(intros, {last: [intro, introAlternate]}));
+			setIntroAlternate(getRandom(intros, {last}));
 			setFlavorAlternate(output);
 			return;
 		}
-		setIntro(getRandom(intros, {last: [introAlternate, intro]}));
+		setIntro(getRandom(intros, {last}));
 		setFlavor(output);
-	}, [flavors, intros, intro, introAlternate]);
+	}, [flavors, intros]);
 
 	useEffect(() => {
 		makeFlavor();
@@ -43,7 +43,7 @@ const Flavors: React.FC = () => {
 	});
 
 	const doFlavor = () => {
-		makeFlavor(!alternateActive);
+		makeFlavor([intro, introAlternate], !alternateActive);
 		setAlternateActive(!alternateActive);
 	};
 
