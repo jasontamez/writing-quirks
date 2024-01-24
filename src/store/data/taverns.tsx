@@ -111,7 +111,7 @@ const ordinalModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "ordinalModifiers",
 	description: "Ordinals",
-	members: ["First","Second","Seventh","Eleventh","Last","Third","Thirteenth"],
+	members: ["First","Second","Seventh","Eleventh","Last","Penultimate","Third","Thirteenth","Ultimate"],
 	format: [F.This, " ", F.Noun],
 	modifiers: [
 		"ownershipModifiers"

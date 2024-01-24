@@ -123,7 +123,7 @@ const ModAlert: FC<ModSelector> = (props) => {
 	);
 };
 
-const stringFormat = (input: BasicFormat[]) => input.map(input => typeof input === "string" ? input : `<<${input}>>`);
+const stringFormat = (input: BasicFormat[]) => input.map(input => typeof input === "string" ? input : `<<${input}>>`).join('');
 
 const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 	const {
