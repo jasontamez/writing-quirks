@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import ideas, { allFormats, Any, FormatObject, IdeaFlagsObject } from '../promptsData/Ideas';
+import ideas, { allFormats, Any, Format, FormatObject, IdeaFlagsObject } from '../promptsData/Ideas';
 
+interface FormatItem {
+	prop: keyof FormatObject
+	format: Format
+}
 
 export interface WritingPromptsSettings {
 	usedIds: string[]
@@ -140,6 +144,53 @@ const writingPromptsSettingsSlice = createSlice({
 				...state,
 				acceptUpdates: !state.acceptUpdates
 			};
+		},
+		addPrompt: (state, action: PayloadAction<Any>) => {
+			return {
+				...state,
+				ideas: [...state.ideas, action.payload]
+			};
+		},
+		editPrompt: (state, action: PayloadAction<Any>) => {
+			const { payload } = action;
+			const id = payload.id;
+			return {
+				...state,
+				ideas: ideas.map(i => i.id === id ? payload : i)
+			};
+		},
+		deletePrompt: (state, action: PayloadAction<string>) => {
+			const id = action.payload;
+			return {
+				...state,
+				ideas: state.ideas.filter(i => i.id !== id)
+			};
+		},
+		addFormat: (state, action: PayloadAction<FormatItem>) => {
+			const { prop, format } = action.payload;
+			const obj: typeof state = {
+				...state
+			};
+			obj.formats[prop].push(format);
+			return obj;
+		},
+		editFormat: (state, action: PayloadAction<FormatItem>) => {
+			const { prop, format } = action.payload;
+			const id = format[0] as string;
+			const obj: typeof state = {
+				...state
+			};
+			obj.formats[prop].map(bit => bit[0] === id ? format : bit);
+			return obj;
+		},
+		deleteFormat: (state, action: PayloadAction<FormatItem>) => {
+			const { prop, format } = action.payload;
+			const id = format[0] as string;
+			const obj: typeof state = {
+				...state
+			};
+			obj.formats[prop].filter(bit => bit[0] !== id);
+			return obj;
 		}
 	}
 });
@@ -151,7 +202,13 @@ export const {
 	toggleHiddenTopic,
 	resetPrompts,
 	toggleAcceptNew,
-	toggleAcceptUpdates
+	toggleAcceptUpdates,
+	addPrompt,
+	editPrompt,
+	deletePrompt,
+	addFormat,
+	editFormat,
+	deleteFormat
 } = writingPromptsSettingsSlice.actions;
 
 export default writingPromptsSettingsSlice.reducer;

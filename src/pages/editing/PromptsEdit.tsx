@@ -1,0 +1,106 @@
+import React, { FC, useCallback } from 'react';
+import {
+	IonButton,
+	IonButtons,
+	IonContent,
+	IonHeader,
+	IonIcon,
+	IonItem,
+	IonLabel,
+	IonList,
+	IonPage,
+	IonTitle,
+	IonToggle,
+	IonToolbar
+} from '@ionic/react';
+import { chevronForward, settingsSharp } from 'ionicons/icons';
+
+import { toggleAcceptNew, toggleAcceptUpdates } from '../../store/writingPromptsSettingsSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+
+import './Editing.css';
+
+const PromptsEdit: FC = () => {
+	const {
+		acceptNew,
+		acceptUpdates
+	} = useAppSelector(state => state.writiingPromptsSettings);
+	const dispatch = useAppDispatch();
+	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
+	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
+
+	return (
+		<IonPage>
+			<IonHeader>
+				<IonToolbar>
+					<IonTitle>Prompts - Advanced Settings</IonTitle>
+					<IonButtons slot="end">
+						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+							<IonIcon slot="icon-only" icon={settingsSharp} />
+						</IonButton>
+					</IonButtons>
+				</IonToolbar>
+			</IonHeader>
+			<IonContent>
+				<IonList lines="full" className="editing">
+					<IonItem>
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={acceptNew}
+							onClick={togAccNew}
+						>
+							<h2>Accept New Prompts</h2>
+							<p>When the app updates, if there are new writing prompt components available, add them to my device.</p>
+						</IonToggle>
+					</IonItem>
+					<IonItem>
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={acceptUpdates}
+							onClick={togAccUpd}
+						>
+							<h2>Update Old Prompts</h2>
+							<p>When the app updates, if there are changes to old writing prompt components on this device, update them.</p>
+						</IonToggle>
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit Formats</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Actions"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Characters"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Events"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Locales"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Objects"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Times"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+						<IonLabel>Edit "Topics"</IonLabel>
+						<IonIcon icon={chevronForward} slot="end" />
+					</IonItem>
+				</IonList>
+			</IonContent>
+		</IonPage>
+	);
+};
+
+export default PromptsEdit;
