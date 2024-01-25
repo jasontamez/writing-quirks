@@ -145,7 +145,8 @@ const writingPromptsSettingsSlice = createSlice({
 			return {
 				...writingPromptsSettings,
 				...state,
-				ideas: ideas as IdeasObject
+				ideas: ideas as IdeasObject,
+				formats: allFormats
 			};
 		},
 		toggleAcceptNew: (state) => {

@@ -108,7 +108,7 @@ const Prompts: FC = () => {
 
 	const allIdeas: Any[] = useMemo(() => {
 		const base: Any[] = [];
-		Object.keys(ideas).forEach(prop => base.push(ideas[prop]));
+		Object.keys(ideas).forEach(prop => base.push(...ideas[prop]));
 		return base;
 	}, [ideas]);
 

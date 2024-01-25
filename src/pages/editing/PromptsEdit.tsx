@@ -24,7 +24,7 @@ const PromptsEdit: FC = () => {
 	const {
 		acceptNew,
 		acceptUpdates
-	} = useAppSelector(state => state.writiingPromptsSettings);
+	} = useAppSelector(state => state.writingPromptsSettings);
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -65,7 +65,7 @@ const PromptsEdit: FC = () => {
 							<p>When the app updates, if there are changes to old writing prompt components on this device, update them.</p>
 						</IonToggle>
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptsformats">
 						<IonLabel>Edit Formats</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>

@@ -48,7 +48,7 @@ const FormatLine: FC<FormatItem> = (props) => {
 	const [id, ...format] = item;
 	const dispatch = useAppDispatch();
 	const ID = `PromptFormatLine-${type}-${id}`;
-	const description = format.map(bit => bit === F.Idea ? "<Idea>" : bit).join("");
+	const description = format.map(bit => bit === F.Idea ? "<Idea>" : (Array.isArray(bit) ? bit[0] : bit)).join("");
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
 			return toaster({
@@ -130,7 +130,7 @@ const FormatGroup: FC<FormatGroupItem> = (props) => {
 		<IonItem lines="full" className="addButtonItem">
 			<IonButton color="primary" slot="end" onClick={() => setModalOpen(true)}>
 				<IonIcon slot="start" icon={addCircle} />
-				Add New Noun Group
+				Add New Format
 			</IonButton>
 		</IonItem>
 	</>;
@@ -160,7 +160,7 @@ const PromptsEdit: FC = () => {
 		<IonPage>
 			<IonHeader>
 				<IonToolbar>
-					<IonTitle>Prompts - Advanced Settings</IonTitle>
+					<IonTitle>Prompts - Formats - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />

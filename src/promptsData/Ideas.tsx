@@ -187,28 +187,28 @@ const doubleLocale: Format[] = [
 	["id46", "Imagine what happens ", 0, "."]
 ];
 const doubleCharacter: Format[] = [
-	["id51", "What happens when ", 0, [" meets ", " meet "], "?"],
+	["id51", "What happens when ", 0, [" meets ", " meet "], 0, "?"],
 	["id52", "Imagine a conflict between ", 0, " and ", 0, "."],
 	["id53", 0, " and ", 0, " walk into a bar..."],
 	["id54", "Set ", 0, " against ", 0, " in your story."],
 	["id55", "Write about ", 0, " partnering with ", 0, "."],
-	["id56", 0, [" encounters ", " encounter "], " as your story begins."],
-	["id57", 0, [" is upset with ", " are upset with "], "!"],
-	["id58", 0, [" is following ", " are following "], " as your story begins."],
-	["id59", 0, [" is visiting ", " are visiting "], " as your story begins."],
+	["id56", 0, [" encounters ", " encounter "], 0, " as your story begins."],
+	["id57", 0, [" is upset with ", " are upset with "], 0, "!"],
+	["id58", 0, [" is following ", " are following "], 0, " as your story begins."],
+	["id59", 0, [" is visiting ", " are visiting "], 0, " as your story begins."],
 	["id60", "Your tale begins with ", 0, " and ends with ", 0, "."]
 ];
 
 export type FormatProps = "singleItem" | "doubleItem" | "doubleCharacter" | "doubleLocale";
 
-export const formatNames: { [ key in FormatProps]: string } = {
+export const formatNames: { [ key in FormatProps ]: string } = {
 	singleItem: "Single-Unit Formats",
 	doubleItem: "Double-Unit Formats",
 	doubleCharacter: "Double-Character Formats",
 	doubleLocale: "Double-Locale/Time Formats"
 };
 
-export type FormatObject = { [ key in FormatProps]: Format[] };
+export type FormatObject = { [ key in FormatProps ]: Format[] };
 
 export const allFormats: FormatObject = {
 	singleItem,

@@ -2208,10 +2208,6 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		humanDistress: true
 	},
 	{
-		id: "ed4b34eb-17e6-427b-bdb0-713ddd6dd6d0",
-		idea: "living furniture"
-	},
-	{
 		id: "86d44b3c-5b04-4993-b63f-923ae4187f28",
 		idea: "goosebumps",
 		humanDistress: true,

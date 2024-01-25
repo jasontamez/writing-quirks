@@ -705,7 +705,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "d4348360-bfec-4168-8b25-dd97c32dff36",
 		idea: "a treehugger in a tree",
-		linkToAnAction: " who is ",
+		linkToAnAction: ", who is ",
 		plural: false
 	},
 	{
@@ -768,7 +768,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "864ce45e-19b5-4f55-90c3-717d6162c253",
 		idea: "a foreign prince",
 		plural: false,
-		genderPossessive: "her"
+		genderPossessive: "his"
 	},
 	{
 		id: "25b29691-0668-4fb4-b325-4b9eb20805a7",
@@ -1557,6 +1557,42 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		realPerson: true,
 		modern: true
+	},
+	{
+		id: "d6e80813-2eb5-4c24-9856-7be8a836891b",
+		idea: "Promethius",
+		fictionalCharacter: true,
+		mythsReligionsAndMetaphysics: true,
+		greekRomanMyth: true,
+		plural: false,
+		genderPossessive: "his"
+	},
+	{
+		id: "1cbe83be-12cc-4ca9-ac83-63cc391d839b",
+		idea: "Spider-Man",
+		fictionalCharacter: true,
+		fantasy: true,
+		superhero: true,
+		modern: true,
+		plural: false,
+		genderPossessive: "his"
+	},
+	{
+		id: "84a7a29c-deb0-4148-a64f-f279ac7ad3e3",
+		idea: "The X-Men",
+		fictionalCharacter: true,
+		fantasy: true,
+		superhero: true,
+		modern: true,
+		plural: true,
+		genderPossessive: "their"
+	},
+	{
+		id: "1d281013-c7c5-4e83-bc09-33b27c4aa8a0",
+		idea: "Lil Nas X",
+		realPerson: true,
+		modern: true,
+		plural: false
 	}
 ];
 
