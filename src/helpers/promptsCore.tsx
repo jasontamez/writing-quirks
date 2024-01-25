@@ -19,6 +19,7 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 	const {
 		type,
 		plural,
+		pluralEvent,
 		idea,
 		rateBy: rate = 1,
 		rateFavorsLower,
@@ -31,6 +32,9 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 	switch(type) {
 		case "locale":
 			return [`${preposition} ${idea}`, false];
+		case "event":
+			// Permanently plural or singular. No further action needed.
+			return [idea, pluralEvent!];
 		case "character":
 			if(realPerson) {
 				// singular = false

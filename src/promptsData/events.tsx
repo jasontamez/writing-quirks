@@ -2,7 +2,7 @@ import { AnEvent, AnEventBase, CoreIdea, TypedObject } from "./Ideas";
 
 const base: (AnEventBase & TypedObject) = {
 	type: "event",
-	plural: false,
+	pluralEvent: false,
 	nonPunctual: false,
 	preposition: "dealing with"
 };
@@ -47,7 +47,7 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		humanDeath: true,
 		humanDeathViolent: true,
 		humanDistress: true,
-		plural: true
+		pluralEvent: true
 	},
 	{
 		id: "1afe96ae-21cd-42f8-b51d-a9a7b24d3beb",
@@ -78,7 +78,7 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 	{
 		id: "6d7c6cc8-cd28-4077-8fef-6d69f9abcfe7",
 		idea: "guitar lessons",
-		plural: true
+		pluralEvent: true
 	},
 	{
 		id: "5d191a46-2e5c-4f24-99fd-20ebbf7967e4",

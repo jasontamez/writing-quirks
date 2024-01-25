@@ -1,20 +1,35 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import ideas, { allFormats, Any, Format, FormatObject, IdeaFlagsObject } from '../promptsData/Ideas';
+import originalideas, { allFormats, Any, Format, FormatObject, IdeaFlagsObject, Typings } from '../promptsData/Ideas';
 
 interface FormatItem {
 	prop: keyof FormatObject
 	format: Format
 }
+interface AddEditIdea {
+	idea: Any
+	prop: Typings
+}
+interface DelIdea {
+	id: string
+	prop: Typings
+}
+
+type IdeasObject = { [key in Typings]: Any[] };
 
 export interface WritingPromptsSettings {
 	usedIds: string[]
 	memorySize: number
 	hiddenTopics: IdeaFlagsObject
-	ideas: Any[]
+	ideas: IdeasObject
 	formats: FormatObject
 	acceptNew: boolean
 	acceptUpdates: boolean
 }
+
+const ideas: Partial<IdeasObject> = {};
+(Object.entries(originalideas) as [Typings, Any[]][]).forEach(([prop, array]) => {
+	ideas[prop] = array.map(bit => ({...bit}));
+});
 
 export const writingPromptsSettings: WritingPromptsSettings = {
 	usedIds: [],
@@ -87,7 +102,7 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		westAsia: true,
 		eastAsia: true
 	},
-	ideas,
+	ideas: ideas as IdeasObject,
 	formats: allFormats,
 	acceptNew: true,
 	acceptUpdates: true
@@ -130,7 +145,7 @@ const writingPromptsSettingsSlice = createSlice({
 			return {
 				...writingPromptsSettings,
 				...state,
-				ideas
+				ideas: ideas as IdeasObject
 			};
 		},
 		toggleAcceptNew: (state) => {
@@ -145,25 +160,32 @@ const writingPromptsSettingsSlice = createSlice({
 				acceptUpdates: !state.acceptUpdates
 			};
 		},
-		addPrompt: (state, action: PayloadAction<Any>) => {
+		addPrompt: (state, action: PayloadAction<AddEditIdea>) => {
+			const { idea, prop } = action.payload;
+			const ideas = {...state.ideas};
+			ideas[prop].push(idea);
 			return {
 				...state,
-				ideas: [...state.ideas, action.payload]
+				ideas
 			};
 		},
-		editPrompt: (state, action: PayloadAction<Any>) => {
-			const { payload } = action;
-			const id = payload.id;
+		editPrompt: (state, action: PayloadAction<AddEditIdea>) => {
+			const { idea, prop } = action.payload;
+			const id = idea.id;
+			const ideas = {...state.ideas};
+			ideas[prop] = ideas[prop].map(i => i.id === id ? idea : i)
 			return {
 				...state,
-				ideas: ideas.map(i => i.id === id ? payload : i)
+				ideas
 			};
 		},
-		deletePrompt: (state, action: PayloadAction<string>) => {
-			const id = action.payload;
+		deletePrompt: (state, action: PayloadAction<DelIdea>) => {
+			const { id, prop } = action.payload;
+			const ideas = {...state.ideas};
+			ideas[prop] = ideas[prop].filter(i => i.id !== id);
 			return {
 				...state,
-				ideas: state.ideas.filter(i => i.id !== id)
+				ideas
 			};
 		},
 		addFormat: (state, action: PayloadAction<FormatItem>) => {

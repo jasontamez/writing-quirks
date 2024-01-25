@@ -1,18 +1,20 @@
-import actions from "./actions";
-import characters from "./characters";
-import events from "./events";
-import locales from "./locales";
-import objects from "./objects";
-import times from "./times";
-import topics from "./topics";
+import action from "./actions";
+import character from "./characters";
+import event from "./events";
+import locale from "./locales";
+import object from "./objects";
+import time from "./times";
+import topic from "./topics";
 
 export interface CoreIdea {
 	id: string
 	idea: string
 }
 
+export type Typings = "action" | "character" | "object" | "event" | "locale" | "time" | "topic"
+
 export interface TypedObject {
-	type: "action" | "character" | "object" | "event" | "locale" | "time" | "topic"
+	type: Typings
 }
 
 type TypedIdea = CoreIdea & TypedObject;
@@ -111,7 +113,7 @@ export interface AnEventFlags {
 	nonPunctual: boolean
 }
 export interface AnEventBase extends AnEventFlags {
-	plural: boolean
+	pluralEvent: boolean
 	preposition: string
 }
 export type AnEvent = BasicIdea & AnEventBase;
@@ -217,14 +219,7 @@ export const allFormats: FormatObject = {
 
 export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEventFlags & Required<LocaleFlags>;
 
-const ideas: Any[] = [
-	...characters,
-	...objects,
-	...events,
-	...times,
-	...topics,
-	...actions,
-	...locales
-];
+
+const ideas: { [key in Typings]: Any[] } = { character, object, event, time, topic, action, locale };
 
 export default ideas;

@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { FC, Fragment, ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	AlertOptions,
 	IonButton,
@@ -33,11 +33,11 @@ import './Prompts.css';
 
 type IdeaFlagsObjectArray = (keyof IdeaFlagsObject)[];
 
-const filterIdeas = (usedIds: string[], flags: IdeaFlagsObjectArray, ideas: Any[]) => {
+const filterIdeas = (usedIds: string[], flags: IdeaFlagsObjectArray, allIdeas: Any[]) => {
 	const i: Any[] = []; // included
 	const e: Any[] = []; // excluded (hidden)
 	const u: Any[] = []; // used
-	ideas.forEach(idea => {
+	allIdeas.forEach(idea => {
 		// Exclude recently-used ideas
 		if(usedIds.indexOf(idea.id) >= 0) {
 			u.push(idea);
@@ -106,14 +106,20 @@ const Prompts: FC = () => {
 	const dispatch = useAppDispatch();
 	const [doAlert] = useIonAlert();
 
+	const allIdeas: Any[] = useMemo(() => {
+		const base: Any[] = [];
+		Object.keys(ideas).forEach(prop => base.push(ideas[prop]));
+		return base;
+	}, [ideas]);
+
 	// Returns an idea. Also updates okIdeas and usedIdeas.
-	const makeIdea = useCallback((ideas: Any[], previouslyUsed = usedIdeas) => {
+	const makeIdea = useCallback((allIdeas: Any[], previouslyUsed = usedIdeas) => {
 		// Get ideas
-		const {ideaString, ideasUsed} = getIdeaString(ideas, formats);
+		const {ideaString, ideasUsed} = getIdeaString(allIdeas, formats);
 		// Update the Ok/Used idea lists
 		const newlyUsedIds = ideasUsed.map(idea => idea.id);
 		const ids = newlyUsedIds.join(",");
-		const stillOkIdeas = ideas.filter(idea => ids.indexOf(idea.id) < 0);
+		const stillOkIdeas = allIdeas.filter(idea => ids.indexOf(idea.id) < 0);
 		setOkIdeas(stillOkIdeas);
 		setUsedIdeas([...previouslyUsed, ...ideasUsed]);
 		dispatch(saveUsedIdeas(newlyUsedIds));
@@ -172,14 +178,14 @@ const Prompts: FC = () => {
 			}
 		}
 		// Find the list of ok ideas
-		const {included, used, excluded} = filterIdeas(usedIds, flags, ideas);
+		const {included, used, excluded} = filterIdeas(usedIds, flags, allIdeas);
 		// Save excluded ideas
 		setExcludedIdeas(excluded);
 		// Save the list of topics
 		setHiddenTags(flags);
 		// Return valid/invalid list if we need to use it ASAP.
 		return [included, used];
-	}, [usedIds, hiddenTopics, ideas]);
+	}, [usedIds, hiddenTopics, allIdeas]);
 
 	// Initial setup
 	useIonViewDidEnter(() => {
@@ -206,7 +212,7 @@ const Prompts: FC = () => {
 		const prevLen = usedIdeas.length;
 		const usedLen = usedIds.length;
 		if(prevLen === 0) {
-			// Previous used has not been set up yet. Ignore for now.
+			// Previously used list has not been set up yet, or was reset. Ignore for now.
 			return;
 		} else if (prevLen > usedLen) {
 			// Maximum has probably been lowered
@@ -214,7 +220,7 @@ const Prompts: FC = () => {
 			const index = usedIds.indexOf(first);
 			if(index < 0) {
 				// not found?? just use the whole thing, I guess
-				const {included, used, excluded} = filterIdeas(usedIds, hiddenTags, ideas);
+				const {included, used, excluded} = filterIdeas(usedIds, hiddenTags, allIdeas);
 				setOkIdeas(included);
 				setUsedIdeas(used);
 				setExcludedIdeas(excluded);
@@ -233,7 +239,7 @@ const Prompts: FC = () => {
 			// New ideas added and old ideas removed
 			// This SHOULD be handled by the system
 		}
-	}, [usedIds, usedIdeas, hiddenTags, ideas, okIdeas, excludedIdeas]);
+	}, [usedIds, usedIdeas, hiddenTags, allIdeas, okIdeas, excludedIdeas]);
 
 	const baseClasses = animationMethod + " generatorOutput icon";
 
