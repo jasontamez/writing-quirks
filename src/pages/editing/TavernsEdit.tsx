@@ -32,6 +32,7 @@ import { ModifierGroup, NounGroup } from "../../store/data/taverns";
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
+import HaltButton from '../../components/HaltButton';
 import TavernsEditNounModal from './TavernsModalNounEdit';
 import TavernsEditModifierModal from './TavernsModalModifierEdit';
 import TavernsAddModifierModal from './TavernsModalModifierAdd';
@@ -112,7 +113,7 @@ const NounLine: FC<NounItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: At least one noun group is required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -193,7 +194,7 @@ const ModifierLine: FC<ModifierItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: At least one modifier group is required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />

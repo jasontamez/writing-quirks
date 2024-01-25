@@ -32,6 +32,7 @@ import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
+import HaltButton from '../../components/HaltButton';
 import FlavorEditModal from './FlavorsModalEdit';
 import FlavorAddModal from './FlavorsModalAdd';
 import './Editing.css';
@@ -98,7 +99,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: A minimum of three flavors are required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />

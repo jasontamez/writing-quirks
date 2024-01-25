@@ -35,6 +35,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
+import HaltButton from '../../components/HaltButton';
 import StreetsEditModal from './StreetsModalEdit';
 import StreetsAddModal from './StreetsModalAdd';
 import './Editing.css';
@@ -123,7 +124,7 @@ const StreetItem: FC<StreetItemProps> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: At least three prefixes and suffixes are needed for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -199,7 +200,7 @@ const RoadItem: FC<RoadItemProps> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: At least one road type is required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />

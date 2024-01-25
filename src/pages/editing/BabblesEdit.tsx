@@ -42,6 +42,7 @@ import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
+import HaltButton from '../../components/HaltButton';
 import BabblesEditModal from './BabblesModalEdit';
 import BabblesAddModal from './BabblesModalAdd';
 import './Editing.css';
@@ -166,7 +167,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: A minimum of three adjectives are required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />

@@ -35,6 +35,7 @@ import { translateFormat } from '../../helpers/insultsCore';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
+import HaltButton from '../../components/HaltButton';
 import InsultsEditModal from './InsultsModalEdit';
 import InsultsFormatEditModal from './InsultsModalEditFormat';
 import InsultsAddModal from './InsultsModalAdd';
@@ -100,7 +101,7 @@ const NounLine: FC<NounItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: A minimum of three nouns are required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -175,7 +176,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: A minimum of three adjectives in each group are required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -252,7 +253,7 @@ const FormatLine: FC<FormatItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<></>
+						<HaltButton errorMessage="Cannot delete: A minimum of three formats are required for the tool to function." />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
