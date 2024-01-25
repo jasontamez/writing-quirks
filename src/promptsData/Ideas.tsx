@@ -136,62 +136,84 @@ export type Any =
 	& Partial<Action>
 	& Partial<Locale>;
 
-export type Format = (string | string[])[];
+export enum F {
+	Idea = 0
+}
 
-export const singleItemFormats: Format[] = [
-	["id1", "Create a story about ", "."],
-	["id2", "Write about ", "."],
-	["id3", "Picture this: ", "."],
-	["id4", "", " could be the nucleus of a story."],
-	["id5", "You can write about ", "."],
-	["id6", "Go write about ", "."],
-	["id7", "Here's a story seed: ", "."],
-	["id8", "Imagine ", "."],
-	["id9", "Try writing about ", "."],
-	["id10", "Contemplate ", " and imagine what happens."],
-	["id11", "Topic: ", "."],
-	["id12", "Your new muse: ", "."],
-	["id13", "Consider ", "."],
-	["id14", "Ponder ", " and start writing."],
-	["id15", "Brainstorm ways to put ", " in a story."]
+export type Format = (string | string[] | 0)[];
+
+const singleItem: Format[] = [
+	["id1", "Create a story about ", 0, "."],
+	["id2", "Write about ", 0, "."],
+	["id3", "Picture this: ", 0, "."],
+	["id4", 0, " could be the nucleus of a story."],
+	["id5", "You can write about ", 0, "."],
+	["id6", "Go write about ", 0, "."],
+	["id7", "Here's a story seed: ", 0, "."],
+	["id8", "Imagine ", 0, "."],
+	["id9", "Try writing about ", 0, "."],
+	["id10", "Contemplate ", 0, " and imagine what happens."],
+	["id11", "Topic: ", 0, "."],
+	["id12", "Your new muse: ", 0, "."],
+	["id13", "Consider ", 0, "."],
+	["id14", "Ponder ", 0, " and start writing."],
+	["id15", "Brainstorm ways to put ", 0, " in a story."]
 ];
-export const doubleItemFormats: Format[] = [
-	["id21", "Write about ", " and include ", "."],
-	["id22", "Ponder ", " and ", " before you start writing."],
-	["id23", "", " could be a part of a story about ", "."],
-	["id24", "Go write about ", ", but also have ", " be important."],
-	["id25", "Put ", " and ", " together."],
-	["id26", "Picture ", " with ", "..."],
-	["id27", "Try writing about ", " and ", "."],
-	["id28", "Here's a story seed: ", " mixed up with ", "."],
-	["id39", "Your new muses: ", " and ", "."],
-	["id30", "Scrutinize ", " through the lens of ", "."],
-	["id31", "Consider how ", " can be an alternative to ", "."],
-	["id32", "Think about ", ", and then consider ", "."],
-	["id33", "Write about ", " and ", "."],
-	["id34", "How does ", " affect ", "? Or vice versa?"],
-	["id35", "Brainstorm ways to connect ", " with ", "."]
+const doubleItem: Format[] = [
+	["id21", "Write about ", 0, " and include ", 0, "."],
+	["id22", "Ponder ", 0, " and ", 0, " before you start writing."],
+	["id23", 0, " could be a part of a story about ", 0, "."],
+	["id24", "Go write about ", 0, ", but also have ", 0, " be important."],
+	["id25", "Put ", 0, " and ", 0, " together."],
+	["id26", "Picture ", 0, " with ", 0, "..."],
+	["id27", "Try writing about ", 0, " and ", 0, "."],
+	["id28", "Here's a story seed: ", 0, " mixed up with ", 0, "."],
+	["id39", "Your new muses: ", 0, " and ", 0, "."],
+	["id30", "Scrutinize ", 0, " through the lens of ", 0, "."],
+	["id31", "Consider how ", 0, " can be an alternative to ", 0, "."],
+	["id32", "Think about ", 0, ", and then consider ", 0, "."],
+	["id33", "Write about ", 0, " and ", 0, "."],
+	["id34", "How does ", 0, " affect ", 0, "? Or vice versa?"],
+	["id35", "Brainstorm ways to connect ", 0, " with ", 0, "."]
 ];
-export const doubleLocaleFormats: Format[] = [
-	["id41", "Create a story set ", "."],
-	["id42", "Your tale begins and ends ", "."],
-	["id43", "What happens ", "?"],
-	["id44", "Ruminate on goings-on ", "."],
-	["id45", "Set your story ", "."],
-	["id46", "Imagine what happens ", "."]
+const doubleLocale: Format[] = [
+	["id41", "Create a story set ", 0, "."],
+	["id42", "Your tale begins and ends ", 0, "."],
+	["id43", "What happens ", 0, "?"],
+	["id44", "Ruminate on goings-on ", 0, "."],
+	["id45", "Set your story ", 0, "."],
+	["id46", "Imagine what happens ", 0, "."]
 ];
-export const doubleCharacterFormats: Format[] = [
-	["id51", "What happens when ", [" meets ", " meet "], "?"],
-	["id52", "Imagine a conflict between ", " and ", "."],
-	["id53", "", " and ", " walk into a bar..."],
-	["id54", "Set ", " against ", " in your story."],
-	["id55", "Write about ", " partnering with ", "."],
-	["id56", "", [" encounters ", " encounter "], " as your story begins."],
-	["id57", "", [" is upset with ", " are upset with "], "!"],
-	["id58", "", [" is following ", " are following "], " as your story begins."],
-	["id59", "", [" is visiting ", " are visiting "], " as your story begins."],
-	["id60", "Your tale begins with ", " and ends with ", "."]
+const doubleCharacter: Format[] = [
+	["id51", "What happens when ", 0, [" meets ", " meet "], "?"],
+	["id52", "Imagine a conflict between ", 0, " and ", 0, "."],
+	["id53", 0, " and ", 0, " walk into a bar..."],
+	["id54", "Set ", 0, " against ", 0, " in your story."],
+	["id55", "Write about ", 0, " partnering with ", 0, "."],
+	["id56", 0, [" encounters ", " encounter "], " as your story begins."],
+	["id57", 0, [" is upset with ", " are upset with "], "!"],
+	["id58", 0, [" is following ", " are following "], " as your story begins."],
+	["id59", 0, [" is visiting ", " are visiting "], " as your story begins."],
+	["id60", "Your tale begins with ", 0, " and ends with ", 0, "."]
 ];
+
+export type FormatProps = "singleItem" | "doubleItem" | "doubleCharacter" | "doubleLocale";
+
+export const formatNames: { [ key in FormatProps]: string } = {
+	singleItem: "Single-Unit Formats",
+	doubleItem: "Double-Unit Formats",
+	doubleCharacter: "Double-Character Formats",
+	doubleLocale: "Double-Locale/Time Formats"
+};
+
+export type FormatObject = { [ key in FormatProps]: Format[] };
+
+export const allFormats: FormatObject = {
+	singleItem,
+	doubleItem,
+	doubleCharacter,
+	doubleLocale
+};
 
 export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEventFlags & Required<LocaleFlags>;
 

@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import ideas, { Any, IdeaFlagsObject } from '../promptsData/Ideas';
+import ideas, { allFormats, Any, FormatObject, IdeaFlagsObject } from '../promptsData/Ideas';
+
 
 export interface WritingPromptsSettings {
 	usedIds: string[]
 	memorySize: number
 	hiddenTopics: IdeaFlagsObject
 	ideas: Any[]
+	formats: FormatObject
 	acceptNew: boolean
 	acceptUpdates: boolean
 }
@@ -82,6 +84,7 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		eastAsia: true
 	},
 	ideas,
+	formats: allFormats,
 	acceptNew: true,
 	acceptUpdates: true
 };

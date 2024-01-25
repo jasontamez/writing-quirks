@@ -91,7 +91,7 @@ const Expander: FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>}> = (
 
 const Prompts: FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
-	const { usedIds, hiddenTopics, ideas } = useAppSelector(state => state.writingPromptsSettings);
+	const { usedIds, hiddenTopics, ideas, formats } = useAppSelector(state => state.writingPromptsSettings);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [okIdeas, setOkIdeas] = useState<Any[]>([]);
 	const [usedIdeas, setUsedIdeas] = useState<Any[]>([]);
@@ -107,9 +107,9 @@ const Prompts: FC = () => {
 	const [doAlert] = useIonAlert();
 
 	// Returns an idea. Also updates okIdeas and usedIdeas.
-	const makeIdea = (ideas: Any[], previouslyUsed = usedIdeas) => {
+	const makeIdea = useCallback((ideas: Any[], previouslyUsed = usedIdeas) => {
 		// Get ideas
-		const {ideaString, ideasUsed} = getIdeaString(ideas);
+		const {ideaString, ideasUsed} = getIdeaString(ideas, formats);
 		// Update the Ok/Used idea lists
 		const newlyUsedIds = ideasUsed.map(idea => idea.id);
 		const ids = newlyUsedIds.join(",");
@@ -118,7 +118,7 @@ const Prompts: FC = () => {
 		setUsedIdeas([...previouslyUsed, ...ideasUsed]);
 		dispatch(saveUsedIdeas(newlyUsedIds));
 		return ideaString;
-	};
+	}, [dispatch, usedIdeas, formats]);
 
 	// Display the idea
 	const displayIdea = (ideaString: string, alternate = false) => {
@@ -196,7 +196,7 @@ const Prompts: FC = () => {
 		setAlternateActive(false);
 	});
 
-	// When the list of ideas changes
+	// When the list of ideas changes (which will cause setUpIdeas to change)
 	useEffect(() => {
 		setUpIdeas();
 	}, [setUpIdeas]);

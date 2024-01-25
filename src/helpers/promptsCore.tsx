@@ -2,10 +2,8 @@ import converter from 'number-to-words';
 
 import {
 	Any,
-	singleItemFormats,
-	doubleItemFormats,
-	doubleCharacterFormats,
-	doubleLocaleFormats
+	F,
+	FormatObject
 } from "../promptsData/Ideas";
 
 const previousFormat = {
@@ -16,13 +14,6 @@ const previousFormat = {
 };
 
 type Previously = typeof previousFormat;
-
-const allFormats = {
-	singleItem: singleItemFormats,
-	doubleItem: doubleItemFormats,
-	doubleCharacter: doubleCharacterFormats,
-	doubleLocale: doubleLocaleFormats
-};
 
 function translateIdea(ideaObject: Any): [string, boolean] {
 	const {
@@ -117,9 +108,9 @@ function maybeModifyForGender (idea: string, ideaObj: Any, possessor: Any) {
 	return idea.replace(/\[THEIR\]/g, mod);
 };
 
-function assembleFormat (FLAGformat: keyof Previously, ideas: string[], plural: boolean) {
+function assembleFormat (formats: FormatObject, FLAGformat: keyof FormatObject, ideas: string[], plural: boolean) {
 	// Choose a format, not the same as the last one chosen
-	const possibles = allFormats[FLAGformat];
+	const possibles = formats[FLAGformat];
 	let chosen: number;
 	do {
 		chosen = Math.floor(Math.random() * possibles.length);
@@ -136,21 +127,17 @@ function assembleFormat (FLAGformat: keyof Previously, ideas: string[], plural: 
 	// Remove id string
 	chosenFormat.shift();
 	// Assemble the format with the ideas
-	let final: string[] = [chosenFormat.shift()!];
-	while(chosenFormat.length > 0) {
-		final.push(ideas.shift()!, chosenFormat.shift()!)
-	}
-	return final.join("");
+	return chosenFormat.map(bit => bit === F.Idea ? ideas.shift()! : bit).join("");
 }
 
-function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] } {
+function getIdeaString(choices: Any[], formats: FormatObject): { ideaString: string, ideasUsed: Any[] } {
 	const max = choices.length;
 	const one = choices[Math.floor(Math.random() * max)];
 	const two = choices[Math.floor(Math.random() * max)];
 	const [i1, plural] = translateIdea(one);
 	if(one === two) {
 		return {
-			ideaString: assembleFormat("singleItem", [`<${i1}>`], plural),
+			ideaString: assembleFormat(formats, "singleItem", [`<${i1}>`], plural),
 			ideasUsed: [one]
 		};
 	}
@@ -212,7 +199,7 @@ function getIdeaString(choices: Any[]): { ideaString: string, ideasUsed: Any[] }
 			}
 	}
 	return {
-		ideaString: assembleFormat(FLAGformat, ideasToDisplay, plural),
+		ideaString: assembleFormat(formats, FLAGformat, ideasToDisplay, plural),
 		ideasUsed: [one, two]
 	};
 }
