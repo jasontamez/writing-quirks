@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import originalideas, { allFormats, Any, Format, FormatObject, IdeaFlagsObject, Typings } from '../promptsData/Ideas';
+import originalideas, { allFormats, Any, Format, FormatObject, FormatProps, IdeaFlagsObject, Typings } from '../promptsData/Ideas';
 
 interface FormatItem {
-	prop: keyof FormatObject
+	prop: FormatProps
 	format: Format
 }
 interface AddEditIdea {
@@ -173,12 +173,8 @@ const writingPromptsSettingsSlice = createSlice({
 		editPrompt: (state, action: PayloadAction<AddEditIdea>) => {
 			const { idea, prop } = action.payload;
 			const id = idea.id;
-			const ideas = {...state.ideas};
-			ideas[prop] = ideas[prop].map(i => i.id === id ? idea : i)
-			return {
-				...state,
-				ideas
-			};
+			state.ideas[prop] = state.ideas[prop].map(i => i.id === id ? idea : i);
+			return state;
 		},
 		deletePrompt: (state, action: PayloadAction<DelIdea>) => {
 			const { id, prop } = action.payload;
@@ -191,20 +187,13 @@ const writingPromptsSettingsSlice = createSlice({
 		},
 		addFormat: (state, action: PayloadAction<FormatItem>) => {
 			const { prop, format } = action.payload;
-			const obj: typeof state = {
-				...state
-			};
-			obj.formats[prop].push(format);
-			return obj;
+			state.formats[prop].push(format);
+			return state;
 		},
 		editFormat: (state, action: PayloadAction<FormatItem>) => {
 			const { prop, format } = action.payload;
 			const id = format[0] as string;
-			const obj: typeof state = {
-				...state
-			};
-			obj.formats[prop].map(bit => bit[0] === id ? format : bit);
-			return obj;
+			state.formats[prop] = state.formats[prop].map(bit => bit[0] === id ? format : bit);
 		},
 		deleteFormat: (state, action: PayloadAction<FormatItem>) => {
 			const { prop, format } = action.payload;

@@ -167,7 +167,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: A minimum of three adjectives are required for the tool to function." />
+						<HaltButton errorMessage="A minimum of three adjectives are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -288,7 +288,7 @@ const BabblesEdit: FC = () => {
 				<IonToolbar>
 					<IonTitle>Technobabble - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+						<IonButton routerDirection="back" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
 						</IonButton>
 					</IonButtons>

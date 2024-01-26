@@ -327,7 +327,8 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "0f1a94c9-9ead-484a-bff1-20cb39a8794a",
 		idea: "holding [THEIR] breath",
-		possessive: true
+		possessive: true,
+		genericPossessive: "your"
 	},
 	{
 		id: "0aa8d7f3-65ea-47aa-941d-9c64cdd1a049",
@@ -686,7 +687,8 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "7aa5d641-a6a0-490d-9d2f-bd40266579dc",
 		idea: "rolling [THEIR] eyes",
-		possessive: true
+		possessive: true,
+		genericPossessive: "their"
 	},
 	{
 		id: "7fa1e083-e9bb-41f2-b7b5-c8888ec9edab",
@@ -818,7 +820,8 @@ const info: (Partial<Action> & CoreIdea)[] = [
 		idea: "getting [THEIR] period",
 		possessive: true,
 		sexual: true,
-		humanDistress: true
+		humanDistress: true,
+		genericPossessive: "her"
 	},
 	{
 		id: "615c8796-8804-49ec-8f66-299682f45e7c",
@@ -1028,7 +1031,8 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "959c6d22-a96a-43c0-929f-b950b6873b67",
 		idea: "biting [THEIR] toenails",
-		possessive: true
+		possessive: true,
+		genericPossessive: "your"
 	},
 	{
 		id: "a9f88f14-7011-4ac7-8364-07ab45218472",

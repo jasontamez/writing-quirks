@@ -99,7 +99,7 @@ const FlavorLine: FC<FlavorItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: A minimum of three flavors are required for the tool to function." />
+						<HaltButton errorMessage="A minimum of three flavors are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -163,7 +163,7 @@ const FlavorEdits: FC = () => {
 				<IonToolbar>
 					<IonTitle>Flavors - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+						<IonButton routerDirection="back" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
 						</IonButton>
 					</IonButtons>

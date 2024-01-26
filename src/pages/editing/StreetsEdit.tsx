@@ -124,7 +124,7 @@ const StreetItem: FC<StreetItemProps> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: At least three prefixes and suffixes are needed for the tool to function." />
+						<HaltButton errorMessage="At least three prefixes and suffixes are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -200,7 +200,7 @@ const RoadItem: FC<RoadItemProps> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: At least one road type is required for the tool to function." />
+						<HaltButton errorMessage="At least one road type is" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -249,7 +249,7 @@ const StreetsEdit: FC = () => {
 				<IonToolbar>
 					<IonTitle>Streets - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+						<IonButton routerDirection="back" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
 						</IonButton>
 					</IonButtons>

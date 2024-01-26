@@ -13,7 +13,7 @@ import {
 	IonToggle,
 	IonToolbar
 } from '@ionic/react';
-import { chevronForward, settingsSharp } from 'ionicons/icons';
+import { chevronForward, arrowBackCircleSharp } from 'ionicons/icons';
 
 import { toggleAcceptNew, toggleAcceptUpdates } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -35,8 +35,8 @@ const PromptsEdit: FC = () => {
 				<IonToolbar>
 					<IonTitle>Prompts - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+						<IonButton routerDirection="back" routerLink="/settings" color="medium">
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>

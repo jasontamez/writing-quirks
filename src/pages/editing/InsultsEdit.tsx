@@ -101,7 +101,7 @@ const NounLine: FC<NounItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: A minimum of three nouns are required for the tool to function." />
+						<HaltButton errorMessage="A minimum of three nouns are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -176,7 +176,7 @@ const AdjectiveLine: FC<AdjectiveItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: A minimum of three adjectives in each group are required for the tool to function." />
+						<HaltButton errorMessage="A minimum of three adjectives in each group are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -253,7 +253,7 @@ const FormatLine: FC<FormatItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: A minimum of three formats are required for the tool to function." />
+						<HaltButton errorMessage="A minimum of three formats are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -291,7 +291,7 @@ const InsultsEdit: FC = () => {
 				<IonToolbar>
 					<IonTitle>Insults - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+						<IonButton routerDirection="back" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
 						</IonButton>
 					</IonButtons>

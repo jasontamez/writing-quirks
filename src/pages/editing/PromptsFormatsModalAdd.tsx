@@ -15,11 +15,11 @@ import {
 import { addCircle, construct, trash } from "ionicons/icons";
 import { v4 as uuidv4 } from "uuid";
 
-import { addFormat } from "../../store/infoInsultsSlice";
-import { EFormat, Format, FormatBit } from "../../store/data/insults";
+import { F, Format, FormatBit, FormatProps, formatInformation, translateFormat } from "../../promptsData/Ideas";
+import { addFormat } from "../../store/writingPromptsSettingsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
-import { translateFormat } from "../../helpers/insultsCore";
+import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
 import BasicAddModal from "./_ModalAdd";
@@ -27,6 +27,7 @@ import BasicAddModal from "./_ModalAdd";
 interface ModalProps {
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
+	type: FormatProps
 }
 
 interface FormatLineProps {
@@ -38,21 +39,18 @@ interface FormatLineProps {
 const FormatLine: FC<FormatLineProps> = (props) => {
 	const { item, index, doChange, doDelete } = props;
 	const [alertOpen, setAlertOpen] = useState<boolean>(false);
-	let which: number;
+	let isText: boolean;
 	let display: string;
 	const id = `formatAddBit${index}`;
-	const {
-		ADJECTIVE,
-		ARTICLE_ADJECTIVE,
-		NOUN,
-		ARTICLE_NOUN
-	} = EFormat;
 	if(typeof item === "string") {
-		which = -1;
+		isText = true;
 		display = `"${item}"`;
+	} else if (Array.isArray(item)) {
+		isText = true;
+		display = `"${item.join("\"/\"")}"`;
 	} else {
-		which = item;
-		display = translateFormat([item]);
+		isText = false;
+		display = `<Idea>`;
 	}
 	return (
 		<IonItem lines="full">
@@ -66,7 +64,7 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					{
 						text: "Ok",
 						handler: (choice: number) => {
-							if(choice === -1) {
+							if(choice === 1) {
 								setAlertOpen(true);
 							} else {
 								// Save the new value
@@ -79,38 +77,22 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					{
 						label: "Text",
 						type: "radio",
-						value: -1,
-						checked: which === -1
+						value: 1,
+						checked: isText
 					},
 					{
-						label: "Adjective",
+						label: "Idea",
 						type: "radio",
-						value: ADJECTIVE,
-						checked: which === ADJECTIVE
-					},
-					{
-						label: "A/An Adjective",
-						type: "radio",
-						value: ARTICLE_ADJECTIVE,
-						checked: which === ARTICLE_ADJECTIVE
-					},
-					{
-						label: "Noun",
-						type: "radio",
-						value: NOUN,
-						checked: which === NOUN
-					},
-					{
-						label: "A/An Noun",
-						type: "radio",
-						value: ARTICLE_NOUN,
-						checked: which === ARTICLE_NOUN
+						value: 0,
+						checked: !isText
 					}
 				]}
 			/>
 			<IonAlert
 				isOpen={alertOpen}
-				header="Edit"
+				header="Add Text"
+				subHeader="One or two lines"
+				message="Use the first line for the basic text. Use the second line if (and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 				onIonAlertDidDismiss={() => setAlertOpen(false)}
 				buttons={[
 					{
@@ -118,16 +100,24 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					},
 					{
 						text: "Ok",
-						handler: (obj: { txt: string }) => {
-							doChange(index, obj.txt);
+						handler: (obj: { txt: string, txt2: string }) => {
+							const {txt, txt2} = obj;
+							doChange(index, txt2 ? [ txt, txt2 ] : txt);
 						}
 					}
 				]}
 				inputs={[
 					{
+						label: "Text",
 						type: "text",
 						name: "txt",
-						value: typeof item === "string" ? item : ""
+						value: typeof item === "string" ? item : (item as string[])[0]
+					},
+					{
+						placeholder: "(plural version, optional)",
+						type: "text",
+						name: "txt2",
+						value: typeof item === "string" ? "" : (item as string[])[1]
 					}
 				]}
 			/>
@@ -139,29 +129,27 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 	);
 };
 
-const InsultsAddFormatModal: FC<ModalProps> = (props) => {
+const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 	const {
 		modalOpen,
-		setModalOpen
+		setModalOpen,
+		type
 	} = props;
 
 	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
-	const [addingFormat, setAddingFormat] = useState<Format>([]);
-	const [addingFormatString, setAddingFormatString] = useState<string>("");
-
-	const {
-		ADJECTIVE,
-		ARTICLE_ADJECTIVE,
-		NOUN,
-		ARTICLE_NOUN
-	} = EFormat;
+	const [format, setFormat] = useState<Format>([]);
+	const [formatString, setFormatString] = useState<string>("");
 
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		if(!addingFormatString) {
+		const dBox = $i("addNounGroupDescription");
+		const d = (dBox && dBox.value && dBox.value.trim()) || "";
+		const mBox = $i("addNounMembers");
+		const m = (mBox && mBox.value && mBox.value.trim()) || "";
+		if(!d && !m) {
 			// Nothing to save
 			return closeModal();
 		}
@@ -173,9 +161,9 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, doAlert, addingFormatString]);
+	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		if(!addingFormatString) {
+		if(!formatString) {
 			// ERROR
 			return toaster({
 				message: "Cannot save a blank format.",
@@ -184,42 +172,28 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 				toast
 			});
 		}
-		// Need to test that all parts exist: two adj, one noun
+		// Need to assure the correct number of ideas are present
 		const final: Format = [];
-		let adj = 0;
-		let n = 0;
-		let prev: string = "";
-		addingFormat.forEach(bit => {
-			switch(bit) {
-				case ADJECTIVE:
-				case ARTICLE_ADJECTIVE:
-					adj++;
-					break;
-				case NOUN:
-				case ARTICLE_NOUN:
-					n++;
-					break;
-				default:
-					prev = prev + bit;
-					return;
-			}
-			if(prev) {
-				final.push(prev);
-				prev = "";
+		const target = formatInformation[type].amount;
+		let i = 0;
+		format.forEach(bit => {
+			if(typeof bit !== "string" && !Array.isArray(bit)) {
+				i++;
 			}
 			final.push(bit);
 		});
-		prev && final.push(prev);
-		if(!adj || adj > 2 || n !== 1) {
+		if(i !== target) {
+			const message = "This format requires exactly ."
+				 + (target === 1 ? "one <Idea>" : `${target} <Idea>s`)
+				 + `; there are currently ${i}.`
 			return toaster({
-				message: "Insults must contain 1 noun and 1-2 adjectives.",
+				message,
 				color: "danger",
-				duration: 2500,
 				position: "middle",
 				toast
 			});	
 		}
-		dispatch(addFormat([uuidv4(), ...final]));
+		dispatch(addFormat({ prop: type, format: [uuidv4(), ...final]}));
 		closeModal();
 		toaster({
 			message: "Saved.",
@@ -232,37 +206,29 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 		dispatch,
 		closeModal,
 		toast,
-		addingFormat,
-		addingFormatString,
-		ADJECTIVE,
-		ARTICLE_ADJECTIVE,
-		NOUN,
-		ARTICLE_NOUN
+		type,
+		format,
+		formatString
 	]);
 
-	const onOpen = useCallback(() => {
-		setAddingFormat([]);
-		setAddingFormatString("");
-	}, [setAddingFormat, setAddingFormatString]);
-
 	const onReorder = useCallback((event: CustomEvent<ItemReorderEventDetail>) => {
-		const completed = event.detail.complete(addingFormat);
-		setAddingFormat(completed);
-		setAddingFormatString(translateFormat(completed));
-	}, [addingFormat, setAddingFormat, setAddingFormatString]);
+		const completed = event.detail.complete(format);
+		setFormat(completed);
+		setFormatString(translateFormat(completed));
+	}, [format, setFormat, setFormatString]);
 
 	const changeBit = useCallback((i: number, result: FormatBit) => {
-		const newFormat = addingFormat.slice();
+		const newFormat = format.slice();
 		newFormat[i] = result;
-		setAddingFormat(newFormat)
-		setAddingFormatString(translateFormat(newFormat));
-	}, [addingFormat, setAddingFormat, setAddingFormatString]);
+		setFormat(newFormat)
+		setFormatString(translateFormat(newFormat));
+	}, [format]);
 	const deleteBit = useCallback((i: number) => {
-		const newFormat = addingFormat.slice();
+		const newFormat = format.slice();
 		newFormat.splice(i, 1);
-		setAddingFormat(newFormat)
-		setAddingFormatString(translateFormat(newFormat));
-	}, [addingFormat, setAddingFormat, setAddingFormatString]);
+		setFormat(newFormat)
+		setFormatString(translateFormat(newFormat));
+	}, [format]);
 	const formatLine = useCallback(
 		(bit: FormatBit, i: number) =>
 			<FormatLine
@@ -270,10 +236,15 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 				index={i}
 				doChange={changeBit}
 				doDelete={deleteBit}
-				key={`editingInsultFormat-${i}`}
+				key={`editingPromptFormat-${type}-${i}`}
 			/>,
-		[changeBit, deleteBit]
+		[changeBit, deleteBit, type]
 	);
+	
+	const onOpen = useCallback(() => {
+		setFormat([]);
+		setFormatString("");
+	}, []);
 
 	return (
 		<BasicAddModal
@@ -289,16 +260,16 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 				<IonItem lines="full">
 					<IonLabel>
 						<div className="ion-text-wrap">
-							<strong>Current Format:</strong> <em>{addingFormatString || "(nothing yet)"}</em>
+							<strong>Current Format:</strong> <em>{formatString || "(nothing yet)"}</em>
 						</div>
 					</IonLabel>
 				</IonItem>
 				<IonItemDivider>Current Parts</IonItemDivider>
 				<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
-					{addingFormat.map(formatLine)}
+					{format.map(formatLine)}
 				</IonReorderGroup>
 				<IonAlert
-					trigger="addInsultFormatPart"
+					trigger={`addPromptFormatPart-${type}`}
 					header="Add Type"
 					buttons={[
 						{
@@ -307,13 +278,13 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 						{
 							text: "Ok",
 							handler: (choice: number) => {
-								if(choice === -1) {
+								if(choice === 1) {
 									setAddAlertOpen(true);
 								} else {
-									// Save the new value
-									const newFormat = [...addingFormat, choice];
-									setAddingFormat(newFormat);
-									setAddingFormatString(translateFormat(newFormat));
+									// Add Idea
+									const newFormat = [...format, F.Idea];
+									setFormat(newFormat);
+									setFormatString(translateFormat(newFormat));
 								}
 							}
 						}
@@ -322,34 +293,21 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 						{
 							label: "Text",
 							type: "radio",
-							value: -1,
+							value: 1,
 							checked: true
 						},
 						{
-							label: "Adjective",
+							label: "Idea",
 							type: "radio",
-							value: ADJECTIVE
-						},
-						{
-							label: "A/An Adjective",
-							type: "radio",
-							value: ARTICLE_ADJECTIVE
-						},
-						{
-							label: "Noun",
-							type: "radio",
-							value: NOUN
-						},
-						{
-							label: "A/An Noun",
-							type: "radio",
-							value: ARTICLE_NOUN
+							value: F.Idea
 						}
 					]}
 				/>
 				<IonAlert
 					isOpen={addAlertOpen}
 					header="Add Text"
+					subHeader="One or two lines"
+					message="Use the first line for the basic text. Use the second line if (and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 					onIonAlertDidDismiss={() => setAddAlertOpen(false)}
 					buttons={[
 						{
@@ -357,18 +315,36 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 						},
 						{
 							text: "Ok",
-							handler: (obj: { txt: string }) => setAddingFormat([...addingFormat, obj.txt])
+							handler: (obj: { txt: string, txt2: string }) => {
+								const {txt, txt2} = obj;
+								const newFormat = format.slice();
+								if(txt2) {
+									newFormat.push([ txt, txt2 ]);
+								} else {
+									newFormat.push(txt);
+								}
+								setFormat(newFormat);
+								setFormatString(translateFormat(newFormat));
+							}
 						}
 					]}
 					inputs={[
 						{
+							placeholder: "Put text here",
 							type: "text",
-							name: "txt"
+							name: "txt",
+							value: ""
+						},
+						{
+							placeholder: "(plural version, optional)",
+							type: "text",
+							name: "txt2",
+							value: ""
 						}
 					]}
 				/>
 				<IonItem lines="full">
-					<IonButton color="success" slot="end" id={`addInsultFormatPart`}>
+					<IonButton color="success" slot="end" id={`addPromptFormatPart-${type}`}>
 						<IonIcon slot="start" icon={addCircle} />
 						Add New Part
 					</IonButton>
@@ -378,4 +354,4 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 	);
 }
 
-export default InsultsAddFormatModal;
+export default PromptsAddFormatModal;

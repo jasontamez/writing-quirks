@@ -113,7 +113,7 @@ const NounLine: FC<NounItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: At least one noun group is required for the tool to function." />
+						<HaltButton errorMessage="At least one noun group is" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -194,7 +194,7 @@ const ModifierLine: FC<ModifierItem> = (props) => {
 							<IonIcon slot="icon-only" icon={trashOutline} />
 						</IonItemOption>
 					:
-						<HaltButton errorMessage="Cannot delete: At least one modifier group is required for the tool to function." />
+						<HaltButton errorMessage="At least one modifier group is" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -234,7 +234,7 @@ const TavernsEdit: FC = () => {
 				<IonToolbar>
 					<IonTitle>Taverns - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
+						<IonButton routerDirection="back" routerLink="/settings" color="medium">
 							<IonIcon slot="icon-only" icon={settingsSharp} />
 						</IonButton>
 					</IonButtons>

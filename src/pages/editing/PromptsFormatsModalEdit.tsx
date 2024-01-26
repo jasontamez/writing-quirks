@@ -14,11 +14,10 @@ import {
 } from "@ionic/react";
 import { addCircle, construct, trash } from "ionicons/icons";
 
+import { F, Format, FormatBit, FormatProps, formatInformation, translateFormat } from "../../promptsData/Ideas";
+import { deleteFormat, editFormat } from "../../store/writingPromptsSettingsSlice";
 import { useAppDispatch } from "../../store/hooks";
-import { EFormat, Format, FormatBit } from "../../store/data/insults";
-import { deleteFormat, editFormat } from "../../store/infoInsultsSlice";
 
-import { translateFormat } from "../../helpers/insultsCore";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
 import BasicEditModal from "./_ModalEdit";
@@ -28,6 +27,7 @@ interface ModalProps {
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
 	itemId: string
+	type: FormatProps
 }
 
 interface FormatLineProps {
@@ -35,26 +35,23 @@ interface FormatLineProps {
 	index: number
 	doChange: (i: number, result: FormatBit) => void
 	doDelete: (i: number) => void
+	itemId: string
 }
-
 const FormatLine: FC<FormatLineProps> = (props) => {
-	const { item, index, doChange, doDelete } = props;
+	const { item, index, doChange, doDelete, itemId } = props;
 	const [alertOpen, setAlertOpen] = useState<boolean>(false);
-	let which: number;
+	let isText: boolean;
 	let display: string;
-	const id = `formatEditBit${index}`;
-	const {
-		ADJECTIVE,
-		ARTICLE_ADJECTIVE,
-		NOUN,
-		ARTICLE_NOUN
-	} = EFormat;
+	const id = `formatEditBit${itemId}/${index}`;
 	if(typeof item === "string") {
-		which = -1;
+		isText = true;
 		display = `"${item}"`;
+	} else if (Array.isArray(item)) {
+		isText = true;
+		display = `"${item.join("\"/\"")}"`;
 	} else {
-		which = item;
-		display = translateFormat([item]);
+		isText = false;
+		display = `<Idea>`;
 	}
 	return (
 		<IonItem lines="full">
@@ -68,7 +65,7 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					{
 						text: "Ok",
 						handler: (choice: number) => {
-							if(choice === -1) {
+							if(choice === 1) {
 								setAlertOpen(true);
 							} else {
 								// Save the new value
@@ -81,38 +78,22 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					{
 						label: "Text",
 						type: "radio",
-						value: -1,
-						checked: which === -1
+						value: 1,
+						checked: isText
 					},
 					{
-						label: "Adjective",
+						label: "Idea",
 						type: "radio",
-						value: ADJECTIVE,
-						checked: which === ADJECTIVE
-					},
-					{
-						label: "A/An Adjective",
-						type: "radio",
-						value: ARTICLE_ADJECTIVE,
-						checked: which === ARTICLE_ADJECTIVE
-					},
-					{
-						label: "Noun",
-						type: "radio",
-						value: NOUN,
-						checked: which === NOUN
-					},
-					{
-						label: "A/An Noun",
-						type: "radio",
-						value: ARTICLE_NOUN,
-						checked: which === ARTICLE_NOUN
+						value: 0,
+						checked: !isText
 					}
 				]}
 			/>
 			<IonAlert
 				isOpen={alertOpen}
-				header="Edit"
+				header="Add Text"
+				subHeader="One or two lines"
+				message="Use the first line for the basic text. Use the second line if (and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 				onIonAlertDidDismiss={() => setAlertOpen(false)}
 				buttons={[
 					{
@@ -120,16 +101,24 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					},
 					{
 						text: "Ok",
-						handler: (obj: { txt: string }) => {
-							doChange(index, obj.txt);
+						handler: (obj: { txt: string, txt2: string }) => {
+							const {txt, txt2} = obj;
+							doChange(index, txt2 ? [ txt, txt2 ] : txt);
 						}
 					}
 				]}
 				inputs={[
 					{
+						placeholder: "Put text here",
 						type: "text",
 						name: "txt",
-						value: typeof item === "string" ? item : ""
+						value: typeof item === "string" ? item : (item as string[])[0]
+					},
+					{
+						placeholder: "(plural version, optional)",
+						type: "text",
+						name: "txt2",
+						value: typeof item === "string" ? "" : (item as string[])[1]
 					}
 				]}
 			/>
@@ -141,55 +130,54 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 	);
 };
 
-const InsultsFormatEditModal: FC<ModalProps> = (props) => {
+const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 	const {
-		format,
+		format: rawFormat,
 		modalOpen,
 		setModalOpen,
-		itemId
+		itemId,
+		type
 	} = props;
+	const [id, ...originalFormat] = rawFormat;
 	const dispatch = useAppDispatch();
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 
+	const [format, setFormat] = useState<Format>([]);
 	const [formatString, setFormatString] = useState<string>("");
-	const [editedFormat, setEditedFormat] = useState<Format>([]);
 	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
 
-	const {
-		ADJECTIVE,
-		ARTICLE_ADJECTIVE,
-		NOUN,
-		ARTICLE_NOUN
-	} = EFormat;
-
 	const changeBit = useCallback((i: number, result: FormatBit) => {
-		const newFormat = editedFormat.slice();
+		console.log(i);
+		console.log(result);
+		console.log(format);
+		const newFormat = format.slice();
 		newFormat[i] = result;
-		setEditedFormat(newFormat)
+		setFormat(newFormat)
 		setFormatString(translateFormat(newFormat));
-	}, [editedFormat, setEditedFormat, setFormatString]);
+	}, [format]);
 	const deleteBit = useCallback((i: number) => {
-		const newFormat = editedFormat.slice();
+		const newFormat = format.slice();
 		newFormat.splice(i, 1);
-		setEditedFormat(newFormat)
+		setFormat(newFormat)
 		setFormatString(translateFormat(newFormat));
-	}, [editedFormat, setEditedFormat, setFormatString]);
+	}, [format]);
 	const formatLine = useCallback(
-		(bit: FormatBit, i: number) =>
+		(bit: FormatBit, i: number, all: Format) =>
 			<FormatLine
 				item={bit}
 				index={i}
 				doChange={changeBit}
 				doDelete={deleteBit}
-				key={`editingInsultFormat-${i}`}
+				itemId={itemId}
+				key={`editingPromptFormat-${type}-${i}`}
 			/>,
-		[changeBit, deleteBit]
+		[changeBit, deleteBit, type, itemId]
 	);
 
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		if(translateFormat(format.slice(1)) === formatString) {
+		if(translateFormat(originalFormat) === formatString) {
 			// No changes
 			return closeModal();
 		}
@@ -201,53 +189,39 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, format, formatString, doAlert]);
+	}, [closeModal, originalFormat, formatString, doAlert]);
 	const maybeSave = useCallback(() => {
 		if(!formatString) {
+			// ERROR
 			return toaster({
 				message: "Cannot save a blank format.",
-				color: "danger",
-				duration: 2500,
+				color: "warning",
 				position: "middle",
 				toast
-			});	
+			});
 		}
-		// Need to test that all parts exist: two adj, one noun
-		const final: Format = [format[0]];
-		let adj = 0;
-		let n = 0;
-		let prev: string = "";
-		editedFormat.forEach(bit => {
-			switch(bit) {
-				case ADJECTIVE:
-				case ARTICLE_ADJECTIVE:
-					adj++;
-					break;
-				case NOUN:
-				case ARTICLE_NOUN:
-					n++;
-					break;
-				default:
-					prev = prev + bit;
-					return;
-			}
-			if(prev) {
-				final.push(prev);
-				prev = "";
+		// Need to assure the correct number of ideas are present
+		const final: Format = [];
+		const target = formatInformation[type].amount;
+		let i = 0;
+		format.forEach(bit => {
+			if(typeof bit !== "string" && !Array.isArray(bit)) {
+				i++;
 			}
 			final.push(bit);
 		});
-		prev && final.push(prev);
-		if(!adj || adj > 2 || n !== 1) {
+		if(i !== target) {
+			const message = "This format requires exactly ."
+				 + (target === 1 ? "one <Idea>" : `${target} <Idea>s`)
+				 + `; there are currently ${i}.`
 			return toaster({
-				message: "Insults must contain 1 noun and 1-2 adjectives.",
+				message,
 				color: "danger",
-				duration: 2500,
 				position: "middle",
 				toast
 			});	
 		}
-		dispatch(editFormat(final));
+		dispatch(editFormat({ prop: type, format: [id, ...final]}));
 		closeModal();
 		toaster({
 			message: "Saved.",
@@ -258,19 +232,16 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 		});
 	}, [
 		dispatch,
-		format,
-		editedFormat,
-		formatString,
+		closeModal,
 		toast,
-		ADJECTIVE,
-		ARTICLE_ADJECTIVE,
-		NOUN,
-		ARTICLE_NOUN,
-		closeModal
+		type,
+		format,
+		formatString,
+		id
 	]);
 
 	const doDelete = useCallback(() => {
-		dispatch(deleteFormat(format![0] as string));
+		dispatch(deleteFormat({ prop: type, format: rawFormat }));
 		closeModal();
 		toaster({
 			message: "Deleted.",
@@ -279,7 +250,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			position: "middle",
 			toast
 		});
-	}, [format, closeModal, toast, dispatch]);
+	}, [closeModal, toast, dispatch, type, rawFormat]);
 	const maybeDelete = useCallback(() => {
 		yesNoAlert({
 			header: "Delete this?",
@@ -292,16 +263,15 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 	}, [doDelete, doAlert]);
 
 	const onOpen = useCallback(() => {
-		const working = format.slice(1);
-		setEditedFormat(working);
-		setFormatString(translateFormat(working));
-	}, [format, setEditedFormat, setFormatString]);
+		setFormat(originalFormat);
+		setFormatString(translateFormat(originalFormat));
+	}, [originalFormat, setFormat, setFormatString]);
 
 	const onReorder = useCallback((event: CustomEvent<ItemReorderEventDetail>) => {
-		const completed = event.detail.complete(editedFormat);
-		setEditedFormat(completed);
+		const completed = event.detail.complete(format);
+		setFormat(completed);
 		setFormatString(translateFormat(completed));
-	}, [editedFormat, setEditedFormat]);
+	}, [format, setFormat]);
 
 	return (
 		<BasicEditModal
@@ -323,7 +293,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 				</IonItem>
 				<IonItemDivider>Current Parts</IonItemDivider>
 				<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
-					{editedFormat.map(formatLine)}
+					{format.map(formatLine)}
 				</IonReorderGroup>
 				<IonAlert
 					trigger={`editFormatAddPart-${itemId}`}
@@ -335,12 +305,12 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 						{
 							text: "Ok",
 							handler: (choice: number) => {
-								if(choice === -1) {
+								if(choice === 1) {
 									setAddAlertOpen(true);
 								} else {
-									// Save the new value
-									const newFormat = [...editedFormat, choice];
-									setEditedFormat(newFormat);
+									// Add Idea
+									const newFormat = [...format, F.Idea];
+									setFormat(newFormat);
 									setFormatString(translateFormat(newFormat));
 								}
 							}
@@ -350,34 +320,21 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 						{
 							label: "Text",
 							type: "radio",
-							value: -1,
+							value: 1,
 							checked: true
 						},
 						{
-							label: "Adjective",
+							label: "Idea",
 							type: "radio",
-							value: ADJECTIVE
-						},
-						{
-							label: "A/An Adjective",
-							type: "radio",
-							value: ARTICLE_ADJECTIVE
-						},
-						{
-							label: "Noun",
-							type: "radio",
-							value: NOUN
-						},
-						{
-							label: "A/An Noun",
-							type: "radio",
-							value: ARTICLE_NOUN
+							value: F.Idea
 						}
 					]}
 				/>
 				<IonAlert
 					isOpen={addAlertOpen}
 					header="Add Text"
+					subHeader="One or two lines"
+					message="Use the first line for the basic text. Use the second line if (and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 					onIonAlertDidDismiss={() => setAddAlertOpen(false)}
 					buttons={[
 						{
@@ -385,13 +342,31 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 						},
 						{
 							text: "Ok",
-							handler: (obj: { txt: string }) => setEditedFormat([...editedFormat, obj.txt])
+							handler: (obj: { txt: string, txt2: string }) => {
+								const {txt, txt2} = obj;
+								const newFormat = format.slice();
+								if(txt2) {
+									newFormat.push([ txt, txt2 ]);
+								} else {
+									newFormat.push(txt);
+								}
+								setFormat(newFormat);
+								setFormatString(translateFormat(newFormat));
+							}
 						}
 					]}
 					inputs={[
 						{
+							placeholder: "Put text here",
 							type: "text",
-							name: "txt"
+							name: "txt",
+							value: ""
+						},
+						{
+							placeholder: "(plural version, optional)",
+							type: "text",
+							name: "txt2",
+							value: ""
 						}
 					]}
 				/>
@@ -406,4 +381,4 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 	);
 }
 
-export default InsultsFormatEditModal;
+export default PromptsFormatEditModal;

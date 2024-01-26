@@ -12,7 +12,7 @@ const HaltButton: React.FC<HaltButtonProps> = (props) => {
 	const toast = useIonToast();
 	const errorMsg = useCallback(() => (
 		toaster({
-			message: errorMessage,
+			message: `Cannot delete: ${errorMessage} required for the tool to function.`,
 			color: "warning",
 			duration: 3500,
 			toast

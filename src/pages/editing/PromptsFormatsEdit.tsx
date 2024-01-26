@@ -17,21 +17,17 @@ import {
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { addCircle, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
+import { addCircle, arrowBackCircleSharp, pencilOutline, trashOutline } from 'ionicons/icons';
 
-import {
-	toggleAcceptNew,
-	toggleAcceptUpdates,
-	deleteFormat
-} from '../../store/writingPromptsSettingsSlice';
+import { deleteFormat } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { F, Format, FormatObject, FormatProps, formatNames } from '../../promptsData/Ideas';
+import { F, Format, FormatObject, FormatProps, formatInformation } from '../../promptsData/Ideas';
 
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
-import PromptsEditNounModal from './TavernsModalNounEdit';
-import TavernsAddNounModal from './TavernsModalNounAdd';
+import PromptsEditFormatModal from './PromptsFormatsModalEdit';
+import PromptsAddFormatModal from './PromptsFormatsModalAdd';
 import './Editing.css';
 import HaltButton from '../../components/HaltButton';
 
@@ -82,14 +78,13 @@ const FormatLine: FC<FormatItem> = (props) => {
 	}, [description, doAlert, dispatch, toast, id, type, all.length]);
 	return (
 		<IonItemSliding id={ID}>
-			{/*<PromptsEditNounModal
-				noun={item}
-				all={all}
+			<PromptsEditFormatModal
+				format={item}
+				type={type}
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
 				itemId={ID}
-				modifiers={allModifiers}
-			/>*/}
+			/>
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="text">{description}</div>
@@ -97,13 +92,12 @@ const FormatLine: FC<FormatItem> = (props) => {
 				</div>
 			</IonItem>
 			<IonItemOptions side="end">
-				{
-					all.length > 3 ?
-						<IonItemOption color="danger" onClick={maybeDelete}>
-							<IonIcon slot="icon-only" icon={trashOutline} />
-						</IonItemOption>
-					:
-						<HaltButton errorMessage="Cannot delete: At least three formats per type are required for the tool to function." />
+				{all.length > 3 ?
+					<IonItemOption color="danger" onClick={maybeDelete}>
+						<IonIcon slot="icon-only" icon={trashOutline} />
+					</IonItemOption>
+				:
+					<HaltButton errorMessage="At least three formats per type are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -125,7 +119,7 @@ const FormatGroup: FC<FormatGroupItem> = (props) => {
 	}, [type]);
 
 	return <>
-		{/*<TavernsAddNounModal modalOpen={modalOpen} setModalOpen={setModalOpen} modifiers={modifiers} />*/}
+		<PromptsAddFormatModal modalOpen={modalOpen} setModalOpen={setModalOpen} type={type} />
 		{ formats.map(formatLine) }
 		<IonItem lines="full" className="addButtonItem">
 			<IonButton color="primary" slot="end" onClick={() => setModalOpen(true)}>
@@ -139,17 +133,11 @@ const formatGroupLine = (item: [FormatProps, Format[]]) => {
 	const [type, formats] = item;
 	return (
 		<React.Fragment key={`formatGrouping-${type}`}>
-			<IonItemDivider>{formatNames[type]}</IonItemDivider>
+			<IonItemDivider>{formatInformation[type].title}</IonItemDivider>
 			<FormatGroup formats={formats} type={type} />
 		</React.Fragment>
 	);
 };
-
-//
-//
-// TO-DO: Add and Edit modals; link back to prompts-edit screen
-//
-//
 
 const PromptsEdit: FC = () => {
 	const { formats } = useAppSelector(state => state.writingPromptsSettings);
@@ -162,8 +150,8 @@ const PromptsEdit: FC = () => {
 				<IonToolbar>
 					<IonTitle>Prompts - Formats - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
-						<IonButton routerDirection="forward" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+						<IonButton routerDirection="back" routerLink="/editprompts" color="medium">
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>

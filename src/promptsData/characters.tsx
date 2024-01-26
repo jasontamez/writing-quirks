@@ -1593,6 +1593,17 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		modern: true,
 		plural: false
+	},
+	{
+		id: "8d02bc06-b08c-40bf-b19a-924dac9566f6",
+		idea: "entrepreneur",
+		article: "an"
+	},
+	{
+		id: "227daa52-0637-41e0-abd0-d8228f303593",
+		idea: "jellyfish",
+		plural: "es",
+		max: 20
 	}
 ];
 
