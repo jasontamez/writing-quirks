@@ -23,13 +23,13 @@ import { deleteFormat } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { F, Format, FormatObject, FormatProps, formatInformation } from '../../promptsData/Ideas';
 
+import HaltButton from '../../components/HaltButton';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
 import PromptsEditFormatModal from './PromptsFormatsModalEdit';
 import PromptsAddFormatModal from './PromptsFormatsModalAdd';
 import './Editing.css';
-import HaltButton from '../../components/HaltButton';
 
 interface FormatItem {
 	item: Format
@@ -139,7 +139,7 @@ const formatGroupLine = (item: [FormatProps, Format[]]) => {
 	);
 };
 
-const PromptsEdit: FC = () => {
+const PromptsFormatsEdit: FC = () => {
 	const { formats } = useAppSelector(state => state.writingPromptsSettings);
 
 	const pairs = useMemo(() => Object.entries(formats) as [FormatProps, Format[]][], [formats]);
@@ -165,4 +165,4 @@ const PromptsEdit: FC = () => {
 	);
 };
 
-export default PromptsEdit;
+export default PromptsFormatsEdit;

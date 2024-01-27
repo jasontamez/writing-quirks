@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import originalideas, { allFormats, Any, Format, FormatObject, FormatProps, IdeaFlagsObject, Typings } from '../promptsData/Ideas';
+import originalideas, { allFormats, Any, Format, FormatObject, FormatProps, IdeaFlagsObject, IdeaTypes } from '../promptsData/Ideas';
 
 interface FormatItem {
 	prop: FormatProps
@@ -7,14 +7,14 @@ interface FormatItem {
 }
 interface AddEditIdea {
 	idea: Any
-	prop: Typings
+	prop: IdeaTypes
 }
 interface DelIdea {
 	id: string
-	prop: Typings
+	prop: IdeaTypes
 }
 
-type IdeasObject = { [key in Typings]: Any[] };
+type IdeasObject = { [key in IdeaTypes]: Any[] };
 
 export interface WritingPromptsSettings {
 	usedIds: string[]
@@ -27,7 +27,7 @@ export interface WritingPromptsSettings {
 }
 
 const ideas: Partial<IdeasObject> = {};
-(Object.entries(originalideas) as [Typings, Any[]][]).forEach(([prop, array]) => {
+(Object.entries(originalideas) as [IdeaTypes, Any[]][]).forEach(([prop, array]) => {
 	ideas[prop] = array.map(bit => ({...bit}));
 });
 

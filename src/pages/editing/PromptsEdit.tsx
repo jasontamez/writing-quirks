@@ -69,7 +69,7 @@ const PromptsEdit: FC = () => {
 						<IonLabel>Edit Formats</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptsactions">
 						<IonLabel>Edit "Actions"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>

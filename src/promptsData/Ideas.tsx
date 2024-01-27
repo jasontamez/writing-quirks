@@ -11,10 +11,10 @@ export interface CoreIdea {
 	idea: string
 }
 
-export type Typings = "action" | "character" | "object" | "event" | "locale" | "time" | "topic"
+export type IdeaTypes = "action" | "character" | "object" | "event" | "locale" | "time" | "topic"
 
 export interface TypedObject {
-	type: Typings
+	type: IdeaTypes
 }
 
 type TypedIdea = CoreIdea & TypedObject;
@@ -246,6 +246,6 @@ export const formatInformation: { [ key in FormatProps ]: FormatInfo } = {
 
 export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEventFlags & Required<LocaleFlags>;
 
-const ideas: { [key in Typings]: Any[] } = { character, object, event, time, topic, action, locale };
+const ideas: { [key in IdeaTypes]: Any[] } = { character, object, event, time, topic, action, locale };
 
 export default ideas;
