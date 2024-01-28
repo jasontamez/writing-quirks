@@ -84,10 +84,11 @@ const ownershipModifiers: ModifierGroup = ({
 	id: "ownershipModifiers",
 	description: "Ownerships",
 	members: ["Abbot","Bishop","Centaur","Count","Daughter","Dragon","Duchess","Duke","Earl","Father","Fool",
-		"Gargoyle","Gryphon","Hangman","King","Knight","Mother","Prince","Princess","Queen","Servant",
+		"Gargoyle","Gryphon","Hangman","King","Knight","Mother","Nun","Prince","Princess","Queen","Servant",
 		"Snake","Troll","Vagabond","Wayfarer","Widow","Widower","Wizard"],
 	format: [F.This, "'s ", F.Noun],
 	modifiers: [
+		"animateAdjectiveModifiers",
 		"signageModifiers"
 	],
 	andChance: -50,
@@ -114,7 +115,8 @@ const ordinalModifiers: ModifierGroup = ({
 	members: ["First","Second","Seventh","Eleventh","Last","Penultimate","Third","Thirteenth","Ultimate"],
 	format: [F.This, " ", F.Noun],
 	modifiers: [
-		"ownershipModifiers"
+		"ownershipModifiers",
+		"signageModifiers"
 	],
 	modifierChance: 8,
 	andChance: -200
@@ -313,13 +315,28 @@ export const ERROR_NOUN_GROUP: NounGroup = {
 	theChance: 0
 };
 //arr = [], modifiers = [], modifierChance = 98, andChance = 10, theChance = 65
-export const baseNounGroup: Omit<NounGroup, "description" | "members" | "id"> = {
+export const baseNounGroup: Omit<NounGroup, "description" | "members" | "id" | "modifiers"> = {
 	separator: "/",
-	modifiers: [],
 	modifierChance: 98,
 	andChance: 10,
 	theChance: 65
 };
+const ideaNouns: NounGroup = ({
+	id: "ideanouns",
+	...baseNounGroup,
+	description: "Non-Physical Concepts",
+	members: ["Answer","Experiment","Hallucination","Harbinger","Mirage","Omen","Portent",
+		["Prophecy","Prophecies"],"Question","Riddle","Wonder"],
+	modifiers: [
+		"numericModifiers",
+		"ordinalModifiers",
+		"ownershipModifiers",
+		"prepPhraseModifiers"
+	],
+	modifierChance: 99,
+	andChance: -100,
+	theChance: 200
+});
 const objectNouns: NounGroup = ({
 	id: "objectnouns",
 	...baseNounGroup,
@@ -435,12 +452,12 @@ const placeNouns: NounGroup = ({
 	id: "placenouns",
 	...baseNounGroup,
 	description: "Places",
-	members: ["Aerie","Alehouse","Alley","Bar","Bog","Bridge","Cafe","Castle","Cavern","Cellar","Corner","Cove",
-		"Crevice","Den","Dungeon","Edge","End","Flophouse","Garden","Grill","Grove","Hall","Haven","Hideaway",
-		"Home","House","Iceberg","Inn","Keep","Kitchen","Labyrinth",["Library","Libraries"],"Lighthouse",
-		"Lookout","Meadow","Mousehole","Oarhouse","Palace","Port","Portal","Pub","Public House","Realm",
-		"Refuge",["Repository","Repositories"],"Site","Smithy","Steeple","Stop",["Supply","Supplies"],"Tavern",
-		"Tent","Tomb","Wall",["Winery","Wineries"],"Zoo"],
+	members: ["Abbey","Aerie","Alehouse","Alley","Bar","Bog","Bridge","Cafe","Castle","Cavern","Cellar","Corner",
+		"Cove","Crevice","Den","Dungeon","Edge","End","Flophouse","Garden","Grill","Grove","Hall","Haven",
+		"Hideaway","Home","House","Iceberg","Inn","Keep","Kitchen","Labyrinth",["Library","Libraries"],"Lighthouse",
+		"Lookout","Meadow","Mousehole","Oarhouse",["Oasis","Oases"],"Palace","Port","Portal","Pub","Public House",
+		"Realm","Refuge",["Repository","Repositories"],["Scullery","Sculleries"],"Site","Smithy","Steeple","Stop",
+		["Supply","Supplies"],"Tavern","Tent","Tomb","Wall",["Winery","Wineries"],"Zoo"],
 	modifiers: [
 		"ownershipModifiers",
 		"ordinalModifiers",
@@ -454,5 +471,5 @@ const placeNouns: NounGroup = ({
 	theChance: 200
 });
 
-export const nounGroups: NounGroup[] = [objectNouns, animalNouns, animateNouns, personNouns, placeNouns];
+export const nounGroups: NounGroup[] = [ideaNouns, objectNouns, animalNouns, animateNouns, personNouns, placeNouns];
 

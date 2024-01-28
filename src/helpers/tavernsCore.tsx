@@ -1,4 +1,13 @@
-import { ERROR_MOD_GROUP, ERROR_NOUN_GROUP, F, Format, ModifierGroup, Noun, NounGroup, PluralNoun } from "../store/data/taverns";
+import {
+	ERROR_MOD_GROUP,
+	ERROR_NOUN_GROUP,
+	F,
+	Format,
+	ModifierGroup,
+	Noun,
+	NounGroup,
+	PluralNoun
+} from "../store/data/taverns";
 import { InfoTaverns } from "../store/infoTavernsSlice";
 import getRandom from "./getRandom";
 
@@ -25,7 +34,15 @@ function replaceNounWithPluralNoun (input: Format): Format {
 	});
 }
 
-function getModifierFormat (group: ModifierGroup, text: string, modifiersObject: ModifiersObject): any {
+function getModifierFormat (
+	group: ModifierGroup,
+	text: string,
+	modifiersObject: ModifiersObject
+): {
+	andChance: number,
+	theChance: number,
+	format: Format
+} {
 	const { format: rawFormat, modifiers, modifierChance } = group;
 	let { andChance, theChance } = group;
 	let format: Format = rawFormat.map(bit => bit === F.This ? text : bit);
@@ -53,12 +70,12 @@ function getModifierFormat (group: ModifierGroup, text: string, modifiersObject:
 		} = getModifierFormat(modGroup, modText, modifiersObject);
 		andChance += andMod;
 		theChance += theMod;
-		format = format.map(bit => {
+		format = modFormat.map(bit => {
 			switch(bit) {
 				case F.Noun:
-					return modFormat;
+					return format;
 				case F.PluralNoun:
-					return replaceNounWithPluralNoun(modFormat);
+					return replaceNounWithPluralNoun(format);
 			}
 			return bit;
 		});
