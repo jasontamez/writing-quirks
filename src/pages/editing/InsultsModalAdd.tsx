@@ -42,8 +42,8 @@ const InsultsAddModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const iBox = $i("addInsultAdjNoun");
-		const a = (iBox && iBox.value && iBox.value.trim()) || "";
+		const iBox = $i<HTMLInputElement>("addInsultAdjNoun");
+		const a = (iBox && iBox.value.trim()) || "";
 		if(!a) {
 			// Nothing to save
 			return closeModal();
@@ -58,8 +58,8 @@ const InsultsAddModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const iBox = $i("addInsultAdjNoun");
-		const a = (iBox && iBox.value && iBox.value.trim()) || "";
+		const iBox = $i<HTMLInputElement>("addInsultAdjNoun");
+		const a = (iBox && iBox.value.trim()) || "";
 		if(!a) {
 			// ERROR
 			return toaster({
@@ -99,8 +99,8 @@ const InsultsAddModal: FC<ModalProps> = (props) => {
 		setAn(false);
 		setPlural(false);
 		setDummy("a");
-		const iBox = $i("addInsultAdjNoun");
-		iBox && iBox.value !== undefined && (iBox.value = "");
+		const iBox = $i<HTMLInputElement>("addInsultAdjNoun");
+		iBox && (iBox.value = "");
 	}, [setAn, setPlural]);
 
 	return (

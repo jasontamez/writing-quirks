@@ -141,10 +141,10 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const dBox = $i("addModifierGroupDescription");
-		const d = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addModifierMembers");
-		const m = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("addModifierGroupDescription");
+		const d = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("addModifierMembers");
+		const m = (mBox && mBox.value.trim()) || "";
 		if(!d && !m) {
 			// Nothing to save
 			return closeModal();
@@ -159,10 +159,10 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const dBox = $i("addModifierGroupDescription");
-		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addModifierMembers");
-		const m: string = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("addModifierGroupDescription");
+		const d: string = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("addModifierMembers");
+		const m: string = (mBox && mBox.value.trim()) || "";
 		const members = m.split(/\n/).map(member => member.trim()).filter(member => member);
 		const errors: string[] = [];
 		if(!d) {
@@ -232,10 +232,10 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 		setFormat([]);
 		setHasThis(false);
 		setHasNoun(false);
-		const dBox = $i("addModifierGroupDescription");
-		dBox && dBox.value !== undefined && (dBox.value = "");
-		const mBox = $i("addModifierMembers");
-		mBox && mBox.value !== undefined && (mBox.value = "");
+		const dBox = $i<HTMLInputElement>("addModifierGroupDescription");
+		dBox && (dBox.value = "");
+		const mBox = $i<HTMLInputElement>("addModifierMembers");
+		mBox && (mBox.value = "");
 	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
 
 	const delMod = useCallback(

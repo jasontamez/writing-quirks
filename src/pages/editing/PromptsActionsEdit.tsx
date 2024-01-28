@@ -75,13 +75,13 @@ const ActionLine: FC<ActionItem> = (props) => {
 		});
 	}, [doAlert, dispatch, toast, id, type, all.length, idea]);
 	const onOpen = useCallback(() => {
-		const iBox = $i(`genPoss-${ID}`);
-		(iBox && iBox.value !== undefined && (iBox.value = genericPossessive));
+		const iBox = $i<HTMLInputElement>(`genPoss-${ID}`);
+		(iBox && (iBox.value = genericPossessive));
 		setPossessive(origPoss);
 	}, [genericPossessive, origPoss, ID]);
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
-		const iBox = $i(`genPoss-${ID}`);
-		const genericPossessive = (iBox && iBox.value && iBox.value.trim()) || "one's";
+		const iBox = $i<HTMLInputElement>(`genPoss-${ID}`);
+		const genericPossessive = (iBox && iBox.value.trim()) || "one's";
 		const final: Action = {
 			...input,
 			type: "action",
@@ -99,8 +99,8 @@ const ActionLine: FC<ActionItem> = (props) => {
 		setModalOpen(false);
 	}, [possessive, dispatch, toast, ID]);
 	const okToClose = useCallback(() => {
-		const iBox = $i(`genPoss-${ID}`);
-		const genericPoss = (iBox && iBox.value && iBox.value.trim()) || "one's";
+		const iBox = $i<HTMLInputElement>(`genPoss-${ID}`);
+		const genericPoss = (iBox && iBox.value.trim()) || "one's";
 		return !possessive === !origPoss && genericPossessive === genericPoss;
 	}, [possessive, origPoss, genericPossessive, ID]);
 
@@ -176,14 +176,14 @@ const PromptsActionsEdit: FC = () => {
 	const dispatch = useAppDispatch();
 
 	const onOpen = useCallback(() => {
-		const iBox = $i("genPoss");
-		(iBox && iBox.value !== undefined && (iBox.value = ""));
+		const iBox = $i<HTMLInputElement>("genPoss");
+		(iBox && (iBox.value = ""));
 		setPossessive(false);
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
-		const iBox = $i("genPoss");
-		const genericPossessive = (iBox && iBox.value && iBox.value.trim()) || "one's";
+		const iBox = $i<HTMLInputElement>("genPoss");
+		const genericPossessive = (iBox && iBox.value.trim()) || "one's";
 		const final: Action = {
 			id: uuidv4(),
 			...input,

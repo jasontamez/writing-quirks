@@ -56,8 +56,8 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
 		let okToClose = true;
-		const iBox = $i("editInsultAdjNoun");
-		const a = (iBox && iBox.value && iBox.value.trim()) || "";
+		const iBox = $i<HTMLInputElement>("editInsultAdjNoun");
+		const a = (iBox && iBox.value.trim()) || "";
 		if(adjective) {
 			okToClose = (a === adjective.text && an === !!adjective.an);
 		} else {
@@ -78,8 +78,8 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, an, doAlert, adjective, noun]);
 	const maybeSave = useCallback(() => {
-		const iBox = $i("editInsultAdjNoun");
-		const a = (iBox && iBox.value && iBox.value.trim()) || "";
+		const iBox = $i<HTMLInputElement>("editInsultAdjNoun");
+		const a = (iBox && iBox.value.trim()) || "";
 		if(!a) {
 			return toaster({
 				message: "Cannot save a blank item.",
@@ -146,14 +146,14 @@ const InsultsEditModal: FC<ModalProps> = (props) => {
 		if(adjective) {
 			// Set up Adjective
 			const { text, an } = adjective;
-			const iBox = $i("editInsultAdjNoun");
-			iBox && iBox.value !== undefined && (iBox.value = text || "");
+			const iBox = $i<HTMLInputElement>("editInsultAdjNoun");
+			iBox && (iBox.value = text || "");
 			setAn(!!an);
 		} else {
 			// Set up Noun
 			const { text, an, plural } = noun!;
-			const iBox = $i("editInsultAdjNoun");
-			iBox && iBox.value !== undefined && (iBox.value = text || "");
+			const iBox = $i<HTMLInputElement>("editInsultAdjNoun");
+			iBox && (iBox.value = text || "");
 			setAn(!!an);
 			setPlural(!!plural);
 			setDummy(an ? "an" : (plural ? "some" : "a"));

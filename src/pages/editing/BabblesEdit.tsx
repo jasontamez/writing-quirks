@@ -185,12 +185,12 @@ const adjectiveItem = (
 const setBox = (info: string[], setter: Dispatch<SetStateAction<string>>, id: string) => {
 	const strung = info.join("\n");
 	setter(strung);
-	const box = $i(`babble${id}TextBox`);
+	const box = $i<HTMLInputElement>(`babble${id}TextBox`);
 	box && (box.value = strung);
 };
 
 const getBox = (id: string, plural: string, toast: UseIonToastResult): string[] | false => {
-	const box = $i(`babble${id}TextBox`);
+	const box = $i<HTMLInputElement>(`babble${id}TextBox`);
 	const info = ((box && box.value) || "").trim().split(/\s*\n\s*/);
 	if(info.length < 3) {
 		// Too small

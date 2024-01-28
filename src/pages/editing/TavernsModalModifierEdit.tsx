@@ -157,10 +157,10 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 			members,
 			format: f
 		} = modifier;
-		const dBox = $i("editModifierGroupDescription");
-		const d = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("editModifierMembers");
-		const m = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("editModifierGroupDescription");
+		const d = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("editModifierMembers");
+		const m = (mBox && mBox.value.trim()) || "";
 		if(
 			d === description
 			&& m === members.join("\n")
@@ -183,10 +183,10 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert, modifierChance, andChance, theChance, format, mods, modifier]);
 	const maybeSave = useCallback(() => {
-		const dBox = $i("editModifierGroupDescription");
-		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("editModifierMembers");
-		const m: string = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("editModifierGroupDescription");
+		const d: string = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("editModifierMembers");
+		const m: string = (mBox && mBox.value.trim()) || "";
 		const members = m.split(/\n/).map(member => member.trim()).filter(member => member);
 		const errors: string[] = [];
 		if(!d) {
@@ -299,11 +299,11 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 		setFormat(format);
 		setHasThis(format.some(bit => bit === F.This));
 		setHasNoun(format.some(bit => bit === F.Noun || bit === F.PluralNoun));
-		const dBox = $i("editModifierGroupDescription");
-		dBox && dBox.value !== undefined && (dBox.value = description);
+		const dBox = $i<HTMLInputElement>("editModifierGroupDescription");
+		dBox && (dBox.value = description);
 		const membersString = members.join("\n");
-		const mBox = $i("editModifierMembers");
-		mBox && mBox.value !== undefined && (mBox.value = membersString);
+		const mBox = $i<HTMLInputElement>("editModifierMembers");
+		mBox && (mBox.value = membersString);
 		setTextareaValue(membersString);
 	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue, modifier, modObject]);
 

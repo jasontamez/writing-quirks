@@ -145,10 +145,10 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
-		const d = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
-		const m = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("addNounGroupDescription");
+		const d = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("addNounMembers");
+		const m = (mBox && mBox.value.trim()) || "";
 		if(!d && !m) {
 			// Nothing to save
 			return closeModal();

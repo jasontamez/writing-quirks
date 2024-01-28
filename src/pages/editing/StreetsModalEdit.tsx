@@ -52,11 +52,11 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const sBox = $i("editStreet");
-		const s = (sBox && sBox.value && sBox.value.trim()) || "";
+		const sBox = $i<HTMLInputElement>("editStreet");
+		const s = (sBox && sBox.value.trim()) || "";
 		if(street) {
-			const aBox = $i("editStreetAlt");
-			const alt = (aBox && aBox.value && aBox.value.trim()) || "";
+			const aBox = $i<HTMLInputElement>("editStreetAlt");
+			const alt = (aBox && aBox.value.trim()) || "";
 			const {
 				text,
 				alt: a = "",
@@ -110,8 +110,8 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 		double
 	]);
 	const maybeSave = useCallback(() => {
-		const sBox = $i("editStreet");
-		const s = (sBox && sBox.value && sBox.value.trim()) || "";
+		const sBox = $i<HTMLInputElement>("editStreet");
+		const s = (sBox && sBox.value.trim()) || "";
 		if(!s) {
 			// ERROR
 			return toaster({
@@ -150,8 +150,8 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 				street.suffix = true;
 				modChanceEndTwoWordName && (street.modChanceEndTwoWordName = modChanceEndTwoWordName);
 			}
-			const aBox = $i("editStreetAlt");
-			const alt = (aBox && aBox.value && aBox.value.trim()) || "";
+			const aBox = $i<HTMLInputElement>("editStreetAlt");
+			const alt = (aBox && aBox.value.trim()) || "";
 			if(alt) {
 				street.alt = alt;
 				double && (street.double = true);
@@ -219,8 +219,8 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 	}, [street, road, doAlert, dispatch, toast, prefix, prefixes, suffix, suffixes]);
 
 	const onOpen = useCallback(() => {
-		const sBox = $i("editStreet");
-		sBox && sBox.value !== undefined && (sBox.value = street ? street.text : road!.text);
+		const sBox = $i<HTMLInputElement>("editStreet");
+		sBox && (sBox.value = street ? street.text : road!.text);
 		if(street) {
 			const {
 				prefix = false,
@@ -235,8 +235,8 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 			setDouble(double);
 			setChance(chanceFirstTwoWordName);
 			setMod(modChanceEndTwoWordName);
-			const aBox = $i("editStreetAlt");
-			aBox && aBox.value !== undefined && (aBox.value = alt);
+			const aBox = $i<HTMLInputElement>("editStreetAlt");
+			aBox && (aBox.value = alt);
 		} else {
 			setWeight(road!.weight);
 		}

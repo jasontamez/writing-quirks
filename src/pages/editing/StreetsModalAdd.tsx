@@ -44,8 +44,8 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const sBox = $i("addStreet");
-		const s = (sBox && sBox.value && sBox.value.trim()) || "";
+		const sBox = $i<HTMLInputElement>("addStreet");
+		const s = (sBox && sBox.value.trim()) || "";
 		if(!s) {
 			// Nothing to save
 			return closeModal();
@@ -60,8 +60,8 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const sBox = $i("addStreet");
-		const s = (sBox && sBox.value && sBox.value.trim()) || "";
+		const sBox = $i<HTMLInputElement>("addStreet");
+		const s = (sBox && sBox.value.trim()) || "";
 		if(!s) {
 			// ERROR
 			return toaster({
@@ -100,8 +100,8 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 				street.suffix = true;
 				modChanceEndTwoWordName && (street.modChanceEndTwoWordName = modChanceEndTwoWordName);
 			}
-			const aBox = $i("addStreetAlt");
-			const alt = (aBox && aBox.value && aBox.value.trim()) || "";
+			const aBox = $i<HTMLInputElement>("addStreetAlt");
+			const alt = (aBox && aBox.value.trim()) || "";
 			if(alt) {
 				street.alt = alt;
 				double && (street.double = true);
@@ -136,10 +136,10 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 		setWeight(1);
 		setChance(5);
 		setMod(0);
-		const sBox = $i("addStreet");
-		sBox && sBox.value !== undefined && (sBox.value = "");
-		const aBox = $i("addStreetAlt");
-		aBox && aBox.value !== undefined && (aBox.value = "");
+		const sBox = $i<HTMLInputElement>("addStreet");
+		sBox && (sBox.value = "");
+		const aBox = $i<HTMLInputElement>("addStreetAlt");
+		aBox && (aBox.value = "");
 	}, [setPrefix, setSuffix, setDouble, setWeight, setChance, setMod]);
 
 	return (

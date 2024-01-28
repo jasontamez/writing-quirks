@@ -30,8 +30,8 @@ interface ModalProps {
 }
 
 const closeSlider = (id: string) => {
-	const what = $i(id);
-	what && what.close && what.close();
+	const what = $i<HTMLIonItemSlidingElement>(id);
+	what && what.close();
 };
 
 const BasicEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {

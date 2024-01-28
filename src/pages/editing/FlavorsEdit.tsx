@@ -125,7 +125,7 @@ const FlavorEdits: FC = () => {
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
 	const saveIntros = useCallback(() => {
-		const box = $i("flavorIntroTextBox");
+		const box = $i<HTMLInputElement>("flavorIntroTextBox");
 		const v = ((box && box.value) || "").trim();
 		const intros = v.split(/\s*\n\s*/);
 		if(intros.length < 3) {
@@ -143,7 +143,7 @@ const FlavorEdits: FC = () => {
 	useEffect(() => {
 		const strung = intros.join("\n");
 		setIntroductions(strung);
-		const box = $i("flavorIntroTextBox");
+		const box = $i<HTMLInputElement>("flavorIntroTextBox");
 		box && (box.value = strung);
 	}, [intros]);
 	// Sort flavors for presentation

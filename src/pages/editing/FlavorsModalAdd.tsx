@@ -85,12 +85,12 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert, a, n]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("addFlavorAdj");
-		const nBox = $i("addFlavorNoun");
-		const pBox = $i("addFlavorPlural");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
-		const n = (nBox && nBox.value && nBox.value.trim()) || "";
-		const p = (pBox && pBox.value && pBox.value.trim()) || "";
+		const aBox = $i<HTMLInputElement>("addFlavorAdj");
+		const nBox = $i<HTMLInputElement>("addFlavorNoun");
+		const pBox = $i<HTMLInputElement>("addFlavorPlural");
+		const a = (aBox && aBox.value.trim()) || "";
+		const n = (nBox && nBox.value.trim()) || "";
+		const p = (pBox && pBox.value.trim()) || "";
 		const flavor: Flavor = {
 			id: uuidv4(),
 			adjective: a,
@@ -144,12 +144,12 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 		setPAdj(false);
 		setReqSing(false);
 		setBasic(false);
-		const aBox = $i("addFlavorAdj");
-		const nBox = $i("addFlavorNoun");
-		const pBox = $i("addFlavorPlural");
-		aBox && aBox.value !== undefined && (aBox.value = "");
-		nBox && nBox.value !== undefined && (nBox.value = "");
-		pBox && pBox.value !== undefined && (pBox.value = "");
+		const aBox = $i<HTMLInputElement>("addFlavorAdj");
+		const nBox = $i<HTMLInputElement>("addFlavorNoun");
+		const pBox = $i<HTMLInputElement>("addFlavorPlural");
+		aBox && (aBox.value = "");
+		nBox && (nBox.value = "");
+		pBox && (pBox.value = "");
 		setA("");
 		setN("");
 		setP("");

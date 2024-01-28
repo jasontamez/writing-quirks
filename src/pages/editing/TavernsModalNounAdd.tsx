@@ -104,10 +104,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
-		const d = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
-		const m = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("addNounGroupDescription");
+		const d = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("addNounMembers");
+		const m = (mBox && mBox.value.trim()) || "";
 		if(!d && !m) {
 			// Nothing to save
 			return closeModal();
@@ -122,10 +122,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const dBox = $i("addNounGroupDescription");
-		const d: string = (dBox && dBox.value && dBox.value.trim()) || "";
-		const mBox = $i("addNounMembers");
-		const m: string = (mBox && mBox.value && mBox.value.trim()) || "";
+		const dBox = $i<HTMLInputElement>("addNounGroupDescription");
+		const d: string = (dBox && dBox.value.trim()) || "";
+		const mBox = $i<HTMLInputElement>("addNounMembers");
+		const m: string = (mBox && mBox.value.trim()) || "";
 		const members = m.split(/\n/).map(member => {
 			if(member.indexOf(separator) > -1) {
 				const [sing, plural] = member.split(separator);
@@ -190,10 +190,10 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		setAndChance(0);
 		setTheChance(0);
 		setTextareaValue("");
-		const dBox = $i("addNounGroupDescription");
-		dBox && dBox.value !== undefined && (dBox.value = "");
-		const mBox = $i("addNounMembers");
-		mBox && mBox.value !== undefined && (mBox.value = "");
+		const dBox = $i<HTMLInputElement>("addNounGroupDescription");
+		dBox && (dBox.value = "");
+		const mBox = $i<HTMLInputElement>("addNounMembers");
+		mBox && (mBox.value = "");
 	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
 
 	const delMod = useCallback((mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)), [setMods, mods]);

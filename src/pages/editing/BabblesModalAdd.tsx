@@ -39,8 +39,8 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 	const [doAlert] = useIonAlert();
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
-		const aBox = $i("addBabbleAdjDet");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const aBox = $i<HTMLInputElement>("addBabbleAdjDet");
+		const a = (aBox && aBox.value.trim()) || "";
 		if(!a) {
 			// Nothing to save
 			return closeModal();
@@ -55,8 +55,8 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, doAlert]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("addBabbleAdjDet");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const aBox = $i<HTMLInputElement>("addBabbleAdjDet");
+		const a = (aBox && aBox.value.trim()) || "";
 		if(!a) {
 			// ERROR
 			return toaster({
@@ -94,8 +94,8 @@ const BabblesAddModal: FC<ModalProps> = (props) => {
 	const onOpen = useCallback(() => {
 		setAn(false);
 		setWeight(1);
-		const aBox = $i("addBabbleAdjDet");
-		aBox && aBox.value !== undefined && (aBox.value = "");
+		const aBox = $i<HTMLInputElement>("addBabbleAdjDet");
+		aBox && (aBox.value = "");
 	}, [setAn, setWeight]);
 
 	return (

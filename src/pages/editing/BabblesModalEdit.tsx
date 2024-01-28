@@ -47,8 +47,8 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
 		let okToClose = true;
-		const aBox = $i("editBabbleAdjDet");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const aBox = $i<HTMLInputElement>("editBabbleAdjDet");
+		const a = (aBox && aBox.value.trim()) || "";
 		if(adjective) {
 			okToClose = (a === adjective.text && an === !!adjective.an);
 		} else {
@@ -72,8 +72,8 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 		});
 	}, [closeModal, an, weight, adjective, determiner, permanent, doAlert]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("editBabbleAdjDet");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
+		const aBox = $i<HTMLInputElement>("editBabbleAdjDet");
+		const a = (aBox && aBox.value.trim()) || "";
 		if(!a) {
 			return toaster({
 				message: "Cannot save a blank item.",
@@ -143,14 +143,14 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 		if(adjective) {
 			// Set up Adjective
 			const { text, an } = adjective;
-			const aBox = $i("editBabbleAdjDet");
-			aBox && aBox.value !== undefined && (aBox.value = text || "");
+			const aBox = $i<HTMLInputElement>("editBabbleAdjDet");
+			aBox && (aBox.value = text || "");
 			setAn(!!an);
 		} else {
 			// Set up Determiner
 			const { text, weight } = determiner!;
-			const aBox = $i("editBabbleAdjDet");
-			aBox && aBox.value !== undefined && (aBox.value = text || "");
+			const aBox = $i<HTMLInputElement>("editBabbleAdjDet");
+			aBox && (aBox.value = text || "");
 			setWeight(weight);
 		}
 	}, [adjective, determiner, setAn, setWeight]);

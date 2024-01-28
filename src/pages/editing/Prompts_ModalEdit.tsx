@@ -93,8 +93,8 @@ const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeSave = useCallback(() => {
-		const iBox = $i("editIdea");
-		const idea = (iBox && iBox.value && iBox.value.trim()) || "";
+		const iBox = $i<HTMLInputElement>("editIdea");
+		const idea = (iBox && iBox.value.trim()) || "";
 		const final: CoreIdeaWithFlags = { id: ideaObject.id, idea };
 		profanity && (final.profanity = true);
 		sexual && (final.sexual = true);
@@ -162,8 +162,8 @@ const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 		ideaObject
 	]);
 	const maybeClose = useCallback(() => {
-		const iBox = $i("editIdea");
-		const idea = (iBox && iBox.value && iBox.value.trim()) || "";
+		const iBox = $i<HTMLInputElement>("editIdea");
+		const idea = (iBox && iBox.value.trim()) || "";
 		if (idea === ideaObject.idea && !touched && okToClose()) {
 			// Nothing to save;
 			return closeModal();
@@ -179,8 +179,8 @@ const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 	}, [closeModal, doAlert, ideaObject, touched, okToClose]);
 
 	const extendedOpen: (event: CustomEvent<void>) => void = useCallback((e) => {
-		const iBox = $i("editIdea");
-		(iBox && iBox.value !== undefined && (iBox.value = ideaObject.idea));
+		const iBox = $i<HTMLInputElement>("editIdea");
+		(iBox && (iBox.value = ideaObject.idea));
 		setProfanity(!!ideaObject.profanity);
 		setSexual(!!ideaObject.sexual);
 		setModern(!!ideaObject.modern);

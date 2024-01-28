@@ -114,12 +114,12 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		reqSing
 	]);
 	const maybeSave = useCallback(() => {
-		const aBox = $i("editFlavorAdj");
-		const nBox = $i("editFlavorNoun");
-		const pBox = $i("editFlavorPlural");
-		const a = (aBox && aBox.value && aBox.value.trim()) || "";
-		const n = (nBox && nBox.value && nBox.value.trim()) || "";
-		const p = (pBox && pBox.value && pBox.value.trim()) || "";
+		const aBox = $i<HTMLInputElement>("editFlavorAdj");
+		const nBox = $i<HTMLInputElement>("editFlavorNoun");
+		const pBox = $i<HTMLInputElement>("editFlavorPlural");
+		const a = (aBox && aBox.value.trim()) || "";
+		const n = (nBox && nBox.value.trim()) || "";
+		const p = (pBox && pBox.value.trim()) || "";
 		const flavor: Flavor = {
 			id: ID,
 			adjective: a,
@@ -204,12 +204,12 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		setPAdj(postAdjective || false);
 		setReqSing(requiresSingular || false);
 		setBasic(basicPlural || false);
-		const aBox = $i("editFlavorAdj");
-		const nBox = $i("editFlavorNoun");
-		const pBox = $i("editFlavorPlural");
-		aBox && aBox.value !== undefined && (aBox.value = adjective || "");
-		nBox && nBox.value !== undefined && (nBox.value = noun || "");
-		pBox && pBox.value !== undefined && (pBox.value = plural || "");
+		const aBox = $i<HTMLInputElement>("editFlavorAdj");
+		const nBox = $i<HTMLInputElement>("editFlavorNoun");
+		const pBox = $i<HTMLInputElement>("editFlavorPlural");
+		aBox && (aBox.value = adjective || "");
+		nBox && (nBox.value = noun || "");
+		pBox && (pBox.value = plural || "");
 		setA(adjective || "");
 		setN(noun || "");
 		setP(plural || "");
