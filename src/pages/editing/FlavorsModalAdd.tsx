@@ -46,7 +46,7 @@ const translateFlavorNoun = (input: Pick<Flavor, "noun" | "plural" | "basicPlura
 		return "(no valid noun data)"
 	} else if(basicPlural) {
 		return `extreme ${noun} // juicy ${noun}s`;
-	} else if (plural) {
+	} else if(plural) {
 		return `extreme ${noun} // juicy ${plural}`;
 	}
 	return `extreme ${noun} // juicy ${noun}`;
@@ -106,7 +106,7 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 			});
 		} else if(!a) {
 			delete flavor.adjective;
-		} else if (!n) {
+		} else if(!n) {
 			delete flavor.noun;
 		}
 		if(n && p) {
@@ -133,11 +133,11 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 	}, [dispatch, pAdj, reqSing, basic, closeModal, toast]);
 	// set example adj
 	useEffect(() => {
-		setExampleAdj(translateFlavorAdj({adjective: a, postAdjective: pAdj, requiresSingular: reqSing}));
+		setExampleAdj(translateFlavorAdj({ adjective: a, postAdjective: pAdj, requiresSingular: reqSing }));
 	}, [a, pAdj, reqSing]);
 	// set example noun
 	useEffect(() => {
-		setExampleNoun(translateFlavorNoun({noun: n, plural: p, basicPlural: basic}));
+		setExampleNoun(translateFlavorNoun({ noun: n, plural: p, basicPlural: basic }));
 	}, [n, p, basic]);
 
 	const onOpen = useCallback(() => {
@@ -164,83 +164,81 @@ const FlavorAddModal: FC<ModalProps> = (props) => {
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
-			<>
-				<IonItemDivider>Noun Properties</IonItemDivider>
-				<IonItem>Noun</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="addFlavorNoun"
-						className="editable"
-						inputmode="text"
-						onIonInput={(e) => {
-							const n = (e.target as HTMLIonInputElement).value as string;
-							setN(n);
-						}}
-						debounce={500}
-					/>
-				</IonItem>
-				<IonItem>
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={basic}
-						onClick={() => setBasic(!basic)}
-					>Uses Simple Plural</IonToggle>
-				</IonItem>
-				<IonItem>Special Plural (if needed)</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="addFlavorPlural"
-						className="editable"
-						inputmode="text"
-						onIonInput={(e) => {
-							const p = (e.target as HTMLIonInputElement).value as string;
-							setP(p);
-						}}
-						debounce={500}
-					/>
-				</IonItem>
-				<IonItem lines="full">
-					<IonLabel>
-						<div className="ion-text-wrap"><strong>Examples:</strong> <em>{exampleNoun}</em></div>
-					</IonLabel>
-				</IonItem>
-				<IonItemDivider>Adjective Properties</IonItemDivider>
-				<IonItem>Adjective</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="addFlavorAdj"
-						className="editable"
-						inputmode="text"
-						onIonInput={(e) => {
-							const a = (e.target as HTMLIonInputElement).value as string;
-							setA(a);
-						}}
-						debounce={500}
-					/>
-				</IonItem>
-				<IonItem>
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={pAdj}
-						onClick={() => setPAdj(!pAdj)}
-					>Append Adjective</IonToggle>
-				</IonItem>
-				<IonItem>
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={reqSing}
-						onClick={() => setReqSing(!reqSing)}
-					>Requires Singular</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonLabel>
-						<div className="ion-text-wrap"><strong>Example:</strong> <em>{exampleAdj}</em></div>
-					</IonLabel>
-				</IonItem>
-			</>
+			<IonItemDivider>Noun Properties</IonItemDivider>
+			<IonItem>Noun</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="addFlavorNoun"
+					className="editable"
+					inputmode="text"
+					onIonInput={(e) => {
+						const n = (e.target as HTMLIonInputElement).value as string;
+						setN(n);
+					}}
+					debounce={500}
+				/>
+			</IonItem>
+			<IonItem>
+				<IonToggle
+					labelPlacement="start"
+					enableOnOffLabels
+					checked={basic}
+					onClick={() => setBasic(!basic)}
+				>Uses Simple Plural</IonToggle>
+			</IonItem>
+			<IonItem>Special Plural (if needed)</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="addFlavorPlural"
+					className="editable"
+					inputmode="text"
+					onIonInput={(e) => {
+						const p = (e.target as HTMLIonInputElement).value as string;
+						setP(p);
+					}}
+					debounce={500}
+				/>
+			</IonItem>
+			<IonItem lines="full">
+				<IonLabel>
+					<div className="ion-text-wrap"><strong>Examples:</strong> <em>{exampleNoun}</em></div>
+				</IonLabel>
+			</IonItem>
+			<IonItemDivider>Adjective Properties</IonItemDivider>
+			<IonItem>Adjective</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="addFlavorAdj"
+					className="editable"
+					inputmode="text"
+					onIonInput={(e) => {
+						const a = (e.target as HTMLIonInputElement).value as string;
+						setA(a);
+					}}
+					debounce={500}
+				/>
+			</IonItem>
+			<IonItem>
+				<IonToggle
+					labelPlacement="start"
+					enableOnOffLabels
+					checked={pAdj}
+					onClick={() => setPAdj(!pAdj)}
+				>Append Adjective</IonToggle>
+			</IonItem>
+			<IonItem>
+				<IonToggle
+					labelPlacement="start"
+					enableOnOffLabels
+					checked={reqSing}
+					onClick={() => setReqSing(!reqSing)}
+				>Requires Singular</IonToggle>
+			</IonItem>
+			<IonItem lines="full">
+				<IonLabel>
+					<div className="ion-text-wrap"><strong>Example:</strong> <em>{exampleAdj}</em></div>
+				</IonLabel>
+			</IonItem>
 		</BasicAddModal>
 	);
 }

@@ -170,43 +170,41 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 			maybeDelete={maybeDelete}
 			undeleteable={permanent}
 		>
-			<>
-				<IonItem>{adjective ? "Adjective" : "Determiner"}</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="editBabbleAdjDet"
-						className="editable"
-						inputmode="text"
-						disabled={permanent}
-						readonly={permanent}
-					/>
-				</IonItem>
-				<IonItem>
-					{
-						adjective ?
-							<IonToggle
-								labelPlacement="start"
-								enableOnOffLabels
-								checked={an}
-								onClick={() => setAn(!an)}
-							>Uses "an" instead of "a"</IonToggle>
-						:
-							<IonRange
-								label="Weight:"
-								labelPlacement="start"
-								pin
-								ticks
-								snaps
-								color="primary"
-								min={1}
-								max={10}
-								step={1}
-								value={weight || 1}
-								onIonChange={(e) => setWeight(e.target.value as WeightRange)}
-							/>
-					}
-				</IonItem>
-			</>
+			<IonItem>{adjective ? "Adjective" : "Determiner"}</IonItem>
+			<IonItem lines="full">
+			<IonInput
+				id="editBabbleAdjDet"
+					className="editable"
+					inputmode="text"
+					disabled={permanent}
+					readonly={permanent}
+				/>
+			</IonItem>
+			<IonItem>
+				{
+					adjective ?
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={an}
+							onClick={() => setAn(!an)}
+						>Uses "an" instead of "a"</IonToggle>
+					:
+						<IonRange
+							label="Weight:"
+							labelPlacement="start"
+							pin
+							ticks
+							snaps
+							color="primary"
+							min={1}
+							max={10}
+							step={1}
+							value={weight || 1}
+							onIonChange={(e) => setWeight(e.target.value as WeightRange)}
+						/>
+				}
+			</IonItem>
 		</BasicEditModal>
 	);
 }

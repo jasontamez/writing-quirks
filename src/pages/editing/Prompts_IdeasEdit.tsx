@@ -39,7 +39,6 @@ type MapFunc<T> = (bit: T, index: number, all: T[]) => ReactElement;
 
 interface AddModalProps<A extends Action> {
 	title: string
-	children: ReactElement
 	action: Action
 //	action: (dispatch: Dispatch<A>) => void
 }

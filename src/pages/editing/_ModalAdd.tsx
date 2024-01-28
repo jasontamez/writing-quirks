@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, ReactElement, } from "react";
+import React, { FC, MouseEventHandler, PropsWithChildren } from "react";
 import {
 	IonButton,
 	IonButtons,
@@ -22,10 +22,9 @@ interface ModalProps {
 	title: string
 	maybeClose: MouseEventHandler<HTMLIonButtonElement>
 	maybeSave: MouseEventHandler<HTMLIonButtonElement>
-	children: ReactElement
 }
 
-const BasicAddModal: FC<ModalProps> = (props) => {
+const BasicAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 	const {
 		modalOpen,
 		closeModal,

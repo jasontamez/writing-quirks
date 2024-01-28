@@ -190,7 +190,7 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 		let n = 0;
 		let prev: string = "";
 		addingFormat.forEach(bit => {
-			switch(bit) {
+			switch (bit) {
 				case ADJECTIVE:
 				case ARTICLE_ADJECTIVE:
 					adj++;
@@ -217,7 +217,7 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 				duration: 2500,
 				position: "middle",
 				toast
-			});	
+			});
 		}
 		dispatch(addFormat([uuidv4(), ...final]));
 		closeModal();
@@ -284,96 +284,94 @@ const InsultsAddFormatModal: FC<ModalProps> = (props) => {
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
-			<>
-				<IonItemDivider>Format</IonItemDivider>
-				<IonItem lines="full">
-					<IonLabel>
-						<div className="ion-text-wrap">
-							<strong>Current Format:</strong> <em>{addingFormatString || "(nothing yet)"}</em>
-						</div>
-					</IonLabel>
-				</IonItem>
-				<IonItemDivider>Current Parts</IonItemDivider>
-				<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
-					{addingFormat.map(formatLine)}
-				</IonReorderGroup>
-				<IonAlert
-					trigger="addInsultFormatPart"
-					header="Add Type"
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Ok",
-							handler: (choice: number) => {
-								if(choice === -1) {
-									setAddAlertOpen(true);
-								} else {
-									// Save the new value
-									const newFormat = [...addingFormat, choice];
-									setAddingFormat(newFormat);
-									setAddingFormatString(translateFormat(newFormat));
-								}
+			<IonItemDivider>Format</IonItemDivider>
+			<IonItem lines="full">
+				<IonLabel>
+					<div className="ion-text-wrap">
+						<strong>Current Format:</strong> <em>{addingFormatString || "(nothing yet)"}</em>
+					</div>
+				</IonLabel>
+			</IonItem>
+			<IonItemDivider>Current Parts</IonItemDivider>
+			<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
+				{addingFormat.map(formatLine)}
+			</IonReorderGroup>
+			<IonAlert
+				trigger="addInsultFormatPart"
+				header="Add Type"
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Ok",
+						handler: (choice: number) => {
+							if(choice === -1) {
+								setAddAlertOpen(true);
+							} else {
+								// Save the new value
+								const newFormat = [...addingFormat, choice];
+								setAddingFormat(newFormat);
+								setAddingFormatString(translateFormat(newFormat));
 							}
 						}
-					]}
-					inputs={[
-						{
-							label: "Text",
-							type: "radio",
-							value: -1,
-							checked: true
-						},
-						{
-							label: "Adjective",
-							type: "radio",
-							value: ADJECTIVE
-						},
-						{
-							label: "A/An Adjective",
-							type: "radio",
-							value: ARTICLE_ADJECTIVE
-						},
-						{
-							label: "Noun",
-							type: "radio",
-							value: NOUN
-						},
-						{
-							label: "A/An Noun",
-							type: "radio",
-							value: ARTICLE_NOUN
-						}
-					]}
-				/>
-				<IonAlert
-					isOpen={addAlertOpen}
-					header="Add Text"
-					onIonAlertDidDismiss={() => setAddAlertOpen(false)}
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Ok",
-							handler: (obj: { txt: string }) => setAddingFormat([...addingFormat, obj.txt])
-						}
-					]}
-					inputs={[
-						{
-							type: "text",
-							name: "txt"
-						}
-					]}
-				/>
-				<IonItem lines="full">
-					<IonButton color="success" slot="end" id={`addInsultFormatPart`}>
-						<IonIcon slot="start" icon={addCircle} />
-						Add New Part
-					</IonButton>
-				</IonItem>
-			</>
+					}
+				]}
+				inputs={[
+					{
+						label: "Text",
+						type: "radio",
+						value: -1,
+						checked: true
+					},
+					{
+						label: "Adjective",
+						type: "radio",
+						value: ADJECTIVE
+					},
+					{
+						label: "A/An Adjective",
+						type: "radio",
+						value: ARTICLE_ADJECTIVE
+					},
+					{
+						label: "Noun",
+						type: "radio",
+						value: NOUN
+					},
+					{
+						label: "A/An Noun",
+						type: "radio",
+						value: ARTICLE_NOUN
+					}
+				]}
+			/>
+			<IonAlert
+				isOpen={addAlertOpen}
+				header="Add Text"
+				onIonAlertDidDismiss={() => setAddAlertOpen(false)}
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Ok",
+						handler: (obj: { txt: string }) => setAddingFormat([...addingFormat, obj.txt])
+					}
+				]}
+				inputs={[
+					{
+						type: "text",
+						name: "txt"
+					}
+				]}
+			/>
+			<IonItem lines="full">
+				<IonButton color="success" slot="end" id={`addInsultFormatPart`}>
+					<IonIcon slot="start" icon={addCircle} />
+					Add New Part
+				</IonButton>
+			</IonItem>
 		</BasicAddModal>
 	);
 }

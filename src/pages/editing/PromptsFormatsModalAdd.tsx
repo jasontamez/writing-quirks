@@ -45,7 +45,7 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 	if(typeof item === "string") {
 		isText = true;
 		display = `"${item}"`;
-	} else if (Array.isArray(item)) {
+	} else if(Array.isArray(item)) {
 		isText = true;
 		display = `"${item.join("\"/\"")}"`;
 	} else {
@@ -92,7 +92,7 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 				isOpen={alertOpen}
 				header="Add Text"
 				subHeader="One or two lines"
-				message="Use the first line for the basic text. Use the second line if (and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
+				message="Use the first line for the basic text. Use the second line if(and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 				onIonAlertDidDismiss={() => setAlertOpen(false)}
 				buttons={[
 					{
@@ -101,8 +101,8 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 					{
 						text: "Ok",
 						handler: (obj: { txt: string, txt2: string }) => {
-							const {txt, txt2} = obj;
-							doChange(index, txt2 ? [ txt, txt2 ] : txt);
+							const { txt, txt2 } = obj;
+							doChange(index, txt2 ? [txt, txt2] : txt);
 						}
 					}
 				]}
@@ -184,16 +184,16 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 		});
 		if(i !== target) {
 			const message = "This format requires exactly ."
-				 + (target === 1 ? "one <Idea>" : `${target} <Idea>s`)
-				 + `; there are currently ${i}.`
+				+ (target === 1 ? "one <Idea>" : `${target} <Idea>s`)
+				+ `; there are currently ${i}.`
 			return toaster({
 				message,
 				color: "danger",
 				position: "middle",
 				toast
-			});	
+			});
 		}
-		dispatch(addFormat({ prop: type, format: [uuidv4(), ...final]}));
+		dispatch(addFormat({ prop: type, format: [uuidv4(), ...final] }));
 		closeModal();
 		toaster({
 			message: "Saved.",
@@ -240,7 +240,7 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 			/>,
 		[changeBit, deleteBit, type]
 	);
-	
+
 	const onOpen = useCallback(() => {
 		setFormat([]);
 		setFormatString("");
@@ -255,101 +255,99 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
-			<>
-				<IonItemDivider>Format</IonItemDivider>
-				<IonItem lines="full">
-					<IonLabel>
-						<div className="ion-text-wrap">
-							<strong>Current Format:</strong> <em>{formatString || "(nothing yet)"}</em>
-						</div>
-					</IonLabel>
-				</IonItem>
-				<IonItemDivider>Current Parts</IonItemDivider>
-				<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
-					{format.map(formatLine)}
-				</IonReorderGroup>
-				<IonAlert
-					trigger={`addPromptFormatPart-${type}`}
-					header="Add Type"
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Ok",
-							handler: (choice: number) => {
-								if(choice === 1) {
-									setAddAlertOpen(true);
-								} else {
-									// Add Idea
-									const newFormat = [...format, F.Idea];
-									setFormat(newFormat);
-									setFormatString(translateFormat(newFormat));
-								}
-							}
-						}
-					]}
-					inputs={[
-						{
-							label: "Text",
-							type: "radio",
-							value: 1,
-							checked: true
-						},
-						{
-							label: "Idea",
-							type: "radio",
-							value: F.Idea
-						}
-					]}
-				/>
-				<IonAlert
-					isOpen={addAlertOpen}
-					header="Add Text"
-					subHeader="One or two lines"
-					message="Use the first line for the basic text. Use the second line if (and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
-					onIonAlertDidDismiss={() => setAddAlertOpen(false)}
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Ok",
-							handler: (obj: { txt: string, txt2: string }) => {
-								const {txt, txt2} = obj;
-								const newFormat = format.slice();
-								if(txt2) {
-									newFormat.push([ txt, txt2 ]);
-								} else {
-									newFormat.push(txt);
-								}
+			<IonItemDivider>Format</IonItemDivider>
+			<IonItem lines="full">
+				<IonLabel>
+					<div className="ion-text-wrap">
+						<strong>Current Format:</strong> <em>{formatString || "(nothing yet)"}</em>
+					</div>
+				</IonLabel>
+			</IonItem>
+			<IonItemDivider>Current Parts</IonItemDivider>
+			<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
+				{format.map(formatLine)}
+			</IonReorderGroup>
+			<IonAlert
+				trigger={`addPromptFormatPart-${type}`}
+				header="Add Type"
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Ok",
+						handler: (choice: number) => {
+							if(choice === 1) {
+								setAddAlertOpen(true);
+							} else {
+								// Add Idea
+								const newFormat = [...format, F.Idea];
 								setFormat(newFormat);
 								setFormatString(translateFormat(newFormat));
 							}
 						}
-					]}
-					inputs={[
-						{
-							placeholder: "Put text here",
-							type: "text",
-							name: "txt",
-							value: ""
-						},
-						{
-							placeholder: "(plural version, optional)",
-							type: "text",
-							name: "txt2",
-							value: ""
+					}
+				]}
+				inputs={[
+					{
+						label: "Text",
+						type: "radio",
+						value: 1,
+						checked: true
+					},
+					{
+						label: "Idea",
+						type: "radio",
+						value: F.Idea
+					}
+				]}
+			/>
+			<IonAlert
+				isOpen={addAlertOpen}
+				header="Add Text"
+				subHeader="One or two lines"
+				message="Use the first line for the basic text. Use the second line if(and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
+				onIonAlertDidDismiss={() => setAddAlertOpen(false)}
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Ok",
+						handler: (obj: { txt: string, txt2: string }) => {
+							const { txt, txt2 } = obj;
+							const newFormat = format.slice();
+							if(txt2) {
+								newFormat.push([txt, txt2]);
+							} else {
+								newFormat.push(txt);
+							}
+							setFormat(newFormat);
+							setFormatString(translateFormat(newFormat));
 						}
-					]}
-				/>
-				<IonItem lines="full">
-					<IonButton color="success" slot="end" id={`addPromptFormatPart-${type}`}>
-						<IonIcon slot="start" icon={addCircle} />
-						Add New Part
-					</IonButton>
-				</IonItem>
-			</>
+					}
+				]}
+				inputs={[
+					{
+						placeholder: "Put text here",
+						type: "text",
+						name: "txt",
+						value: ""
+					},
+					{
+						placeholder: "(plural version, optional)",
+						type: "text",
+						name: "txt2",
+						value: ""
+					}
+				]}
+			/>
+			<IonItem lines="full">
+				<IonButton color="success" slot="end" id={`addPromptFormatPart-${type}`}>
+					<IonIcon slot="start" icon={addCircle} />
+					Add New Part
+				</IonButton>
+			</IonItem>
 		</BasicAddModal>
 	);
 }

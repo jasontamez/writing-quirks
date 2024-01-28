@@ -211,105 +211,103 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
-			<>
-				<ModAlert all={modifiers} chosen={mods} returner={(mods: ModifierGroup[]) => setMods(mods)} />
-				<IonItem>Description</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="addNounGroupDescription"
-						className="editable"
-						inputmode="text"
-						aria-label="Description box"
-					/>
-				</IonItem>
-				<IonItem>Members</IonItem>
-				<IonItem>
-					<IonTextarea
-						id="addNounMembers"
-						value={textareaValue}
-						rows={7}
-						inputmode="text"
-						enterkeyhint="enter"
-						onKeyDown={allowEnterInTextArea}
-						onIonChange={(e) => setTextareaValue(e.target.value || "")}
-					></IonTextarea>
-				</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="separator"
-						className="editable"
-						inputmode="text"
-						label="Special Plural Separator:"
-						labelPlacement="start"
-						value={separator}
-						onIonChange={e => setSeparator(e.detail.value || "")}
-					/>
-				</IonItem>
-				<IonItem>Possible Modifiers</IonItem>
-				<IonItem className="chunky">
-					<div>{mods.map(modLine)}</div>
-				</IonItem>
-				<IonItem lines="full">
-					<IonButton id="addPotentialModifierButton" color="primary" slot="end">
-						<IonIcon icon={addCircle} slot="start" />
-						<IonLabel>Add Modifier(s)</IonLabel>
-					</IonButton>
-				</IonItem>
-				<IonItem lines="full">
-					<IonRange
-						label="Chance of Modifier:"
-						labelPlacement="start"
-						pin
-						pinFormatter={(n) => `${n}%`}
-						ticks
-						snaps
-						color="primary"
-						min={0}
-						max={100}
-						step={1}
-						value={modifierChance}
-						onIonChange={(e) => setModifierChance(e.target.value as Percentage)}
-					>
-						<IonLabel slot="end">({modifierChance}%)</IonLabel>
-					</IonRange>
-				</IonItem>
-				<IonItem lines="full">
-					<IonRange
-						label={'"And" Chance:'}
-						labelPlacement="start"
-						pin
-						pinFormatter={(n) => `${n}%`}
-						ticks
-						snaps
-						color="secondary"
-						min={-200}
-						max={200}
-						step={1}
-						value={andChance}
-						onIonChange={(e) => setAndChance(e.target.value as ChangeRange)}
-					>
-						<IonLabel slot="end">({andChance}%)</IonLabel>
-					</IonRange>
-				</IonItem>
-				<IonItem lines="full">
-					<IonRange
-						label={'"The" Chance:'}
-						labelPlacement="start"
-						pin
-						pinFormatter={(n) => `${n}%`}
-						ticks
-						snaps
-						color="tertiary"
-						min={-200}
-						max={200}
-						step={1}
-						value={theChance}
-						onIonChange={(e) => setTheChance(e.target.value as ChangeRange)}
-					>
-						<IonLabel slot="end">({theChance}%)</IonLabel>
-					</IonRange>
-				</IonItem>
-			</>
+			<ModAlert all={modifiers} chosen={mods} returner={(mods: ModifierGroup[]) => setMods(mods)} />
+			<IonItem>Description</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="addNounGroupDescription"
+					className="editable"
+					inputmode="text"
+					aria-label="Description box"
+				/>
+			</IonItem>
+			<IonItem>Members</IonItem>
+			<IonItem>
+				<IonTextarea
+					id="addNounMembers"
+					value={textareaValue}
+					rows={7}
+					inputmode="text"
+					enterkeyhint="enter"
+					onKeyDown={allowEnterInTextArea}
+					onIonChange={(e) => setTextareaValue(e.target.value || "")}
+				></IonTextarea>
+			</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="separator"
+					className="editable"
+					inputmode="text"
+					label="Special Plural Separator:"
+					labelPlacement="start"
+					value={separator}
+					onIonChange={e => setSeparator(e.detail.value || "")}
+				/>
+			</IonItem>
+			<IonItem>Possible Modifiers</IonItem>
+			<IonItem className="chunky">
+				<div>{mods.map(modLine)}</div>
+			</IonItem>
+			<IonItem lines="full">
+				<IonButton id="addPotentialModifierButton" color="primary" slot="end">
+					<IonIcon icon={addCircle} slot="start" />
+					<IonLabel>Add Modifier(s)</IonLabel>
+				</IonButton>
+			</IonItem>
+			<IonItem lines="full">
+				<IonRange
+					label="Chance of Modifier:"
+					labelPlacement="start"
+					pin
+					pinFormatter={(n) => `${n}%`}
+					ticks
+					snaps
+					color="primary"
+					min={0}
+					max={100}
+					step={1}
+					value={modifierChance}
+					onIonChange={(e) => setModifierChance(e.target.value as Percentage)}
+				>
+					<IonLabel slot="end">({modifierChance}%)</IonLabel>
+				</IonRange>
+			</IonItem>
+			<IonItem lines="full">
+				<IonRange
+					label={'"And" Chance:'}
+					labelPlacement="start"
+					pin
+					pinFormatter={(n) => `${n}%`}
+					ticks
+					snaps
+					color="secondary"
+					min={-200}
+					max={200}
+					step={1}
+					value={andChance}
+					onIonChange={(e) => setAndChance(e.target.value as ChangeRange)}
+				>
+					<IonLabel slot="end">({andChance}%)</IonLabel>
+				</IonRange>
+			</IonItem>
+			<IonItem lines="full">
+				<IonRange
+					label={'"The" Chance:'}
+					labelPlacement="start"
+					pin
+					pinFormatter={(n) => `${n}%`}
+					ticks
+					snaps
+					color="tertiary"
+					min={-200}
+					max={200}
+					step={1}
+					value={theChance}
+					onIonChange={(e) => setTheChance(e.target.value as ChangeRange)}
+				>
+					<IonLabel slot="end">({theChance}%)</IonLabel>
+				</IonRange>
+			</IonItem>
 		</BasicAddModal>
 	);
 }

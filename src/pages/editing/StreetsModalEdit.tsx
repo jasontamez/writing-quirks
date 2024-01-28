@@ -66,7 +66,7 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 				chanceFirstTwoWordName: c = 5,
 				modChanceEndTwoWordName: m = 0
 			} = street;
-			if (
+			if(
 				s === text
 				&& a === alt
 				&& db === double
@@ -120,14 +120,14 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 				position: "middle",
 				toast
 			});
-		} else if (road) {
+		} else if(road) {
 			const road: Road = {
 				id: uuidv4(),
 				text: s,
 				weight
 			};
 			dispatch(editRoad(road));
-		} else if (!prefix && !suffix) {
+		} else if(!prefix && !suffix) {
 			return toaster({
 				message: "Street name must be a prefix and/or a suffix.",
 				color: "warning",
@@ -257,113 +257,111 @@ const StreetsEditModal: FC<ModalProps> = (props) => {
 			itemId={itemId}
 			maybeDelete={maybeDelete}
 		>
-			<>
-				<IonItem>{road ? "Road Type" : "Street Name Part"}</IonItem>
+			<IonItem>{road ? "Road Type" : "Street Name Part"}</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="editStreet"
+					className="editable"
+					inputmode="text"
+				/>
+			</IonItem>
+			{road ?
 				<IonItem lines="full">
-					<IonInput
-						id="editStreet"
-						className="editable"
-						inputmode="text"
+					<IonRange
+						label="Weight:"
+						labelPlacement="start"
+						pin
+						ticks
+						snaps
+						color="primary"
+						min={1}
+						max={10}
+						step={1}
+						value={weight || 1}
+						onIonChange={(e) => setWeight(e.target.value as WeightRange)}
 					/>
 				</IonItem>
-				{road ?
-					<IonItem lines="full">
-						<IonRange
-							label="Weight:"
-							labelPlacement="start"
-							pin
-							ticks
-							snaps
-							color="primary"
-							min={1}
-							max={10}
-							step={1}
-							value={weight || 1}
-							onIonChange={(e) => setWeight(e.target.value as WeightRange)}
+				:
+				<>
+					<IonItem>Alternate Name</IonItem>
+					<IonItem>
+						<IonInput
+							id="editStreetAlt"
+							className="editable"
+							inputmode="text"
+							helperText="Used in single-word names when the 2nd word starts with the same letter"
 						/>
 					</IonItem>
-				:
-					<>
-						<IonItem>Alternate Name</IonItem>
-						<IonItem>
-							<IonInput
-								id="editStreetAlt"
-								className="editable"
-								inputmode="text"
-								helperText="Used in single-word names when the 2nd word starts with the same letter"
-							/>
-						</IonItem>
+					<IonItem lines="full">
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={double}
+							onClick={() => setDouble(!double)}
+						>Use as potential alternate to main name</IonToggle>
+					</IonItem>
+					<IonItem lines="full">
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={prefix}
+							onClick={() => setPrefix(!prefix)}
+						>Can be a prefix</IonToggle>
+					</IonItem>
+					{prefix ?
 						<IonItem lines="full">
-							<IonToggle
+							<IonRange
+								label="2Wd Base Chance:"
 								labelPlacement="start"
-								enableOnOffLabels
-								checked={double}
-								onClick={() => setDouble(!double)}
-							>Use as potential alternate to main name</IonToggle>
+								pin
+								pinFormatter={(n) => `${n}%`}
+								ticks
+								snaps
+								color="primary"
+								min={-200}
+								max={200}
+								step={1}
+								value={chanceFirstTwoWordName}
+								onIonChange={(e) => setChance(e.target.value as Percentage)}
+							>
+								<IonLabel slot="end">{chanceFirstTwoWordName}%</IonLabel>
+							</IonRange>
 						</IonItem>
-						<IonItem lines="full">
-							<IonToggle
-								labelPlacement="start"
-								enableOnOffLabels
-								checked={prefix}
-								onClick={() => setPrefix(!prefix)}
-							>Can be a prefix</IonToggle>
-						</IonItem>
-						{prefix ?
-							<IonItem lines="full">
-								<IonRange
-									label="2Wd Base Chance:"
-									labelPlacement="start"
-									pin
-									pinFormatter={(n) => `${n}%`}
-									ticks
-									snaps
-									color="primary"
-									min={-200}
-									max={200}
-									step={1}
-									value={chanceFirstTwoWordName}
-									onIonChange={(e) => setChance(e.target.value as Percentage)}
-								>
-									<IonLabel slot="end">{chanceFirstTwoWordName}%</IonLabel>
-								</IonRange>
-							</IonItem>
 						:
-							<></>
-						}
+						<></>
+					}
+					<IonItem lines="full">
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={suffix}
+							onClick={() => setSuffix(!suffix)}
+						>Can be a suffix</IonToggle>
+					</IonItem>
+					{suffix ?
 						<IonItem lines="full">
-							<IonToggle
+							<IonRange
+								label="Mod 2Wd Chance:"
 								labelPlacement="start"
-								enableOnOffLabels
-								checked={suffix}
-								onClick={() => setSuffix(!suffix)}
-							>Can be a suffix</IonToggle>
+								pin
+								pinFormatter={(n) => `${n}%`}
+								ticks
+								snaps
+								color="primary"
+								min={-200}
+								max={200}
+								step={1}
+								value={modChanceEndTwoWordName}
+								onIonChange={(e) => setMod(e.target.value as Percentage)}
+							>
+								<IonLabel slot="end">{modChanceEndTwoWordName}%</IonLabel>
+							</IonRange>
 						</IonItem>
-						{suffix ?
-							<IonItem lines="full">
-								<IonRange
-									label="Mod 2Wd Chance:"
-									labelPlacement="start"
-									pin
-									pinFormatter={(n) => `${n}%`}
-									ticks
-									snaps
-									color="primary"
-									min={-200}
-									max={200}
-									step={1}
-									value={modChanceEndTwoWordName}
-									onIonChange={(e) => setMod(e.target.value as Percentage)}
-								>
-									<IonLabel slot="end">{modChanceEndTwoWordName}%</IonLabel>
-								</IonRange>
-							</IonItem>
 						:
-							<></>
-						}
-					</>
-				}
-			</>
+						<></>
+					}
+				</>
+			}
 		</BasicEditModal>
 	);
 }

@@ -62,7 +62,7 @@ interface FormatProps {
 const FormatBit: FC<FormatProps> = (props) => {
 	const { info, i, deleter } = props;
 	let text = "";
-	switch(info) {
+	switch (info) {
 		case F.This:
 			text = "<Modifier>";
 			break;
@@ -279,7 +279,7 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 	const modObject = useMemo(() => {
 		const obj: ModifierObject = {};
 		modifiers.forEach(mod => (obj[mod.id] = mod));
-		return obj;	
+		return obj;
 	}, [modifiers]);
 
 	const onOpen = useCallback(() => {
@@ -335,152 +335,150 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 			itemId={itemId}
 			maybeDelete={maybeDelete}
 		>
-			<>
-				<ModAlert all={modifiers} chosen={mods} returner={(mods: ModifierGroup[]) => setMods(mods)} />
-				<IonItem>Description</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="editModifierGroupDescription"
-						className="editable"
-						inputmode="text"
-						aria-label="Description box"
-					/>
-				</IonItem>
-				<IonItem>Members</IonItem>
-				<IonItem>
-					<IonTextarea
-						id="editModifierMembers"
-						value={textareaValue}
-						rows={7}
-						inputmode="text"
-						enterkeyhint="enter"
-						onKeyDown={allowEnterInTextArea}
-						onIonChange={(e) => setTextareaValue(e.target.value || "")}
-					></IonTextarea>
-				</IonItem>
-				<IonItem>Possible Modifiers</IonItem>
-				<IonItem className="chunky">
-					<div>{mods.map(modLine)}</div>
-				</IonItem>
-				<IonItem lines="full">
-					<IonButton id="editPotentialModifierButton" color="primary" slot="end">
-						<IonIcon icon={addCircle} slot="start" />
-						<IonLabel>Edit Modifier(s)</IonLabel>
-					</IonButton>
-				</IonItem>
-				<IonItem lines="full">
-					<IonRange
-						label="Chance of Extra Modifier:"
-						labelPlacement="start"
-						pin
-						pinFormatter={(n) => `${n}%`}
-						ticks
-						snaps
-						color="primary"
-						min={0}
-						max={100}
-						step={1}
-						value={modifierChance}
-						onIonChange={(e) => setModifierChance(e.target.value as Percentage)}
-					>
-						<IonLabel slot="end">({modifierChance}%)</IonLabel>
-					</IonRange>
-				</IonItem>
-				<IonAlert
-					trigger="editFormatButton"
-					header="Edit Text"
-					backdropDismiss={false}
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Save",
-							handler: (input: { info: string }) => setFormat([...format, input.info])
-						}
-					]}
-					inputs={[
-						{
-							label: "Don't forget leading/trailing spaces:",
-							name: "info",
-							type: "text"
-						}
-					]}
+			<ModAlert all={modifiers} chosen={mods} returner={(mods: ModifierGroup[]) => setMods(mods)} />
+			<IonItem>Description</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="editModifierGroupDescription"
+					className="editable"
+					inputmode="text"
+					aria-label="Description box"
 				/>
-				<IonItem>Modifier Format</IonItem>
-				<IonItem className="chunky">
-					<div>{format.map(formatLine)}</div>
-				</IonItem>
-				<IonItem lines="full" className="ion-text-center">
-					<IonButton id="editFormatButton" color="primary">
+			</IonItem>
+			<IonItem>Members</IonItem>
+			<IonItem>
+				<IonTextarea
+					id="editModifierMembers"
+					value={textareaValue}
+					rows={7}
+					inputmode="text"
+					enterkeyhint="enter"
+					onKeyDown={allowEnterInTextArea}
+					onIonChange={(e) => setTextareaValue(e.target.value || "")}
+				></IonTextarea>
+			</IonItem>
+			<IonItem>Possible Modifiers</IonItem>
+			<IonItem className="chunky">
+				<div>{mods.map(modLine)}</div>
+			</IonItem>
+			<IonItem lines="full">
+				<IonButton id="editPotentialModifierButton" color="primary" slot="end">
+					<IonIcon icon={addCircle} slot="start" />
+					<IonLabel>Edit Modifier(s)</IonLabel>
+				</IonButton>
+			</IonItem>
+			<IonItem lines="full">
+				<IonRange
+					label="Chance of Extra Modifier:"
+					labelPlacement="start"
+					pin
+					pinFormatter={(n) => `${n}%`}
+					ticks
+					snaps
+					color="primary"
+					min={0}
+					max={100}
+					step={1}
+					value={modifierChance}
+					onIonChange={(e) => setModifierChance(e.target.value as Percentage)}
+				>
+					<IonLabel slot="end">({modifierChance}%)</IonLabel>
+				</IonRange>
+			</IonItem>
+			<IonAlert
+				trigger="editFormatButton"
+				header="Edit Text"
+				backdropDismiss={false}
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Save",
+						handler: (input: { info: string }) => setFormat([...format, input.info])
+					}
+				]}
+				inputs={[
+					{
+						label: "Don't forget leading/trailing spaces:",
+						name: "info",
+						type: "text"
+					}
+				]}
+			/>
+			<IonItem>Modifier Format</IonItem>
+			<IonItem className="chunky">
+				<div>{format.map(formatLine)}</div>
+			</IonItem>
+			<IonItem lines="full" className="ion-text-center">
+				<IonButton id="editFormatButton" color="primary">
+					<IonIcon icon={addCircle} slot="start" />
+					<IonLabel>Text</IonLabel>
+				</IonButton>
+				{hasThis ? <></> : (
+					<IonButton
+						onClick={() => { setFormat([...format, F.This]); setHasThis(true) }}
+						color="secondary"
+					>
 						<IonIcon icon={addCircle} slot="start" />
-						<IonLabel>Text</IonLabel>
+						<IonLabel>&lt;This Modifier&gt;</IonLabel>
 					</IonButton>
-					{hasThis ? <></> : (
+				)}
+				{hasNoun ? <></> : (
+					<>
 						<IonButton
-							onClick={() => { setFormat([...format, F.This]); setHasThis(true)}}
-							color="secondary"
+							onClick={() => { setFormat([...format, F.Noun]); setHasNoun(true) }}
+							color="tertiary"
 						>
 							<IonIcon icon={addCircle} slot="start" />
-							<IonLabel>&lt;This Modifier&gt;</IonLabel>
+							<IonLabel>&lt;Noun&gt;</IonLabel>
 						</IonButton>
-					)}
-					{hasNoun ? <></> : (
-						<>
-							<IonButton
-								onClick={() => { setFormat([...format, F.Noun]); setHasNoun(true)}}
-								color="tertiary"
-							>
-								<IonIcon icon={addCircle} slot="start" />
-								<IonLabel>&lt;Noun&gt;</IonLabel>
-							</IonButton>
-							<IonButton
-								onClick={() => { setFormat([...format, F.PluralNoun]); setHasNoun(true)}}
-								color="tertiary"
-							>
-								<IonIcon icon={addCircle} slot="start" />
-								<IonLabel>&lt;Plural Noun&gt;</IonLabel>
-							</IonButton>
-						</>
-					)}
-				</IonItem>
-				<IonItem lines="full">
-					<IonRange
-						label={'Modify "And" Chance:'}
-						labelPlacement="start"
-						pin
-						pinFormatter={(n) => `${n}%`}
-						ticks
-						snaps
-						color="secondary"
-						min={-200}
-						max={200}
-						step={1}
-						value={andChance}
-						onIonChange={(e) => setAndChance(e.target.value as ChangeRange)}
-					>
-						<IonLabel slot="end">({andChance}%)</IonLabel>
-					</IonRange>
-				</IonItem>
-				<IonItem lines="full">
-					<IonRange
-						label={'Modify "The" Chance:'}
-						labelPlacement="start"
-						pin
-						pinFormatter={(n) => `${n}%`}
-						ticks
-						snaps
-						color="tertiary"
-						min={-200}
-						max={200}
-						step={1}
-						value={theChance}
-						onIonChange={(e) => setTheChance(e.target.value as ChangeRange)}
-					>
-						<IonLabel slot="end">({theChance}%)</IonLabel>
-					</IonRange>
-				</IonItem>
-			</>
+						<IonButton
+							onClick={() => { setFormat([...format, F.PluralNoun]); setHasNoun(true) }}
+							color="tertiary"
+						>
+							<IonIcon icon={addCircle} slot="start" />
+							<IonLabel>&lt;Plural Noun&gt;</IonLabel>
+						</IonButton>
+					</>
+				)}
+			</IonItem>
+			<IonItem lines="full">
+				<IonRange
+					label={'Modify "And" Chance:'}
+					labelPlacement="start"
+					pin
+					pinFormatter={(n) => `${n}%`}
+					ticks
+					snaps
+					color="secondary"
+					min={-200}
+					max={200}
+					step={1}
+					value={andChance}
+					onIonChange={(e) => setAndChance(e.target.value as ChangeRange)}
+				>
+					<IonLabel slot="end">({andChance}%)</IonLabel>
+				</IonRange>
+			</IonItem>
+			<IonItem lines="full">
+				<IonRange
+					label={'Modify "The" Chance:'}
+					labelPlacement="start"
+					pin
+					pinFormatter={(n) => `${n}%`}
+					ticks
+					snaps
+					color="tertiary"
+					min={-200}
+					max={200}
+					step={1}
+					value={theChance}
+					onIonChange={(e) => setTheChance(e.target.value as ChangeRange)}
+				>
+					<IonLabel slot="end">({theChance}%)</IonLabel>
+				</IonRange>
+			</IonItem>
 		</BasicEditModal>
 	);
 }

@@ -210,7 +210,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 				duration: 2500,
 				position: "middle",
 				toast
-			});	
+			});
 		}
 		// Need to test that all parts exist: two adj, one noun
 		const final: Format = [format[0]];
@@ -218,7 +218,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 		let n = 0;
 		let prev: string = "";
 		editedFormat.forEach(bit => {
-			switch(bit) {
+			switch (bit) {
 				case ADJECTIVE:
 				case ARTICLE_ADJECTIVE:
 					adj++;
@@ -245,7 +245,7 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 				duration: 2500,
 				position: "middle",
 				toast
-			});	
+			});
 		}
 		dispatch(editFormat(final));
 		closeModal();
@@ -314,94 +314,92 @@ const InsultsFormatEditModal: FC<ModalProps> = (props) => {
 			itemId={itemId}
 			maybeDelete={maybeDelete}
 		>
-			<>
-				<IonItemDivider>Format</IonItemDivider>
-				<IonItem lines="full">
-					<IonLabel>
-						<div className="ion-text-wrap"><strong>Current Format:</strong> <em>{formatString}</em></div>
-					</IonLabel>
-				</IonItem>
-				<IonItemDivider>Current Parts</IonItemDivider>
-				<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
-					{editedFormat.map(formatLine)}
-				</IonReorderGroup>
-				<IonAlert
-					trigger={`editFormatAddPart-${itemId}`}
-					header="Add Type"
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Ok",
-							handler: (choice: number) => {
-								if(choice === -1) {
-									setAddAlertOpen(true);
-								} else {
-									// Save the new value
-									const newFormat = [...editedFormat, choice];
-									setEditedFormat(newFormat);
-									setFormatString(translateFormat(newFormat));
-								}
+			<IonItemDivider>Format</IonItemDivider>
+			<IonItem lines="full">
+				<IonLabel>
+					<div className="ion-text-wrap"><strong>Current Format:</strong> <em>{formatString}</em></div>
+				</IonLabel>
+			</IonItem>
+			<IonItemDivider>Current Parts</IonItemDivider>
+			<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
+				{editedFormat.map(formatLine)}
+			</IonReorderGroup>
+			<IonAlert
+				trigger={`editFormatAddPart-${itemId}`}
+				header="Add Type"
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Ok",
+						handler: (choice: number) => {
+							if(choice === -1) {
+								setAddAlertOpen(true);
+							} else {
+								// Save the new value
+								const newFormat = [...editedFormat, choice];
+								setEditedFormat(newFormat);
+								setFormatString(translateFormat(newFormat));
 							}
 						}
-					]}
-					inputs={[
-						{
-							label: "Text",
-							type: "radio",
-							value: -1,
-							checked: true
-						},
-						{
-							label: "Adjective",
-							type: "radio",
-							value: ADJECTIVE
-						},
-						{
-							label: "A/An Adjective",
-							type: "radio",
-							value: ARTICLE_ADJECTIVE
-						},
-						{
-							label: "Noun",
-							type: "radio",
-							value: NOUN
-						},
-						{
-							label: "A/An Noun",
-							type: "radio",
-							value: ARTICLE_NOUN
-						}
-					]}
-				/>
-				<IonAlert
-					isOpen={addAlertOpen}
-					header="Add Text"
-					onIonAlertDidDismiss={() => setAddAlertOpen(false)}
-					buttons={[
-						{
-							text: "Cancel"
-						},
-						{
-							text: "Ok",
-							handler: (obj: { txt: string }) => setEditedFormat([...editedFormat, obj.txt])
-						}
-					]}
-					inputs={[
-						{
-							type: "text",
-							name: "txt"
-						}
-					]}
-				/>
-				<IonItem lines="full">
-					<IonButton color="success" slot="end" id={`editFormatAddPart-${itemId}`}>
-						<IonIcon slot="start" icon={addCircle} />
-						Add New Part
-					</IonButton>
-				</IonItem>
-			</>
+					}
+				]}
+				inputs={[
+					{
+						label: "Text",
+						type: "radio",
+						value: -1,
+						checked: true
+					},
+					{
+						label: "Adjective",
+						type: "radio",
+						value: ADJECTIVE
+					},
+					{
+						label: "A/An Adjective",
+						type: "radio",
+						value: ARTICLE_ADJECTIVE
+					},
+					{
+						label: "Noun",
+						type: "radio",
+						value: NOUN
+					},
+					{
+						label: "A/An Noun",
+						type: "radio",
+						value: ARTICLE_NOUN
+					}
+				]}
+			/>
+			<IonAlert
+				isOpen={addAlertOpen}
+				header="Add Text"
+				onIonAlertDidDismiss={() => setAddAlertOpen(false)}
+				buttons={[
+					{
+						text: "Cancel"
+					},
+					{
+						text: "Ok",
+						handler: (obj: { txt: string }) => setEditedFormat([...editedFormat, obj.txt])
+					}
+				]}
+				inputs={[
+					{
+						type: "text",
+						name: "txt"
+					}
+				]}
+			/>
+			<IonItem lines="full">
+				<IonButton color="success" slot="end" id={`editFormatAddPart-${itemId}`}>
+					<IonIcon slot="start" icon={addCircle} />
+					Add New Part
+				</IonButton>
+			</IonItem>
 		</BasicEditModal>
 	);
 }

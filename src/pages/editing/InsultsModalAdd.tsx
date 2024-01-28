@@ -68,7 +68,7 @@ const InsultsAddModal: FC<ModalProps> = (props) => {
 				position: "middle",
 				toast
 			});
-		} else if (adj) {
+		} else if(adj) {
 			const adjective: Adjective = {
 				id: uuidv4(),
 				text: a
@@ -112,47 +112,45 @@ const InsultsAddModal: FC<ModalProps> = (props) => {
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
 		>
-			<>
-				<IonItem>{adj ? "Adjective" : "Noun"}</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id="addInsultAdjNoun"
-						className="editable"
-						inputmode="text"
-					/>
-				</IonItem>
-				<IonItem>
-					{
-						adj ?
-							<IonToggle
-								labelPlacement="start"
-								enableOnOffLabels
-								checked={an}
-								onClick={() => setAn(!an)}
-							>Uses "an" instead of "a"</IonToggle>
+			<IonItem>{adj ? "Adjective" : "Noun"}</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="addInsultAdjNoun"
+					className="editable"
+					inputmode="text"
+				/>
+			</IonItem>
+			<IonItem>
+				{
+					adj ?
+						<IonToggle
+							labelPlacement="start"
+							enableOnOffLabels
+							checked={an}
+							onClick={() => setAn(!an)}
+						>Uses "an" instead of "a"</IonToggle>
 						:
-							<IonSelect
-								label="Choose one:"
-								onIonChange={(e: SelectCustomEvent) => {
-									const v = e.detail.value;
-									if(v === "some") {
-										setPlural(true);
-										setAn(false);
-									} else {
-										setPlural(false);
-										setAn(v === "an");
-									}
-									setDummy(v);
-								}}
-								value={dummy}
-							>
-								<IonSelectOption value="a">Uses "a"</IonSelectOption>
-								<IonSelectOption value="an">Uses "an"</IonSelectOption>
-								<IonSelectOption value="some">Is plural</IonSelectOption>
-							</IonSelect>
-					}
-				</IonItem>
-			</>
+						<IonSelect
+							label="Choose one:"
+							onIonChange={(e: SelectCustomEvent) => {
+								const v = e.detail.value;
+								if(v === "some") {
+									setPlural(true);
+									setAn(false);
+								} else {
+									setPlural(false);
+									setAn(v === "an");
+								}
+								setDummy(v);
+							}}
+							value={dummy}
+						>
+							<IonSelectOption value="a">Uses "a"</IonSelectOption>
+							<IonSelectOption value="an">Uses "an"</IonSelectOption>
+							<IonSelectOption value="some">Is plural</IonSelectOption>
+						</IonSelect>
+				}
+			</IonItem>
 		</BasicAddModal>
 	);
 }

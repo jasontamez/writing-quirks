@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, ReactElement, } from "react";
+import React, { FC, MouseEventHandler, PropsWithChildren } from "react";
 import {
 	IonButton,
 	IonButtons,
@@ -26,7 +26,6 @@ interface ModalProps {
 	maybeClose: MouseEventHandler<HTMLIonButtonElement>
 	maybeDelete: MouseEventHandler<HTMLIonButtonElement>
 	maybeSave: MouseEventHandler<HTMLIonButtonElement>
-	children: ReactElement
 	undeleteable?: boolean
 }
 
@@ -35,7 +34,7 @@ const closeSlider = (id: string) => {
 	what && what.close && what.close();
 };
 
-const BasicEditModal: FC<ModalProps> = (props) => {
+const BasicEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 	const {
 		modalOpen,
 		closeModal,
