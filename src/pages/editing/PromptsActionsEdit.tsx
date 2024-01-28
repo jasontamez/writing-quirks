@@ -1,35 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import {
-	IonButton,
-	IonButtons,
-	IonContent,
-	IonHeader,
 	IonIcon,
+	IonInput,
 	IonItem,
 	IonItemDivider,
 	IonItemOption,
 	IonItemOptions,
 	IonItemSliding,
-	IonList,
-	IonPage,
-	IonTitle,
-	IonToolbar,
+	IonToggle,
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { arrowBackCircleSharp, pencilOutline, trashOutline } from 'ionicons/icons';
+import { pencilOutline, trashOutline } from 'ionicons/icons';
+import { v4 as uuidv4 } from "uuid";
 
-import { deletePrompt } from '../../store/writingPromptsSettingsSlice';
+import { addPrompt, deletePrompt } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Action, Format, FormatProps } from '../../promptsData/Ideas';
+import { Action, BasicIdeaFlags } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
+import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
 import PromptsEditFormatModal from './PromptsFormatsModalEdit';
-import PromptsAddFormatModal from './PromptsFormatsModalAdd';
+import PromptsAddModal from './Prompts_ModalAdd';
 import PromptsIdeasEdit from './Prompts_IdeasEdit';
 import './Editing.css';
 
@@ -114,8 +110,64 @@ const actionLine = (
 ) => <ActionLine key={`ActionLine-${item.id}`} item={item} all={all} />;
 
 const PromptsActionsEdit: FC = () => {
-	const actions = useAppSelector(state => state.writingPromptsSettings.action)
-	return <PromptsIdeasEdit ideas={actions} looper={actionLine} title="Actions" />;
+	const [open, setOpen] = useState<boolean>(false);
+	const [possessive, setPossessive] = useState<boolean>(false);
+	const actions = useAppSelector(state => state.writingPromptsSettings.action);
+	const dispatch = useAppDispatch();
+
+	const onOpen = useCallback(() => {
+		const iBox = $i("genPoss");
+		(iBox && iBox.value !== undefined && (iBox.value = ""));
+		setPossessive(false);
+	}, []);
+
+	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
+		const iBox = $i("genPoss");
+		const genericPossessive = (iBox && iBox.value && iBox.value.trim()) || "one's";
+		const final: Action = {
+			id: uuidv4(),
+			...input,
+			type: "action",
+			possessive,
+			genericPossessive
+		};
+		dispatch(addPrompt({ prop: "action", idea: final }));
+	}, [possessive, dispatch]);
+
+	return (
+		<PromptsIdeasEdit ideas={actions} looper={actionLine} title="Actions" setAddModalOpen={setOpen}>
+			<PromptsAddModal
+				modalOpen={open}
+				setModalOpen={setOpen}
+				title="Action"
+				onOpen={onOpen}
+				maybeAcceptInfo={maybeAcceptInfo}
+			/>
+			<IonItemDivider>Action Properties</IonItemDivider>
+			<IonItem lines="full">
+				<IonToggle
+					labelPlacement="start"
+					enableOnOffLabels
+					checked={possessive}
+					onClick={() => setPossessive(!possessive)}
+				>
+					<h2>Is a possessive action</h2>
+					<p>Has "[THEIR]" in it somewhere.</p>
+				</IonToggle>
+			</IonItem>
+			<IonItem>Generic Possessive Term</IonItem>
+			<IonItem lines="full">
+				<IonInput
+					id="genPoss"
+					className="editable"
+					inputmode="text"
+					placeholder={"Defaults to \"one's\" if left blank."}
+					helperText="Used if a paired idea does not have gender."
+					disabled={!possessive}
+				/>
+			</IonItem>
+		</PromptsIdeasEdit>
+	);
 };
 
 export default PromptsActionsEdit;
