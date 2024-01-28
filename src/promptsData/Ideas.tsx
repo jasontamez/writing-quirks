@@ -130,13 +130,13 @@ export type Action = BasicIdea & ActionBase;
 
 export type Any =
 	BasicIdea
-	& Partial<Character>
-	& Partial<AnObject>
-	& Partial<AnEvent>
-	& Partial<ATime>
-	& Partial<Topic>
-	& Partial<Action>
-	& Partial<Locale>;
+	& Partial<CharacterBase>
+	& Partial<AnObjectBase>
+	& Partial<AnEventBase>
+//	& Partial<ATime>
+//	& Partial<Topic>
+	& Partial<ActionBase>
+	& Partial<LocaleBase>;
 
 export enum F {
 	Idea = 0

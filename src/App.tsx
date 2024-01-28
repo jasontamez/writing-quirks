@@ -65,6 +65,7 @@ const StreetsEdit = lazy(() => import("./pages/editing/StreetsEdit"));
 const TavernsEdit = lazy(() => import("./pages/editing/TavernsEdit"));
 const PromptsEdit = lazy(() => import("./pages/editing/PromptsEdit"));
 const PromptsFormatsEdit = lazy(() => import("./pages/editing/PromptsFormatsEdit"));
+const PromptsActionsEdit = lazy(() => import("./pages/editing/PromptsActionsEdit"));
 
 const App: React.FC = () => {
 	const navigator = useIonRouter();
@@ -109,6 +110,11 @@ const App: React.FC = () => {
 							exact
 							path="/editpromptsformats"
 							render={() => <Suspense fallback={<Loading />}><PromptsFormatsEdit /></Suspense>}
+						/>
+						<Route
+							exact
+							path="/editpromptsactions"
+							render={() => <Suspense fallback={<Loading />}><PromptsActionsEdit /></Suspense>}
 						/>
 						<Route exact path="/" render={() => <Main />} />
 					</IonRouterOutlet>

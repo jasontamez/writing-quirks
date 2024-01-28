@@ -15,16 +15,16 @@ import {
 import { pencilOutline, trashOutline } from 'ionicons/icons';
 import { v4 as uuidv4 } from "uuid";
 
-import { addPrompt, deletePrompt } from '../../store/writingPromptsSettingsSlice';
+import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Action, BasicIdeaFlags } from '../../promptsData/Ideas';
+import { Action, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
 import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
-import PromptsEditFormatModal from './PromptsFormatsModalEdit';
+import PromptsEditFormatModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
 import PromptsIdeasEdit from './Prompts_IdeasEdit';
 import './Editing.css';
@@ -37,8 +37,9 @@ const ActionLine: FC<ActionItem> = (props) => {
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [possessive, setPossessive] = useState<boolean>(false);
 	const { item, all } = props;
-	const { id, idea, type } = item;
+	const { id, idea, type, genericPossessive, possessive: origPoss } = item;
 	const dispatch = useAppDispatch();
 	const ID = `PromptFormatLine-Action-${id}`;
 
@@ -73,15 +74,73 @@ const ActionLine: FC<ActionItem> = (props) => {
 			doAlert
 		});
 	}, [doAlert, dispatch, toast, id, type, all.length, idea]);
+	const onOpen = useCallback(() => {
+		const iBox = $i(`genPoss-${ID}`);
+		(iBox && iBox.value !== undefined && (iBox.value = genericPossessive));
+		setPossessive(origPoss);
+	}, [genericPossessive, origPoss, ID]);
+	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
+		const iBox = $i(`genPoss-${ID}`);
+		const genericPossessive = (iBox && iBox.value && iBox.value.trim()) || "one's";
+		const final: Action = {
+			...input,
+			type: "action",
+			possessive,
+			genericPossessive
+		};
+		dispatch(editPrompt({ prop: "action", idea: final }));
+		toaster({
+			message: "Saved.",
+			color: "success",
+			duration: 2500,
+			position: "middle",
+			toast
+		});
+		setModalOpen(false);
+	}, [possessive, dispatch, toast, ID]);
+	const okToClose = useCallback(() => {
+		const iBox = $i(`genPoss-${ID}`);
+		const genericPoss = (iBox && iBox.value && iBox.value.trim()) || "one's";
+		return !possessive === !origPoss && genericPossessive === genericPoss;
+	}, [possessive, origPoss, genericPossessive, ID]);
 
 	return (
 		<IonItemSliding id={ID}>
-			{/*<PromptsEditFormatModal
-				idea={idea}
+			<PromptsEditFormatModal
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
+				ideaObject={item}
+				title="Action"
 				itemId={ID}
-			/>*/}
+				onOpen={onOpen}
+				maybeAcceptInfo={maybeAcceptInfo}
+				okToClose={okToClose}
+				maybeDelete={maybeDelete}
+			>
+				<IonItemDivider>Action Properties</IonItemDivider>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={possessive}
+						onClick={() => setPossessive(!possessive)}
+					>
+						<h2>Is a possessive action</h2>
+						<p>Has "[THEIR]" in it somewhere.</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem>Generic Possessive Term</IonItem>
+				<IonItem lines="full">
+					<IonInput
+						id={`genPoss-${ID}`}
+						className="editable"
+						inputmode="text"
+						placeholder={"Defaults to \"one's\" if left blank."}
+						helperText="Used if a paired idea does not have gender."
+						disabled={!possessive}
+					/>
+				</IonItem>
+			</PromptsEditFormatModal>
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="text">{idea}</div>
@@ -94,7 +153,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 						<IonIcon slot="icon-only" icon={trashOutline} />
 					</IonItemOption>
 				:
-					<HaltButton errorMessage="At least three formats per type are" />
+					<HaltButton errorMessage="At least three Actions are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -112,7 +171,8 @@ const actionLine = (
 const PromptsActionsEdit: FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [possessive, setPossessive] = useState<boolean>(false);
-	const actions = useAppSelector(state => state.writingPromptsSettings.action);
+	const toast = useIonToast();
+	const actions = useAppSelector(state => state.writingPromptsSettings.ideas.action);
 	const dispatch = useAppDispatch();
 
 	const onOpen = useCallback(() => {
@@ -132,7 +192,15 @@ const PromptsActionsEdit: FC = () => {
 			genericPossessive
 		};
 		dispatch(addPrompt({ prop: "action", idea: final }));
-	}, [possessive, dispatch]);
+		toaster({
+			message: "Saved.",
+			color: "success",
+			duration: 2500,
+			position: "middle",
+			toast
+		});
+		setOpen(false);
+	}, [possessive, dispatch, toast]);
 
 	return (
 		<PromptsIdeasEdit ideas={actions} looper={actionLine} title="Actions" setAddModalOpen={setOpen}>
@@ -142,30 +210,31 @@ const PromptsActionsEdit: FC = () => {
 				title="Action"
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
-			/>
-			<IonItemDivider>Action Properties</IonItemDivider>
-			<IonItem lines="full">
-				<IonToggle
-					labelPlacement="start"
-					enableOnOffLabels
-					checked={possessive}
-					onClick={() => setPossessive(!possessive)}
-				>
-					<h2>Is a possessive action</h2>
-					<p>Has "[THEIR]" in it somewhere.</p>
-				</IonToggle>
-			</IonItem>
-			<IonItem>Generic Possessive Term</IonItem>
-			<IonItem lines="full">
-				<IonInput
-					id="genPoss"
-					className="editable"
-					inputmode="text"
-					placeholder={"Defaults to \"one's\" if left blank."}
-					helperText="Used if a paired idea does not have gender."
-					disabled={!possessive}
-				/>
-			</IonItem>
+			>
+				<IonItemDivider>Action Properties</IonItemDivider>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={possessive}
+						onClick={() => setPossessive(!possessive)}
+					>
+						<h2>Is a possessive action</h2>
+						<p>Has "[THEIR]" in it somewhere.</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem>Generic Possessive Term</IonItem>
+				<IonItem lines="full">
+					<IonInput
+						id="genPoss"
+						className="editable"
+						inputmode="text"
+						placeholder={"Defaults to \"one's\" if left blank."}
+						helperText="Used if a paired idea does not have gender."
+						disabled={!possessive}
+					/>
+				</IonItem>
+			</PromptsAddModal>
 		</PromptsIdeasEdit>
 	);
 };

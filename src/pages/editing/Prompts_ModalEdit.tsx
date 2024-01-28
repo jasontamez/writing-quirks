@@ -1,24 +1,28 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, PropsWithChildren, useState } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, PropsWithChildren, useState, MouseEventHandler } from "react";
 import { IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
 
-import { BasicIdeaFlags } from "../../promptsData/Ideas";
+import { Any, BasicIdeaFlags, CoreIdea } from "../../promptsData/Ideas";
 import { $i } from "../../helpers/dollarsignExports";
 import yesNoAlert from "../../helpers/yesNoAlert";
-import BasicAddModal from "./_ModalAdd";
+import BasicEditModal from "./_ModalEdit";
 
-type IdeaObjectWithFlags = BasicIdeaFlags & {idea: string};
+type CoreIdeaWithFlags = CoreIdea & BasicIdeaFlags;
 
 interface ModalProps {
 	modalOpen: boolean
 	setModalOpen: Dispatch<SetStateAction<boolean>>
+	ideaObject: Any
 	title: string
+	itemId: string
 	onOpen: (event: CustomEvent<void>) => void
-	maybeAcceptInfo: (input: IdeaObjectWithFlags) => void
+	maybeAcceptInfo: (input: CoreIdeaWithFlags) => void
+	okToClose: () => boolean
+	maybeDelete: MouseEventHandler<HTMLIonButtonElement>
 }
 
 type Chain = [boolean, Dispatch<SetStateAction<boolean>>];
 
-const doSetInChain = (...chain: Chain[]) => {
+const doSetInChain = (toucher: (t: Dispatch<SetStateAction<boolean>>, v: boolean) => void, ...chain: Chain[]) => {
 	// Chain should go from Main -> Sub [-> Subsub]
 	if(chain.length === 0) {
 		return;
@@ -32,10 +36,10 @@ const doSetInChain = (...chain: Chain[]) => {
 			!p && s(true);
 		}
 	}
-	setter(!value);
+	toucher(setter, !value);
 };
 
-const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
+const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 	const [doAlert] = useIonAlert();
 	const {
 		modalOpen,
@@ -43,7 +47,11 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 		title,
 		children,
 		onOpen,
-		maybeAcceptInfo
+		maybeAcceptInfo,
+		ideaObject,
+		okToClose,
+		itemId,
+		maybeDelete
 	} = props;
 
 	const [profanity, setProfanity] = useState<boolean>(false);
@@ -77,11 +85,17 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 	const [animalDistress, setAnimalDistress] = useState<boolean>(false);
 	const [animalDeath, setAnimalDeath] = useState<boolean>(false);
 
+	const [touched, setTouched] = useState<boolean>(false);
+	const toucher = useCallback((setter: Dispatch<SetStateAction<boolean>>, value: boolean) => {
+		setTouched(true);
+		setter(value);
+	}, []);
+
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeSave = useCallback(() => {
-		const iBox = $i("idea");
+		const iBox = $i("editIdea");
 		const idea = (iBox && iBox.value && iBox.value.trim()) || "";
-		const final: IdeaObjectWithFlags = { idea };
+		const final: CoreIdeaWithFlags = { id: ideaObject.id, idea };
 		profanity && (final.profanity = true);
 		sexual && (final.sexual = true);
 		modern && (final.modern = true);
@@ -144,13 +158,14 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 		humanDeathNatural,
 		humanDeathViolent,
 		animalDistress,
-		animalDeath
+		animalDeath,
+		ideaObject
 	]);
 	const maybeClose = useCallback(() => {
-		const iBox = $i("idea");
+		const iBox = $i("editIdea");
 		const idea = (iBox && iBox.value && iBox.value.trim()) || "";
-		if (!idea) {
-			// Nothing to save
+		if (idea === ideaObject.idea && !touched && okToClose()) {
+			// Nothing to save;
 			return closeModal();
 		}
 		yesNoAlert({
@@ -161,58 +176,61 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 			handler: closeModal,
 			doAlert
 		});
-	}, [closeModal, doAlert]);
+	}, [closeModal, doAlert, ideaObject, touched, okToClose]);
 
 	const extendedOpen: (event: CustomEvent<void>) => void = useCallback((e) => {
-		const iBox = $i("idea");
-		(iBox && iBox.value !== undefined && (iBox.value = ""));
-		setProfanity(false);
-		setSexual(false);
-		setModern(false);
-		setFantasy(false);
-		setMedievalFantasy(false);
-		setSuperhero(false);
-		setFairyTalesAndUrbanLegends(false);
-		setHorror(false);
-		setHistorical(false);
-		setWestern(false);
-		setSamurai(false);
-		setRoman(false);
-		setScifi(false);
-		setSpacefaring(false);
-		setProperName(false);
-		setMythsReligionsAndMetaphysics(false);
-		setJudaism(false);
-		setChristianity(false);
-		setIslam(false);
-		setGreekRomanMyth(false);
-		setMetaphysics(false);
-		setIllicitSubstances(false);
-		setAlcohol(false);
-		setTobacco(false);
-		setHumanDistress(false);
-		setHumanDeath(false);
-		setHumanDeathNatural(false);
-		setHumanDeathViolent(false);
-		setAnimalDistress(false);
-		setAnimalDeath(false);
+		const iBox = $i("editIdea");
+		(iBox && iBox.value !== undefined && (iBox.value = ideaObject.idea));
+		setProfanity(!!ideaObject.profanity);
+		setSexual(!!ideaObject.sexual);
+		setModern(!!ideaObject.modern);
+		setFantasy(!!ideaObject.fantasy);
+		setMedievalFantasy(!!ideaObject.medievalFantasy);
+		setSuperhero(!!ideaObject.superhero);
+		setFairyTalesAndUrbanLegends(!!ideaObject.fairyTalesAndUrbanLegends);
+		setHorror(!!ideaObject.horror);
+		setHistorical(!!ideaObject.historical);
+		setWestern(!!ideaObject.western);
+		setSamurai(!!ideaObject.samurai);
+		setRoman(!!ideaObject.roman);
+		setScifi(!!ideaObject.scifi);
+		setSpacefaring(!!ideaObject.spacefaring);
+		setProperName(!!ideaObject.properName);
+		setMythsReligionsAndMetaphysics(!!ideaObject.mythsReligionsAndMetaphysics);
+		setJudaism(!!ideaObject.judaism);
+		setChristianity(!!ideaObject.christianity);
+		setIslam(!!ideaObject.islam);
+		setGreekRomanMyth(!!ideaObject.greekRomanMyth);
+		setMetaphysics(!!ideaObject.metaphysics);
+		setIllicitSubstances(!!ideaObject.illicitSubstances);
+		setAlcohol(!!ideaObject.alcohol);
+		setTobacco(!!ideaObject.tobacco);
+		setHumanDistress(!!ideaObject.humanDistress);
+		setHumanDeath(!!ideaObject.humanDeath);
+		setHumanDeathNatural(!!ideaObject.humanDeathNatural);
+		setHumanDeathViolent(!!ideaObject.humanDeathViolent);
+		setAnimalDistress(!!ideaObject.animalDistress);
+		setAnimalDeath(!!ideaObject.animalDeath);
+		setTouched(false);
 		onOpen(e);
-	}, [onOpen]);
+	}, [onOpen, ideaObject]);
 
 	return (
-		<BasicAddModal
+		<BasicEditModal
 			modalOpen={modalOpen}
 			closeModal={closeModal}
 			onOpen={extendedOpen}
 			title={title}
 			maybeSave={maybeSave}
 			maybeClose={maybeClose}
+			maybeDelete={maybeDelete}
+			itemId={itemId}
 		>
 			<IonItemDivider>Idea</IonItemDivider>
 			<IonItem lines="full">
 				<IonInput
 					aria-label="Idea text goes here"
-					id="idea"
+					id="editIdea"
 					className="editable"
 					inputmode="text"
 					placeholder="Enter your idea text here."
@@ -227,7 +245,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={profanity}
-					onClick={() => setProfanity(!profanity)}
+					onClick={() => toucher(setProfanity, !profanity)}
 				>
 					<h2>Profanity</h2>
 				</IonToggle>
@@ -238,7 +256,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={sexual}
-					onClick={() => setSexual(!sexual)}
+					onClick={() => toucher(setSexual, !sexual)}
 				>
 					<h2>Sexual Content</h2>
 					<p>Direct and implied.</p>
@@ -250,7 +268,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={humanDistress}
-					onClick={() => setHumanDistress(!humanDistress)}
+					onClick={() => toucher(setHumanDistress, !humanDistress)}
 					disabled={humanDeath}
 				>
 					<h2>Human Distress</h2>
@@ -262,7 +280,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={humanDeath}
-					onClick={() => doSetInChain([humanDistress, setHumanDistress], [humanDeath, setHumanDeath])}
+					onClick={() => doSetInChain(toucher, [humanDistress, setHumanDistress], [humanDeath, setHumanDeath])}
 					disabled={humanDeathNatural || humanDeathViolent}
 				>
 					<h2>Human Death</h2>
@@ -273,7 +291,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={humanDeathNatural}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[humanDistress, setHumanDistress],
 						[humanDeath, setHumanDeath],
 						[humanDeathNatural, setHumanDeathNatural]
@@ -288,7 +306,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={humanDeathViolent}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[humanDistress, setHumanDistress],
 						[humanDeath, setHumanDeath],
 						[humanDeathViolent, setHumanDeathViolent]
@@ -303,7 +321,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={animalDistress}
-					onClick={() => setAnimalDistress(!animalDistress)}
+					onClick={() => toucher(setAnimalDistress, !animalDistress)}
 					disabled={animalDeath}
 				>
 					<h2>Animal Distress</h2>
@@ -314,7 +332,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={animalDeath}
-					onClick={() => doSetInChain([animalDistress, setAnimalDistress], [animalDeath, setAnimalDeath])}
+					onClick={() => doSetInChain(toucher, [animalDistress, setAnimalDistress], [animalDeath, setAnimalDeath])}
 				>
 					<h2>Animal Death</h2>
 				</IonToggle>
@@ -326,7 +344,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={fantasy}
-					onClick={() => setFantasy(!fantasy)}
+					onClick={() => toucher(setFantasy, !fantasy)}
 					disabled={medievalFantasy || superhero}
 				>
 					<h2>Fantasy</h2>
@@ -337,7 +355,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={medievalFantasy}
-					onClick={() => doSetInChain([fantasy, setFantasy], [medievalFantasy, setMedievalFantasy])}
+					onClick={() => doSetInChain(toucher, [fantasy, setFantasy], [medievalFantasy, setMedievalFantasy])}
 				>
 					<h2>Medieval Fantasy</h2>
 				</IonToggle>
@@ -347,7 +365,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={superhero}
-					onClick={() => doSetInChain([fantasy, setFantasy], [superhero, setSuperhero])}
+					onClick={() => doSetInChain(toucher, [fantasy, setFantasy], [superhero, setSuperhero])}
 				>
 					<h2>Superheroes</h2>
 				</IonToggle>
@@ -357,7 +375,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={fairyTalesAndUrbanLegends}
-					onClick={() => setFairyTalesAndUrbanLegends(!fairyTalesAndUrbanLegends)}
+					onClick={() => toucher(setFairyTalesAndUrbanLegends, !fairyTalesAndUrbanLegends)}
 				>
 					<h2>Fairy Tales</h2>
 					<p>Classic fairy tales and modern Urban Legends.</p>
@@ -369,7 +387,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={horror}
-					onClick={() => setHorror(!horror)}
+					onClick={() => toucher(setHorror, !horror)}
 				>
 					<h2>Horror</h2>
 				</IonToggle>
@@ -380,7 +398,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={historical}
-					onClick={() => setHistorical(!historical)}
+					onClick={() => toucher(setHistorical, !historical)}
 					disabled={western || samurai || roman}
 				>
 					<h2>Historical Events</h2>
@@ -393,7 +411,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={western}
-					onClick={() => doSetInChain([historical, setHistorical], [western, setWestern])}
+					onClick={() => doSetInChain(toucher, [historical, setHistorical], [western, setWestern])}
 				>
 					<h2>The Old West</h2>
 				</IonToggle>
@@ -403,7 +421,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={roman}
-					onClick={() => doSetInChain([historical, setHistorical], [roman, setRoman])}
+					onClick={() => doSetInChain(toucher, [historical, setHistorical], [roman, setRoman])}
 				>
 					<h2>The Roman Empire</h2>
 				</IonToggle>
@@ -413,7 +431,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={samurai}
-					onClick={() => doSetInChain([historical, setHistorical], [samurai, setSamurai])}
+					onClick={() => doSetInChain(toucher, [historical, setHistorical], [samurai, setSamurai])}
 				>
 					<h2>Japanese Feudalism</h2>
 				</IonToggle>
@@ -424,7 +442,8 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={scifi}
-					onClick={() => setScifi(!scifi)}
+					onClick={() => toucher(setScifi, !scifi)}
+					disabled={spacefaring}
 				>
 					<h2>Science Fiction</h2>
 				</IonToggle>
@@ -434,8 +453,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={spacefaring}
-					onClick={() => doSetInChain([scifi, setScifi], [spacefaring, setSpacefaring])}
-					disabled={spacefaring}
+					onClick={() => doSetInChain(toucher, [scifi, setScifi], [spacefaring, setSpacefaring])}
 				>
 					<h2>Spacefaring</h2>
 					<p>Topics specific to travelling through space.</p>
@@ -448,7 +466,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={modern}
-					onClick={() => setModern(!modern)}
+					onClick={() => toucher(setModern, !modern)}
 				>
 					<h2>Modern</h2>
 					<p>Things that primarily took place or rose to prominence since the mid-20th century.</p>
@@ -460,7 +478,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={properName}
-					onClick={() => setProperName(!properName)}
+					onClick={() => toucher(setProperName, !properName)}
 				>
 					<h2>Proper Names</h2>
 					<p>George Washington, Twinkies, Japan, etc.</p>
@@ -472,7 +490,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={mythsReligionsAndMetaphysics}
-					onClick={() => setMythsReligionsAndMetaphysics(!mythsReligionsAndMetaphysics)}
+					onClick={() => toucher(setMythsReligionsAndMetaphysics, !mythsReligionsAndMetaphysics)}
 					disabled={christianity || judaism || islam || greekRomanMyth || metaphysics}
 				>
 					<h2>Religion, Myths, Metaphysics</h2>
@@ -483,7 +501,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={judaism}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[mythsReligionsAndMetaphysics, setMythsReligionsAndMetaphysics],
 						[judaism, setJudaism]
 					)}
@@ -496,7 +514,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={christianity}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[mythsReligionsAndMetaphysics, setMythsReligionsAndMetaphysics],
 						[christianity, setChristianity]
 					)}
@@ -509,7 +527,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={islam}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[mythsReligionsAndMetaphysics, setMythsReligionsAndMetaphysics],
 						[islam, setIslam]
 					)}
@@ -522,7 +540,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={greekRomanMyth}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[mythsReligionsAndMetaphysics, setMythsReligionsAndMetaphysics],
 						[greekRomanMyth, setGreekRomanMyth]
 					)}
@@ -535,7 +553,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={metaphysics}
-					onClick={() => doSetInChain(
+					onClick={() => doSetInChain(toucher, 
 						[mythsReligionsAndMetaphysics, setMythsReligionsAndMetaphysics],
 						[metaphysics, setMetaphysics]
 					)}
@@ -550,7 +568,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={illicitSubstances}
-					onClick={() => setIllicitSubstances(!illicitSubstances)}
+					onClick={() => toucher(setIllicitSubstances, !illicitSubstances)}
 				>
 					<h2>Illicit Substances</h2>
 				</IonToggle>
@@ -560,7 +578,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={alcohol}
-					onClick={() => setAlcohol(!alcohol)}
+					onClick={() => toucher(setAlcohol, !alcohol)}
 				>
 					<h2>Alcohol</h2>
 				</IonToggle>
@@ -570,13 +588,13 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					labelPlacement="start"
 					enableOnOffLabels
 					checked={tobacco}
-					onClick={() => setTobacco(!tobacco)}
+					onClick={() => toucher(setTobacco, !tobacco)}
 				>
 					<h2>Tobacco</h2>
 				</IonToggle>
 			</IonItem>
-		</BasicAddModal>
+		</BasicEditModal>
 	);
 }
 
-export default PromptsAddModal;
+export default PromptsEditModal;

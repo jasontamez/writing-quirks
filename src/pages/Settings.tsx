@@ -799,7 +799,8 @@ const Settings: React.FC = () => {
 					<IonItemDivider className="major">Advanced Settings</IonItemDivider>
 					<IonItem lines="full">
 						<IonLabel>
-							<p><strong>CAUTION:</strong> The following pages allow you to modify the base info of the various generators. Use carefully.</p>
+							<p><strong>CAUTION:</strong> The following pages allow you to modify the
+							base info of the various generators. Use carefully.</p>
 						</IonLabel>
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">

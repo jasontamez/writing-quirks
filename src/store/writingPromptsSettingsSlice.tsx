@@ -163,12 +163,8 @@ const writingPromptsSettingsSlice = createSlice({
 		},
 		addPrompt: (state, action: PayloadAction<AddEditIdea>) => {
 			const { idea, prop } = action.payload;
-			const ideas = {...state.ideas};
-			ideas[prop].push(idea);
-			return {
-				...state,
-				ideas
-			};
+			state.ideas[prop].push(idea);
+			return state;
 		},
 		editPrompt: (state, action: PayloadAction<AddEditIdea>) => {
 			const { idea, prop } = action.payload;
@@ -178,12 +174,8 @@ const writingPromptsSettingsSlice = createSlice({
 		},
 		deletePrompt: (state, action: PayloadAction<DelIdea>) => {
 			const { id, prop } = action.payload;
-			const ideas = {...state.ideas};
-			ideas[prop] = ideas[prop].filter(i => i.id !== id);
-			return {
-				...state,
-				ideas
-			};
+			state.ideas[prop] = state.ideas[prop].filter(i => i.id !== id);
+			return state;
 		},
 		addFormat: (state, action: PayloadAction<FormatItem>) => {
 			const { prop, format } = action.payload;
@@ -194,15 +186,13 @@ const writingPromptsSettingsSlice = createSlice({
 			const { prop, format } = action.payload;
 			const id = format[0] as string;
 			state.formats[prop] = state.formats[prop].map(bit => bit[0] === id ? format : bit);
+			return state;
 		},
 		deleteFormat: (state, action: PayloadAction<FormatItem>) => {
 			const { prop, format } = action.payload;
 			const id = format[0] as string;
-			const obj: typeof state = {
-				...state
-			};
-			obj.formats[prop].filter(bit => bit[0] !== id);
-			return obj;
+			state.formats[prop] = state.formats[prop].filter(bit => bit[0] !== id);
+			return state;
 		}
 	}
 });
