@@ -185,7 +185,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "b8f3edd1-691b-4d55-91c6-a8fab80ddc72",
 		idea: "seeing-eye dog",
 		modern: true,
-		rateBy: 100,
+		rateBy: 20,
 		max: 3
 	},
 	{

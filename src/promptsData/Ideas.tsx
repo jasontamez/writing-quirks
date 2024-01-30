@@ -1,3 +1,4 @@
+import NumericRange from "../helpers/numericRangeType";
 import action from "./actions";
 import character from "./characters";
 import event from "./events";
@@ -11,7 +12,7 @@ export interface CoreIdea {
 	idea: string
 }
 
-export type IdeaTypes = "action" | "character" | "object" | "event" | "locale" | "time" | "topic"
+export type IdeaTypes = "action" | "character" | "object" | "event" | "locale" | "time" | "topic";
 
 export interface TypedObject {
 	type: IdeaTypes
@@ -66,7 +67,7 @@ export type BasicIdea = TypedIdea & BasicIdeaFlags;
 export interface AnObjectBase {
 	min: number
 	max: number
-	rateBy: number | "incremental"
+	rateBy: NumericRange<1, 21> | "incremental"
 	rateFavorsLower: boolean
 	plural: string | boolean | [string, string]
 	article: string
