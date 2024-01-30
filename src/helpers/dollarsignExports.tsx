@@ -1,10 +1,10 @@
 /*
 export const $q =
-	<T extends HTMLElement>(query: string, doc = window.document): T[] =>
-		doc.querySelector(query) as T[];
-export const $a =
 	<T extends HTMLElement>(query: string, doc = window.document): T | null =>
-		Array.from(doc.querySelectorAll(query)) as T | null;
+		doc.querySelector(query) as T | null;
+export const $a =
+	<T extends HTMLElement>(query: string, doc = window.document): T[] =>
+		Array.from(doc.querySelectorAll(query)) as T[];
 */
 // $i<ReturnValue>(query) => ReturnValue
 export const $i =

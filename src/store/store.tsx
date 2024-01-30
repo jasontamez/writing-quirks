@@ -48,8 +48,11 @@ const migrations = {
 			infoBabbles,
 			infoTaverns,
 			infoInsults,
+			writingPromptsSettings: {
+				...writingPromptsSettings,
+				...state.writingPromptsSettings
+			}
 		};
-		newState.writingPromptsSettings.ideas = writingPromptsSettings.ideas;
 		return newState;
 	}
 };
