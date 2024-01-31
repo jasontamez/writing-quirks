@@ -73,27 +73,27 @@ const PromptsEdit: FC = () => {
 						<IonLabel>Edit "Actions"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptscharacters">
 						<IonLabel>Edit "Characters"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptsevents">
 						<IonLabel>Edit "Events"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptslocales">
 						<IonLabel>Edit "Locales"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptsobjects">
 						<IonLabel>Edit "Objects"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptstimes">
 						<IonLabel>Edit "Times"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
-					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
+					<IonItem lines="full" button routerDirection="forward" routerLink="/editpromptstopics">
 						<IonLabel>Edit "Topics"</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>

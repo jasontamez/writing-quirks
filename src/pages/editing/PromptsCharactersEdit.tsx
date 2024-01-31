@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { AnObject, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
+import { Character, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
 import NumericRange from '../../helpers/numericRangeType';
@@ -33,21 +33,23 @@ import PromptsIdeasEdit from './Prompts_IdeasEdit';
 import './Editing.css';
 
 const inputStrings = [
-	"objectArticle",
-	"objectPlural",
-	"objectPlural1",
-	"objectPlural2"
+	"characterArticle",
+	"characterPlural",
+	"characterPlural1",
+	"characterPlural2",
+	"characterGenderPoss",
+	"characterActionLink"
 ];
 const inputNums = [
-	"objectMin",
-	"objectMax"
+	"characterMin",
+	"characterMax"
 ];
 
-interface ObjectItem {
-	item: AnObject
-	all: AnObject[]
+interface CharacterItem {
+	item: Character
+	all: Character[]
 }
-const ObjectLine: FC<ObjectItem> = (props) => {
+const CharacterLine: FC<CharacterItem> = (props) => {
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -58,6 +60,10 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 	const [rateFavorsLower, setRateFavorsLower] = useState<boolean>(false);
 	const [numerals, setNumerals] = useState<boolean>(false);
 	const [rateBy, setRateBy] = useState<"incremental" | NumericRange<1, 21>>(1);
+	const [realPerson, setRealPerson] = useState<boolean>(false);
+	const [fictionalCharacter, setFictionalCharacter] = useState<boolean>(false);
+	const [monster, setMonster] = useState<boolean>(false);
+	const [hasGender, setHasGender] = useState<boolean>(false);
 	const { item, all } = props;
 	const {
 		id,
@@ -69,15 +75,20 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		rateFavorsLower: origFavor,
 		plural: origPlural,
 		article,
-		numerals: origNumerals
+		numerals: origNumerals,
+		realPerson: origReal,
+		fictionalCharacter: origFic,
+		monster: origMonster,
+		genderPossessive,
+		linkToAnAction: origLink
 	} = item;
 	const dispatch = useAppDispatch();
-	const ID = `PromptFormatLine-Object-${id}`;
+	const ID = `PromptFormatLine-Character-${id}`;
 
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
 			return toaster({
-				message: "Cannot delete: At least three Objects are required for the tool to function.",
+				message: "Cannot delete: At least three Characters are required for the tool to function.",
 				color: "danger",
 				duration: 5000,
 				position: "middle",
@@ -117,6 +128,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 			str.push("", "", "");
 			setSpecialPlural(false);
 		}
+		str.push(genderPossessive || "their", origLink);
 		inputStrings.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			(iBox && (iBox.value = str.shift()!));
@@ -132,7 +144,14 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		setRateFavorsLower(origFavor);
 		setInnatePlural(typeof origPlural === "boolean" ? origPlural : false);
 		setHasMulti(typeof origPlural !== "boolean");
-	}, [article, origPlural, ID, min, max, origRateby, origNumerals, origFavor]);
+		setRealPerson(origReal);
+		setFictionalCharacter(origFic);
+		setMonster(origMonster);
+		setHasGender(!!genderPossessive);
+	}, [
+		article, origPlural, ID, min, max, origRateby, origNumerals, origFavor,
+		origReal, origFic, origMonster, genderPossessive, origLink
+	]);
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
 		const [ min, max ] = hasMulti ? inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
@@ -147,7 +166,14 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 				toast
 			});
 		}
-		const [ article, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
+		const [
+			article,
+			simplePlural,
+			specialPlural1,
+			specialPlural2,
+			genderPoss,
+			linker
+		] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			return (iBox && iBox.value) || "";
 		});
@@ -156,18 +182,23 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 				specialPlural ? ([specialPlural1, specialPlural2] as [string, string]) : simplePlural
 			)
 			: innatePlural;
-		const final: AnObject = {
+		const final: Character = {
 			...input,
-			type: "object",
+			type: "character",
 			plural,
 			min,
 			max,
 			rateBy: geometric ? rateBy : "incremental",
 			rateFavorsLower,
 			article,
-			numerals
+			numerals,
+			realPerson,
+			fictionalCharacter,
+			monster,
+			genderPossessive: hasGender && genderPoss,
+			linkToAnAction: linker || " "
 		};
-		dispatch(editPrompt({ prop: "object", idea: final }));
+		dispatch(editPrompt({ prop: "character", idea: final }));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -176,9 +207,19 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 			toast
 		});
 		setModalOpen(false);
-	}, [innatePlural, dispatch, toast, ID, rateBy, rateFavorsLower, numerals, hasMulti, specialPlural, geometric]);
+	}, [
+		innatePlural, dispatch, toast, ID, rateBy, rateFavorsLower, numerals, hasMulti,
+		specialPlural, geometric, realPerson, fictionalCharacter, monster, hasGender
+	]);
 	const okToClose = useCallback(() => {
-		const [ arty, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
+		const [
+			arty,
+			simplePlural,
+			specialPlural1,
+			specialPlural2,
+			genderPoss,
+			linkToAnAction
+		] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			return (iBox && iBox.value) || "";
 		});
@@ -200,10 +241,17 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 			&& article === arty
 			&& rate === origRateby
 			&& rateFavorsLower === origFavor
-			&& numerals === origNumerals;
+			&& numerals === origNumerals
+			&& realPerson === origReal
+			&& fictionalCharacter === origFic
+			&& monster === origMonster
+			&& linkToAnAction === origLink
+			&& (hasGender && genderPoss) === genderPossessive;
 	}, [
-		innatePlural, origPlural, ID, rateBy, rateFavorsLower, numerals, hasMulti, geometric,
-		origRateby, origFavor, origNumerals, article, max, min, specialPlural
+		innatePlural, origPlural, ID, rateBy, rateFavorsLower, numerals, hasMulti,
+		geometric, origRateby, origFavor, origNumerals, article, max, min, specialPlural,
+		realPerson, origReal, fictionalCharacter, origFic, monster, origMonster, origLink,
+		genderPossessive, hasGender
 	]);
 
 	return (
@@ -212,14 +260,47 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
 				ideaObject={item}
-				title="Object"
+				title="Character"
 				itemId={ID}
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
 			>
-				<IonItemDivider>Object Properties</IonItemDivider>
+				<IonItemDivider>Character Properties</IonItemDivider>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={hasGender}
+						onClick={() => setHasGender(!hasGender)}
+					>
+						<h2>Has specific gender</h2>
+					</IonToggle>
+				</IonItem>
+				<IonItem lines="full" disabled={!hasGender}>
+					<IonInput
+						label="Possessive term:"
+						labelPlacement="start"
+						id={`characterGenderPoss-${ID}`}
+						className="editable"
+						inputmode="text"
+						helperText={"Replaces [THEIR] in: \"<Idea> loves [THEIR] dog.\""}
+						disabled={!hasGender}
+					/>
+				</IonItem>
+				<IonItem>
+					<IonLabel>Text that links this Character to an action it performs:</IonLabel>
+				</IonItem>
+				<IonItem lines="full">
+					<IonInput
+						aria-label="Linking text"
+						id={`characterActionLink-${ID}`}
+						className="editable"
+						inputmode="text"
+						helperText={"Replaces [] in: \"<Idea>[]does something\"; include leading/trailing spaces."}
+					/>
+				</IonItem>
 				<IonItem lines="full">
 					<IonToggle
 						labelPlacement="start"
@@ -228,7 +309,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 						onClick={() => setHasMulti(!hasMulti)}
 					>
 						<h2>Variable number</h2>
-						<p>Can have a variable number of objects present.</p>
+						<p>Can have a variable number of characters present.</p>
 					</IonToggle>
 				</IonItem>
 				<IonItem lines="full">
@@ -257,7 +338,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 					<IonInput
 						label="Plural ending:"
 						labelPlacement="start"
-						id={`objectPlural-${ID}`}
+						id={`characterPlural-${ID}`}
 						className="editable"
 						inputmode="text"
 						helperText="Text to append to make a plural idea."
@@ -268,7 +349,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 					<div className="multiInput">
 						<IonInput
 							aria-label="Special plural format, pre-number"
-							id={`objectPlural1-${ID}`}
+							id={`characterPlural1-${ID}`}
 							className="editable"
 							inputmode="text"
 							helperText="Text before number."
@@ -277,7 +358,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 						<div>[number]</div>
 						<IonInput
 							aria-label="Special plural format, post-number"
-							id={`objectPlural2-${ID}`}
+							id={`characterPlural2-${ID}`}
 							className="editable"
 							inputmode="text"
 							helperText="Text after number."
@@ -290,7 +371,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 					<IonInput
 						label="Minimum:"
 						labelPlacement="start"
-						id={`objectMin-${ID}`}
+						id={`characterMin-${ID}`}
 						className="editable"
 						inputmode="numeric"
 						type="number"
@@ -299,7 +380,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 					<IonInput
 						label="Maximum:"
 						labelPlacement="start"
-						id={`objectMax-${ID}`}
+						id={`characterMax-${ID}`}
 						className="editable"
 						inputmode="numeric"
 						type="number"
@@ -310,7 +391,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 					<IonInput
 						label="Article:"
 						labelPlacement="start"
-						id={`objectArticle-${ID}`}
+						id={`characterArticle-${ID}`}
 						className="editable"
 						inputmode="text"
 						helperText="Used when the random number is 1 and there is no special plural."
@@ -382,6 +463,39 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 						<IonSelectOption value={20}>20</IonSelectOption>
 					</IonSelect>
 				</IonItem>
+				<IonItemDivider>Character Flags</IonItemDivider>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={realPerson}
+						onClick={() => setRealPerson(!realPerson)}
+					>
+						<h2>Is a specific, real person</h2>
+						<p>"Tom Hanks"? Yes. "Actor"? No.</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={fictionalCharacter}
+						onClick={() => setFictionalCharacter(!fictionalCharacter)}
+					>
+						<h2>Is a specific fictional character</h2>
+						<p>"Harry Potter"? Yes. "Wizard"? No.</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={monster}
+						onClick={() => setMonster(!monster)}
+					>
+						<h2>Is a monster</h2>
+					</IonToggle>
+				</IonItem>
 			</PromptsEditModal>
 			<IonItem className="editingItem">
 				<div className="content">
@@ -395,7 +509,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 						<IonIcon slot="icon-only" icon={trashOutline} />
 					</IonItemOption>
 				:
-					<HaltButton errorMessage="At least three Objects are" />
+					<HaltButton errorMessage="At least three Characters are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -404,13 +518,13 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const objectLine = (
-	item: AnObject,
+const characterLine = (
+	item: Character,
 	i: number,
-	all: AnObject[]
-) => <ObjectLine key={`ObjectLine-${item.id}`} item={item} all={all} />;
+	all: Character[]
+) => <CharacterLine key={`CharacterLine-${item.id}`} item={item} all={all} />;
 
-const PromptsObjectsEdit: FC = () => {
+const PromptsCharactersEdit: FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
 	const [hasMulti, setHasMulti] = useState<boolean>(false);
 	const [innatePlural, setInnatePlural] = useState<boolean>(false);
@@ -419,12 +533,16 @@ const PromptsObjectsEdit: FC = () => {
 	const [rateBy, setRateBy] = useState<"incremental" | NumericRange<1, 21>>(1);
 	const [geometric, setGeometric] = useState<boolean>(true);
 	const [specialPlural, setSpecialPlural] = useState<boolean>(false);
+	const [realPerson, setRealPerson] = useState<boolean>(false);
+	const [fictionalCharacter, setFictionalCharacter] = useState<boolean>(false);
+	const [monster, setMonster] = useState<boolean>(false);
+	const [hasGender, setHasGender] = useState<boolean>(false);
 	const toast = useIonToast();
-	const objects = useAppSelector(state => state.writingPromptsSettings.ideas.object);
+	const characters = useAppSelector(state => state.writingPromptsSettings.ideas.character);
 	const dispatch = useAppDispatch();
 
 	const onOpen = useCallback(() => {
-		const str = ["a", "s", "", ""];
+		const str = ["a", "s", "", "", "their", ""];
 		inputStrings.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
 			(iBox && (iBox.value = str.shift()!));
@@ -442,6 +560,10 @@ const PromptsObjectsEdit: FC = () => {
 		setRateFavorsLower(true);
 		setNumerals(false);
 		setGeometric(true);
+		setRealPerson(false);
+		setFictionalCharacter(false);
+		setMonster(false);
+		setHasGender(false);
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
@@ -458,7 +580,14 @@ const PromptsObjectsEdit: FC = () => {
 				toast
 			});
 		}
-		const [ article, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
+		const [
+			article,
+			simplePlural,
+			specialPlural1,
+			specialPlural2,
+			genderPoss,
+			linker
+		] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
 			return (iBox && iBox.value) || "";
 		});
@@ -467,19 +596,24 @@ const PromptsObjectsEdit: FC = () => {
 				specialPlural ? ([specialPlural1, specialPlural2] as [string, string]) : simplePlural
 			)
 			: innatePlural;
-		const final: AnObject = {
+		const final: Character = {
 			id: uuidv4(),
 			...input,
-			type: "object",
+			type: "character",
 			plural,
 			min,
 			max,
 			rateBy: geometric ? rateBy : "incremental",
 			rateFavorsLower,
 			article,
-			numerals
+			numerals,
+			realPerson,
+			fictionalCharacter,
+			monster,
+			genderPossessive: hasGender && genderPoss,
+			linkToAnAction: linker || " "
 		};
-		dispatch(addPrompt({ prop: "object", idea: final }));
+		dispatch(addPrompt({ prop: "character", idea: final }));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -488,18 +622,54 @@ const PromptsObjectsEdit: FC = () => {
 			toast
 		});
 		setOpen(false);
-	}, [innatePlural, dispatch, toast, rateBy, rateFavorsLower, numerals, geometric, hasMulti, specialPlural]);
+	}, [
+		innatePlural, dispatch, toast, rateBy, rateFavorsLower, numerals, geometric,
+		hasMulti, specialPlural, realPerson, fictionalCharacter, monster, hasGender
+	]);
 
 	return (
-		<PromptsIdeasEdit ideas={objects} looper={objectLine} title="Objects" setAddModalOpen={setOpen}>
+		<PromptsIdeasEdit ideas={characters} looper={characterLine} title="Characters" setAddModalOpen={setOpen}>
 			<PromptsAddModal
 				modalOpen={open}
 				setModalOpen={setOpen}
-				title="Object"
+				title="Character"
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 			>
-				<IonItemDivider>Object Properties</IonItemDivider>
+				<IonItemDivider>Character Properties</IonItemDivider>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={hasGender}
+						onClick={() => setHasGender(!hasGender)}
+					>
+						<h2>Has specific gender</h2>
+					</IonToggle>
+				</IonItem>
+				<IonItem lines="full" disabled={!hasGender}>
+					<IonInput
+						label="Possessive term:"
+						labelPlacement="start"
+						id="characterGenderPoss"
+						className="editable"
+						inputmode="text"
+						helperText={"Replaces [THEIR] in: \"<Idea> loves [THEIR] dog.\""}
+						disabled={!hasGender}
+					/>
+				</IonItem>
+				<IonItem>
+					<IonLabel>Text that links this Character to an action it performs:</IonLabel>
+				</IonItem>
+				<IonItem lines="full">
+					<IonInput
+						aria-label="Linking text"
+						id="characterActionLink"
+						className="editable"
+						inputmode="text"
+						helperText={"Replaces [] in: \"<Idea>[]does something\"; include leading/trailing spaces."}
+					/>
+				</IonItem>
 				<IonItem lines="full">
 					<IonToggle
 						labelPlacement="start"
@@ -508,7 +678,7 @@ const PromptsObjectsEdit: FC = () => {
 						onClick={() => setHasMulti(!hasMulti)}
 					>
 						<h2>Variable number</h2>
-						<p>Can have a variable number of objects present.</p>
+						<p>Can have a variable number of characters present.</p>
 					</IonToggle>
 				</IonItem>
 				<IonItem lines="full">
@@ -537,7 +707,7 @@ const PromptsObjectsEdit: FC = () => {
 					<IonInput
 						label="Plural ending:"
 						labelPlacement="start"
-						id="objectPlural"
+						id="characterPlural"
 						className="editable"
 						inputmode="text"
 						helperText="Text to append to make a plural idea."
@@ -548,7 +718,7 @@ const PromptsObjectsEdit: FC = () => {
 					<div className="multiInput">
 						<IonInput
 							aria-label="Special plural format, pre-number"
-							id="objectPlural1"
+							id="characterPlural1"
 							className="editable"
 							inputmode="text"
 							helperText="Text before number."
@@ -557,7 +727,7 @@ const PromptsObjectsEdit: FC = () => {
 						<div>[number]</div>
 						<IonInput
 							aria-label="Special plural format, post-number"
-							id="objectPlural2"
+							id="characterPlural2"
 							className="editable"
 							inputmode="text"
 							helperText="Text after number."
@@ -570,7 +740,7 @@ const PromptsObjectsEdit: FC = () => {
 					<IonInput
 						label="Minimum:"
 						labelPlacement="start"
-						id="objectMin"
+						id="characterMin"
 						className="editable"
 						inputmode="numeric"
 						type="number"
@@ -579,7 +749,7 @@ const PromptsObjectsEdit: FC = () => {
 					<IonInput
 						label="Maximum:"
 						labelPlacement="start"
-						id="objectMax"
+						id="characterMax"
 						className="editable"
 						inputmode="numeric"
 						type="number"
@@ -590,7 +760,7 @@ const PromptsObjectsEdit: FC = () => {
 					<IonInput
 						label="Article:"
 						labelPlacement="start"
-						id="objectArticle"
+						id="characterArticle"
 						className="editable"
 						inputmode="text"
 						helperText="Used when the random number is 1 and there is no special plural."
@@ -662,9 +832,42 @@ const PromptsObjectsEdit: FC = () => {
 						<IonSelectOption value={20}>20</IonSelectOption>
 					</IonSelect>
 				</IonItem>
+				<IonItemDivider>Character Flags</IonItemDivider>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={realPerson}
+						onClick={() => setRealPerson(!realPerson)}
+					>
+						<h2>Is a specific, real person</h2>
+						<p>"Tom Hanks"? Yes. "Actor"? No.</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={fictionalCharacter}
+						onClick={() => setFictionalCharacter(!fictionalCharacter)}
+					>
+						<h2>Is a specific fictional character</h2>
+						<p>"Harry Potter"? Yes. "Wizard"? No.</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={monster}
+						onClick={() => setMonster(!monster)}
+					>
+						<h2>Is a monster</h2>
+					</IonToggle>
+				</IonItem>
 			</PromptsAddModal>
 		</PromptsIdeasEdit>
 	);
 };
 
-export default PromptsObjectsEdit;
+export default PromptsCharactersEdit;

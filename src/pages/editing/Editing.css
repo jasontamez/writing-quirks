@@ -126,3 +126,21 @@ ion-list.editing ion-input.editable {
 	--padding-start: 0.5em !important;
 	--padding-end: 0.5em;
 }
+
+div.multiInput {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: stretch;
+	width: 100%;
+}
+div.multiInput > div {
+	flex-grow: 0;
+	flex-shrink: 0;
+	font-size: 0.75em;
+	padding-inline: 0.5em;
+}
+div.multiInput ion-input {
+	flex-grow: 1;
+	flex-shrink: 1;
+}
