@@ -420,7 +420,8 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		idea: "something growling in the night",
 		animalDistress: true,
 		humanDistress: true,
-		horror: true
+		horror: true,
+		preposition: "hearing"
 	},
 	{
 		id: "2f50af96-4a37-4916-b9ba-c7a0dade44fa",
@@ -432,7 +433,8 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 	},
 	{
 		id: "e368d616-a51c-468f-8754-8c04640b6342",
-		idea: "a dawning realization"
+		idea: "a dawning realization",
+		preposition: "having"
 	},
 	{
 		id: "322d019c-9ffe-441a-acff-c780101b1404",
@@ -465,7 +467,8 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		idea: "a call that is coming from inside of the house",
 		horror: true,
 		fairyTalesAndUrbanLegends: true,
-		humanDistress: true
+		humanDistress: true,
+		preposition: "receiving"
 	},
 	{
 		id: "cc06d60a-aa03-4f68-8ba8-43bdbc9ea11c",

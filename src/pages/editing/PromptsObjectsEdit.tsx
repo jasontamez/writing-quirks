@@ -74,7 +74,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		numerals: origNumerals
 	} = item;
 	const dispatch = useAppDispatch();
-	const ID = `PromptFormatLine-Object-${id}`;
+	const ID = `PromptLine-Object-${id}`;
 
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {

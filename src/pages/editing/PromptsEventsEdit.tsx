@@ -7,6 +7,7 @@ import {
 	IonItemOption,
 	IonItemOptions,
 	IonItemSliding,
+	IonLabel,
 	IonToggle,
 	useIonAlert,
 	useIonToast
@@ -17,37 +18,45 @@ import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Action, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
+import { AnEvent, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
 import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
 
-import PromptsEditFormatModal from './Prompts_ModalEdit';
+import PromptsEditModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
 import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
 
-interface ActionItem {
-	item: Action
+interface EventItem {
+	item: AnEvent
 	style: { [key: string]: any }
-	all: Action[]
+	all: AnEvent[]
 }
-const ActionLine: FC<ActionItem> = (props) => {
+const EventLine: FC<EventItem> = (props) => {
 	const toast = useIonToast();
 	const [doAlert] = useIonAlert();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
-	const [possessive, setPossessive] = useState<boolean>(false);
+	const [nonPunctual, setNonPunctual] = useState<boolean>(false);
+	const [pluralEvent, setPluralEvent] = useState<boolean>(false);
 	const { item, all, style } = props;
-	const { id, idea, type, genericPossessive, possessive: origPoss } = item;
+	const {
+		id,
+		idea,
+		type,
+		nonPunctual: origPunc,
+		pluralEvent: origPlural,
+		preposition
+	} = item;
 	const dispatch = useAppDispatch();
-	const ID = `PromptLine-Action-${id}`;
+	const ID = `PromptLine-Event-${id}`;
 
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
 			return toaster({
-				message: "Cannot delete: At least three Actions are required for the tool to function.",
+				message: "Cannot delete: At least three Events are required for the tool to function.",
 				color: "danger",
 				duration: 5000,
 				position: "middle",
@@ -76,20 +85,21 @@ const ActionLine: FC<ActionItem> = (props) => {
 		});
 	}, [doAlert, dispatch, toast, id, type, all.length, idea]);
 	const onOpen = useCallback(() => {
-		const iBox = $i<HTMLInputElement>(`genPoss-${ID}`);
-		(iBox && (iBox.value = genericPossessive));
-		setPossessive(origPoss);
-	}, [genericPossessive, origPoss, ID]);
+		setNonPunctual(origPunc);
+		setPluralEvent(origPlural)
+		const iBox = $i<HTMLInputElement>(`eventPreposition-${ID}`);
+		iBox && (iBox.value = preposition || "dealing with");
+	}, [ID, origPunc, origPlural, preposition]);
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
-		const iBox = $i<HTMLInputElement>(`genPoss-${ID}`);
-		const genericPossessive = (iBox && iBox.value.trim()) || "one's";
-		const final: Action = {
+		const iBox = $i<HTMLInputElement>(`eventPreposition-${ID}`);
+		const final: AnEvent = {
 			...input,
-			type: "action",
-			possessive,
-			genericPossessive
+			type: "event",
+			nonPunctual,
+			pluralEvent,
+			preposition: (iBox && iBox.value) || "dealing with"
 		};
-		dispatch(editPrompt({ prop: "action", idea: final }));
+		dispatch(editPrompt({ prop: "event", idea: final }));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -98,50 +108,64 @@ const ActionLine: FC<ActionItem> = (props) => {
 			toast
 		});
 		setModalOpen(false);
-	}, [possessive, dispatch, toast, ID]);
+	}, [ID, dispatch, toast, nonPunctual, pluralEvent]);
 	const okToClose = useCallback(() => {
-		const iBox = $i<HTMLInputElement>(`genPoss-${ID}`);
-		const genericPoss = (iBox && iBox.value.trim()) || "one's";
-		return !possessive === !origPoss && genericPossessive === genericPoss;
-	}, [possessive, origPoss, genericPossessive, ID]);
+		const iBox = $i<HTMLInputElement>(`eventPlural-${ID}`);
+		return pluralEvent === origPlural
+			&& nonPunctual === origPunc
+			&& preposition === ((iBox && iBox.value) || "dealing with");
+	}, [ID, pluralEvent, nonPunctual, origPlural, origPunc, preposition]);
 
 	return (
 		<IonItemSliding id={ID} style={style}>
-			<PromptsEditFormatModal
+			<PromptsEditModal
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
 				ideaObject={item}
-				title="Action"
+				title="Event"
 				itemId={ID}
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
 			>
-				<IonItemDivider>Action Properties</IonItemDivider>
+				<IonItemDivider>Event Properties</IonItemDivider>
 				<IonItem lines="full">
 					<IonToggle
 						labelPlacement="start"
 						enableOnOffLabels
-						checked={possessive}
-						onClick={() => setPossessive(!possessive)}
+						checked={nonPunctual}
+						onClick={() => setNonPunctual(!nonPunctual)}
 					>
-						<h2>Is a possessive action</h2>
-						<p>Has "[THEIR]" in it somewhere.</p>
+						<h2>Isn't a "punctual" event</h2>
+						<p>Generally lasts more than an hour.</p>
 					</IonToggle>
 				</IonItem>
-				<IonItem>Generic Possessive Term</IonItem>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={pluralEvent}
+						onClick={() => setPluralEvent(!pluralEvent)}
+					>
+						<h2>Is a plural event</h2>
+						<p>e.g. "piano lessons", "car crashes"</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem>
+					<IonLabel>Prepositional phrase:</IonLabel>
+				</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id={`genPoss-${ID}`}
+						aria-label="Linking text"
+						id={`eventPreposition-${ID}`}
 						className="editable"
 						inputmode="text"
-						placeholder={"Defaults to \"one's\" if left blank."}
-						helperText="Used if a paired idea does not have gender."
-						disabled={!possessive}
+						placeholder={"Defaults to \"dealing with\""}
+						helperText={"Replaces [dealing with] in: \"<Character> [dealing with] <This Event>.\""}
 					/>
 				</IonItem>
-			</PromptsEditFormatModal>
+			</PromptsEditModal>
 			<IonItem className="editingItem">
 				<div className="content">
 					<div className="text">{idea}</div>
@@ -154,7 +178,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 						<IonIcon slot="icon-only" icon={trashOutline} />
 					</IonItemOption>
 				:
-					<HaltButton errorMessage="At least three Actions are" />
+					<HaltButton errorMessage="At least three Events are" />
 				}
 				<IonItemOption color="primary" onClick={() => setModalOpen(true)}>
 					<IonIcon slot="icon-only" icon={pencilOutline} />
@@ -163,36 +187,38 @@ const ActionLine: FC<ActionItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const ActionItems = memo(({index, style, data: ideas}: IdeaItem<Action>) => {
+const EventItems = memo(({index, style, data: ideas}: IdeaItem<AnEvent>) => {
 	const idea = ideas[index];
 	const { id, type } = idea;
-	return <ActionLine key={`ObjectLine:${type}/${id}`} item={idea} all={ideas} style={style} />;
+	return <EventLine key={`EventLine:${type}/${id}`} item={idea} all={ideas} style={style} />;
 }, areEqual);
 
-const PromptsActionsEdit: FC = () => {
+const PromptsEventsEdit: FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
-	const [possessive, setPossessive] = useState<boolean>(false);
+	const [nonPunctual, setNonPunctual] = useState<boolean>(false);
+	const [pluralEvent, setPluralEvent] = useState<boolean>(false);
 	const toast = useIonToast();
-	const actions = useAppSelector(state => state.writingPromptsSettings.ideas.action);
+	const events = useAppSelector(state => state.writingPromptsSettings.ideas.event);
 	const dispatch = useAppDispatch();
 
 	const onOpen = useCallback(() => {
-		const iBox = $i<HTMLInputElement>("genPoss");
-		(iBox && (iBox.value = ""));
-		setPossessive(false);
+		setNonPunctual(false);
+		setPluralEvent(false)
+		const iBox = $i<HTMLInputElement>("addEventPreposition");
+		iBox && (iBox.value = "dealing with");
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
-		const iBox = $i<HTMLInputElement>("genPoss");
-		const genericPossessive = (iBox && iBox.value.trim()) || "one's";
-		const final: Action = {
+		const iBox = $i<HTMLInputElement>("addEventPreposition");
+		const final: AnEvent = {
 			id: uuidv4(),
 			...input,
-			type: "action",
-			possessive,
-			genericPossessive
+			type: "event",
+			nonPunctual,
+			pluralEvent,
+			preposition: (iBox && iBox.value) || "dealing with"
 		};
-		dispatch(addPrompt({ prop: "action", idea: final }));
+		dispatch(addPrompt({ prop: "event", idea: final }));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -201,38 +227,50 @@ const PromptsActionsEdit: FC = () => {
 			toast
 		});
 		setOpen(false);
-	}, [possessive, dispatch, toast]);
+	}, [dispatch, toast, nonPunctual, pluralEvent]);
 
 	return (
-		<PromptsIdeasEdit ideas={actions} IdeaItems={ActionItems} title="Actions" setAddModalOpen={setOpen}>
+		<PromptsIdeasEdit ideas={events} IdeaItems={EventItems} title="Events" setAddModalOpen={setOpen}>
 			<PromptsAddModal
 				modalOpen={open}
 				setModalOpen={setOpen}
-				title="Action"
+				title="Event"
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 			>
-				<IonItemDivider>Action Properties</IonItemDivider>
 				<IonItem lines="full">
 					<IonToggle
 						labelPlacement="start"
 						enableOnOffLabels
-						checked={possessive}
-						onClick={() => setPossessive(!possessive)}
+						checked={nonPunctual}
+						onClick={() => setNonPunctual(!nonPunctual)}
 					>
-						<h2>Is a possessive action</h2>
-						<p>Has "[THEIR]" in it somewhere.</p>
+						<h2>Isn't a "punctual" event</h2>
+						<p>Generally lasts more than an hour.</p>
 					</IonToggle>
 				</IonItem>
-				<IonItem>Generic Possessive Term</IonItem>
+				<IonItem lines="full">
+					<IonToggle
+						labelPlacement="start"
+						enableOnOffLabels
+						checked={pluralEvent}
+						onClick={() => setPluralEvent(!pluralEvent)}
+					>
+						<h2>Is a plural event</h2>
+						<p>e.g. "piano lessons", "car crashes"</p>
+					</IonToggle>
+				</IonItem>
+				<IonItem>
+					<IonLabel>Prepositional phrase:</IonLabel>
+				</IonItem>
 				<IonItem lines="full">
 					<IonInput
-						id="genPoss"
+						aria-label="Linking text"
+						id="addEventPreposition"
 						className="editable"
 						inputmode="text"
-						placeholder={"Defaults to \"one's\" if left blank."}
-						helperText="Used if a paired idea does not have gender."
-						disabled={!possessive}
+						placeholder={"Defaults to \"dealing with\""}
+						helperText={"Replaces [dealing with] in: \"<Character> [dealing with] <This Event>.\""}
 					/>
 				</IonItem>
 			</PromptsAddModal>
@@ -240,4 +278,4 @@ const PromptsActionsEdit: FC = () => {
 	);
 };
 
-export default PromptsActionsEdit;
+export default PromptsEventsEdit;

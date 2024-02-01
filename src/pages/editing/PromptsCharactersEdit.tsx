@@ -85,7 +85,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		linkToAnAction: origLink
 	} = item;
 	const dispatch = useAppDispatch();
-	const ID = `PromptFormatLine-Character-${id}`;
+	const ID = `PromptLine-Character-${id}`;
 
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
