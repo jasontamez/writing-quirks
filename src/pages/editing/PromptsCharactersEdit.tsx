@@ -168,6 +168,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 				toast
 			});
 		}
+		const doTrim = [true, true, false, false, true, false];
 		const [
 			article,
 			simplePlural,
@@ -177,7 +178,8 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 			linker
 		] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
-			return (iBox && iBox.value) || "";
+			const str = (iBox && iBox.value) || "";
+			return doTrim.shift() ? str.trim() : str;
 		});
 		const plural = hasMulti
 			? (
@@ -582,6 +584,7 @@ const PromptsCharactersEdit: FC = () => {
 				toast
 			});
 		}
+		const doTrim = [true, true, false, false, true, false];
 		const [
 			article,
 			simplePlural,
@@ -591,7 +594,8 @@ const PromptsCharactersEdit: FC = () => {
 			linker
 		] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
-			return (iBox && iBox.value) || "";
+			const str = (iBox && iBox.value) || "";
+			return doTrim.shift() ? str.trim() : str;
 		});
 		const plural = hasMulti
 			? (

@@ -149,9 +149,11 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 				toast
 			});
 		}
+		const doTrim = [true, true, false, false];
 		const [ article, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
-			return (iBox && iBox.value) || "";
+			const str = (iBox && iBox.value) || "";
+			return doTrim.shift() ? str.trim() : str;
 		});
 		const plural = hasMulti
 			? (
@@ -460,9 +462,11 @@ const PromptsObjectsEdit: FC = () => {
 				toast
 			});
 		}
+		const doTrim = [true, true, false, false];
 		const [ article, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
-			return (iBox && iBox.value) || "";
+			const str = (iBox && iBox.value) || "";
+			return doTrim.shift() ? str.trim() : str;
 		});
 		const plural = hasMulti
 			? (
@@ -553,7 +557,7 @@ const PromptsObjectsEdit: FC = () => {
 							id="objectPlural1"
 							className="editable"
 							inputmode="text"
-							helperText="Text before number."
+							helperText="Text before number. Include trailing spaces, if any."
 							disabled={!hasMulti || !specialPlural}
 						/>
 						<div>[number]</div>
@@ -562,7 +566,7 @@ const PromptsObjectsEdit: FC = () => {
 							id="objectPlural2"
 							className="editable"
 							inputmode="text"
-							helperText="Text after number."
+							helperText="Text after number. Include leading spaces, if any."
 							disabled={!hasMulti || !specialPlural}
 						/>
 					</div>
