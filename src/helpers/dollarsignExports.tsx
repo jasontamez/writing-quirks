@@ -1,7 +1,7 @@
-/*
 export const $q =
 	<T extends HTMLElement>(query: string, doc: Document | HTMLElement = window.document): T | null =>
 		doc.querySelector(query) as T | null;
+/*
 export const $a =
 	<T extends HTMLElement>(query: string, doc: Document | HTMLElement = window.document): T[] =>
 		Array.from(doc.querySelectorAll(query)) as T[];

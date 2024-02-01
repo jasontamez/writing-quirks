@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, memo, useCallback, useState } from 'react';
 import {
 	IonIcon,
 	IonInput,
@@ -16,6 +16,7 @@ import {
 } from '@ionic/react';
 import { pencilOutline, trashOutline } from 'ionicons/icons';
 import { v4 as uuidv4 } from "uuid";
+import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -29,7 +30,7 @@ import toaster from '../../helpers/toaster';
 
 import PromptsEditModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
-import PromptsIdeasEdit from './Prompts_IdeasEdit';
+import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
 
 const inputStrings = [
@@ -45,6 +46,7 @@ const inputNums = [
 
 interface ObjectItem {
 	item: AnObject
+	style: { [key: string]: any }
 	all: AnObject[]
 }
 const ObjectLine: FC<ObjectItem> = (props) => {
@@ -58,7 +60,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 	const [rateFavorsLower, setRateFavorsLower] = useState<boolean>(false);
 	const [numerals, setNumerals] = useState<boolean>(false);
 	const [rateBy, setRateBy] = useState<"incremental" | NumericRange<1, 21>>(1);
-	const { item, all } = props;
+	const { item, all, style } = props;
 	const {
 		id,
 		idea,
@@ -207,7 +209,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 	]);
 
 	return (
-		<IonItemSliding id={ID}>
+		<IonItemSliding id={ID} style={style}>
 			<PromptsEditModal
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
@@ -404,11 +406,11 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const objectLine = (
-	item: AnObject,
-	i: number,
-	all: AnObject[]
-) => <ObjectLine key={`ObjectLine-${item.id}`} item={item} all={all} />;
+const ObjectItems = memo(({index, style, data: ideas}: IdeaItem<AnObject>) => {
+	const idea = ideas[index];
+	const { id, type } = idea;
+	return <ObjectLine key={`ObjectLine:${type}/${id}`} item={idea} all={ideas} style={style} />;
+}, areEqual);
 
 const PromptsObjectsEdit: FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
@@ -491,7 +493,7 @@ const PromptsObjectsEdit: FC = () => {
 	}, [innatePlural, dispatch, toast, rateBy, rateFavorsLower, numerals, geometric, hasMulti, specialPlural]);
 
 	return (
-		<PromptsIdeasEdit ideas={objects} looper={objectLine} title="Objects" setAddModalOpen={setOpen}>
+		<PromptsIdeasEdit ideas={objects} IdeaItems={ObjectItems} title="Objects" setAddModalOpen={setOpen}>
 			<PromptsAddModal
 				modalOpen={open}
 				setModalOpen={setOpen}

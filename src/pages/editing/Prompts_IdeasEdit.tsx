@@ -1,35 +1,78 @@
-import React, { Dispatch, PropsWithChildren, ReactElement, SetStateAction } from 'react';
+import React, {
+	Dispatch,
+	PropsWithChildren,
+	SetStateAction,
+	useEffect,
+	useState
+} from 'react';
 import {
 	IonButton,
 	IonButtons,
 	IonContent,
-	IonFab,
-	IonFabButton,
 	IonHeader,
 	IonIcon,
+	IonLabel,
 	IonList,
 	IonPage,
 	IonTitle,
-	IonToolbar
+	IonToolbar,
+	useIonViewDidEnter
 } from '@ionic/react';
-import { add, arrowBackCircleSharp } from 'ionicons/icons';
+import { FixedSizeList } from 'react-window';
+import { addCircle, arrowBackCircleSharp } from 'ionicons/icons';
+import { useWindowHeight } from '@react-hook/window-size/throttled';
+
+import { $i, $q } from '../../helpers/dollarsignExports';
 import './Editing.css';
 
-type MapFunc<T> = (bit: T, index: number, all: T[]) => ReactElement;
+export interface IdeaItem<T> {
+	index: number
+	style: { [key: string]: any }
+	data: T[]
+}
 
 interface IdeaEditProps<T> {
 	ideas: T[]
-	looper: MapFunc<T>
+	IdeaItems: React.FC<IdeaItem<T>>
 	title: string
 	setAddModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
+const baseUnitHeight = 56;
+const resetHeights = (
+	header: HTMLElement | null,
+	button: HTMLElement | null,
+	tabs: HTMLElement | null,
+	height: number,
+	setPromptsHeight: Dispatch<SetStateAction<number>>
+) => {
+	const bitHeight = (header && header.offsetHeight) || baseUnitHeight;
+	const buttonHeight = (button && button.offsetHeight) || baseUnitHeight;
+	const tabsHeight = (tabs && tabs.offsetHeight) || baseUnitHeight;
+	setPromptsHeight(height - bitHeight - buttonHeight - tabsHeight);
+	return bitHeight;
+};
+
 const PromptsIdeasEdit = <T extends unknown>(props: PropsWithChildren<IdeaEditProps<T>>) => {
-	const { ideas, looper, title, setAddModalOpen, children } = props;
+	const { ideas, IdeaItems, title, setAddModalOpen, children } = props;
+	const [unitHeight, setUnitHeight] = useState<number>(48);
+	const [promptsHeight, setPromptsHeight] = useState<number>(0);
+	const height = useWindowHeight();
+	const header = $q("ion-header.pageHeader");
+	const button = $i("addButtonIdeas");
+	const bar = $q("ion-tab-bar");
+	useIonViewDidEnter(() => setUnitHeight(resetHeights(
+		$q("ion-header.pageHeader"),
+		$i("addButtonIdeas"),
+		$q("ion-tab-bar"),
+		height,
+		setPromptsHeight
+	)));
+	useEffect(() => setUnitHeight(resetHeights(header, button, bar, height, setPromptsHeight)), [header, height, button, bar]);
 	
 	return (
 		<IonPage>
-			<IonHeader>
+			<IonHeader className="pageHeader">
 				<IonToolbar>
 					<IonTitle>Prompts - {title} - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
@@ -41,14 +84,22 @@ const PromptsIdeasEdit = <T extends unknown>(props: PropsWithChildren<IdeaEditPr
 			</IonHeader>
 			<IonContent>
 				{ children }
-				<IonList lines="full" className="editing">
-					{ ideas.map(looper) }
+				<IonList lines="full" className="editing windowed">
+					<FixedSizeList
+						className="editing"
+						height={promptsHeight}
+						itemCount={ideas.length}
+						itemData={ideas}
+						itemSize={unitHeight}
+						width="100%"
+					>{IdeaItems}</FixedSizeList>
 				</IonList>
-				<IonFab slot="fixed" horizontal="end" vertical="bottom">
-					<IonFabButton color="primary" onClick={() => setAddModalOpen(true)}>
-						<IonIcon icon={add} />
-					</IonFabButton>
-				</IonFab>
+				<div id="addButtonIdeas">
+					<IonButton color="primary" onClick={() => setAddModalOpen(true)}>
+						<IonIcon icon={addCircle} slot="start" />
+						<IonLabel>Add new {title.replace(/s$/, "")}</IonLabel>
+					</IonButton>
+				</div>
 			</IonContent>
 		</IonPage>
 	);

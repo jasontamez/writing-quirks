@@ -6,7 +6,7 @@ ion-list.editing {
 ion-list.editing ion-item:last-child {
 	padding-block-end: 5em;
 }
-ion-list.editing ion-item-sliding:last-child {
+ion-list.editing:not(.windowed) ion-item-sliding:last-child {
 	margin-block-end: 5em;
 }
 ion-modal ion-list.editing ion-item:last-child {
@@ -58,6 +58,20 @@ ion-list.editing ion-item .chunk .icon ion-button {
 	font-weight: 0.75em;
 	--padding-start: 0.1em;
 	--padding-end: 0.1em;
+}
+ion-list.editing.windowed {
+	background: var(--ion-color-step-50);
+}
+ion-list.editing.windowed div.editing ion-item-sliding {
+	background: var(--ion-color-step-50);
+	border-bottom: 2px solid var(--ion-border-color);
+}
+#addButtonIdeas {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 0.2em;
 }
 ion-list.editing ion-item.editingItem::part(native) {
 	--inner-padding-end: 0;

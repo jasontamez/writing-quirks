@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, memo, useCallback, useState } from 'react';
 import {
 	IonIcon,
 	IonInput,
@@ -13,6 +13,7 @@ import {
 } from '@ionic/react';
 import { pencilOutline, trashOutline } from 'ionicons/icons';
 import { v4 as uuidv4 } from "uuid";
+import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -25,11 +26,12 @@ import toaster from '../../helpers/toaster';
 
 import PromptsEditFormatModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
-import PromptsIdeasEdit from './Prompts_IdeasEdit';
+import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
 
 interface ActionItem {
 	item: Action
+	style: { [key: string]: any }
 	all: Action[]
 }
 const ActionLine: FC<ActionItem> = (props) => {
@@ -37,7 +39,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 	const [doAlert] = useIonAlert();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [possessive, setPossessive] = useState<boolean>(false);
-	const { item, all } = props;
+	const { item, all, style } = props;
 	const { id, idea, type, genericPossessive, possessive: origPoss } = item;
 	const dispatch = useAppDispatch();
 	const ID = `PromptFormatLine-Action-${id}`;
@@ -104,7 +106,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 	}, [possessive, origPoss, genericPossessive, ID]);
 
 	return (
-		<IonItemSliding id={ID}>
+		<IonItemSliding id={ID} style={style}>
 			<PromptsEditFormatModal
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
@@ -161,11 +163,11 @@ const ActionLine: FC<ActionItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const actionLine = (
-	item: Action,
-	i: number,
-	all: Action[]
-) => <ActionLine key={`ActionLine-${item.id}`} item={item} all={all} />;
+const ActionItems = memo(({index, style, data: ideas}: IdeaItem<Action>) => {
+	const idea = ideas[index];
+	const { id, type } = idea;
+	return <ActionLine key={`ObjectLine:${type}/${id}`} item={idea} all={ideas} style={style} />;
+}, areEqual);
 
 const PromptsActionsEdit: FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
@@ -202,7 +204,7 @@ const PromptsActionsEdit: FC = () => {
 	}, [possessive, dispatch, toast]);
 
 	return (
-		<PromptsIdeasEdit ideas={actions} looper={actionLine} title="Actions" setAddModalOpen={setOpen}>
+		<PromptsIdeasEdit ideas={actions} IdeaItems={ActionItems} title="Actions" setAddModalOpen={setOpen}>
 			<PromptsAddModal
 				modalOpen={open}
 				setModalOpen={setOpen}

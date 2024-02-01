@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, memo, useCallback, useState } from 'react';
 import {
 	IonIcon,
 	IonInput,
@@ -15,6 +15,7 @@ import {
 	useIonToast
 } from '@ionic/react';
 import { pencilOutline, trashOutline } from 'ionicons/icons';
+import { areEqual } from 'react-window';
 import { v4 as uuidv4 } from "uuid";
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
@@ -29,7 +30,7 @@ import toaster from '../../helpers/toaster';
 
 import PromptsEditModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
-import PromptsIdeasEdit from './Prompts_IdeasEdit';
+import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
 
 const inputStrings = [
@@ -48,6 +49,7 @@ const inputNums = [
 interface CharacterItem {
 	item: Character
 	all: Character[]
+	style: { [key: string]: any }
 }
 const CharacterLine: FC<CharacterItem> = (props) => {
 	const toast = useIonToast();
@@ -64,7 +66,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 	const [fictionalCharacter, setFictionalCharacter] = useState<boolean>(false);
 	const [monster, setMonster] = useState<boolean>(false);
 	const [hasGender, setHasGender] = useState<boolean>(false);
-	const { item, all } = props;
+	const { item, all, style } = props;
 	const {
 		id,
 		idea,
@@ -255,7 +257,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 	]);
 
 	return (
-		<IonItemSliding id={ID}>
+		<IonItemSliding id={ID} style={style}>
 			<PromptsEditModal
 				modalOpen={modalOpen}
 				setModalOpen={setModalOpen}
@@ -518,11 +520,11 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		</IonItemSliding>
 	);
 };
-const characterLine = (
-	item: Character,
-	i: number,
-	all: Character[]
-) => <CharacterLine key={`CharacterLine-${item.id}`} item={item} all={all} />;
+const CharacterItems = memo(({index, style, data: ideas}: IdeaItem<Character>) => {
+	const idea = ideas[index];
+	const { id, type } = idea;
+	return <CharacterLine key={`CharacterLine:${type}/${id}`} item={idea} all={ideas} style={style} />;
+}, areEqual);
 
 const PromptsCharactersEdit: FC = () => {
 	const [open, setOpen] = useState<boolean>(false);
@@ -628,7 +630,7 @@ const PromptsCharactersEdit: FC = () => {
 	]);
 
 	return (
-		<PromptsIdeasEdit ideas={characters} looper={characterLine} title="Characters" setAddModalOpen={setOpen}>
+		<PromptsIdeasEdit ideas={characters} IdeaItems={CharacterItems} title="Characters" setAddModalOpen={setOpen}>
 			<PromptsAddModal
 				modalOpen={open}
 				setModalOpen={setOpen}
