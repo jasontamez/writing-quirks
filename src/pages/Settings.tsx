@@ -495,7 +495,7 @@ const Settings: React.FC = () => {
 							onClick={() => toggle("properName")}
 						>
 							<h2>Proper Names</h2>
-							<p>George Washington, Twinkies, Japan, etc.</p>
+							<p>George Washington, Twinkies, Japan, the Colorado River, etc.</p>
 						</IonToggle>
 					</IonItem>
 
@@ -686,7 +686,7 @@ const Settings: React.FC = () => {
 							onClick={() => toggle("construct")}
 						>
 							<h2>Constructs</h2>
-							<p>Buildings, bridges, monuments, etc.</p>
+							<p>Buildings, bridges, battlefields, animal dens, etc.</p>
 						</IonToggle>
 					</IonItem>
 					<IonItem >
@@ -730,7 +730,7 @@ const Settings: React.FC = () => {
 							onClick={() => toggle("tinySize")}
 						>
 							<h2>Tiny Locations</h2>
-							<p>A bedroom, a wedding, e.g.</p>
+							<p>A bedroom, a wedding, a sports arena, e.g.</p>
 						</IonToggle>
 					</IonItem>
 					<IonItem>

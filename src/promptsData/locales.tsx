@@ -862,7 +862,8 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		idea: "Rome",
 		properName: true,
 		europe: true,
-		political: true
+		political: true,
+		smallSize: true
 	},
 	{
 		id: "a9b7ddaf-216f-4512-b43b-80b8fc48a02a",
@@ -1282,10 +1283,10 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "f60080fd-b217-47e0-965c-ea8e63ac1b02",
 		idea: "along the Mississippi River",
+		properName: true,
 		nonSpecific: true,
 		mediumSize: true,
 		geographical: true,
-		properName: true,
 		preposition: "somewhere"
 	},
 	{
@@ -1313,6 +1314,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "b7d39dd1-e1bc-4301-92a8-82feff531935",
 		idea: "Ukraine",
+		properName: true,
 		mediumSize: true,
 		europe: true,
 		humanDistress: true,
@@ -1341,6 +1343,7 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 	{
 		id: "f3eac58d-6cd1-4511-84bd-ebcde9b7924d",
 		idea: "the Colosseum",
+		properName: true,
 		tinySize: true,
 		construct: true,
 		humanDistress: true,

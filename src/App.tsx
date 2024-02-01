@@ -68,6 +68,10 @@ const PromptsFormatsEdit = lazy(() => import("./pages/editing/PromptsFormatsEdit
 const PromptsActionsEdit = lazy(() => import("./pages/editing/PromptsActionsEdit"));
 const PromptsObjectsEdit = lazy(() => import("./pages/editing/PromptsObjectsEdit"));
 const PromptsCharactersEdit = lazy(() => import("./pages/editing/PromptsCharactersEdit"));
+const PromptsEventsEdit = lazy(() => import("./pages/editing/PromptsEventsEdit"));
+const PromptsLocalesEdit = lazy(() => import("./pages/editing/PromptsLocalesEdit"));
+const PromptsTimesEdit = lazy(() => import("./pages/editing/PromptsTimesEdit"));
+const PromptsTopicsEdit = lazy(() => import("./pages/editing/PromptsTopicsEdit"));
 
 const App: React.FC = () => {
 	const navigator = useIonRouter();
@@ -127,6 +131,26 @@ const App: React.FC = () => {
 							exact
 							path="/editpromptscharacters"
 							render={() => <Suspense fallback={<Loading />}><PromptsCharactersEdit /></Suspense>}
+						/>
+						<Route
+							exact
+							path="/editpromptsevents"
+							render={() => <Suspense fallback={<Loading />}><PromptsEventsEdit /></Suspense>}
+						/>
+						<Route
+							exact
+							path="/editpromptslocales"
+							render={() => <Suspense fallback={<Loading />}><PromptsLocalesEdit /></Suspense>}
+						/>
+						<Route
+							exact
+							path="/editpromptstimes"
+							render={() => <Suspense fallback={<Loading />}><PromptsTimesEdit /></Suspense>}
+						/>
+						<Route
+							exact
+							path="/editpromptstopics"
+							render={() => <Suspense fallback={<Loading />}><PromptsTopicsEdit /></Suspense>}
 						/>
 						<Route exact path="/" render={() => <Main />} />
 					</IonRouterOutlet>
