@@ -13,7 +13,7 @@ interface Group {
 	theChance: ChangeRange
 }
 
-export type PluralNoun = [string, string | null];
+export type PluralNoun = [string, string];
 
 export interface NounGroup extends Group {
 	members: (string | PluralNoun)[]
@@ -371,20 +371,21 @@ const animalNouns: NounGroup = ({
 	...baseNounGroup,
 	description: "Animals",
 	members: ["Alligator","Baboon","Badger","Banshee","Barnacle","Basilisk","Bat","Bear","Boar","Bronco",
-		"Buck",["Buffalo",null],"Bull",["Butterfly","Butterflies"],["Carp",null],"Cat","Chicken","Clam",
-		"Cockatoo","Cockatrice","Cow","Coyote","Crane",["Crawfish",null],"Crow",["Deer",null],"Djinn","Dog",
-		"Donkey","Dragon","Duck","Eagle","Eel","Elephant",["Elk",null],["Finch","Finches"],"Flea",
-		["Fox","Foxes"],"Frog","Giraffe","Goat",["Goldfish",null],["Goose","Geese"],"Gorgon","Gorilla",
+		"Buck",["Buffalo","Buffalo"],"Bull",["Butterfly","Butterflies"],["Carp","Carp"],"Cat","Chicken","Clam",
+		"Cockatoo","Cockatrice","Cow","Coyote","Crane",["Crawfish","Crawfish"],"Crow",["Deer","Deer"],"Djinn",
+		"Dog","Donkey","Dragon","Duck","Eagle","Eel","Elephant",["Elk","Elk"],["Finch","Finches"],"Flea",
+		["Fox","Foxes"],"Frog","Giraffe","Goat",["Goldfish","Goldfish"],["Goose","Geese"],"Gorgon","Gorilla",
 		"Greyhound","Gryphon","Gull","Hamster","Hare",["Harpy","Harpies"],"Hart","Hawk","Hippo","Hippogriff",
-		"Horse","Hound","Hydra","Hyena","Jaguar",["Jellyfish",null],"Kitten",["Koi",null],"Kraken","Lamb",
-		"Lamprey","Lion","Lizard","Llama","Magpie","Marmot","Monkey","Monster",["Moose",null],"Mule","Narwhal",
-		["Octopus","Octopuses"],"Otter","Owl","Owlbear","Oyster","Panda","Parrot","Peacock",["Pegasus","Pegasi"],
-		"Penguin",["Phoenix","Phoenixes"],"Pig","Pigeon",["Pony","Ponies"],"Possum",["Puppy","Puppies"],"Quail",
-		"Rabbit","Raccoon","Ram","Rat","Raven","Razorback",["Rhinoceros","Rhinos"],"Roc","Rook","Rooster",
-		"Salamander","Salmon",["Sasquatch","Sasquatches"],"Seahorse","Serpent","Shark",["Sheep",null],"Skunk",
-		"Snail","Snake","Spider","Squirrel","Stag",["Starfish",null],"Stoat","Swan",["Thrush","Thrushes"],
-		"Thunderbird","Tiger","Toad",["Trout",null],["Tuna",null],"Turtle","Unicorn",["Walrus","Walruses"],
-		"Weasel","Whale","Whelp",["Wolf","Wolves"],"Wolfhound","Wombat","Wyvern",["Yeti",null]],
+		"Horse","Hound","Hydra","Hyena","Jaguar",["Jellyfish","Jellyfishes"],"Kitten",["Koi","Koi"],"Kraken",
+		"Lamb","Lamprey","Lion","Lizard","Llama","Magpie","Marmot","Monkey","Monster",["Moose","Moose"],"Mule",
+		"Narwhal",["Octopus","Octopuses"],"Otter","Owl","Owlbear","Oyster","Panda","Parrot","Peacock",
+		["Pegasus","Pegasi"],"Penguin",["Phoenix","Phoenixes"],"Pig","Pigeon",["Pony","Ponies"],"Possum",
+		["Puppy","Puppies"],"Quail","Rabbit","Raccoon","Ram","Rat","Raven","Razorback",["Rhinoceros","Rhinos"],
+		"Roc","Rook","Rooster","Salamander","Salmon",["Sasquatch","Sasquatches"],"Seahorse","Serpent","Shark",
+		["Sheep","Sheep"],"Skunk","Snail","Snake","Spider","Squirrel","Stag",["Starfish","Starfishes"],"Stoat",
+		"Swan",["Thrush","Thrushes"],"Thunderbird","Tiger","Toad",["Trout","Trout"],["Tuna","Tuna"],"Turtle",
+		"Unicorn",["Walrus","Walruses"],"Weasel","Whale","Whelp",["Wolf","Wolves"],"Wolfhound","Wombat",
+		"Wyvern",["Yeti","Yeti"]],
 	modifiers: [
 		"animalPartModifiers",
 		"animalPeopleModifiers",

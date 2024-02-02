@@ -1,5 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import originalideas, { allFormats, Any, Format, FormatObject, FormatProps, IdeaFlagsObject, IdeaTypes } from '../promptsData/Ideas';
+import originalideas, {
+	allFormats,
+	Any,
+	basicSorter,
+	Format,
+	FormatObject,
+	FormatProps,
+	IdeaFlagsObject,
+	IdeaTypes
+} from '../promptsData/Ideas';
 
 interface FormatItem {
 	prop: FormatProps
@@ -26,10 +35,16 @@ export interface WritingPromptsSettings {
 	acceptUpdates: boolean
 }
 
+const sortIdeas = (ideas: Any[]) => {
+	const copy = [...ideas];
+	copy.sort(basicSorter);
+	return copy;
+};
 const ideas: Partial<IdeasObject> = {};
 (Object.entries(originalideas) as [IdeaTypes, Any[]][]).forEach(([prop, array]) => {
-	ideas[prop] = array.map(bit => ({...bit}));
+	ideas[prop] = sortIdeas(array.map(bit => ({...bit})));
 });
+
 
 export const writingPromptsSettings: WritingPromptsSettings = {
 	usedIds: [],
@@ -164,12 +179,23 @@ const writingPromptsSettingsSlice = createSlice({
 		addPrompt: (state, action: PayloadAction<AddEditIdea>) => {
 			const { idea, prop } = action.payload;
 			state.ideas[prop].push(idea);
+			state.ideas[prop].sort(basicSorter);
 			return state;
 		},
 		editPrompt: (state, action: PayloadAction<AddEditIdea>) => {
 			const { idea, prop } = action.payload;
-			const id = idea.id;
-			state.ideas[prop] = state.ideas[prop].map(i => i.id === id ? idea : i);
+			const { idea: neww, id } = idea;
+			let orig = "";
+			state.ideas[prop] = state.ideas[prop].map(i => {
+				if(i.id === id) {
+					orig = i.idea;
+					return idea;
+				}
+				return i;
+			});
+			if(orig !== neww) {
+				state.ideas[prop].sort(basicSorter);
+			}
 			return state;
 		},
 		deletePrompt: (state, action: PayloadAction<DelIdea>) => {

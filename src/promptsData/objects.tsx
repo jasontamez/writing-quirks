@@ -2274,7 +2274,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 	},
 	{
 		id: "2fb630c1-ee85-47d6-a8b9-f1bad68c9cb3",
-		idea: "a Ouiji board",
+		idea: "a Ouija board",
 		mythsReligionsAndMetaphysics: true,
 		metaphysics: true
 	},
@@ -2476,7 +2476,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 	},
 	{
 		id: "bd5c4dd5-e650-469c-876a-384313c105b8",
-		idea: "the number 1",
+		idea: "the number one",
 		plural: [
 			"the number ",
 			""
@@ -2489,6 +2489,10 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		id: "db3a898b-ff58-488b-a8c5-4f329c0425e2",
 		idea: "a block of polished marble"
 	},
+	{
+		id: "5acb8bbe-08f3-4b19-86ef-11934c0383b1",
+		idea: "a dress of uncertain colors"
+	}
 ];
 
 const objects: AnObject[] = info.map(bit => ({ ...base, ...bit }));

@@ -250,3 +250,32 @@ export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEven
 const ideas: { [key in IdeaTypes]: Any[] } = { character, object, event, time, topic, action, locale };
 
 export default ideas;
+
+const sortRegexString =
+	new RegExp (
+		"^\\s*("
+		+ "(?:(?:"
+			+ "with|at|to|from|(?:from\\s+)?in(?:\\s+(?:the\\s+)?front\\s+of|side|to)?"
+			+ "|upon|out(?:side)?(?:\\s+of)?|over|through|under(?:neath?)|for|about|is|as"
+			+ "|be(?:neath|hind|side)|on(?:\\s+top\\s+of|to)?|off(?:\\s+of)?"
+			+ "|during|along(?:side(?:\\s+of)?|\\swith)?"
+		+ ")\\b\\s*)?"
+		+ "(?:an?|the)?)\\b\\s+(.+)$",
+	"i"
+);
+const convertEnglishString = (info: string) => {
+	const m = info.match(sortRegexString);
+	if(m) {
+		return `${m[2]}, ${m[1]}`;
+	}
+	return info;
+};
+
+export const basicSortMaker = (func: (x: string) => string) => {
+	return (a: Any, b: any) => {
+		const one = func(a.idea);
+		const two = func(b.idea);
+		return one.localeCompare(two);
+	}
+};
+export const basicSorter = basicSortMaker(convertEnglishString);

@@ -3,6 +3,7 @@ import React, {
 	PropsWithChildren,
 	SetStateAction,
 	useEffect,
+	useRef,
 	useState
 } from 'react';
 import {
@@ -23,6 +24,7 @@ import { addCircle, arrowBackCircleSharp } from 'ionicons/icons';
 import { useWindowHeight } from '@react-hook/window-size/throttled';
 
 import { $i, $q } from '../../helpers/dollarsignExports';
+import { Any } from '../../promptsData/Ideas';
 import './Editing.css';
 
 export interface IdeaItem<T> {
@@ -53,14 +55,16 @@ const resetHeights = (
 	return bitHeight;
 };
 
-const PromptsIdeasEdit = <T extends unknown>(props: PropsWithChildren<IdeaEditProps<T>>) => {
+const PromptsIdeasEdit = <T extends Any>(props: PropsWithChildren<IdeaEditProps<T>>) => {
 	const { ideas, IdeaItems, title, setAddModalOpen, children } = props;
 	const [unitHeight, setUnitHeight] = useState<number>(48);
 	const [promptsHeight, setPromptsHeight] = useState<number>(0);
+	const [ideasCopy, setIdeasCopy] = useState<T[]>(ideas);
 	const height = useWindowHeight();
 	const header = $q("ion-header.pageHeader");
 	const button = $i("addButtonIdeas");
 	const bar = $q("ion-tab-bar");
+	const listRef = useRef<FixedSizeList | null>(null);
 	useIonViewDidEnter(() => setUnitHeight(resetHeights(
 		$q("ion-header.pageHeader"),
 		$i("addButtonIdeas"),
@@ -69,6 +73,18 @@ const PromptsIdeasEdit = <T extends unknown>(props: PropsWithChildren<IdeaEditPr
 		setPromptsHeight
 	)));
 	useEffect(() => setUnitHeight(resetHeights(header, button, bar, height, setPromptsHeight)), [header, height, button, bar]);
+	useEffect(() => {
+		if(ideas.length > ideasCopy.length) {
+			// Find the new item
+			let found: number = ideas.length;
+			ideasCopy.every((idea, i) => {
+				found = i;
+				return idea.id === ideas[i].id;
+			});
+			listRef && listRef.current && listRef.current.scrollToItem(found, "smart");
+		}
+		setIdeasCopy(ideas);
+	}, [ideas, ideasCopy]);
 	
 	return (
 		<IonPage>
@@ -92,6 +108,7 @@ const PromptsIdeasEdit = <T extends unknown>(props: PropsWithChildren<IdeaEditPr
 						itemData={ideas}
 						itemSize={unitHeight}
 						width="100%"
+						ref={listRef}
 					>{IdeaItems}</FixedSizeList>
 				</IonList>
 				<div id="addButtonIdeas">

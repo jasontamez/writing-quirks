@@ -162,7 +162,7 @@ const LocaleLine: FC<LocaleItem> = (props) => {
 		setModalOpen(false);
 	}, [ID, dispatch, toast, specific, political, geographical, construct, size, area]);
 	const okToClose = useCallback(() => {
-		const iBox = $i<HTMLInputElement>(`localePlural-${ID}`);
+		const iBox = $i<HTMLInputElement>(`localePreposition-${ID}`);
 		return (!nonSpecific === specific
 			&& political === origPol
 			&& geographical === origGeo
@@ -299,7 +299,7 @@ const LocaleLine: FC<LocaleItem> = (props) => {
 							Eastern Asia (e.g. China, Siberia, Indonesia, Myanmar)
 						</IonSelectOption>
 						<IonSelectOption value={"oceania"}>Australia and Oceania</IonSelectOption>
-						<IonSelectOption value={null}>Not on Earth</IonSelectOption>
+						<IonSelectOption value={null}>Not on Earth/No permanant location</IonSelectOption>
 					</IonSelect>
 				</IonItem>
 			</PromptsEditModal>

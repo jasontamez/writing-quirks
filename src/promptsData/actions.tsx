@@ -113,7 +113,7 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	},
 	{
 		id: "8b8e1e6e-d565-4eed-86b8-600fccaa149e",
-		idea: "a big gulp"
+		idea: "taking a big gulp"
 	},
 	{
 		id: "ad580da6-1504-46bc-ac40-b175132913e3",
