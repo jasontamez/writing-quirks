@@ -151,7 +151,7 @@ const LocaleLine: FC<LocaleItem> = (props) => {
 		construct && (final.construct = true);
 		size && (final[size] = true);
 		area && (final[area] = true);
-		dispatch(editPrompt({ prop: "locale", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -367,7 +367,7 @@ const PromptsLocalesEdit: FC = () => {
 		construct && (final.construct = true);
 		size && (final[size] = true);
 		area && (final[area] = true);
-		dispatch(addPrompt({ prop: "locale", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

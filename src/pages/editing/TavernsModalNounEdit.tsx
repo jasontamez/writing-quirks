@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, useMemo } from "react";
+import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -34,6 +34,7 @@ interface ModalProps {
 }
 
 interface ModifierObject { [key: string]: ModifierGroup }
+interface ModifierFlagObject { [key: string]: boolean }
 
 interface ModProps {
 	modifier: ModifierGroup
@@ -57,16 +58,18 @@ const Mod: FC<ModProps> = (props) => {
 
 interface ModSelector {
 	all: ModifierGroup[]
-	modObject: ModifierObject
 	returner: (mods: ModifierGroup[]) => void
+	noun: NounGroup
 }
 const ModAlert: FC<ModSelector> = (props) => {
-	const { all, modObject, returner } = props;
+	const { all, noun, returner } = props;
+	const flags: ModifierFlagObject = {};
+	noun.modifiers.forEach(prop => (flags[prop] = true));
 	const inputs: AlertInput[] = all.map(mod => ({
 		label: mod.description,
 		type: "checkbox",
 		value: mod,
-		checked: !!modObject[mod.id]
+		checked: !!flags[mod.id]
 	}));
 	return (
 		<IonAlert
@@ -91,7 +94,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 	const {
 		modalOpen,
 		setModalOpen,
-		modifiers,
+		modifiers: allModifiers,
 		itemId,
 		noun,
 		all
@@ -232,12 +235,6 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		});
 	}, [doAlert, dispatch, toast, noun, all]);
 
-	const modObject = useMemo(() => {
-		const obj: ModifierObject = {};
-		modifiers.forEach(mod => (obj[mod.id] = mod));
-		return obj;
-	}, [modifiers]);
-
 	const onOpen = useCallback(() => {
 		const {
 			description,
@@ -248,6 +245,8 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			theChance,
 			separator
 		} = noun;
+		const modObject: ModifierObject = {};
+		allModifiers.forEach(mod => (modObject[mod.id] = mod));
 		setMods(modIds.map(mod => modObject[mod]));
 		setModifierChance(modifierChance);
 		setAndChance(andChance);
@@ -260,7 +259,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 		const mBox = $i<HTMLInputElement>("editNounMembers");
 		mBox && (mBox.value = membersString);
 		setTextareaValue(membersString);
-	}, [noun, modObject, setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
+	}, [noun, allModifiers, setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue]);
 
 	const delMod = useCallback((mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)), [setMods, mods]);
 	const modLine = useCallback(
@@ -283,9 +282,9 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			undeleteable={all.length <= 1}
 		>
 			<ModAlert
-				modObject={modObject}
-				all={modifiers}
+				all={allModifiers}
 				returner={returnMods}
+				noun={noun}
 			/>
 			<IonItem>Description</IonItem>
 			<IonItem lines="full">
@@ -321,12 +320,15 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			</IonItem>
 			<IonItem>Possible Modifiers</IonItem>
 			<IonItem className="chunky">
-				<div>{mods.map(modLine)}</div>
+				<div>{mods.length > 0
+					? mods.map(modLine)
+					: <em>(zero modifiers selected)</em>
+				}</div>
 			</IonItem>
 			<IonItem lines="full">
 				<IonButton id="addPotentialModifierButton" color="primary" slot="end">
 					<IonIcon icon={addCircle} slot="start" />
-					<IonLabel>Add Modifier(s)</IonLabel>
+					<IonLabel>Select Modifier(s)</IonLabel>
 				</IonButton>
 			</IonItem>
 			<IonItem lines="full">

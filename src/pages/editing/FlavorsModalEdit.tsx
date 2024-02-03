@@ -75,6 +75,12 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 	const [a, setA] = useState<string>("");
 	const closeModal = useCallback(() => setModalOpen(false), [setModalOpen]);
 	const maybeClose = useCallback(() => {
+		const aBox = $i<HTMLInputElement>("editFlavorAdj");
+		const a = (aBox && aBox.value.trim()) || "";
+		const nBox = $i<HTMLInputElement>("editFlavorNoun");
+		const n = (nBox && nBox.value.trim()) || "";
+		const pBox = $i<HTMLInputElement>("editFlavorPlural");
+		const p = (pBox && pBox.value.trim()) || "";
 		const {
 			adjective,
 			postAdjective,
@@ -84,15 +90,15 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 			basicPlural
 		} = flavor;
 		if(
-			adjective ? adjective === a : !a
-				&& noun ? noun === n : !n
-					&& plural ? plural === p : !p
-					&& !!basicPlural === basic
-					&& !!postAdjective === pAdj
+			(adjective ? adjective === a : !a)
+			&& (noun ? noun === n : !n)
+			&& (plural ? plural === p : !p)
+			&& !!basicPlural === basic
+			&& !!postAdjective === pAdj
 			&& !!requiresSingular === reqSing
 		) {
 			// No changes
-			closeModal();
+			return closeModal();
 		}
 		yesNoAlert({
 			header: "Unsaved changes",
@@ -107,24 +113,14 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 		basic,
 		doAlert,
 		flavor,
-		a,
-		n,
-		p,
 		pAdj,
 		reqSing
 	]);
 	const maybeSave = useCallback(() => {
 		const aBox = $i<HTMLInputElement>("editFlavorAdj");
-		const nBox = $i<HTMLInputElement>("editFlavorNoun");
-		const pBox = $i<HTMLInputElement>("editFlavorPlural");
 		const a = (aBox && aBox.value.trim()) || "";
+		const nBox = $i<HTMLInputElement>("editFlavorNoun");
 		const n = (nBox && nBox.value.trim()) || "";
-		const p = (pBox && pBox.value.trim()) || "";
-		const flavor: Flavor = {
-			id: ID,
-			adjective: a,
-			noun: n
-		};
 		if(!a && !n) {
 			// ERROR
 			return toaster({
@@ -133,24 +129,23 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 				position: "middle",
 				toast
 			});
-		} else if(!a) {
-			delete flavor.adjective;
-		} else if(!n) {
-			delete flavor.noun;
 		}
-		if(n && p) {
-			flavor.plural = p;
+		const pBox = $i<HTMLInputElement>("editFlavorPlural");
+		const p = (pBox && pBox.value.trim()) || "";
+		const flavor: Partial<Flavor> = {
+			id: ID
+		};
+		if(n) {
+			flavor.noun = n;
+			p && (flavor.plural = p);
+			basic && (flavor.basicPlural = true);
 		}
-		if(n && basic) {
-			flavor.basicPlural = true;
+		if(a) {
+			flavor.adjective = a;
+			pAdj && (flavor.postAdjective = true);
+			reqSing && (flavor.requiresSingular = true);
 		}
-		if(a && pAdj) {
-			flavor.postAdjective = true;
-		}
-		if(a && reqSing) {
-			flavor.requiresSingular = true;
-		}
-		dispatch(editFlavor(flavor));
+		dispatch(editFlavor(flavor as Flavor));
 		closeModal();
 		toaster({
 			message: "Saved.",
@@ -234,8 +229,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					className="editable"
 					inputmode="text"
 					onIonInput={(e) => {
-						const n = (e.target as HTMLIonInputElement).value as string;
-						setN(n);
+						setN(e.target.value as string);
 					}}
 					debounce={500}
 				/>
@@ -255,8 +249,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					className="editable"
 					inputmode="text"
 					onIonInput={(e) => {
-						const p = (e.target as HTMLIonInputElement).value as string;
-						setP(p);
+						setP(e.target.value as string);
 					}}
 					debounce={500}
 				/>
@@ -274,8 +267,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					className="editable"
 					inputmode="text"
 					onIonInput={(e) => {
-						const a = (e.target as HTMLIonInputElement).value as string;
-						setA(a);
+						setA(e.target.value as string);
 					}}
 					debounce={500}
 				/>

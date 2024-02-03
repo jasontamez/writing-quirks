@@ -15,7 +15,6 @@ import {
 	IonPage,
 	IonSelect,
 	IonSelectOption,
-	IonText,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
@@ -25,19 +24,14 @@ import { chevronForward, trashBin } from 'ionicons/icons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { AnimationMethod, setAnimationMethod, toggleDebug } from '../store/generalSettingsSlice';
-import { clearUsedIdeas, resetPrompts, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSettingsSlice';
-import { resetBabbles } from '../store/infoBabblesSlice';
-import { resetFlavors } from '../store/infoFlavorsSlice';
-import { resetInsults } from '../store/infoInsultsSlice';
-import { resetStreets } from '../store/infoStreetsSlice';
-import { resetTaverns } from '../store/infoTavernsSlice';
+import { clearUsedIdeas, setMemorySize, toggleHiddenTopic } from '../store/writingPromptsSettingsSlice';
 import toaster from '../helpers/toaster';
 import { IdeaFlagsObject } from '../promptsData/Ideas';
 import packageJson from '../../package.json';
 
 const Settings: React.FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
-	const { memorySize = 500, hiddenTopics = {}, usedIds = [] } = useAppSelector(state => state.writingPromptsSettings) || {};
+	const { memorySize = 500, hiddenTopics, usedIds = [] } = useAppSelector(state => state.writingPromptsSettings) || {};
 	const {
 		profanity,
 
@@ -221,16 +215,6 @@ const Settings: React.FC = () => {
 								value="scrolling"
 							>Scrolling</IonSelectOption>
 						</IonSelect>
-					</IonItem>
-					<IonItem button onClick={() => {
-						dispatch(resetBabbles());
-						dispatch(resetFlavors());
-						dispatch(resetPrompts());
-						dispatch(resetInsults());
-						dispatch(resetStreets());
-						dispatch(resetTaverns());
-					}}>
-						<IonLabel><IonText color="danger">Reset All Ideas/Prompts/etc</IonText></IonLabel>
 					</IonItem>
 
 					<IonItemDivider className="major">Writing Prompts Settings</IonItemDivider>

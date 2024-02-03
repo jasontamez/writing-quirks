@@ -10,21 +10,24 @@ import {
 	IonItemOption,
 	IonItemOptions,
 	IonItemSliding,
+	IonLabel,
 	IonList,
 	IonPage,
+	IonText,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { addCircle, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
+import { addCircle, pencilOutline, arrowBackCircleSharp, trashOutline } from 'ionicons/icons';
 
 import {
 	toggleAcceptNew,
 	toggleAcceptUpdates,
 	deleteModifierGroup,
-	deleteNounGroup
+	deleteNounGroup,
+	resetTaverns
 } from '../../store/infoTavernsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { ModifierGroup, NounGroup } from "../../store/data/taverns";
@@ -218,6 +221,8 @@ const TavernsEdit: FC = () => {
 	} = useAppSelector(state => state.infoTaverns);
 	const [ modalNounOpen, setModalNounOpen ] = useState<boolean>(false);
 	const [ modalModifierOpen, setModalModifierOpen ] = useState<boolean>(false);
+	const toast = useIonToast();
+	const [ doAlert ] = useIonAlert();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -235,7 +240,7 @@ const TavernsEdit: FC = () => {
 					<IonTitle>Taverns - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="back" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>
@@ -265,6 +270,25 @@ const TavernsEdit: FC = () => {
 							<h2>Update Old Taverns</h2>
 							<p>When the app updates, if there are changes to old tavern components on this device, update them.</p>
 						</IonToggle>
+					</IonItem>
+					<IonItem button onClick={() => yesNoAlert({
+						header: "Reset All Nouns and Modifiers?",
+						message: "This will restore the app's original Taverns and Inns info, destroying "
+							+ "any new Nouns or Modifiers you might have added and any edits you may "
+							+ "have made. This cannot be undone. Are you sure you want to do this?",
+						submit: "Yes, Reset Everything",
+						handler: () => {
+							dispatch(resetTaverns());
+							toaster({
+								message: "Nouns/Modifiers have been reset.",
+								color: "success",
+								toast
+							});
+						},
+						doAlert,
+						cssClass: "danger"
+					})}>
+						<IonLabel><IonText color="danger">Reset to App Default</IonText></IonLabel>
 					</IonItem>
 					<IonItemDivider>Noun Groups</IonItemDivider>
 					{ nouns.map(nounItem) }

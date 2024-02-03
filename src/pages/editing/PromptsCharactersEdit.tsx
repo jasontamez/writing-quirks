@@ -202,7 +202,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 			genderPossessive: hasGender && genderPoss,
 			linkToAnAction: linker || " "
 		};
-		dispatch(editPrompt({ prop: "character", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -619,7 +619,7 @@ const PromptsCharactersEdit: FC = () => {
 			genderPossessive: hasGender && genderPoss,
 			linkToAnAction: linker || " "
 		};
-		dispatch(addPrompt({ prop: "character", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

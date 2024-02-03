@@ -81,7 +81,7 @@ const TopicLine: FC<TopicItem> = (props) => {
 			...input,
 			type: "topic"
 		};
-		dispatch(editPrompt({ prop: "topic", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -147,7 +147,7 @@ const PromptsTopicsEdit: FC = () => {
 			...input,
 			type: "topic"
 		};
-		dispatch(addPrompt({ prop: "topic", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

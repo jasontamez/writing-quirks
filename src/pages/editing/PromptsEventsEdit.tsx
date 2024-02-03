@@ -99,7 +99,7 @@ const EventLine: FC<EventItem> = (props) => {
 			pluralEvent,
 			preposition: (iBox && iBox.value) || "dealing with"
 		};
-		dispatch(editPrompt({ prop: "event", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -218,7 +218,7 @@ const PromptsEventsEdit: FC = () => {
 			pluralEvent,
 			preposition: (iBox && iBox.value) || "dealing with"
 		};
-		dispatch(addPrompt({ prop: "event", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

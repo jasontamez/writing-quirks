@@ -81,7 +81,7 @@ const TimeLine: FC<TimeItem> = (props) => {
 			...input,
 			type: "time"
 		};
-		dispatch(editPrompt({ prop: "time", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -147,7 +147,7 @@ const PromptsTimesEdit: FC = () => {
 			...input,
 			type: "time"
 		};
-		dispatch(addPrompt({ prop: "time", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

@@ -171,7 +171,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 			article,
 			numerals
 		};
-		dispatch(editPrompt({ prop: "object", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -485,7 +485,7 @@ const PromptsObjectsEdit: FC = () => {
 			article,
 			numerals
 		};
-		dispatch(addPrompt({ prop: "object", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

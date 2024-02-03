@@ -16,6 +16,7 @@ import {
 	IonLabel,
 	IonList,
 	IonPage,
+	IonText,
 	IonTextarea,
 	IonTitle,
 	IonToggle,
@@ -24,7 +25,7 @@ import {
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { add, pencilOutline, save, settingsSharp, trashOutline } from 'ionicons/icons';
+import { add, pencilOutline, save, arrowBackCircleSharp, trashOutline } from 'ionicons/icons';
 
 import {
 	setIntros,
@@ -33,7 +34,8 @@ import {
 	deleteAdjective,
 	deleteDeterminer,
 	toggleAcceptNew,
-	toggleAcceptUpdates
+	toggleAcceptUpdates,
+	resetBabbles
 } from '../../store/infoBabblesSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Adjective, Determiner } from '../../store/data/babbles';
@@ -222,6 +224,7 @@ const BabblesEdit: FC = () => {
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const [ modalTwoOpen, setModalTwoOpen ] = useState<boolean>(false);
 	const toast = useIonToast();
+	const [ doAlert ] = useIonAlert();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -289,7 +292,7 @@ const BabblesEdit: FC = () => {
 					<IonTitle>Technobabble - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="back" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>
@@ -319,6 +322,26 @@ const BabblesEdit: FC = () => {
 							<h2>Update Old Technobabble</h2>
 							<p>When the app updates, if there are changes to old technobabble components on this device, update them.</p>
 						</IonToggle>
+					</IonItem>
+					<IonItem button onClick={() => yesNoAlert({
+						header: "Reset All Technobabble?",
+						message: "This will restore the app's original Technobabble info, destroying "
+							+ "any new Adjectives, Nouns, Verbs, and Determiners you might have added "
+							+ "and any edits you may have made. This cannot be undone. Are you sure "
+							+ "you want to do this?",
+						submit: "Yes, Reset Everything",
+						handler: () => {
+							dispatch(resetBabbles());
+							toaster({
+								message: "Technobabble Information has been reset.",
+								color: "success",
+								toast
+							});
+						},
+						doAlert,
+						cssClass: "danger"
+					})}>
+						<IonLabel><IonText color="danger">Reset to App Default</IonText></IonLabel>
 					</IonItem>
 					<IonItemDivider>Adjectives</IonItemDivider>
 					{ adjectives.map(adjectiveItem) }

@@ -89,7 +89,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 			possessive,
 			genericPossessive
 		};
-		dispatch(editPrompt({ prop: "action", idea: final }));
+		dispatch(editPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",
@@ -192,7 +192,7 @@ const PromptsActionsEdit: FC = () => {
 			possessive,
 			genericPossessive
 		};
-		dispatch(addPrompt({ prop: "action", idea: final }));
+		dispatch(addPrompt(final));
 		toaster({
 			message: "Saved.",
 			color: "success",

@@ -103,7 +103,8 @@ const storeInfo = { store, persistor };
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 
-export type RootState = ReturnType<typeof store.getState>;
+//export type RootState = ReturnType<typeof store.getState>;
+export type RootState = typeof initialAppState; // changed to this because it works better
 
 export type AppDispatch = typeof store.dispatch;
 

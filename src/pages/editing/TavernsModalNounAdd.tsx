@@ -246,12 +246,15 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			</IonItem>
 			<IonItem>Possible Modifiers</IonItem>
 			<IonItem className="chunky">
-				<div>{mods.map(modLine)}</div>
+			<div>{mods.length > 0
+					? mods.map(modLine)
+					: <em>(zero modifiers selected)</em>
+				}</div>
 			</IonItem>
 			<IonItem lines="full">
 				<IonButton id="addPotentialModifierButton" color="primary" slot="end">
 					<IonIcon icon={addCircle} slot="start" />
-					<IonLabel>Add Modifier(s)</IonLabel>
+					<IonLabel>Select Modifier(s)</IonLabel>
 				</IonButton>
 			</IonItem>
 			<IonItem lines="full">

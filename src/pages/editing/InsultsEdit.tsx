@@ -10,15 +10,17 @@ import {
 	IonItemOption,
 	IonItemOptions,
 	IonItemSliding,
+	IonLabel,
 	IonList,
 	IonPage,
+	IonText,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { addCircle, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
+import { addCircle, pencilOutline, arrowBackCircleSharp, trashOutline } from 'ionicons/icons';
 
 import {
 	deleteNoun,
@@ -26,7 +28,8 @@ import {
 	deleteAdjective2,
 	deleteFormat,
 	toggleAcceptNew,
-	toggleAcceptUpdates
+	toggleAcceptUpdates,
+	resetInsults
 } from '../../store/infoInsultsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Adjective, Noun, Format } from '../../store/data/insults';
@@ -281,6 +284,8 @@ const InsultsEdit: FC = () => {
 	const [ modalA2Open, setModalA2Open ] = useState<boolean>(false);
 	const [ modalNOpen, setModalNOpen ] = useState<boolean>(false);
 	const [ modalFOpen, setModalFOpen ] = useState<boolean>(false);
+	const toast = useIonToast();
+	const [ doAlert ] = useIonAlert();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -292,7 +297,7 @@ const InsultsEdit: FC = () => {
 					<IonTitle>Insults - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="back" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>
@@ -324,6 +329,25 @@ const InsultsEdit: FC = () => {
 							<h2>Update Old Insults</h2>
 							<p>When the app updates, if there are changes to old insult components on this device, update them.</p>
 						</IonToggle>
+					</IonItem>
+					<IonItem button onClick={() => yesNoAlert({
+						header: "Reset All Adjectives and Nouns?",
+						message: "This will restore the app's original Shakespearian Insults info, destroying "
+							+ "any new Adjectives and Nouns you might have added and any edits you may have "
+							+ "made. This cannot be undone. Are you sure you want to do this?",
+						submit: "Yes, Reset Everything",
+						handler: () => {
+							dispatch(resetInsults());
+							toaster({
+								message: "Adjectives and Nouns have been reset.",
+								color: "success",
+								toast
+							});
+						},
+						doAlert,
+						cssClass: "danger"
+					})}>
+						<IonLabel><IonText color="danger">Reset to App Default</IonText></IonLabel>
 					</IonItem>
 					<IonItemDivider>Adjectives (Singular)</IonItemDivider>
 					{ adjectives1.map(adjectiveItem1) }

@@ -28,7 +28,7 @@ import PageHeader from '../components/PageHeader';
 import FaveButton from '../components/FaveButton';
 import getIdeaString from '../helpers/promptsCore';
 import getRandom from '../helpers/getRandom';
-import { Any, IdeaFlagsObject } from "../promptsData/Ideas";
+import { Any, IdeaFlagsObject, IdeaTypes } from "../promptsData/Ideas";
 import './Prompts.css';
 
 type IdeaFlagsObjectArray = (keyof IdeaFlagsObject)[];
@@ -108,7 +108,7 @@ const Prompts: FC = () => {
 
 	const allIdeas: Any[] = useMemo(() => {
 		const base: Any[] = [];
-		Object.keys(ideas).forEach(prop => base.push(...ideas[prop]));
+		Object.keys(ideas).forEach(prop => base.push(...ideas[prop as IdeaTypes]));
 		return base;
 	}, [ideas]);
 

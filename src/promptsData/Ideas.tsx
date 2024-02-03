@@ -119,9 +119,13 @@ export interface AnEventBase extends AnEventFlags {
 }
 export type AnEvent = BasicIdea & AnEventBase;
 
-export interface Topic extends BasicIdea {}
+export interface TopicBase extends BasicIdea {}
 
-export interface ATime extends BasicIdea {}
+export interface ATimeBase extends BasicIdea {}
+
+export interface Topic extends TopicBase {}
+
+export interface ATime extends ATimeBase {}
 
 export interface ActionBase {
 	possessive: boolean
@@ -138,6 +142,18 @@ export type Any =
 //	& Partial<Topic>
 	& Partial<ActionBase>
 	& Partial<LocaleBase>;
+
+type IdeasObjectBase = { [key in IdeaTypes]: any[] };
+
+export interface IdeasObject extends IdeasObjectBase {
+	character: Character[]
+	object: AnObject[]
+	event: AnEvent[]
+	time: ATime[]
+	topic: Topic[]
+	action: Action[]
+	locale: Locale[]
+}
 
 export enum F {
 	Idea = 0
@@ -247,7 +263,7 @@ export const formatInformation: { [ key in FormatProps ]: FormatInfo } = {
 
 export type IdeaFlagsObject = Required<BasicIdeaFlags> & CharacterFlags & AnEventFlags & Required<LocaleFlags>;
 
-const ideas: { [key in IdeaTypes]: Any[] } = { character, object, event, time, topic, action, locale };
+const ideas: IdeasObject = { character, object, event, time, topic, action, locale };
 
 export default ideas;
 
@@ -272,7 +288,7 @@ const convertEnglishString = (info: string) => {
 };
 
 export const basicSortMaker = (func: (x: string) => string) => {
-	return (a: Any, b: any) => {
+	return (a: CoreIdea, b: CoreIdea) => {
 		const one = func(a.idea);
 		const two = func(b.idea);
 		return one.localeCompare(two);

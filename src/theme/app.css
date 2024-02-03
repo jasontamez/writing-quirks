@@ -56,8 +56,23 @@ ion-alert.yesNoAlert button.alert-button {
 
 ion-alert.warning .alert-wrapper {
 	--ion-text-color: var(--ion-color-warning-contrast);
+	--ion-border-color: var(--ion-color-warning-tint);
 	background: var(--ion-color-warning);
 	border: 5px double var(--ion-color-warning-tint);
+}
+ion-alert.warning .alert-wrapper .alert-checkbox-group,
+ion-alert.warning .alert-wrapper .alert-radio-group {
+	border-top: 1px solid var(--ion-color-warning-tint);
+	border-bottom: 1px solid var(--ion-color-warning-tint);
+}
+ion-alert.warning .alert-wrapper .alert-checkbox-icon,
+ion-alert.warning .alert-wrapper .alert-radio-icon {
+	border-color: var(--ion-color-warning-tint);
+}
+ion-alert.warning .alert-wrapper [aria-checked=true] .alert-checkbox-icon,
+ion-alert.warning .alert-wrapper [aria-checked=true] .alert-radio-icon {
+	border-color: var(--ion-color-warning-tint);
+	background: var(--ion-color-warning-tint);
 }
 ion-alert.warning .alert-message {
 	color: var(--ion-color-warning-contrast);
@@ -76,8 +91,23 @@ ion-alert.warning button.cancel {
 
 ion-alert.danger .alert-wrapper {
 	--ion-text-color: var(--ion-color-danger-contrast);
+	--ion-border-color: var(--ion-color-danger-tint);
 	background: var(--ion-color-danger);
 	border: 5px double var(--ion-color-danger-tint);
+}
+ion-alert.danger .alert-wrapper .alert-checkbox-group,
+ion-alert.danger .alert-wrapper .alert-radio-group {
+	border-top: 1px solid var(--ion-color-danger-tint);
+	border-bottom: 1px solid var(--ion-color-danger-tint);
+}
+ion-alert.danger .alert-wrapper .alert-checkbox-icon,
+ion-alert.danger .alert-wrapper .alert-radio-icon {
+	border-color: var(--ion-color-danger-tint);
+}
+ion-alert.danger .alert-wrapper [aria-checked=true] .alert-checkbox-icon,
+ion-alert.danger .alert-wrapper [aria-checked=true] .alert-radio-icon {
+	border-color: var(--ion-color-danger-tint);
+	background: var(--ion-color-danger-tint);
 }
 ion-alert.danger .alert-message {
 	color: var(--ion-color-danger-contrast);

@@ -15,6 +15,7 @@ import {
 	IonLabel,
 	IonList,
 	IonPage,
+	IonText,
 	IonTextarea,
 	IonTitle,
 	IonToggle,
@@ -22,9 +23,9 @@ import {
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { add, pencilOutline, save, settingsSharp, trashOutline } from 'ionicons/icons';
+import { add, pencilOutline, save, arrowBackCircleSharp, trashOutline } from 'ionicons/icons';
 
-import { deleteFlavor, setIntros, toggleAcceptNew, toggleAcceptUpdates } from '../../store/infoFlavorsSlice';
+import { deleteFlavor, resetFlavors, setIntros, toggleAcceptNew, toggleAcceptUpdates } from '../../store/infoFlavorsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Flavor } from '../../store/data/flavors';
 
@@ -121,6 +122,7 @@ const FlavorEdits: FC = () => {
 	const [ sortedFlavors, setSortedFlavors ] = useState<Flavor[]>([]);
 	const [ modalOpen, setModalOpen ] = useState<boolean>(false);
 	const toast = useIonToast();
+	const [ doAlert ] = useIonAlert();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -164,7 +166,7 @@ const FlavorEdits: FC = () => {
 					<IonTitle>Flavors - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="back" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>
@@ -193,6 +195,25 @@ const FlavorEdits: FC = () => {
 							<h2>Update Old Flavors</h2>
 							<p>When the app updates, if there are changes to old flavors on this device, update them.</p>
 						</IonToggle>
+					</IonItem>
+					<IonItem button onClick={() => yesNoAlert({
+						header: "Reset All Flavors?",
+						message: "This will restore the app's original Flavor info, destroying "
+							+ "any new Flavors you might have added and any edits you may have "
+							+ "made. This cannot be undone. Are you sure you want to do this?",
+						submit: "Yes, Reset Everything",
+						handler: () => {
+							dispatch(resetFlavors());
+							toaster({
+								message: "Flavors have been reset.",
+								color: "success",
+								toast
+							});
+						},
+						doAlert,
+						cssClass: "danger"
+					})}>
+						<IonLabel><IonText color="danger">Reset to App Default</IonText></IonLabel>
 					</IonItem>
 					<IonItemDivider>Flavors</IonItemDivider>
 					{ sortedFlavors.map(flavorItem) }

@@ -21,6 +21,7 @@ import { useAppDispatch } from "../../store/hooks";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
 import BasicEditModal from "./_ModalEdit";
+import { $a } from "../../helpers/dollarsignExports";
 
 interface ModalProps {
 	format: Format
@@ -148,9 +149,6 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
 
 	const changeBit = useCallback((i: number, result: FormatBit) => {
-		console.log(i);
-		console.log(result);
-		console.log(format);
 		const newFormat = format.slice();
 		newFormat[i] = result;
 		setFormat(newFormat)
@@ -332,9 +330,14 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 			<IonAlert
 				isOpen={addAlertOpen}
 				header="Add Text"
-				subHeader="One or two lines"
-				message="Use the first line for the basic text. Use the second line if(and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
-				onIonAlertDidDismiss={() => setAddAlertOpen(false)}
+				message={
+					"Use the first line for the basic text. Use the second line if (and only if) the "
+					+ "text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
+				}
+				onIonAlertDidDismiss={() => {
+					setAddAlertOpen(false);
+					$a<HTMLInputElement>(".inputText").forEach(el => (el.value = ""))
+				}}
 				buttons={[
 					{
 						text: "Cancel"
@@ -359,13 +362,15 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 						placeholder: "Put text here",
 						type: "text",
 						name: "txt",
-						value: ""
+						value: "",
+						cssClass: "inputText"
 					},
 					{
 						placeholder: "(plural version, optional)",
 						type: "text",
 						name: "txt2",
-						value: ""
+						value: "",
+						cssClass: "inputText"
 					}
 				]}
 			/>

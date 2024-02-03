@@ -1450,6 +1450,16 @@ const info: (Partial<Topic> & CoreIdea)[] = [
 		idea: "using people as furniture",
 		humanDistress: true,
 		sexual: true
+	},
+	{
+		id: "a55791d2-cedd-4fff-8cdc-dfd477e794b0",
+		idea: "the number 4",
+		humanDistress: true,
+		humanDeath: true
+	},
+	{
+		id: "55cc26aa-ca54-416c-a8ae-41dbbb094193",
+		idea: "the number 13"
 	}
 ];
 

@@ -305,22 +305,36 @@ const TavernsEditModifierModal: FC<ModalProps> = (props) => {
 		const mBox = $i<HTMLInputElement>("editModifierMembers");
 		mBox && (mBox.value = membersString);
 		setTextareaValue(membersString);
-	}, [setMods, setModifierChance, setAndChance, setTheChance, setTextareaValue, modifier, modObject]);
+	}, [modifier, modObject]);
 
 	const delMod = useCallback(
 		(mod: ModifierGroup) => setMods(mods.filter(m => m.id !== mod.id)),
-		[setMods, mods]
+		[mods]
 	);
 	const modLine = useCallback(
 		(mod: ModifierGroup) => <Mod key={`TavernModifierEdit-Mod-${mod.id}`} modifier={mod} deleter={delMod} />,
 		[delMod]
 	);
 	const delFormat = useCallback(
-		(index: number) => setFormat(format.filter((m, i) => i !== index)),
-		[setFormat, format]
+		(index: number) => {
+			const what = format[index];
+			setFormat(format.filter((m, i) => i !== index));
+			if(what === F.Noun || what === F.PluralNoun) {
+				setHasNoun(false);
+			} else if (what === F.This) {
+				setHasThis(false);
+			}
+		},
+		[format]
 	);
 	const formatLine = useCallback(
-		(item: BasicFormat, i: number) => <FormatBit key={`TavernModifierEdit-Format-${i}`} info={item} i={i} deleter={delFormat} />,
+		(item: BasicFormat, i: number) =>
+			<FormatBit
+				key={`TavernModifierEdit-Format-${i}`}
+				info={item}
+				i={i}
+				deleter={delFormat}
+			/>,
 		[delFormat]
 	);
 

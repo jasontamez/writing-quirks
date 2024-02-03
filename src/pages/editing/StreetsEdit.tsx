@@ -13,19 +13,22 @@ import {
 	IonItemOption,
 	IonItemOptions,
 	IonItemSliding,
+	IonLabel,
 	IonList,
 	IonPage,
+	IonText,
 	IonTitle,
 	IonToggle,
 	IonToolbar,
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
-import { add, pencilOutline, settingsSharp, trashOutline } from 'ionicons/icons';
+import { add, pencilOutline, arrowBackCircleSharp, trashOutline } from 'ionicons/icons';
 
 import {
 	deleteRoad,
 	deleteStreet,
+	resetStreets,
 	toggleAcceptNew,
 	toggleAcceptUpdates
 } from '../../store/infoStreetsSlice';
@@ -226,6 +229,8 @@ const StreetsEdit: FC = () => {
 	const [ modalAddRoadOpen, setModalAddRoadOpen ] = useState<boolean>(false);
 	const [ prefixes, setPrefixes ] = useState<number>(0);
 	const [ suffixes, setSuffixes ] = useState<number>(0);
+	const toast = useIonToast();
+	const [ doAlert ] = useIonAlert();
 	const dispatch = useAppDispatch();
 	const togAccNew = useCallback(() => dispatch(toggleAcceptNew()), [dispatch]);
 	const togAccUpd = useCallback(() => dispatch(toggleAcceptUpdates()), [dispatch]);
@@ -250,7 +255,7 @@ const StreetsEdit: FC = () => {
 					<IonTitle>Streets - Advanced Settings</IonTitle>
 					<IonButtons slot="end">
 						<IonButton routerDirection="back" routerLink="/settings" color="medium">
-							<IonIcon slot="icon-only" icon={settingsSharp} />
+							<IonIcon slot="icon-only" icon={arrowBackCircleSharp} />
 						</IonButton>
 					</IonButtons>
 				</IonToolbar>
@@ -280,6 +285,25 @@ const StreetsEdit: FC = () => {
 							<h2>Update Old Street Info</h2>
 							<p>When the app updates, if there are changes to old street components on this device, update them.</p>
 						</IonToggle>
+					</IonItem>
+					<IonItem button onClick={() => yesNoAlert({
+						header: "Reset All Information?",
+						message: "This will restore the app's original Suburban Street Names info, destroying "
+							+ "any new Street Name Parts and Road Types you might have added and any edits "
+							+ "you may have made. This cannot be undone. Are you sure you want to do this?",
+						submit: "Yes, Reset Everything",
+						handler: () => {
+							dispatch(resetStreets());
+							toaster({
+								message: "Street Name Parts and Road Types have been reset.",
+								color: "success",
+								toast
+							});
+						},
+						doAlert,
+						cssClass: "danger"
+					})}>
+						<IonLabel><IonText color="danger">Reset to App Default</IonText></IonLabel>
 					</IonItem>
 					<IonItemDivider>Street Name Parts</IonItemDivider>
 					{ streets.map(streetItem) }

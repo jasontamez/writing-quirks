@@ -19,7 +19,7 @@ import { F, Format, FormatBit, FormatProps, formatInformation, translateFormat }
 import { addFormat } from "../../store/writingPromptsSettingsSlice";
 import { useAppDispatch } from "../../store/hooks";
 
-import { $i } from "../../helpers/dollarsignExports";
+import { $a, $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
 import BasicAddModal from "./_ModalAdd";
@@ -91,8 +91,10 @@ const FormatLine: FC<FormatLineProps> = (props) => {
 			<IonAlert
 				isOpen={alertOpen}
 				header="Add Text"
-				subHeader="One or two lines"
-				message="Use the first line for the basic text. Use the second line if(and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
+				message={
+					"Use the first line for the basic text. Use the second line if (and only if) the "
+					+ "text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
+				}
 				onIonAlertDidDismiss={() => setAlertOpen(false)}
 				buttons={[
 					{
@@ -305,9 +307,14 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 			<IonAlert
 				isOpen={addAlertOpen}
 				header="Add Text"
-				subHeader="One or two lines"
-				message="Use the first line for the basic text. Use the second line if(and only if) the text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
-				onIonAlertDidDismiss={() => setAddAlertOpen(false)}
+				message={
+					"Use the first line for the basic text. Use the second line if (and only if) the "
+					+ "text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
+				}
+				onIonAlertDidDismiss={() => {
+					setAddAlertOpen(false);
+					$a<HTMLInputElement>(".inputText").forEach(el => (el.value = ""))
+				}}
 				buttons={[
 					{
 						text: "Cancel"
@@ -332,13 +339,15 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 						placeholder: "Put text here",
 						type: "text",
 						name: "txt",
-						value: ""
+						value: "",
+						cssClass: "inputText"
 					},
 					{
 						placeholder: "(plural version, optional)",
 						type: "text",
 						name: "txt2",
-						value: ""
+						value: "",
+						cssClass: "inputText"
 					}
 				]}
 			/>
