@@ -56,7 +56,7 @@ function translateIdea(ideaObject: Any): [string, boolean] {
 	if (rateFavorsLower) {
 		let many = 1;
 		while (max >= min) {
-			for (let x = 0; x < many; x++) {
+			for (let x = 0; x < Math.round(many); x++) {
 				amounts.push(max);
 			}
 			max--;
@@ -107,7 +107,7 @@ function maybeModifyForGender (idea: string, ideaObj: Any, possessor: Any) {
 	if(!possessive) {
 		return idea;
 	}
-	const specific = possessor.genderPossessive;
+	const specific = possessor.nonTheirPossessive;
 	let mod = specific || ((specific === false) ? "their" : (genericPossessive || "one's"));
 	return idea.replace(/\[THEIR\]/g, mod);
 };

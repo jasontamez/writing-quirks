@@ -1350,6 +1350,13 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		humanDeath: true,
 		historical: true,
 		roman: true
+	},
+	{
+		id: "01e024be-d62d-46d0-b701-2e484dee89e7",
+		idea: "a labyrinth",
+		construct: true,
+		tinySize: true,
+		nonSpecific: true
 	}
 ];
 

@@ -1460,6 +1460,10 @@ const info: (Partial<Topic> & CoreIdea)[] = [
 	{
 		id: "55cc26aa-ca54-416c-a8ae-41dbbb094193",
 		idea: "the number 13"
+	},
+	{
+		id: "fbda7009-bb24-4ea7-817b-f4efc904827c",
+		idea: "misdirection"
 	}
 ];
 

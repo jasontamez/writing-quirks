@@ -209,8 +209,8 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 			final.push(bit);
 		});
 		if(i !== target) {
-			const message = "This format requires exactly ."
-				+ (target === 1 ? "one <Idea>" : `${target} <Idea>s`)
+			const message = "This format requires exactly "
+				+ (target === 1 ? "one <Idea>" : `${target} <Idea> instances`)
 				+ `; there are currently ${i}.`
 			return toaster({
 				message,

@@ -98,6 +98,7 @@ const info: (Partial<ATime> & CoreIdea)[] = [
 	{
 		id: "d6e7ce8d-9dcd-4e1f-be73-adf52f2063b3",
 		idea: "during Ramadan",
+		properName: true,
 		mythsReligionsAndMetaphysics: true,
 		islam: true
 	},

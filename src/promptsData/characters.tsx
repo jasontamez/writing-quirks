@@ -10,7 +10,7 @@ const base: (CharacterBase & TypedObject) = {
 	article: "a",
 	numerals: false,
 	realPerson: false,
-	genderPossessive: false,
+	nonTheirPossessive: false,
 	fictionalCharacter: false,
 	monster: false,
 	linkToAnAction: " "
@@ -54,7 +54,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		modern: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		fictionalCharacter: true
 	},
 	{
@@ -110,7 +110,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		mythsReligionsAndMetaphysics: true,
 		fairyTalesAndUrbanLegends: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "627b71a7-0265-442d-9ccf-9e099b793138",
@@ -151,7 +151,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		plural: false,
 		historical: true,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		realPerson: true
 	},
 	{
@@ -163,7 +163,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "wicked witch",
 		fantasy: true,
 		plural: "es",
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "2a8ea2b0-4b06-47b9-a83e-21275401f88f",
@@ -203,7 +203,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		superhero: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		fictionalCharacter: true
 	},
 	{
@@ -226,7 +226,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a supermodel",
 		modern: true,
 		plural: false,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "1672932a-0efe-4375-bde4-e76b6e0a0212",
@@ -253,7 +253,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		modern: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		fictionalCharacter: true
 	},
 	{
@@ -262,7 +262,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		realPerson: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "583f5f76-a1f7-4c9d-8017-9bb1c505a125",
@@ -271,7 +271,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		historical: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "d707aa11-a4c9-40aa-9338-a7179a73b73c",
@@ -280,7 +280,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		historical: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "adaabaee-d2a9-41e8-8845-a2d1cb553ab0",
@@ -289,7 +289,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		historical: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "a6b313bf-b380-4667-91e7-cdfe6174a5f2",
@@ -313,7 +313,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a turtle laying on its back",
 		animalDistress: true,
 		linkToAnAction: " that is also ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "14d0bd11-af46-492a-9965-296575b12ecc",
@@ -330,7 +331,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "ad156cb4-b050-43c2-8d8a-5b768bf24169",
 		idea: "the last of its species",
 		linkToAnAction: " that is ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "16b73888-fb23-48b9-8857-de682cdd85bd",
@@ -356,7 +358,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		horror: true,
 		plural: false,
-		genderPossessive: "its",
+		nonTheirPossessive: "its",
 		monster: true,
 		fictionalCharacter: true
 	},
@@ -417,7 +419,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a talking fish",
 		fantasy: true,
 		linkToAnAction: " that is ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "29c3908b-8666-4b6d-b345-f8f385517a76",
@@ -426,7 +429,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fairyTalesAndUrbanLegends: true,
 		plural: false,
 		fictionalCharacter: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "a5a1c3cd-e490-49e5-aaa9-feb6ec9e3ad9",
@@ -444,7 +447,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "5f279f33-59fb-4fbe-8653-10186e825fd0",
 		idea: "a mother-in-law",
 		plural: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "c95458fc-06dd-4325-be6b-68a9b864e188",
@@ -452,7 +455,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		properName: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		monster: true,
 		fictionalCharacter: true
 	},
@@ -469,14 +472,15 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "a26b4ab0-2523-4eec-8ed3-917b3840b2a6",
 		idea: "a hissing snake",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "bdc4a113-805e-40d0-9271-9c7e1c9a8ecb",
 		idea: "the quiet man next door",
 		linkToAnAction: " who is ",
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "0a43f4f2-87ef-40fd-b077-e53db452c853",
@@ -489,14 +493,15 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a man holding a brain",
 		humanDistress: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		linkToAnAction: " who is also ",
 		scifi: true
 	},
 	{
 		id: "7e434b3b-e41b-417f-81a9-945aafc74f38",
 		idea: "a monkey with a banana",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "ec978091-6d4c-424c-a8cf-faccc1ff53b2",
@@ -523,7 +528,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		mythsReligionsAndMetaphysics: true,
 		christianity: true,
 		plural: false,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "0f67fee6-049a-4709-9352-c3f1d9a4c40d",
@@ -536,13 +541,13 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		historical: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "7155b78b-a28e-46b0-a469-28ace3a84d36",
 		idea: "a bald man",
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "ce6c5acc-d522-40c5-9174-d5182e8b9ffc",
@@ -551,7 +556,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		modern: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "aa72d1b3-af05-481a-8cd1-61b00efdfb8a",
@@ -570,7 +575,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		sexual: true,
 		modern: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "30ee011e-ded6-4b29-814d-d386fb0521b5",
@@ -578,7 +583,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		sexual: true,
 		modern: true,
 		plural: false,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "0ebb6b41-a887-44ff-8e7d-571b64e5a176",
@@ -607,7 +612,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "7a31f483-d4f0-478a-aedb-315de910b27c",
 		idea: "a dalmatian",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "f3134aee-12d9-4d73-9b75-850f1bc56952",
@@ -624,7 +630,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		christianity: true,
 		islam: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		monster: true
 	},
 	{
@@ -633,7 +639,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		horror: true,
 		plural: false,
-		monster: true
+		monster: true,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "0c8f8991-b0de-41f3-82c8-a2cc3c0648bb",
@@ -679,7 +686,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "d0922a00-92f4-4330-bbe6-545c53b7bd59",
 		idea: "your first pet",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "0011dc68-6b53-4123-bfea-b67e85f85f67",
@@ -695,7 +703,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "2dad3d0b-3dbe-4594-95cc-beae1bd2cd3d",
 		idea: "a deer in the headlights",
 		linkToAnAction: " that is ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "0f7e2de3-663a-4788-927a-77c9119d15c3",
@@ -716,7 +725,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		mythsReligionsAndMetaphysics: true,
 		greekRomanMyth: true,
 		linkToAnAction: " that is ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "d2acc2d6-7fd2-407c-874c-af234d399324",
@@ -730,7 +740,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		historical: true,
 		samurai: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "15a8307d-1c19-4436-b347-68d5e16b725d",
@@ -762,13 +772,13 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a pregnant teenager",
 		sexual: true,
 		plural: false,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "864ce45e-19b5-4f55-90c3-717d6162c253",
 		idea: "a foreign prince",
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "25b29691-0668-4fb4-b325-4b9eb20805a7",
@@ -792,13 +802,15 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "e499eeeb-6796-49e9-8676-7712462fc2d1",
 		idea: "a lapdog",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "5b4fb5d4-cfe4-40c0-956b-a399bf8413fd",
 		idea: "a swarm of bees",
 		linkToAnAction: " that is ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "603ebd91-f0a7-41ff-8f2c-582f4b299456",
@@ -812,7 +824,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a crowing rooster",
 		plural: false,
 		linkToAnAction: " that is also ",
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "199ac560-6800-4af3-9283-75b23461156d",
@@ -846,7 +858,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		medievalFantasy: true,
 		plural: false,
-		monster: true
+		monster: true,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "8468e93b-d96c-4002-8aab-93488e96d34f",
@@ -911,7 +924,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a ventrilloquist's dummy",
 		horror: true,
 		linkToAnAction: " that is ",
-		plural: false
+		plural: false,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "2f9f8c7b-c8e1-492c-8ac9-97802c1c79d7",
@@ -925,7 +939,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		mythsReligionsAndMetaphysics: true,
 		linkToAnAction: " who is ",
-		islam: true
+		islam: true,
+		nonTheirPossessive: "its"
 	},
 	{
 		id: "31cd2c7c-7e01-434d-b52e-7d5a430b8daa",
@@ -975,7 +990,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		horror: true,
 		mythsReligionsAndMetaphysics: true,
 		fictionalCharacter: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "3e63fc26-e1c1-40fc-aee7-253b80d1c4b3",
@@ -991,7 +1006,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "the big bad wolf",
 		plural: false,
 		fairyTalesAndUrbanLegends: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "059dba29-b5ad-41cc-9a69-704093b1ff3c",
@@ -999,7 +1014,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		fairyTalesAndUrbanLegends: true,
 		fantasy: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "11254fb0-141b-4246-9f28-5885b67d387e",
@@ -1007,7 +1022,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		fictionalCharacter: true,
 		scifi: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "eabd58a9-f766-4ee9-ac66-c37323fdcb1c",
@@ -1016,7 +1031,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		fantasy: true,
 		superhero: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "549c45b5-9f17-4775-9f77-595a8f5b1bc6",
@@ -1025,7 +1040,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		fantasy: true,
 		superhero: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "081652f7-3333-4b06-9d5a-45c5ca95453c",
@@ -1067,7 +1082,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "a bucking bronco",
 		plural: false,
 		animalDistress: true,
-		linkToAnAction: " that is "
+		linkToAnAction: " that is ",
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "7194864d-0517-4811-bd34-1c20e07854d7",
@@ -1075,7 +1091,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		fictionalCharacter: true,
 		scifi: true,
-		horror: true
+		horror: true,
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "70d432d9-004f-4e58-bb35-1e2c9f616cba",
@@ -1127,7 +1144,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		historical: true,
 		realPerson: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		properName: true
 	},
 	{
@@ -1137,7 +1154,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		historical: true,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "4a4ccf81-61f9-4659-b8b6-156cad12e426",
@@ -1145,7 +1162,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "c7b2520f-aafd-48d0-b724-4178e7f2cd6c",
@@ -1153,7 +1170,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "19b1df87-8213-43ab-9a82-ab78838c23fd",
@@ -1162,7 +1179,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "4b65cbd4-fa15-4a65-b516-a7d8f6319953",
@@ -1174,7 +1191,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		historical: true,
 		plural: false,
 		humanDistress: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "5edc5998-a69f-4022-8021-d88250558c76",
@@ -1184,7 +1201,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		superhero: true,
 		properName: true,
 		plural: false,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "dc97c36c-74d7-4b8f-b76f-3246dc819aef",
@@ -1204,7 +1221,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		historical: true,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "1f4f0514-be8d-4d08-aa48-f7d8b478d5bc",
@@ -1213,7 +1230,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		historical: true,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "8c1e21cf-9721-4704-8d4d-bc969f335670",
@@ -1223,7 +1240,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		historical: true,
 		roman: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "acd5668e-5f1e-4b02-886a-7b3ebcbeb373",
@@ -1232,7 +1249,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		historical: true,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "b6ef8fd2-078d-4088-af53-6c77fa06236d",
@@ -1242,7 +1259,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		historical: true,
 		humanDeath: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "82202b7e-55c9-4270-91ea-d3ba0817e618",
@@ -1254,7 +1271,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		historical: true,
 		plural: false,
 		humanDistress: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "4bc221ee-30fc-4fb4-9a11-7bb814240dbc",
@@ -1263,7 +1280,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		properName: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "b2e5cfff-db0a-46c8-9415-bd63e28e00fb",
@@ -1273,7 +1290,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		humanDistress: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "0e7560bf-7404-46e3-b360-0599632191ff",
@@ -1282,7 +1299,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		properName: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "38f9a112-529d-4d6f-9dbf-a8f5a7d083c4",
@@ -1292,7 +1309,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		properName: true,
 		humanDistress: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "b400e6b4-16b5-4bd4-add8-6612b15c87a9",
@@ -1304,7 +1321,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		humanDeath: true,
 		humanDeathViolent: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "a70dfc34-0411-4393-88f4-00a4e03cf1f6",
@@ -1313,7 +1330,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		properName: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "d28521b8-555b-4a7d-8036-b1655c4d396b",
@@ -1322,7 +1339,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		properName: true,
 		historical: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "77fed6fd-337c-40d2-b384-1b105a15fd4c",
@@ -1330,7 +1347,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "aeefaf0b-9190-4971-a3b6-a4bfbff930d2",
@@ -1338,7 +1355,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "501d05e2-6694-4972-8599-43cefcfcd89d",
@@ -1346,26 +1363,25 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		properName: true,
 		plural: false,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		monster: true,
 		fictionalCharacter: true
 	},
 	{
 		id: "ae226a5a-5dc8-43e9-8e2f-9aa64c06c3db",
 		idea: "a non-binary person",
-		genderPossessive: "their",
 		plural: false
 	},
 	{
 		id: "669d3af8-035f-41b3-85b3-c6e3c1d71ba0",
 		idea: "a transgender man",
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		plural: false
 	},
 	{
 		id: "eac8dcce-d3c0-4ad2-a666-18b4f3040708",
 		idea: "a transgender woman",
-		genderPossessive: "her",
+		nonTheirPossessive: "her",
 		plural: false
 	},
 	{
@@ -1398,7 +1414,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "98b6d415-f0ca-4a6b-a646-4e21c035a701",
@@ -1406,7 +1422,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "his",
+		nonTheirPossessive: "his",
 		linkToAnAction: ", who is "
 	},
 	{
@@ -1416,7 +1432,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "c86208ae-2efd-4867-b7bb-3efc3ac1e906",
@@ -1455,7 +1471,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "0d52d1fc-4995-4ae3-8e96-e74328d735c0",
@@ -1464,7 +1480,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "1def8496-c4a5-43eb-8223-3c792ff87e02",
@@ -1473,7 +1489,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "ce0fee37-f390-4d86-a711-8e5cd9347910",
@@ -1482,7 +1498,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "her"
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "8bb4e435-d830-4881-8435-e72b64e8b876",
@@ -1491,7 +1507,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		scifi: true,
 		plural: false,
 		properName: true,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "0117a234-ae86-47ce-8ed8-0712b926b1f4",
@@ -1556,7 +1572,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "Ru Paul",
 		plural: false,
 		realPerson: true,
-		modern: true
+		modern: true,
+		nonTheirPossessive: "her"
 	},
 	{
 		id: "d6e80813-2eb5-4c24-9856-7be8a836891b",
@@ -1565,7 +1582,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		mythsReligionsAndMetaphysics: true,
 		greekRomanMyth: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "1cbe83be-12cc-4ca9-ac83-63cc391d839b",
@@ -1575,7 +1592,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		superhero: true,
 		modern: true,
 		plural: false,
-		genderPossessive: "his"
+		nonTheirPossessive: "his"
 	},
 	{
 		id: "84a7a29c-deb0-4148-a64f-f279ac7ad3e3",
@@ -1584,8 +1601,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fantasy: true,
 		superhero: true,
 		modern: true,
-		plural: true,
-		genderPossessive: "their"
+		plural: true
 	},
 	{
 		id: "1d281013-c7c5-4e83-bc09-33b27c4aa8a0",
@@ -1604,6 +1620,26 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		idea: "jellyfish",
 		plural: "es",
 		max: 20
+	},
+	{
+		id: "94289e3c-6b16-4dda-8aa7-2b2d11a0f0ad",
+		idea: "Neil deGrasse Tyson",
+		realPerson: true,
+		modern: true,
+		plural: false,
+		nonTheirPossessive: "his"
+	},
+	{
+		id: "0952da7d-4348-4f47-957b-cb2136842a40",
+		idea: "Carl Sagan",
+		realPerson: true,
+		modern: true,
+		plural: false,
+		nonTheirPossessive: "his"
+	},
+	{
+		id: "f388829d-ac3c-4cab-a021-b9885b0f7c95",
+		idea: "plumber"
 	}
 ];
 

@@ -1283,6 +1283,10 @@ const info: (Partial<Action> & CoreIdea)[] = [
 		id: "9ca0fbfb-24e9-4d37-96d6-6c5028bd6911",
 		idea: "dressing in drag",
 		sexual: true
+	},
+	{
+		id: "773268bf-2ef1-4794-9f0f-aab0db0767f4",
+		idea: "lending money to a friend"
 	}
 ];
 

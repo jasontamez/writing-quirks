@@ -8,8 +8,6 @@ import {
 	IonItemOptions,
 	IonItemSliding,
 	IonLabel,
-	IonSelect,
-	IonSelectOption,
 	IonToggle,
 	useIonAlert,
 	useIonToast
@@ -23,7 +21,6 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Character, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
-import NumericRange from '../../helpers/numericRangeType';
 import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
@@ -43,7 +40,8 @@ const inputStrings = [
 ];
 const inputNums = [
 	"characterMin",
-	"characterMax"
+	"characterMax",
+	"characterWeight"
 ];
 
 interface CharacterItem {
@@ -61,7 +59,6 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 	const [innatePlural, setInnatePlural] = useState<boolean>(false);
 	const [rateFavorsLower, setRateFavorsLower] = useState<boolean>(false);
 	const [numerals, setNumerals] = useState<boolean>(false);
-	const [rateBy, setRateBy] = useState<"incremental" | NumericRange<1, 21>>(1);
 	const [realPerson, setRealPerson] = useState<boolean>(false);
 	const [fictionalCharacter, setFictionalCharacter] = useState<boolean>(false);
 	const [monster, setMonster] = useState<boolean>(false);
@@ -81,7 +78,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		realPerson: origReal,
 		fictionalCharacter: origFic,
 		monster: origMonster,
-		genderPossessive,
+		nonTheirPossessive,
 		linkToAnAction: origLink
 	} = item;
 	const dispatch = useAppDispatch();
@@ -130,18 +127,17 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 			str.push("", "", "");
 			setSpecialPlural(false);
 		}
-		str.push(genderPossessive || "their", origLink);
+		str.push(nonTheirPossessive || "their", origLink);
 		inputStrings.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			(iBox && (iBox.value = str.shift()!));
 		});
-		const num = [min, max];
+		const num = [min, max, Number(origRateby) || 1];
 		inputNums.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			(iBox && (iBox.value = String(num.shift())));
 		});
 		setGeometric(origRateby !== "incremental");
-		setRateBy(origRateby);
 		setNumerals(origNumerals);
 		setRateFavorsLower(origFavor);
 		setInnatePlural(typeof origPlural === "boolean" ? origPlural : false);
@@ -149,19 +145,27 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		setRealPerson(origReal);
 		setFictionalCharacter(origFic);
 		setMonster(origMonster);
-		setHasGender(!!genderPossessive);
+		setHasGender(!!nonTheirPossessive);
 	}, [
 		article, origPlural, ID, min, max, origRateby, origNumerals, origFavor,
-		origReal, origFic, origMonster, genderPossessive, origLink
+		origReal, origFic, origMonster, nonTheirPossessive, origLink
 	]);
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
-		const [ min, max ] = hasMulti ? inputNums.map(bit => {
+		const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			return Math.floor(Number((iBox && iBox.value) || 0));
-		}) : [ 1, 5 ];
+		}) : [ 1, 5, 1 ];
 		if(hasMulti && (min >= max)) {
 			return toaster({
 				message: `Min (${min}) must be smaller than Max (${max}).`,
+				color: "danger",
+				duration: 3000,
+				position: "middle",
+				toast
+			});
+		} else if(geometric && (rateBy < 1 || rateBy > 20)) {
+			return toaster({
+				message: `Weight cannot be smaller than 1 or greater than 20.`,
 				color: "danger",
 				duration: 3000,
 				position: "middle",
@@ -199,7 +203,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 			realPerson,
 			fictionalCharacter,
 			monster,
-			genderPossessive: hasGender && genderPoss,
+			nonTheirPossessive: hasGender && genderPoss,
 			linkToAnAction: linker || " "
 		};
 		dispatch(editPrompt(final));
@@ -212,7 +216,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		});
 		setModalOpen(false);
 	}, [
-		innatePlural, dispatch, toast, ID, rateBy, rateFavorsLower, numerals, hasMulti,
+		innatePlural, dispatch, toast, ID, rateFavorsLower, numerals, hasMulti,
 		specialPlural, geometric, realPerson, fictionalCharacter, monster, hasGender
 	]);
 	const okToClose = useCallback(() => {
@@ -227,7 +231,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			return (iBox && iBox.value) || "";
 		});
-		const [ minn, maxx ] = inputNums.map(bit => {
+		const [ minn, maxx, rateBy ] = inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			return Math.floor(Number((iBox && iBox.value) || 0));
 		})
@@ -250,12 +254,12 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 			&& fictionalCharacter === origFic
 			&& monster === origMonster
 			&& linkToAnAction === origLink
-			&& (hasGender && genderPoss) === genderPossessive;
+			&& (hasGender && genderPoss) === nonTheirPossessive;
 	}, [
-		innatePlural, origPlural, ID, rateBy, rateFavorsLower, numerals, hasMulti,
+		innatePlural, origPlural, ID, rateFavorsLower, numerals, hasMulti,
 		geometric, origRateby, origFavor, origNumerals, article, max, min, specialPlural,
 		realPerson, origReal, fictionalCharacter, origFic, monster, origMonster, origLink,
-		genderPossessive, hasGender
+		nonTheirPossessive, hasGender
 	]);
 
 	return (
@@ -437,35 +441,17 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 						<h2>Use geometric weighting</h2>
 					</IonToggle>
 				</IonItem>
-				<IonItem lines="full">
-					<IonSelect
+				<IonItem lines="full" disabled={!geometric}>
+					<IonInput
 						label="Weight:"
 						labelPlacement="start"
-						onIonChange={(e) => setRateBy(e.detail.value)}
-						disabled={!hasMulti || !geometric}
-						value={rateBy}
-					>
-						<IonSelectOption value={1}>1</IonSelectOption>
-						<IonSelectOption value={2}>2</IonSelectOption>
-						<IonSelectOption value={3}>3</IonSelectOption>
-						<IonSelectOption value={4}>4</IonSelectOption>
-						<IonSelectOption value={5}>5</IonSelectOption>
-						<IonSelectOption value={6}>6</IonSelectOption>
-						<IonSelectOption value={7}>7</IonSelectOption>
-						<IonSelectOption value={8}>8</IonSelectOption>
-						<IonSelectOption value={9}>9</IonSelectOption>
-						<IonSelectOption value={10}>10</IonSelectOption>
-						<IonSelectOption value={11}>11</IonSelectOption>
-						<IonSelectOption value={12}>12</IonSelectOption>
-						<IonSelectOption value={13}>13</IonSelectOption>
-						<IonSelectOption value={14}>14</IonSelectOption>
-						<IonSelectOption value={15}>15</IonSelectOption>
-						<IonSelectOption value={16}>16</IonSelectOption>
-						<IonSelectOption value={17}>17</IonSelectOption>
-						<IonSelectOption value={18}>18</IonSelectOption>
-						<IonSelectOption value={19}>19</IonSelectOption>
-						<IonSelectOption value={20}>20</IonSelectOption>
-					</IonSelect>
+						id={`characterWeight-${ID}`}
+						className="editable"
+						inputmode="decimal"
+						type="number"
+						helperText="Any number between 1 and 20, inclusive."
+						disabled={!geometric}
+					/>
 				</IonItem>
 				<IonItemDivider>Character Flags</IonItemDivider>
 				<IonItem lines="full">
@@ -534,7 +520,6 @@ const PromptsCharactersEdit: FC = () => {
 	const [innatePlural, setInnatePlural] = useState<boolean>(false);
 	const [rateFavorsLower, setRateFavorsLower] = useState<boolean>(false);
 	const [numerals, setNumerals] = useState<boolean>(false);
-	const [rateBy, setRateBy] = useState<"incremental" | NumericRange<1, 21>>(1);
 	const [geometric, setGeometric] = useState<boolean>(true);
 	const [specialPlural, setSpecialPlural] = useState<boolean>(false);
 	const [realPerson, setRealPerson] = useState<boolean>(false);
@@ -551,7 +536,7 @@ const PromptsCharactersEdit: FC = () => {
 			const iBox = $i<HTMLInputElement>(bit);
 			(iBox && (iBox.value = str.shift()!));
 		});
-		const nums = [1, 5];
+		const nums = [1, 5, 1];
 		inputNums.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
 			(iBox && (iBox.value = String(nums.shift())));
@@ -560,7 +545,6 @@ const PromptsCharactersEdit: FC = () => {
 		setSpecialPlural(false);
 		setInnatePlural(false);
 		setGeometric(true);
-		setRateBy(1);
 		setRateFavorsLower(true);
 		setNumerals(false);
 		setGeometric(true);
@@ -571,13 +555,21 @@ const PromptsCharactersEdit: FC = () => {
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
-		const [ min, max ] = hasMulti ? inputNums.map(bit => {
+		const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
 			return Math.floor(Number((iBox && iBox.value) || 0));
-		}) : [ 1, 5 ];
+		}) : [ 1, 5, 1 ];
 		if(hasMulti && (min >= max)) {
 			return toaster({
 				message: `Min (${min}) must be smaller than Max (${max}).`,
+				color: "danger",
+				duration: 3000,
+				position: "middle",
+				toast
+			});
+		} else if(geometric && (rateBy < 1 || rateBy > 20)) {
+			return toaster({
+				message: `Weight cannot be smaller than 1 or greater than 20.`,
 				color: "danger",
 				duration: 3000,
 				position: "middle",
@@ -616,7 +608,7 @@ const PromptsCharactersEdit: FC = () => {
 			realPerson,
 			fictionalCharacter,
 			monster,
-			genderPossessive: hasGender && genderPoss,
+			nonTheirPossessive: hasGender && genderPoss,
 			linkToAnAction: linker || " "
 		};
 		dispatch(addPrompt(final));
@@ -629,7 +621,7 @@ const PromptsCharactersEdit: FC = () => {
 		});
 		setOpen(false);
 	}, [
-		innatePlural, dispatch, toast, rateBy, rateFavorsLower, numerals, geometric,
+		innatePlural, dispatch, toast, rateFavorsLower, numerals, geometric,
 		hasMulti, specialPlural, realPerson, fictionalCharacter, monster, hasGender
 	]);
 
@@ -808,35 +800,17 @@ const PromptsCharactersEdit: FC = () => {
 						<h2>Use geometric weighting</h2>
 					</IonToggle>
 				</IonItem>
-				<IonItem lines="full">
-					<IonSelect
+				<IonItem lines="full" disabled={!geometric}>
+					<IonInput
 						label="Weight:"
 						labelPlacement="start"
-						onIonChange={(e) => setRateBy(e.detail.value)}
-						disabled={!hasMulti || !geometric}
-						value={rateBy}
-					>
-						<IonSelectOption value={1}>1</IonSelectOption>
-						<IonSelectOption value={2}>2</IonSelectOption>
-						<IonSelectOption value={3}>3</IonSelectOption>
-						<IonSelectOption value={4}>4</IonSelectOption>
-						<IonSelectOption value={5}>5</IonSelectOption>
-						<IonSelectOption value={6}>6</IonSelectOption>
-						<IonSelectOption value={7}>7</IonSelectOption>
-						<IonSelectOption value={8}>8</IonSelectOption>
-						<IonSelectOption value={9}>9</IonSelectOption>
-						<IonSelectOption value={10}>10</IonSelectOption>
-						<IonSelectOption value={11}>11</IonSelectOption>
-						<IonSelectOption value={12}>12</IonSelectOption>
-						<IonSelectOption value={13}>13</IonSelectOption>
-						<IonSelectOption value={14}>14</IonSelectOption>
-						<IonSelectOption value={15}>15</IonSelectOption>
-						<IonSelectOption value={16}>16</IonSelectOption>
-						<IonSelectOption value={17}>17</IonSelectOption>
-						<IonSelectOption value={18}>18</IonSelectOption>
-						<IonSelectOption value={19}>19</IonSelectOption>
-						<IonSelectOption value={20}>20</IonSelectOption>
-					</IonSelect>
+						id="objectWeight"
+						className="editable"
+						inputmode="decimal"
+						type="number"
+						helperText="Any number between 1 and 20, inclusive."
+						disabled={!geometric}
+					/>
 				</IonItem>
 				<IonItemDivider>Character Flags</IonItemDivider>
 				<IonItem lines="full">

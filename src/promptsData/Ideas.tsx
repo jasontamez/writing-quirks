@@ -1,4 +1,3 @@
-import NumericRange from "../helpers/numericRangeType";
 import action from "./actions";
 import character from "./characters";
 import event from "./events";
@@ -67,7 +66,7 @@ export type BasicIdea = TypedIdea & BasicIdeaFlags;
 export interface AnObjectBase {
 	min: number
 	max: number
-	rateBy: NumericRange<1, 21> | "incremental"
+	rateBy: number | "incremental"
 	rateFavorsLower: boolean
 	plural: string | boolean | [string, string]
 	article: string
@@ -81,7 +80,7 @@ export interface CharacterFlags {
 	monster: boolean
 }
 export interface CharacterProps extends AnObjectBase {
-	genderPossessive: string | false
+	nonTheirPossessive: string | false
 	linkToAnAction: string
 }
 export type CharacterBase = CharacterProps & CharacterFlags;

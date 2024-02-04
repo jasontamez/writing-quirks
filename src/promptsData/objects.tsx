@@ -2475,23 +2475,28 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		idea: "a vending machine"
 	},
 	{
-		id: "bd5c4dd5-e650-469c-876a-384313c105b8",
-		idea: "the number one",
-		plural: [
-			"the number ",
-			""
-		],
-		min: 1,
-		max: 99,
-		rateFavorsLower: true
-	},
-	{
 		id: "db3a898b-ff58-488b-a8c5-4f329c0425e2",
 		idea: "a block of polished marble"
 	},
 	{
 		id: "5acb8bbe-08f3-4b19-86ef-11934c0383b1",
 		idea: "a dress of uncertain colors"
+	},
+	{
+		id: "48ae2423-3414-452e-a937-2e8c80b7eb0e",
+		idea: "soap bubbles",
+		plural: true
+	},
+	{
+		id: "43fc0158-a569-4c54-80f4-507c578a8d32",
+		idea: "diamond",
+		plural: "s",
+		max: 12
+	},
+	{
+		id: "bebcbc7a-c3d0-4fb1-85ad-a93b8b1eb872",
+		idea: "muddy footprints",
+		plural: true
 	}
 ];
 
