@@ -371,7 +371,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "bbd51888-e869-4bfc-9d24-6a5cee1d986c",
 		idea: "cheerleader",
 		max: 12,
-		rateBy: "incremental",
+		rateBy: 1.05,
 		rateFavorsLower: false
 	},
 	{
@@ -567,7 +567,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "34921991-e475-4d00-be11-a3d9b920e412",
 		idea: "shark",
-		rateBy: 20
+		rateBy: 5
 	},
 	{
 		id: "ac50b421-d5df-44f6-92ab-a9d036cc5c50",
@@ -955,7 +955,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		mythsReligionsAndMetaphysics: true,
 		metaphysics: true,
 		max: 13,
-		rateBy: "incremental"
+		rateBy: 1.1
 	},
 	{
 		id: "d1020e6f-977b-417f-8e76-746121b5ba22",

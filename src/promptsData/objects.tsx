@@ -60,7 +60,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		idea: "very full shopping bag",
 		plural: "s",
 		max: 12,
-		rateBy: 2
+		rateBy: 1.5
 	},
 	{
 		id: "a3e1ad04-7add-4e52-87cd-54f79bd1089e",
@@ -2323,7 +2323,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		id: "373458a6-d120-444f-9848-ad5ad943eec6",
 		idea: "pyramid",
 		plural: "s",
-		rateBy: 2,
+		rateBy: 1.5,
 		max: 3
 	},
 	{
@@ -2333,7 +2333,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 			"",
 			" bags of sand"
 		],
-		rateBy: "incremental",
+		rateBy: 1.25,
 		max: 15
 	},
 	{

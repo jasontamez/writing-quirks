@@ -207,6 +207,7 @@ const FlavorEdits: FC = () => {
 							toaster({
 								message: "Flavors have been reset.",
 								color: "success",
+								position: "middle",
 								toast
 							});
 						},

@@ -340,6 +340,7 @@ const InsultsEdit: FC = () => {
 							dispatch(resetInsults());
 							toaster({
 								message: "Adjectives and Nouns have been reset.",
+								position: "middle",
 								color: "success",
 								toast
 							});

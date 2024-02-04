@@ -156,6 +156,7 @@ const PromptsEdit: FC = () => {
 										dispatch(resetPrompts(input));
 										toaster({
 											message: `${what} have been reset.`,
+											position: "middle",
 											color: "success",
 											toast
 										});

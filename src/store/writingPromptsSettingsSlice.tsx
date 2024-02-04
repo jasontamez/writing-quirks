@@ -125,7 +125,7 @@ export const writingPromptsSettings: WritingPromptsSettings = {
 		westAsia: true,
 		eastAsia: true
 	},
-	ideas: ideas as IdeasObject,
+	ideas,
 	formats: allFormats,
 	acceptNew: true,
 	acceptUpdates: true

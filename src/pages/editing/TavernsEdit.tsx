@@ -282,6 +282,7 @@ const TavernsEdit: FC = () => {
 							toaster({
 								message: "Nouns/Modifiers have been reset.",
 								color: "success",
+								position: "middle",
 								toast
 							});
 						},

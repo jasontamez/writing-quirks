@@ -134,11 +134,11 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
 		const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
-			return Math.floor(Number((iBox && iBox.value) || 0));
+			return Number((iBox && iBox.value)) || 0;
 		}) : [ 1, 5, 1 ];
-		if(hasMulti && (min >= max)) {
+		if(hasMulti && (min >= max || min < 0)) {
 			return toaster({
-				message: `Min (${min}) must be smaller than Max (${max}).`,
+				message: `Min (${min}) must be a positive number smaller than Max (${max}).`,
 				color: "danger",
 				duration: 3000,
 				position: "middle",
@@ -168,8 +168,8 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 			...input,
 			type: "object",
 			plural,
-			min,
-			max,
+			min: Math.floor(min),
+			max: Math.floor(max),
 			rateBy: geometric ? rateBy : "incremental",
 			rateFavorsLower,
 			article,
@@ -192,7 +192,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		});
 		const [ minn, maxx, rateBy ] = inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
-			return Math.floor(Number((iBox && iBox.value) || 0));
+			return Number((iBox && iBox.value)) || 0;
 		})
 		const plural = hasMulti
 			? (
@@ -435,11 +435,11 @@ const PromptsObjectsEdit: FC = () => {
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
 		const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
-			return Math.floor(Number((iBox && iBox.value) || 0));
+			return Number((iBox && iBox.value)) || 0;
 		}) : [ 1, 5, 1 ];
-		if(hasMulti && (min >= max)) {
+		if(hasMulti && (min >= max || min < 0)) {
 			return toaster({
-				message: `Min (${min}) must be smaller than Max (${max}).`,
+				message: `Min (${min}) must be a positive number smaller than Max (${max}).`,
 				color: "danger",
 				duration: 3000,
 				position: "middle",
@@ -470,8 +470,8 @@ const PromptsObjectsEdit: FC = () => {
 			...input,
 			type: "object",
 			plural,
-			min,
-			max,
+			min: Math.floor(min),
+			max: Math.floor(max),
 			rateBy: geometric ? rateBy : "incremental",
 			rateFavorsLower,
 			article,

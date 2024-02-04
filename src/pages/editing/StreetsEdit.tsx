@@ -296,6 +296,7 @@ const StreetsEdit: FC = () => {
 							dispatch(resetStreets());
 							toaster({
 								message: "Street Name Parts and Road Types have been reset.",
+								position: "middle",
 								color: "success",
 								toast
 							});
