@@ -146,7 +146,7 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 
 	const [format, setFormat] = useState<Format>([]);
 	const [formatString, setFormatString] = useState<string>("");
-	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
+	const [ideasPresent, setIdeasPresent] = useState<number>(0);
 
 	const changeBit = useCallback((i: number, result: FormatBit) => {
 		const newFormat = format.slice();
@@ -155,11 +155,14 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 		setFormatString(translateFormat(newFormat));
 	}, [format]);
 	const deleteBit = useCallback((i: number) => {
+		if(format[i] === F.Idea) {
+			setIdeasPresent(ideasPresent - 1);
+		}
 		const newFormat = format.slice();
 		newFormat.splice(i, 1);
 		setFormat(newFormat)
 		setFormatString(translateFormat(newFormat));
-	}, [format]);
+	}, [format, ideasPresent]);
 	const formatLine = useCallback(
 		(bit: FormatBit, i: number, all: Format) =>
 			<FormatLine
@@ -263,6 +266,7 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 	const onOpen = useCallback(() => {
 		setFormat(originalFormat);
 		setFormatString(translateFormat(originalFormat));
+		setIdeasPresent(originalFormat.reduce((acc, cv) => cv === F.Idea ? acc + 1 : acc, 0));
 	}, [originalFormat, setFormat, setFormatString]);
 
 	const onReorder = useCallback((event: CustomEvent<ItemReorderEventDetail>) => {
@@ -288,54 +292,18 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 					<div className="ion-text-wrap"><strong>Current Format:</strong> <em>{formatString}</em></div>
 				</IonLabel>
 			</IonItem>
-			<IonItemDivider>Current Parts</IonItemDivider>
+			<IonItemDivider>Current Parts {ideasPresent}</IonItemDivider>
 			<IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
 				{format.map(formatLine)}
 			</IonReorderGroup>
 			<IonAlert
-				trigger={`editFormatAddPart-${itemId}`}
-				header="Add Type"
-				buttons={[
-					{
-						text: "Cancel"
-					},
-					{
-						text: "Ok",
-						handler: (choice: number) => {
-							if(choice === 1) {
-								setAddAlertOpen(true);
-							} else {
-								// Add Idea
-								const newFormat = [...format, F.Idea];
-								setFormat(newFormat);
-								setFormatString(translateFormat(newFormat));
-							}
-						}
-					}
-				]}
-				inputs={[
-					{
-						label: "Text",
-						type: "radio",
-						value: 1,
-						checked: true
-					},
-					{
-						label: "Idea",
-						type: "radio",
-						value: F.Idea
-					}
-				]}
-			/>
-			<IonAlert
-				isOpen={addAlertOpen}
 				header="Add Text"
+				trigger={`editFormatAddText-${itemId}`}
 				message={
 					"Use the first line for the basic text. Use the second line if (and only if) the "
 					+ "text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 				}
 				onIonAlertDidDismiss={() => {
-					setAddAlertOpen(false);
 					$a<HTMLInputElement>(".inputText").forEach(el => (el.value = ""))
 				}}
 				buttons={[
@@ -375,9 +343,23 @@ const PromptsFormatEditModal: FC<ModalProps> = (props) => {
 				]}
 			/>
 			<IonItem lines="full">
-				<IonButton color="success" slot="end" id={`editFormatAddPart-${itemId}`}>
+				<IonButton
+					disabled={formatInformation[type].amount <= ideasPresent}
+					color="primary"
+					slot="end"
+					onClick={() => {
+						const newFormat = [...format, F.Idea];
+						setFormat(newFormat);
+						setFormatString(translateFormat(newFormat));
+						setIdeasPresent(ideasPresent + 1);
+					}}
+				>
 					<IonIcon slot="start" icon={addCircle} />
-					Add New Part
+					Add &lt;Idea&gt;
+				</IonButton>
+				<IonButton color="secondary" slot="end" id={`editFormatAddText-${itemId}`}>
+					<IonIcon slot="start" icon={addCircle} />
+					Add Text
 				</IonButton>
 			</IonItem>
 		</BasicEditModal>

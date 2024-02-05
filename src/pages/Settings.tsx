@@ -783,20 +783,21 @@ const Settings: React.FC = () => {
 					<IonItemDivider className="major">Advanced Settings</IonItemDivider>
 					<IonItem lines="full">
 						<IonLabel>
-							<p><strong>CAUTION:</strong> The following pages allow you to modify the
-							base info of the various generators. Use carefully.</p>
+							<p><strong>CAUTION:</strong> The pages below allow you to modify the
+							base info of the various generators. They have little to no documentation.
+							Use carefully.</p>
 						</IonLabel>
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editprompts">
-						<IonLabel>Edit Prompts</IonLabel>
+						<IonLabel>Edit Writing Prompts</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/edittaverns">
-						<IonLabel>Edit Taverns</IonLabel>
+						<IonLabel>Edit Taverns and Inns</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editstreets">
-						<IonLabel>Edit Streets</IonLabel>
+						<IonLabel>Edit Suburban Streets</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editbabbles">
@@ -804,11 +805,11 @@ const Settings: React.FC = () => {
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editinsults">
-						<IonLabel>Edit Insults</IonLabel>
+						<IonLabel>Edit Shakespearian Insults</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 					<IonItem lines="full" button routerDirection="forward" routerLink="/editflavors">
-						<IonLabel>Edit Flavors</IonLabel>
+						<IonLabel>Edit Odd Flavors</IonLabel>
 						<IonIcon icon={chevronForward} slot="end" />
 					</IonItem>
 

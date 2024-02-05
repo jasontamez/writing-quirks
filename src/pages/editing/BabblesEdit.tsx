@@ -335,6 +335,7 @@ const BabblesEdit: FC = () => {
 							toaster({
 								message: "Technobabble Information has been reset.",
 								color: "success",
+								position: "middle",
 								toast
 							});
 						},

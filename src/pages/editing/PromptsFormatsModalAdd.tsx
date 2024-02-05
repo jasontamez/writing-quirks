@@ -138,7 +138,7 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 		type
 	} = props;
 
-	const [addAlertOpen, setAddAlertOpen] = useState<boolean>(false);
+	const [ideasPresent, setIdeasPresent] = useState<number>(0);
 	const [format, setFormat] = useState<Format>([]);
 	const [formatString, setFormatString] = useState<string>("");
 
@@ -226,11 +226,14 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 		setFormatString(translateFormat(newFormat));
 	}, [format]);
 	const deleteBit = useCallback((i: number) => {
+		if(format[i] === F.Idea) {
+			setIdeasPresent(ideasPresent - 1);
+		}
 		const newFormat = format.slice();
 		newFormat.splice(i, 1);
 		setFormat(newFormat)
 		setFormatString(translateFormat(newFormat));
-	}, [format]);
+	}, [format, ideasPresent]);
 	const formatLine = useCallback(
 		(bit: FormatBit, i: number) =>
 			<FormatLine
@@ -246,6 +249,7 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 	const onOpen = useCallback(() => {
 		setFormat([]);
 		setFormatString("");
+		setIdeasPresent(0);
 	}, []);
 
 	return (
@@ -270,49 +274,13 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 				{format.map(formatLine)}
 			</IonReorderGroup>
 			<IonAlert
-				trigger={`addPromptFormatPart-${type}`}
-				header="Add Type"
-				buttons={[
-					{
-						text: "Cancel"
-					},
-					{
-						text: "Ok",
-						handler: (choice: number) => {
-							if(choice === 1) {
-								setAddAlertOpen(true);
-							} else {
-								// Add Idea
-								const newFormat = [...format, F.Idea];
-								setFormat(newFormat);
-								setFormatString(translateFormat(newFormat));
-							}
-						}
-					}
-				]}
-				inputs={[
-					{
-						label: "Text",
-						type: "radio",
-						value: 1,
-						checked: true
-					},
-					{
-						label: "Idea",
-						type: "radio",
-						value: F.Idea
-					}
-				]}
-			/>
-			<IonAlert
-				isOpen={addAlertOpen}
+				trigger="addFormatAddText"
 				header="Add Text"
 				message={
 					"Use the first line for the basic text. Use the second line if (and only if) the "
 					+ "text needs to be different if an <Idea> is plural. Remember leading/trailing spaces."
 				}
 				onIonAlertDidDismiss={() => {
-					setAddAlertOpen(false);
 					$a<HTMLInputElement>(".inputText").forEach(el => (el.value = ""))
 				}}
 				buttons={[
@@ -352,7 +320,21 @@ const PromptsAddFormatModal: FC<ModalProps> = (props) => {
 				]}
 			/>
 			<IonItem lines="full">
-				<IonButton color="success" slot="end" id={`addPromptFormatPart-${type}`}>
+				<IonButton
+					disabled={formatInformation[type].amount <= ideasPresent}
+					color="primary"
+					slot="end"
+					onClick={() => {
+						const newFormat = [...format, F.Idea];
+						setFormat(newFormat);
+						setFormatString(translateFormat(newFormat));
+						setIdeasPresent(ideasPresent + 1);
+					}}
+				>
+					<IonIcon slot="start" icon={addCircle} />
+					Add &lt;Idea&gt;
+				</IonButton>
+				<IonButton color="secondary" slot="end" id="addFormatAddText">
 					<IonIcon slot="start" icon={addCircle} />
 					Add New Part
 				</IonButton>
