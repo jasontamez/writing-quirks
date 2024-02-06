@@ -1287,6 +1287,14 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "773268bf-2ef1-4794-9f0f-aab0db0767f4",
 		idea: "lending money to a friend"
+	},
+	{
+		id: "2621e095-420d-41ed-b480-5143afc5be91",
+		idea: "freediving"
+	},
+	{
+		id: "0bc64fec-86d1-4764-a698-6ee20aeabfe8",
+		idea: "charming the party guests"
 	}
 ];
 

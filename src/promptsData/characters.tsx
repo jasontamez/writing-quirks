@@ -45,7 +45,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "579eb878-ae1b-4dc3-a00a-7afe9cc0c76c",
 		idea: "dentist",
 		max: 2,
-		rateBy: 20,
+		rateBy: 10,
 		article: "the"
 	},
 	{
@@ -185,7 +185,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "b8f3edd1-691b-4d55-91c6-a8fab80ddc72",
 		idea: "seeing-eye dog",
 		modern: true,
-		rateBy: 20,
+		rateBy: 10,
 		max: 3
 	},
 	{
@@ -1640,6 +1640,78 @@ const info: (Partial<Character> & CoreIdea)[] = [
 	{
 		id: "f388829d-ac3c-4cab-a021-b9885b0f7c95",
 		idea: "plumber"
+	},
+	{
+		id: "6cc99fac-345e-4f89-9a78-dbc9204fa590",
+		idea: "a med school student",
+		plural: false
+	},
+	{
+		id: "22353366-81e3-4fb4-9846-1a4bfab69793",
+		idea: "Freddy Fazbear",
+		nonTheirPossessive: "his",
+		plural: false,
+		monster: true,
+		modern: true,
+		horror: true,
+		fictionalCharacter: true,
+		properName: true,
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
+	},
+	{
+		id: "296f4b48-977f-4156-9441-4dd3f40f51ca",
+		idea: "Bugs Bunny",
+		nonTheirPossessive: "his",
+		plural: false,
+		fictionalCharacter: true,
+		properName: true,
+		fantasy: true
+	},
+	{
+		id: "ee89dd7a-b1ad-4455-902e-94452b00e192",
+		idea: "Daffy Duck",
+		nonTheirPossessive: "his",
+		plural: false,
+		fictionalCharacter: true,
+		properName: true,
+		fantasy: true
+	},
+	{
+		id: "68309632-266c-48c1-91de-9be5fd655199",
+		idea: "Aladdin",
+		nonTheirPossessive: "his",
+		plural: false,
+		fictionalCharacter: true,
+		properName: true,
+		fantasy: true
+	},
+	{
+		id: "650fa29c-fea6-482b-9308-8ff0ccc4b7dc",
+		idea: "Darth Vader",
+		nonTheirPossessive: "his",
+		plural: false,
+		fictionalCharacter: true,
+		properName: true,
+		scifi: true,
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
+	},
+	{
+		id: "74867397-6f86-4778-9815-a8203b6e76a5",
+		idea: "King Arthur",
+		nonTheirPossessive: "his",
+		properName: true,
+		fictionalCharacter: true,
+		plural: false,
+		fantasy: true,
+		mythsReligionsAndMetaphysics: true,
+		historical: true,
+		humanDistress: true,
+		humanDeath: true,
+		humanDeathViolent: true
 	}
 ];
 

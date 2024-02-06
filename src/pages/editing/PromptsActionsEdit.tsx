@@ -224,8 +224,8 @@ const PromptsActionsEdit: FC = () => {
 						<p>Has "[THEIR]" in it somewhere.</p>
 					</IonToggle>
 				</IonItem>
-				<IonItem>Generic Possessive Term</IonItem>
-				<IonItem lines="full">
+				<IonItem disabled={!possessive}>Generic Possessive Term</IonItem>
+				<IonItem lines="full" disabled={!possessive}>
 					<IonInput
 						id="genPoss"
 						className="editable"

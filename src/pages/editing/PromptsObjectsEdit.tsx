@@ -9,6 +9,7 @@ import {
 	IonItemSliding,
 	IonLabel,
 	IonToggle,
+	UseIonToastResult,
 	useIonAlert,
 	useIonToast
 } from '@ionic/react';
@@ -41,6 +42,102 @@ const inputNums = [
 	"objectMax",
 	"objectWeight"
 ];
+
+const validateInput = (
+	hasMulti: boolean,
+	geometric: boolean,
+	toast: UseIonToastResult,
+	ID: string
+) => {
+	const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
+		const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
+		const value = Number((iBox && iBox.value)) || 0;
+		if(iBox && !iBox.classList.contains("decimal")) {
+			return Math.floor(value);
+		}
+		return value;
+	}) : [ 1, 5, 1 ];
+	if(hasMulti && (min >= max || min < 0)) {
+		toaster({
+			message: `Min (${min}) must be a positive number smaller than Max (${max}).`,
+			color: "danger",
+			duration: 3000,
+			position: "middle",
+			toast
+		});
+		return false;
+	} else if(geometric && (rateBy < 1 || rateBy > 10)) {
+		toaster({
+			message: `Weight cannot be smaller than 1 or greater than 10.`,
+			color: "danger",
+			duration: 3000,
+			position: "middle",
+			toast
+		});
+		return false;
+	} else if (rateBy > 1) {
+		//const max = Math.pow(2, 32) - 1;
+		//for (let weight = 2; weight < 10; weight++) {
+		//	let count = -1;
+		//	let result = 1;
+		//	while(result < max) {
+		//		count++;
+		//		result = result * weight;
+		//	}
+		//	console.log("maximum count", count, "weight", weight);
+		//}
+		/*
+			> "maximum count" 31 "weight" 2
+			> "maximum count" 20 "weight" 3
+			> "maximum count" 15 "weight" 4
+			> "maximum count" 13 "weight" 5
+			> "maximum count" 12 "weight" 6
+			> "maximum count" 11 "weight" 7
+			> "maximum count" 10 "weight" 8
+			> "maximum count" 10 "weight" 9
+			> "maximum count" 9 "weight" 10
+		*/
+		const count = max - min + 1;
+		let ok = true;
+		switch(rateBy) {
+			case 2:
+				ok = count <= 31;
+				break;
+			case 3:
+				ok = count <= 20;
+				break;
+			case 4:
+				ok = count <= 15;
+				break;
+			case 5:
+				ok = count <= 13;
+				break;
+			case 6:
+				ok = count <= 12;
+				break;
+			case 7:
+				ok = count <= 11;
+				break;
+			case 10:
+				ok = count <= 9;
+				break;
+			default:
+				// 8 and 9
+				ok = count <= 10;
+		}
+		if(!ok) {
+			toaster({
+				message: `Min/max range and weight will result in errors. Either reduce the weight, increase the minimum, or decrease the maximum.`,
+				color: "warning",
+				duration: 5000,
+				position: "middle",
+				toast
+			});
+			return false;
+		}
+	}
+	return [min, max, rateBy];
+};
 
 interface ObjectItem {
 	item: AnObject
@@ -132,27 +229,11 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		setHasMulti(typeof origPlural !== "boolean");
 	}, [article, origPlural, ID, min, max, origRateby, origNumerals, origFavor]);
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
-		const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
-			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
-			return Number((iBox && iBox.value)) || 0;
-		}) : [ 1, 5, 1 ];
-		if(hasMulti && (min >= max || min < 0)) {
-			return toaster({
-				message: `Min (${min}) must be a positive number smaller than Max (${max}).`,
-				color: "danger",
-				duration: 3000,
-				position: "middle",
-				toast
-			});
-		} else if(geometric && (rateBy < 1 || rateBy > 20)) {
-			return toaster({
-				message: `Weight cannot be smaller than 1 or greater than 20.`,
-				color: "danger",
-				duration: 3000,
-				position: "middle",
-				toast
-			});
+		const validation = validateInput(hasMulti, geometric, toast, ID);
+		if(!validation) {
+			return;
 		}
+		const [min, max, rateBy] = validation;
 		const doTrim = [true, true, false, false];
 		const [ article, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
@@ -168,8 +249,8 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 			...input,
 			type: "object",
 			plural,
-			min: Math.floor(min),
-			max: Math.floor(max),
+			min,
+			max,
 			rateBy: geometric ? rateBy : "incremental",
 			rateFavorsLower,
 			article,
@@ -192,7 +273,11 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		});
 		const [ minn, maxx, rateBy ] = inputNums.map(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
-			return Number((iBox && iBox.value)) || 0;
+			const value = Number((iBox && iBox.value)) || 0;
+			if(iBox && !iBox.classList.contains("decimal")) {
+				return Math.floor(value);
+			}
+			return value;
 		})
 		const plural = hasMulti
 			? (
@@ -365,10 +450,10 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 						label="Weight:"
 						labelPlacement="start"
 						id={`objectWeight-${ID}`}
-						className="editable"
+						className="editable decimal"
 						inputmode="decimal"
 						type="number"
-						helperText="Any number between 1 and 20, inclusive."
+						helperText="Any number between 1 and 10, inclusive."
 						disabled={!geometric}
 					/>
 				</IonItem>
@@ -433,27 +518,11 @@ const PromptsObjectsEdit: FC = () => {
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
-		const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
-			const iBox = $i<HTMLInputElement>(bit);
-			return Number((iBox && iBox.value)) || 0;
-		}) : [ 1, 5, 1 ];
-		if(hasMulti && (min >= max || min < 0)) {
-			return toaster({
-				message: `Min (${min}) must be a positive number smaller than Max (${max}).`,
-				color: "danger",
-				duration: 3000,
-				position: "middle",
-				toast
-			});
-		} else if(geometric && (rateBy < 1 || rateBy > 20)) {
-			return toaster({
-				message: `Weight cannot be smaller than 1 or greater than 20.`,
-				color: "danger",
-				duration: 3000,
-				position: "middle",
-				toast
-			});
+		const validation = validateInput(hasMulti, geometric, toast, "");
+		if(!validation) {
+			return;
 		}
+		const [min, max, rateBy] = validation;
 		const doTrim = [true, true, false, false];
 		const [ article, simplePlural, specialPlural1, specialPlural2 ] = inputStrings.map(bit => {
 			const iBox = $i<HTMLInputElement>(bit);
@@ -470,8 +539,8 @@ const PromptsObjectsEdit: FC = () => {
 			...input,
 			type: "object",
 			plural,
-			min: Math.floor(min),
-			max: Math.floor(max),
+			min,
+			max,
 			rateBy: geometric ? rateBy : "incremental",
 			rateFavorsLower,
 			article,
@@ -630,16 +699,16 @@ const PromptsObjectsEdit: FC = () => {
 						<h2>Use geometric weighting</h2>
 					</IonToggle>
 				</IonItem>
-				<IonItem lines="full" disabled={!geometric}>
+				<IonItem lines="full" disabled={!geometric || !hasMulti}>
 					<IonInput
 						label="Weight:"
 						labelPlacement="start"
 						id="objectWeight"
-						className="editable"
+						className="editable decimal"
 						inputmode="decimal"
 						type="number"
-						helperText="Any number between 1 and 20, inclusive."
-						disabled={!geometric}
+						helperText="Any number between 1 and 10, inclusive."
+						disabled={!geometric || !hasMulti}
 					/>
 				</IonItem>
 			</PromptsAddModal>

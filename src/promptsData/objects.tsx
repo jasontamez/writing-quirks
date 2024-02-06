@@ -2497,6 +2497,15 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 		id: "bebcbc7a-c3d0-4fb1-85ad-a93b8b1eb872",
 		idea: "muddy footprints",
 		plural: true
+	},
+	{
+		id: "46b287d9-1550-430e-aea0-5756a741bddd",
+		idea: "postage stamp"
+	},
+	{
+		id: "271a3a39-0924-4b2a-88e5-7f173d10c1a8",
+		idea: "a heap of trash",
+		plural: false
 	}
 ];
 

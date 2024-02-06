@@ -1459,11 +1459,25 @@ const info: (Partial<Topic> & CoreIdea)[] = [
 	},
 	{
 		id: "55cc26aa-ca54-416c-a8ae-41dbbb094193",
-		idea: "the number 13"
+		idea: "the number 13",
+		humanDistress: true,
+		humanDeath: true
 	},
 	{
 		id: "fbda7009-bb24-4ea7-817b-f4efc904827c",
 		idea: "misdirection"
+	},
+	{
+		id: "64e533a2-fbb2-41e3-a66e-c1060e3e04f9",
+		idea: "telepathy",
+		mythsReligionsAndMetaphysics: true,
+		metaphysics: true,
+		fantasy: true,
+		scifi: true
+	},
+	{
+		id: "40b805e6-cd44-45c3-8fb6-537a6b14ab09",
+		idea: "awe"
 	}
 ];
 

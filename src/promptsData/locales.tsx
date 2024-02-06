@@ -1357,6 +1357,22 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		construct: true,
 		tinySize: true,
 		nonSpecific: true
+	},
+	{
+		id: "4dcbd6f6-0b3e-4689-ba1a-2234837b58d9",
+		idea: "an oil-drilling platform",
+		construct: true,
+		tinySize: true,
+		nonSpecific: true
+	},
+	{
+		id: "bc96a0c1-d278-4c85-ae36-e7fca5f2fe3d",
+		idea: "an orphanage",
+		construct: true,
+		tinySize: true,
+		nonSpecific: true,
+		humanDistress: true,
+		humanDeath: true
 	}
 ];
 

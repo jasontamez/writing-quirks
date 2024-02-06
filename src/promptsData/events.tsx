@@ -578,6 +578,11 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		idea: "a long-term relationship",
 		preposition: "in",
 		sexual: true
+	},
+	{
+		id: "2e86a437-e151-4d1a-a8c3-160fe47b4185",
+		idea: "a hostile takeover",
+		humanDistress: true
 	}
 ];
 

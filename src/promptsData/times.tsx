@@ -214,6 +214,11 @@ const info: (Partial<ATime> & CoreIdea)[] = [
 		humanDeath: true,
 		humanDistress: true,
 		humanDeathViolent: true
+	},
+	{
+		id: "16b9cd89-280e-4d43-8841-b9db13c71b46",
+		idea: "in the year 1,000,000 B.C.",
+		historical: true
 	}
 ];
 
