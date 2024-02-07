@@ -7,12 +7,16 @@ import {
 	IonInput,
 	IonItem,
 	IonLabel,
+	IonList,
 	IonRange,
+	IonReorder,
+	IonReorderGroup,
 	IonTextarea,
+	ItemReorderEventDetail,
 	useIonAlert,
 	useIonToast
 } from "@ionic/react";
-import { addCircle, closeCircle } from "ionicons/icons";
+import { addCircle, closeCircle, reorderThree } from "ionicons/icons";
 import { v4 as uuidv4 } from "uuid";
 
 import { BasicFormat, ChangeRange, F, ModifierGroup, Percentage } from "../../store/data/taverns";
@@ -73,16 +77,16 @@ const FormatBit: FC<FormatProps> = (props) => {
 			text = JSON.stringify(info);
 	}
 	return (
-		<div className="chunk">
-			<div className="icon">
-				<IonButton
-					fill="clear"
-					color="danger"
-					onClick={() => deleter(i)}
-				><IonIcon icon={closeCircle} slot="icon-only" /></IonButton>
-			</div>
-			<div className="text">{text}</div>
-		</div>
+		<IonItem className="chunk">
+			<IonButton
+				fill="clear"
+				color="danger"
+				onClick={() => deleter(i)}
+				slot="start"
+			><IonIcon icon={closeCircle} slot="icon-only" /></IonButton>
+			<IonLabel>{text}</IonLabel>
+			<IonReorder slot="end"><IonIcon icon={reorderThree} /></IonReorder>
+		</IonItem>
 	);
 };
 
@@ -268,6 +272,10 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 			/>,
 		[delFormat]
 	);
+	const onReorder = useCallback((event: CustomEvent<ItemReorderEventDetail>) => {
+		const completed = event.detail.complete(format);
+		setFormat(completed);
+	}, [format]);
 
 	return (
 		<BasicAddModal
@@ -302,7 +310,10 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 			</IonItem>
 			<IonItem>Possible Modifiers</IonItem>
 			<IonItem className="chunky">
-				<div>{mods.map(modLine)}</div>
+				<div>{mods.length > 0
+					? mods.map(modLine)
+					: <em>(zero modifiers selected)</em>
+				}</div>
 			</IonItem>
 			<IonItem lines="full">
 				<IonButton id="addPotentialModifierButton" color="primary" slot="end">
@@ -350,41 +361,44 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 				]}
 			/>
 			<IonItem>Modifier Format</IonItem>
-			<IonItem className="chunky">
-				<div>{format.map(formatLine)}</div>
+			<IonItem className="chunked">
+				<IonList lines="full">
+					{format.length > 0
+						? <IonReorderGroup disabled={false} onIonItemReorder={onReorder}>
+							{format.map(formatLine)}
+						</IonReorderGroup>
+						: <IonItem lines="none" className="blank">(blank)</IonItem>}
+				</IonList>
 			</IonItem>
 			<IonItem lines="full" className="ion-text-center">
 				<IonButton id="addFormatButton" color="primary">
 					<IonIcon icon={addCircle} slot="start" />
 					<IonLabel>Text</IonLabel>
 				</IonButton>
-				{hasThis ? <></> : (
-					<IonButton
-						onClick={() => { setFormat([...format, F.This]); setHasThis(true) }}
-						color="secondary"
-					>
-						<IonIcon icon={addCircle} slot="start" />
-						<IonLabel>&lt;This Modifier&gt;</IonLabel>
-					</IonButton>
-				)}
-				{hasNoun ? <></> : (
-					<>
-						<IonButton
-							onClick={() => { setFormat([...format, F.Noun]); setHasNoun(true) }}
-							color="tertiary"
-						>
-							<IonIcon icon={addCircle} slot="start" />
-							<IonLabel>&lt;Noun&gt;</IonLabel>
-						</IonButton>
-						<IonButton
-							onClick={() => { setFormat([...format, F.PluralNoun]); setHasNoun(true) }}
-							color="tertiary"
-						>
-							<IonIcon icon={addCircle} slot="start" />
-							<IonLabel>&lt;Plural Noun&gt;</IonLabel>
-						</IonButton>
-					</>
-				)}
+				<IonButton
+					onClick={() => { setFormat([...format, F.This]); setHasThis(true) }}
+					color="secondary"
+					disabled={hasThis}
+				>
+					<IonIcon icon={addCircle} slot="start" />
+					<IonLabel>&lt;This Modifier&gt;</IonLabel>
+				</IonButton>
+				<IonButton
+					onClick={() => { setFormat([...format, F.Noun]); setHasNoun(true) }}
+					color="tertiary"
+					disabled={hasNoun}
+				>
+					<IonIcon icon={addCircle} slot="start" />
+					<IonLabel>&lt;Noun&gt;</IonLabel>
+				</IonButton>
+				<IonButton
+					onClick={() => { setFormat([...format, F.PluralNoun]); setHasNoun(true) }}
+					color="tertiary"
+					disabled={hasNoun}
+				>
+					<IonIcon icon={addCircle} slot="start" />
+					<IonLabel>&lt;Plural Noun&gt;</IonLabel>
+				</IonButton>
 			</IonItem>
 			<IonItem lines="full">
 				<IonRange

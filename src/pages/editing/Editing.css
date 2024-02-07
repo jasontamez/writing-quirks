@@ -54,10 +54,43 @@ ion-list.editing ion-item.chunky .chunk {
 	background: var(--ion-color-step-150);
 	border-radius: 0.5em;
 }
-ion-list.editing ion-item .chunk .icon ion-button {
-	font-weight: 0.75em;
+ion-list.editing ion-item.chunky .chunk .icon ion-button {
+	font-size: 0.75em;
 	--padding-start: 0.1em;
 	--padding-end: 0.1em;
+}
+ion-list.editing ion-item.chunked {
+	background: var(--ion-color-dark);
+	padding-block: 0.25em;
+	padding-inline: 0.25em;
+}
+ion-list.editing ion-item.chunked ion-list {
+	border-radius: 1em;
+	width: 100%;
+	background: var(--ion-color-step-50);
+	margin-block: 0.5em;
+	margin-inline: 0.25em;
+	padding-inline: 0;
+	padding-block: 0;
+}
+ion-list.editing ion-item.chunked ion-list ion-item::part(native) {
+	--border-color: var(--ion-color-dark);
+	--min-height: 1.5em;
+	font-size: 0.75em;
+	padding-block: 0;
+	padding-inline: 0;
+}
+ion-list.editing ion-item.chunked ion-list ion-item.blank::part(native) {
+	font-style: italic;
+	padding-inline: 3em;
+	padding-block: 0.5em;
+}
+ion-list.editing ion-item.chunked ion-list ion-item ion-reorder {
+	font-size: 1.5em;
+}
+ion-list.editing ion-item.chunked ion-list ion-item ion-button {
+	font-size: 0.75em;
+	margin-inline: 1em;
 }
 ion-list.editing.windowed {
 	background: var(--ion-color-step-50);
@@ -135,10 +168,12 @@ ion-list.editing ion-textarea {
 	--padding-top: 0;
 	--padding-bottom: 0;
 }
-ion-list.editing ion-input.editable {
+ion-list.editing ion-input.editable .native-wrapper {
 	background: var(--ion-color-step-100);
-	--padding-start: 0.5em !important;
-	--padding-end: 0.5em;
+	padding-inline: 0.5em;
+}
+ion-item.is-disabled {
+	opacity: 0.38;
 }
 
 div.multiInput {

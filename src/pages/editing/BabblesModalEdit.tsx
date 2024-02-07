@@ -170,10 +170,10 @@ const BabblesEditModal: FC<ModalProps> = (props) => {
 			maybeDelete={maybeDelete}
 			undeleteable={permanent}
 		>
-			<IonItem>{adjective ? "Adjective" : "Determiner"}</IonItem>
+			<IonItem className={permanent ? "is-disabled" : ""}>{adjective ? "Adjective" : "Determiner"}</IonItem>
 			<IonItem lines="full">
-			<IonInput
-				id="editBabbleAdjDet"
+				<IonInput
+					id="editBabbleAdjDet"
 					className="editable"
 					inputmode="text"
 					disabled={permanent}

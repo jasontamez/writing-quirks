@@ -58,13 +58,13 @@ const Mod: FC<ModProps> = (props) => {
 
 interface ModSelector {
 	all: ModifierGroup[]
+	chosen: ModifierGroup[]
 	returner: (mods: ModifierGroup[]) => void
-	noun: NounGroup
 }
 const ModAlert: FC<ModSelector> = (props) => {
-	const { all, noun, returner } = props;
+	const { all, chosen, returner } = props;
 	const flags: ModifierFlagObject = {};
-	noun.modifiers.forEach(prop => (flags[prop] = true));
+	chosen.forEach(mod => (flags[mod.id] = true));
 	const inputs: AlertInput[] = all.map(mod => ({
 		label: mod.description,
 		type: "checkbox",
@@ -284,7 +284,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			<ModAlert
 				all={allModifiers}
 				returner={returnMods}
-				noun={noun}
+				chosen={mods}
 			/>
 			<IonItem>Description</IonItem>
 			<IonItem lines="full">

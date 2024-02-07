@@ -1,5 +1,6 @@
 import React, { FC, SetStateAction, Dispatch, useCallback, useState, useEffect } from "react";
 import {
+	InputCustomEvent,
 	IonInput,
 	IonItem,
 	IonItemDivider,
@@ -228,7 +229,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					id="editFlavorNoun"
 					className="editable"
 					inputmode="text"
-					onIonInput={(e) => {
+					onIonInput={(e: InputCustomEvent) => {
 						setN(e.target.value as string);
 					}}
 					debounce={500}
@@ -248,7 +249,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					id="editFlavorPlural"
 					className="editable"
 					inputmode="text"
-					onIonInput={(e) => {
+					onIonInput={(e: InputCustomEvent) => {
 						setP(e.target.value as string);
 					}}
 					debounce={500}
@@ -266,7 +267,7 @@ const FlavorEditModal: FC<ModalProps> = (props) => {
 					id="editFlavorAdj"
 					className="editable"
 					inputmode="text"
-					onIonInput={(e) => {
+					onIonInput={(e: InputCustomEvent) => {
 						setA(e.target.value as string);
 					}}
 					debounce={500}

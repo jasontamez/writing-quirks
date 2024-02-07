@@ -130,7 +130,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 						<p>Has "[THEIR]" in it somewhere.</p>
 					</IonToggle>
 				</IonItem>
-				<IonItem>Generic Possessive Term</IonItem>
+				<IonItem className={!possessive ? "is-disabled" : ""}>Generic Possessive Term</IonItem>
 				<IonItem lines="full">
 					<IonInput
 						id={`genPoss-${ID}`}
@@ -224,7 +224,7 @@ const PromptsActionsEdit: FC = () => {
 						<p>Has "[THEIR]" in it somewhere.</p>
 					</IonToggle>
 				</IonItem>
-				<IonItem disabled={!possessive}>Generic Possessive Term</IonItem>
+				<IonItem className={!possessive ? "is-disabled" : ""}>Generic Possessive Term</IonItem>
 				<IonItem lines="full" disabled={!possessive}>
 					<IonInput
 						id="genPoss"

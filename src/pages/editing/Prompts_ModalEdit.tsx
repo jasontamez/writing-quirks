@@ -1,5 +1,5 @@
 import React, { FC, SetStateAction, Dispatch, useCallback, PropsWithChildren, useState, MouseEventHandler } from "react";
-import { IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
+import { InputCustomEvent, IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
 
 import { Any, BasicIdeaFlags, CoreIdea } from "../../promptsData/Ideas";
 import { $i } from "../../helpers/dollarsignExports";
@@ -18,6 +18,7 @@ interface ModalProps {
 	maybeAcceptInfo: (input: CoreIdeaWithFlags) => void
 	okToClose: () => boolean
 	maybeDelete: MouseEventHandler<HTMLIonButtonElement>
+	noteIdea?: (event: InputCustomEvent) => void
 }
 
 type Chain = [boolean, Dispatch<SetStateAction<boolean>>];
@@ -51,7 +52,8 @@ const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 		ideaObject,
 		okToClose,
 		itemId,
-		maybeDelete
+		maybeDelete,
+		noteIdea
 	} = props;
 
 	const [profanity, setProfanity] = useState<boolean>(false);
@@ -234,6 +236,7 @@ const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					className="editable"
 					inputmode="text"
 					placeholder="Enter your idea text here."
+					onIonInput={noteIdea}
 				/>
 			</IonItem>
 

@@ -246,7 +246,7 @@ const TavernsAddNounModal: FC<ModalProps> = (props) => {
 			</IonItem>
 			<IonItem>Possible Modifiers</IonItem>
 			<IonItem className="chunky">
-			<div>{mods.length > 0
+				<div>{mods.length > 0
 					? mods.map(modLine)
 					: <em>(zero modifiers selected)</em>
 				}</div>

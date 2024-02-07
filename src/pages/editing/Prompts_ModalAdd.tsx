@@ -1,5 +1,5 @@
 import React, { FC, SetStateAction, Dispatch, useCallback, PropsWithChildren, useState } from "react";
-import { IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
+import { InputCustomEvent, IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
 
 import { BasicIdeaFlags } from "../../promptsData/Ideas";
 import { $i } from "../../helpers/dollarsignExports";
@@ -14,6 +14,7 @@ interface ModalProps {
 	title: string
 	onOpen: (event: CustomEvent<void>) => void
 	maybeAcceptInfo: (input: IdeaObjectWithFlags) => void
+	noteIdea?: (event: InputCustomEvent) => void
 }
 
 type Chain = [boolean, Dispatch<SetStateAction<boolean>>];
@@ -43,7 +44,8 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 		title,
 		children,
 		onOpen,
-		maybeAcceptInfo
+		maybeAcceptInfo,
+		noteIdea
 	} = props;
 
 	const [profanity, setProfanity] = useState<boolean>(false);
@@ -216,6 +218,7 @@ const PromptsAddModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 					className="editable"
 					inputmode="text"
 					placeholder="Enter your idea text here."
+					onIonInput={noteIdea}
 				/>
 			</IonItem>
 

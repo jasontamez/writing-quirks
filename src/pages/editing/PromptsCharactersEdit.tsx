@@ -1,5 +1,6 @@
 import React, { FC, memo, useCallback, useState } from 'react';
 import {
+	InputCustomEvent,
 	IonIcon,
 	IonInput,
 	IonItem,
@@ -160,6 +161,8 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 	const [fictionalCharacter, setFictionalCharacter] = useState<boolean>(false);
 	const [monster, setMonster] = useState<boolean>(false);
 	const [hasGender, setHasGender] = useState<boolean>(false);
+	const [character, setCharacter] = useState<string>("");
+	const [example, setExample] = useState<string>("");
 	const { item, all, style } = props;
 	const {
 		id,
@@ -180,6 +183,10 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 	} = item;
 	const dispatch = useAppDispatch();
 	const ID = `PromptLine-Character-${id}`;
+
+	const noteIdea = useCallback((event: InputCustomEvent) => {
+		setCharacter(event.target.value as string);
+	}, []);
 
 	const maybeDelete = useCallback(() => {
 		if(all.length <= 1) {
@@ -243,9 +250,11 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		setFictionalCharacter(origFic);
 		setMonster(origMonster);
 		setHasGender(!!nonTheirPossessive);
+		setExample(origLink);
+		setCharacter(idea);
 	}, [
 		article, origPlural, ID, min, max, origRateby, origNumerals, origFavor,
-		origReal, origFic, origMonster, nonTheirPossessive, origLink
+		origReal, origFic, origMonster, nonTheirPossessive, origLink, idea
 	]);
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & CoreIdea) => {
 		const validation = validateInput(hasMulti, geometric, toast, ID);
@@ -359,6 +368,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 				maybeAcceptInfo={maybeAcceptInfo}
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
+				noteIdea={noteIdea}
 			>
 				<IonItemDivider>Character Properties</IonItemDivider>
 				<IonItem lines="full">
@@ -378,21 +388,29 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 						id={`characterGenderPoss-${ID}`}
 						className="editable"
 						inputmode="text"
-						helperText={"Replaces [THEIR] in: \"<Idea> loves [THEIR] dog.\""}
+						helperText={"Replaces [THEIR] in: \"<Character> loves [THEIR] dog.\""}
 						disabled={!hasGender}
 					/>
 				</IonItem>
 				<IonItem>
 					<IonLabel>Text that links this Character to an action it performs:</IonLabel>
 				</IonItem>
-				<IonItem lines="full">
+				<IonItem>
 					<IonInput
 						aria-label="Linking text"
 						id={`characterActionLink-${ID}`}
 						className="editable"
 						inputmode="text"
-						helperText={"Replaces [] in: \"<Idea>[]does something\"; include leading/trailing spaces."}
+						helperText={"Defaults to a single space."}
+						onIonInput={(e: InputCustomEvent) => {
+							setExample(e.target.value as string);
+						}}
 					/>
+				</IonItem>
+				<IonItem lines="full">
+					<IonLabel>
+						<div className="ion-text-wrap"><strong>Example:</strong> <em>{character || "Bob"}{example}yawning loudly.</em></div>
+					</IonLabel>
 				</IonItem>
 				<IonItem lines="full">
 					<IonToggle
@@ -459,7 +477,7 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 						/>
 					</div>
 				</IonItem>
-				<IonItem disabled={!hasMulti}><IonLabel>How many?</IonLabel></IonItem>
+				<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
 				<IonItem lines="full" disabled={!hasMulti}>
 					<IonInput
 						label="Minimum:"
@@ -611,6 +629,8 @@ const PromptsCharactersEdit: FC = () => {
 	const [fictionalCharacter, setFictionalCharacter] = useState<boolean>(false);
 	const [monster, setMonster] = useState<boolean>(false);
 	const [hasGender, setHasGender] = useState<boolean>(false);
+	const [character, setCharacter] = useState<string>("");
+	const [example, setExample] = useState<string>("");
 	const toast = useIonToast();
 	const characters = useAppSelector(state => state.writingPromptsSettings.ideas.character);
 	const dispatch = useAppDispatch();
@@ -637,6 +657,8 @@ const PromptsCharactersEdit: FC = () => {
 		setFictionalCharacter(false);
 		setMonster(false);
 		setHasGender(false);
+		setCharacter("");
+		setExample(" ");
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
@@ -694,6 +716,10 @@ const PromptsCharactersEdit: FC = () => {
 		hasMulti, specialPlural, realPerson, fictionalCharacter, monster, hasGender
 	]);
 
+	const noteIdea = useCallback((event: InputCustomEvent) => {
+		setCharacter(event.target.value as string);
+	}, []);
+
 	return (
 		<PromptsIdeasEdit ideas={characters} IdeaItems={CharacterItems} title="Characters" setAddModalOpen={setOpen}>
 			<PromptsAddModal
@@ -702,6 +728,7 @@ const PromptsCharactersEdit: FC = () => {
 				title="Character"
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
+				noteIdea={noteIdea}
 			>
 				<IonItemDivider>Character Properties</IonItemDivider>
 				<IonItem lines="full">
@@ -721,21 +748,29 @@ const PromptsCharactersEdit: FC = () => {
 						id="characterGenderPoss"
 						className="editable"
 						inputmode="text"
-						helperText={"Replaces [THEIR] in: \"<Idea> loves [THEIR] dog.\""}
+						helperText={"Replaces [THEIR] in: \"<Character> loves [THEIR] dog.\""}
 						disabled={!hasGender}
 					/>
 				</IonItem>
 				<IonItem>
 					<IonLabel>Text that links this Character to an action it performs:</IonLabel>
 				</IonItem>
-				<IonItem lines="full">
+				<IonItem>
 					<IonInput
 						aria-label="Linking text"
 						id="characterActionLink"
 						className="editable"
 						inputmode="text"
-						helperText={"Replaces [] in: \"<Idea>[]does something\"; include leading/trailing spaces."}
+						helperText={"Defaults to a single space."}
+						onIonInput={(e: InputCustomEvent) => {
+							setExample(e.target.value as string);
+						}}
 					/>
+				</IonItem>
+				<IonItem lines="full">
+					<IonLabel>
+						<div className="ion-text-wrap"><strong>Example:</strong> <em>{character || "Bob"}{example}yawning loudly.</em></div>
+					</IonLabel>
 				</IonItem>
 				<IonItem lines="full">
 					<IonToggle
@@ -802,7 +837,7 @@ const PromptsCharactersEdit: FC = () => {
 						/>
 					</div>
 				</IonItem>
-				<IonItem disabled={!hasMulti}><IonLabel>How many?</IonLabel></IonItem>
+				<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
 				<IonItem lines="full" disabled={!hasMulti}>
 					<IonInput
 						label="Minimum:"

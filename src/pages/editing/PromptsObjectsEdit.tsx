@@ -378,7 +378,7 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 						/>
 					</div>
 				</IonItem>
-				<IonItem disabled={!hasMulti}><IonLabel>How many?</IonLabel></IonItem>
+				<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
 				<IonItem lines="full" disabled={!hasMulti}>
 					<IonInput
 						label="Minimum:"
@@ -632,7 +632,7 @@ const PromptsObjectsEdit: FC = () => {
 						/>
 					</div>
 				</IonItem>
-				<IonItem disabled={!hasMulti}><IonLabel>How many?</IonLabel></IonItem>
+				<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
 				<IonItem lines="full" disabled={!hasMulti}>
 					<IonInput
 						label="Minimum:"

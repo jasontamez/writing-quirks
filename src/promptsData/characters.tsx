@@ -1092,6 +1092,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		fictionalCharacter: true,
 		scifi: true,
 		horror: true,
+		monster: true,
 		nonTheirPossessive: "his"
 	},
 	{
