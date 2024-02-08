@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonInput,
 	IonItem,
@@ -11,7 +11,7 @@ import {
 	useIonToast
 } from "@ionic/react";
 
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 import { Adjective, Noun } from "../../store/data/insults";
 
 import { $i } from "../../helpers/dollarsignExports";
@@ -32,7 +32,7 @@ interface ModalProps {
 	adjNum?: 1 | 2
 	noun?: Noun
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	itemId: string
 }
 

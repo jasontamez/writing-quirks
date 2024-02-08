@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import {
 	IonButton,
 	IonButtons,
@@ -37,7 +37,7 @@ import {
 	toggleAcceptUpdates,
 	resetBabbles
 } from '../../store/infoBabblesSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SetState, useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Adjective, Determiner } from '../../store/data/babbles';
 
 import { $i } from '../../helpers/dollarsignExports';
@@ -184,7 +184,7 @@ const adjectiveItem = (
 	all: Adjective[]
 ) => <AdjectiveLine all={all} item={item} key={`${item.id}-editingBabblesAdj`} />;
 
-const setBox = (info: string[], setter: Dispatch<SetStateAction<string>>, id: string) => {
+const setBox = (info: string[], setter: SetState<string>, id: string) => {
 	const strung = info.join("\n");
 	setter(strung);
 	const box = $i<HTMLInputElement>(`babble${id}TextBox`);

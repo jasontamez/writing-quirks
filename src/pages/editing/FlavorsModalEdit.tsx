@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, useEffect } from "react";
+import React, { FC, useCallback, useState, useEffect } from "react";
 import {
 	InputCustomEvent,
 	IonInput,
@@ -11,7 +11,7 @@ import {
 } from "@ionic/react";
 
 import { Flavor } from "../../store/data/flavors";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 import { editFlavor, deleteFlavor } from "../../store/infoFlavorsSlice";
 
 import { $i } from "../../helpers/dollarsignExports";
@@ -22,7 +22,7 @@ import BasicEditModal from "./_ModalEdit";
 interface ModalProps {
 	flavor: Flavor
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	itemId: string
 }
 

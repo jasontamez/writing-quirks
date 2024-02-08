@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonAlert,
 	IonButton,
@@ -16,7 +16,7 @@ import { addCircle, construct, trash } from "ionicons/icons";
 
 import { F, Format, FormatBit, FormatProps, formatInformation, translateFormat } from "../../promptsData/Ideas";
 import { deleteFormat, editFormat } from "../../store/writingPromptsSettingsSlice";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 
 import toaster from "../../helpers/toaster";
 import yesNoAlert from "../../helpers/yesNoAlert";
@@ -26,7 +26,7 @@ import { $a } from "../../helpers/dollarsignExports";
 interface ModalProps {
 	format: Format
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	itemId: string
 	type: FormatProps
 }

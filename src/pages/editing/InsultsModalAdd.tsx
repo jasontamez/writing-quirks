@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonInput,
 	IonItem,
@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { addAdjective1, addAdjective2, addNoun } from "../../store/infoInsultsSlice";
 import { Noun, Adjective } from "../../store/data/insults";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
@@ -22,7 +22,7 @@ import BasicAddModal from "./_ModalAdd";
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	adj?: number
 }
 

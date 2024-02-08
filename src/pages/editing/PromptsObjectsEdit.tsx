@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SetStateBoolean, useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AnObject, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
@@ -47,10 +47,11 @@ const validateInput = (
 	hasMulti: boolean,
 	geometric: boolean,
 	toast: UseIonToastResult,
-	ID: string
+	id: string
 ) => {
+	const ID = id ? "-" + id : "";
 	const [ min, max, rateBy ] = hasMulti ? inputNums.map(bit => {
-		const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
+		const iBox = $i<HTMLInputElement>(`${bit}${ID}`);
 		const value = Number((iBox && iBox.value)) || 0;
 		if(iBox && !iBox.classList.contains("decimal")) {
 			return Math.floor(value);
@@ -137,6 +138,188 @@ const validateInput = (
 		}
 	}
 	return [min, max, rateBy];
+};
+
+interface InnerProps {
+	id?: string
+	hasMulti: boolean
+	setHasMulti: SetStateBoolean
+	innatePlural: boolean
+	setInnatePlural: SetStateBoolean
+	specialPlural: boolean
+	setSpecialPlural: SetStateBoolean
+	numerals: boolean
+	setNumerals: SetStateBoolean
+	rateFavorsLower: boolean
+	setRateFavorsLower: SetStateBoolean
+	geometric: boolean
+	setGeometric: SetStateBoolean
+}
+
+const Innards: FC<InnerProps> = (props) => {
+	const {
+		id,
+		hasMulti,
+		setHasMulti,
+		innatePlural,
+		setInnatePlural,
+		specialPlural,
+		setSpecialPlural,
+		numerals,
+		setNumerals,
+		rateFavorsLower,
+		setRateFavorsLower,
+		geometric,
+		setGeometric
+	} = props;
+	const ID = id ? "-" + id : "";
+	return <>
+		<IonItemDivider>Object Properties</IonItemDivider>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={hasMulti}
+				onClick={() => setHasMulti(!hasMulti)}
+			>
+				<h2>Variable number</h2>
+				<p>Can have a variable number of objects present.</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={innatePlural}
+				onClick={() => setInnatePlural(!innatePlural)}
+				disabled={hasMulti}
+			>
+				<h2>Is Plural</h2>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={specialPlural}
+				onClick={() => setSpecialPlural(!specialPlural)}
+				disabled={!hasMulti}
+			>
+				<h2>Has special plural format</h2>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full" disabled={!hasMulti || specialPlural}>
+			<IonInput
+				label="Plural ending:"
+				labelPlacement="start"
+				id={`objectPlural${ID}`}
+				className="editable"
+				inputmode="text"
+				helperText="Text to append to make a plural idea."
+				disabled={!hasMulti || specialPlural}
+			/>
+		</IonItem>
+		<IonItem lines="full" disabled={!hasMulti || !specialPlural}>
+			<div className="multiInput">
+				<IonInput
+					aria-label="Special plural format, pre-number"
+					id={`objectPlural1${ID}`}
+					className="editable"
+					inputmode="text"
+					helperText="Text before number."
+					disabled={!hasMulti || !specialPlural}
+				/>
+				<div>[number]</div>
+				<IonInput
+					aria-label="Special plural format, post-number"
+					id={`objectPlural2${ID}`}
+					className="editable"
+					inputmode="text"
+					helperText="Text after number."
+					disabled={!hasMulti || !specialPlural}
+				/>
+			</div>
+		</IonItem>
+		<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
+		<IonItem lines="full" disabled={!hasMulti}>
+			<IonInput
+				label="Minimum:"
+				labelPlacement="start"
+				id={`objectMin${ID}`}
+				className="editable"
+				inputmode="numeric"
+				type="number"
+				disabled={!hasMulti}
+			/>
+			<IonInput
+				label="Maximum:"
+				labelPlacement="start"
+				id={`objectMax${ID}`}
+				className="editable"
+				inputmode="numeric"
+				type="number"
+				disabled={!hasMulti}
+			/>
+		</IonItem>
+		<IonItem lines="full" disabled={!hasMulti || specialPlural}>
+			<IonInput
+				label="Article:"
+				labelPlacement="start"
+				id={`objectArticle${ID}`}
+				className="editable"
+				inputmode="text"
+				helperText="Used when the random number is 1 and there is no special plural."
+				disabled={!hasMulti || specialPlural}
+			/>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={numerals}
+				onClick={() => setNumerals(!numerals)}
+				disabled={!hasMulti}
+			>
+				<h2>Use numerals</h2>
+				<p>i.e. "12" instead of "twelve"</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={rateFavorsLower}
+				onClick={() => setRateFavorsLower(!rateFavorsLower)}
+				disabled={!hasMulti}
+			>
+				<h2>Favors Lower End</h2>
+				<p>If on, will tend to return smaller numbers. If off, will tend to return larger numbers.</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={geometric}
+				onClick={() => setGeometric(!geometric)}
+				disabled={!hasMulti}
+			>
+				<h2>Use geometric weighting</h2>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full" disabled={!geometric || !hasMulti}>
+			<IonInput
+				label="Weight:"
+				labelPlacement="start"
+				id={`objectWeight${ID}`}
+				className="editable decimal"
+				inputmode="decimal"
+				type="number"
+				helperText="Any number between 1 and 10, inclusive."
+				disabled={!geometric || !hasMulti}
+			/>
+		</IonItem>
+	</>;
 };
 
 interface ObjectItem {
@@ -298,7 +481,6 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 		innatePlural, origPlural, ID, rateFavorsLower, numerals, hasMulti, geometric,
 		origRateby, origFavor, origNumerals, article, max, min, specialPlural
 	]);
-
 	return (
 		<IonItemSliding id={ID} style={style}>
 			<PromptsEditModal
@@ -312,151 +494,21 @@ const ObjectLine: FC<ObjectItem> = (props) => {
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
 			>
-				<IonItemDivider>Object Properties</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={hasMulti}
-						onClick={() => setHasMulti(!hasMulti)}
-					>
-						<h2>Variable number</h2>
-						<p>Can have a variable number of objects present.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={innatePlural}
-						onClick={() => setInnatePlural(!innatePlural)}
-						disabled={hasMulti}
-					>
-						<h2>Is Plural</h2>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={specialPlural}
-						onClick={() => setSpecialPlural(!specialPlural)}
-						disabled={!hasMulti}
-					>
-						<h2>Has special plural format</h2>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full" disabled={!hasMulti || specialPlural}>
-					<IonInput
-						label="Plural ending:"
-						labelPlacement="start"
-						id={`objectPlural-${ID}`}
-						className="editable"
-						inputmode="text"
-						helperText="Text to append to make a plural idea."
-						disabled={!hasMulti || specialPlural}
-					/>
-				</IonItem>
-				<IonItem lines="full" disabled={!hasMulti || !specialPlural}>
-					<div className="multiInput">
-						<IonInput
-							aria-label="Special plural format, pre-number"
-							id={`objectPlural1-${ID}`}
-							className="editable"
-							inputmode="text"
-							helperText="Text before number."
-							disabled={!hasMulti || !specialPlural}
-						/>
-						<div>[number]</div>
-						<IonInput
-							aria-label="Special plural format, post-number"
-							id={`objectPlural2-${ID}`}
-							className="editable"
-							inputmode="text"
-							helperText="Text after number."
-							disabled={!hasMulti || !specialPlural}
-						/>
-					</div>
-				</IonItem>
-				<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
-				<IonItem lines="full" disabled={!hasMulti}>
-					<IonInput
-						label="Minimum:"
-						labelPlacement="start"
-						id={`objectMin-${ID}`}
-						className="editable"
-						inputmode="numeric"
-						type="number"
-						disabled={!hasMulti}
-					/>
-					<IonInput
-						label="Maximum:"
-						labelPlacement="start"
-						id={`objectMax-${ID}`}
-						className="editable"
-						inputmode="numeric"
-						type="number"
-						disabled={!hasMulti}
-					/>
-				</IonItem>
-				<IonItem lines="full" disabled={!hasMulti || specialPlural}>
-					<IonInput
-						label="Article:"
-						labelPlacement="start"
-						id={`objectArticle-${ID}`}
-						className="editable"
-						inputmode="text"
-						helperText="Used when the random number is 1 and there is no special plural."
-						disabled={!hasMulti || specialPlural}
-					/>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={numerals}
-						onClick={() => setNumerals(!numerals)}
-						disabled={!hasMulti}
-					>
-						<h2>Use numerals</h2>
-						<p>i.e. "12" instead of "twelve"</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={rateFavorsLower}
-						onClick={() => setRateFavorsLower(!rateFavorsLower)}
-						disabled={!hasMulti}
-					>
-						<h2>Favors Lower End</h2>
-						<p>If on, will tend to return smaller numbers. If off, will tend to return larger numbers.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={geometric}
-						onClick={() => setGeometric(!geometric)}
-						disabled={!hasMulti}
-					>
-						<h2>Use geometric weighting</h2>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full" disabled={!geometric}>
-					<IonInput
-						label="Weight:"
-						labelPlacement="start"
-						id={`objectWeight-${ID}`}
-						className="editable decimal"
-						inputmode="decimal"
-						type="number"
-						helperText="Any number between 1 and 10, inclusive."
-						disabled={!geometric}
-					/>
-				</IonItem>
+				<Innards
+					id={ID}
+					hasMulti={hasMulti}
+					setHasMulti={setHasMulti}
+					specialPlural={specialPlural}
+					setSpecialPlural={setSpecialPlural}
+					geometric={geometric}
+					setGeometric={setGeometric}
+					innatePlural={innatePlural}
+					setInnatePlural={setInnatePlural}
+					rateFavorsLower={rateFavorsLower}
+					setRateFavorsLower={setRateFavorsLower}
+					numerals={numerals}
+					setNumerals={setNumerals}
+				/>
 			</PromptsEditModal>
 			<IonItem className="editingItem">
 				<div className="content">
@@ -566,151 +618,20 @@ const PromptsObjectsEdit: FC = () => {
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 			>
-				<IonItemDivider>Object Properties</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={hasMulti}
-						onClick={() => setHasMulti(!hasMulti)}
-					>
-						<h2>Variable number</h2>
-						<p>Can have a variable number of objects present.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={innatePlural}
-						onClick={() => setInnatePlural(!innatePlural)}
-						disabled={hasMulti}
-					>
-						<h2>Is Plural</h2>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={specialPlural}
-						onClick={() => setSpecialPlural(!specialPlural)}
-						disabled={!hasMulti}
-					>
-						<h2>Has special plural format</h2>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full" disabled={!hasMulti || specialPlural}>
-					<IonInput
-						label="Plural ending:"
-						labelPlacement="start"
-						id="objectPlural"
-						className="editable"
-						inputmode="text"
-						helperText="Text to append to make a plural idea."
-						disabled={!hasMulti || specialPlural}
-					/>
-				</IonItem>
-				<IonItem lines="full" disabled={!hasMulti || !specialPlural}>
-					<div className="multiInput">
-						<IonInput
-							aria-label="Special plural format, pre-number"
-							id="objectPlural1"
-							className="editable"
-							inputmode="text"
-							helperText="Text before number. Include trailing spaces, if any."
-							disabled={!hasMulti || !specialPlural}
-						/>
-						<div>[number]</div>
-						<IonInput
-							aria-label="Special plural format, post-number"
-							id="objectPlural2"
-							className="editable"
-							inputmode="text"
-							helperText="Text after number. Include leading spaces, if any."
-							disabled={!hasMulti || !specialPlural}
-						/>
-					</div>
-				</IonItem>
-				<IonItem className={!hasMulti ? "is-disabled" : ""}><IonLabel>How many?</IonLabel></IonItem>
-				<IonItem lines="full" disabled={!hasMulti}>
-					<IonInput
-						label="Minimum:"
-						labelPlacement="start"
-						id="objectMin"
-						className="editable"
-						inputmode="numeric"
-						type="number"
-						disabled={!hasMulti}
-					/>
-					<IonInput
-						label="Maximum:"
-						labelPlacement="start"
-						id="objectMax"
-						className="editable"
-						inputmode="numeric"
-						type="number"
-						disabled={!hasMulti}
-					/>
-				</IonItem>
-				<IonItem lines="full" disabled={!hasMulti || specialPlural}>
-					<IonInput
-						label="Article:"
-						labelPlacement="start"
-						id="objectArticle"
-						className="editable"
-						inputmode="text"
-						helperText="Used when the random number is 1 and there is no special plural."
-						disabled={!hasMulti || specialPlural}
-					/>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={numerals}
-						onClick={() => setNumerals(!numerals)}
-						disabled={!hasMulti}
-					>
-						<h2>Use numerals</h2>
-						<p>i.e. "12" instead of "twelve"</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={rateFavorsLower}
-						onClick={() => setRateFavorsLower(!rateFavorsLower)}
-						disabled={!hasMulti}
-					>
-						<h2>Favors Lower End</h2>
-						<p>If on, will tend to return smaller numbers. If off, will tend to return larger numbers.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={geometric}
-						onClick={() => setGeometric(!geometric)}
-						disabled={!hasMulti}
-					>
-						<h2>Use geometric weighting</h2>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full" disabled={!geometric || !hasMulti}>
-					<IonInput
-						label="Weight:"
-						labelPlacement="start"
-						id="objectWeight"
-						className="editable decimal"
-						inputmode="decimal"
-						type="number"
-						helperText="Any number between 1 and 10, inclusive."
-						disabled={!geometric || !hasMulti}
-					/>
-				</IonItem>
+				<Innards
+					hasMulti={hasMulti}
+					setHasMulti={setHasMulti}
+					specialPlural={specialPlural}
+					setSpecialPlural={setSpecialPlural}
+					geometric={geometric}
+					setGeometric={setGeometric}
+					innatePlural={innatePlural}
+					setInnatePlural={setInnatePlural}
+					rateFavorsLower={rateFavorsLower}
+					setRateFavorsLower={setRateFavorsLower}
+					numerals={numerals}
+					setNumerals={setNumerals}
+				/>
 			</PromptsAddModal>
 		</PromptsIdeasEdit>
 	);

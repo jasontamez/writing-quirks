@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonInput,
 	IonItem,
@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Street, Road, WeightRange, Percentage } from "../../store/data/streets";
 import { deleteRoad, deleteStreet, editRoad, editStreet } from "../../store/infoStreetsSlice";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 
 import { $i } from "../../helpers/dollarsignExports";
 import toaster from "../../helpers/toaster";
@@ -22,7 +22,7 @@ import BasicEditModal from "./_ModalEdit";
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	road?: Road
 	street?: Street
 	itemId: string

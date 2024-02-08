@@ -1,7 +1,5 @@
 import React, {
-	Dispatch,
 	PropsWithChildren,
-	SetStateAction,
 	useEffect,
 	useRef,
 	useState
@@ -23,6 +21,7 @@ import { FixedSizeList } from 'react-window';
 import { addCircle, arrowBackCircleSharp } from 'ionicons/icons';
 import { useWindowHeight } from '@react-hook/window-size/throttled';
 
+import { SetState, SetStateBoolean } from '../../store/hooks';
 import { $i, $q } from '../../helpers/dollarsignExports';
 import { Any } from '../../promptsData/Ideas';
 import './Editing.css';
@@ -37,7 +36,7 @@ interface IdeaEditProps<T> {
 	ideas: T[]
 	IdeaItems: React.FC<IdeaItem<T>>
 	title: string
-	setAddModalOpen: Dispatch<SetStateAction<boolean>>
+	setAddModalOpen: SetStateBoolean
 }
 
 const baseUnitHeight = 56;
@@ -46,7 +45,7 @@ const resetHeights = (
 	button: HTMLElement | null,
 	tabs: HTMLElement | null,
 	height: number,
-	setPromptsHeight: Dispatch<SetStateAction<number>>
+	setPromptsHeight: SetState<number>
 ) => {
 	const bitHeight = (header && header.offsetHeight) || baseUnitHeight;
 	const buttonHeight = (button && button.offsetHeight) || baseUnitHeight;

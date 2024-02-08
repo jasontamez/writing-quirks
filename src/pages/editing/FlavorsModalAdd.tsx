@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, useEffect } from "react";
+import React, { FC, useCallback, useState, useEffect } from "react";
 import {
 	InputCustomEvent,
 	IonInput,
@@ -12,7 +12,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 import { Flavor } from "../../store/data/flavors";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 import { addFlavor } from "../../store/infoFlavorsSlice";
 
 import { $i } from "../../helpers/dollarsignExports";
@@ -22,7 +22,7 @@ import BasicAddModal from "./_ModalAdd";
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 }
 
 const translateFlavorAdj = (input: Pick<Flavor, "adjective" | "postAdjective" | "requiresSingular">) => {

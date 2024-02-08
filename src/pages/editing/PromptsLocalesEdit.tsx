@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from "uuid";
 import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SetState, SetStateBoolean, useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Locale, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
@@ -32,14 +32,166 @@ import PromptsAddModal from './Prompts_ModalAdd';
 import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
 
+type Sizes = "largeSize" | "mediumSize" | "smallSize" | "tinySize";
+type Areas = "americas" | "europe" | "africa" | "oceania" | "westAsia" | "eastAsia";
+
+interface InnerProps {
+	id?: string
+	specific: boolean
+	setSpecific: SetStateBoolean
+	political: boolean
+	setPolitical: SetStateBoolean
+	geographical: boolean
+	setGeographical: SetStateBoolean
+	construct: boolean
+	setConstruct: SetStateBoolean
+	size: Sizes | null
+	setSize: SetState<Sizes | null>
+	area: Areas | null
+	setArea: SetState<Areas | null>
+}
+
+const Innards: FC<InnerProps> = (props) => {
+	const {
+		id,
+		specific,
+		setSpecific,
+		political,
+		setPolitical,
+		geographical,
+		setGeographical,
+		construct,
+		setConstruct,
+		size,
+		setSize,
+		area,
+		setArea
+	} = props;
+	const ID = id ? "-" + id : "";
+	return <>
+		<IonItemDivider>Locale Properties</IonItemDivider>
+		<IonItem>
+			<IonLabel>Prepositional phrase:</IonLabel>
+		</IonItem>
+		<IonItem lines="full">
+			<IonInput
+				aria-label="Linking text"
+				id={`localePreposition${ID}`}
+				className="editable"
+				inputmode="text"
+				placeholder={"Defaults to \"in\""}
+				helperText={"Replaces [in] in: \"(Something) [in] <This Locale>.\""}
+			/>
+		</IonItem>
+		<IonItemDivider>Locale Flags</IonItemDivider>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={specific}
+				onClick={() => setSpecific(!specific)}
+			>
+				<h2>Is a specific location</h2>
+				<p>"London"? Yes. "An English city"? No.</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={political}
+				onClick={() => setPolitical(!political)}
+			>
+				<h2>Is a political designation</h2>
+				<p>
+					Includes countries, cities, and other locations whose boundaries are determined
+					by a government. May overlap with geographic features (e.g. Devil's Tower is
+					both a landform and a designated national monument).
+				</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={geographical}
+				onClick={() => setGeographical(!geographical)}
+			>
+				<h2>Is a geographical designation</h2>
+				<p>
+					Includes continents, oceans, and other landforms and bodies of water. May overlap
+					with a political designation (e.g. Australia is both a continent and a country).
+				</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={construct}
+				onClick={() => setConstruct(!geographical)}
+			>
+				<h2>Is a construct</h2>
+				<p>
+					Singular, non-natural features created by someone or something (e.g. buildings,
+					animal dens, battlefields), but not including political designations (e.g. cities)
+				</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonSelect
+				label="Size:"
+				labelPlacement="start"
+				onIonChange={(e) => setSize(e.detail.value)}
+				value={size}
+			>
+				<IonSelectOption value={"largeSize"}>
+					Large (e.g. India, the Amazon basin, Antarctica)
+				</IonSelectOption>
+				<IonSelectOption value={"mediumSize"}>
+					Medium (e.g. Jamaica, Siberia, The Nile)
+				</IonSelectOption>
+				<IonSelectOption value={"smallSize"}>
+					Small (e.g. Mt. Everest, the Vatican, a sprawling estate)
+				</IonSelectOption>
+				<IonSelectOption value={"tinySize"}>
+					Tiny (e.g. A bedroom, a wedding, a sports arena)
+				</IonSelectOption>
+				<IonSelectOption value={null}>
+					Unknown, variable, or hypothetical (e.g. Heaven, "far away from here")
+				</IonSelectOption>
+			</IonSelect>
+		</IonItem>
+		<IonItem lines="full">
+			<IonSelect
+				label="Location:"
+				labelPlacement="start"
+				onIonChange={(e) => setArea(e.detail.value)}
+				value={area}
+			>
+				<IonSelectOption value={"americas"}>The Americas</IonSelectOption>
+				<IonSelectOption value={"europe"}>Europe</IonSelectOption>
+				<IonSelectOption value={"africa"}>Africa</IonSelectOption>
+				<IonSelectOption value={"westAsia"}>
+					Western Asia (e.g. Saudi Arabia, Kazakhstan, India, Turkey)
+				</IonSelectOption>
+				<IonSelectOption value={"eastAsia"}>
+					Eastern Asia (e.g. China, Siberia, Indonesia, Myanmar)
+				</IonSelectOption>
+				<IonSelectOption value={"oceania"}>Australia and Oceania</IonSelectOption>
+				<IonSelectOption value={null}>
+					Not on Earth, or has no single, permanant location
+				</IonSelectOption>
+			</IonSelect>
+		</IonItem>
+	</>;
+};
+
 interface LocaleItem {
 	item: Locale
 	style: { [key: string]: any }
 	all: Locale[]
 }
-
-type Sizes = "largeSize" | "mediumSize" | "smallSize" | "tinySize";
-type Areas = "americas" | "europe" | "africa" | "oceania" | "westAsia" | "eastAsia";
 
 const LocaleLine: FC<LocaleItem> = (props) => {
 	const toast = useIonToast();
@@ -189,119 +341,21 @@ const LocaleLine: FC<LocaleItem> = (props) => {
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
 			>
-				<IonItemDivider>Locale Properties</IonItemDivider>
-				<IonItem>
-					<IonLabel>Prepositional phrase:</IonLabel>
-				</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						aria-label="Linking text"
-						id={`localePreposition-${ID}`}
-						className="editable"
-						inputmode="text"
-						placeholder={"Defaults to \"in\""}
-						helperText={"Replaces [in] in: \"(Something) [in] <This Locale>.\""}
-					/>
-				</IonItem>
-				<IonItemDivider>Locale Flags</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={specific}
-						onClick={() => setSpecific(!specific)}
-					>
-						<h2>Is a specific location</h2>
-						<p>"London"? Yes. "An English city"? No.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={political}
-						onClick={() => setPolitical(!political)}
-					>
-						<h2>Is a political designation</h2>
-						<p>
-							Includes countries, cities, and other locations whose boundaries are determined
-							by a government. May overlap with geographic features (e.g. Devil's Tower is
-							both a landform and a designated national monument).
-						</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={geographical}
-						onClick={() => setGeographical(!geographical)}
-					>
-						<h2>Is a geographical designation</h2>
-						<p>
-							Includes continents, oceans, and other landforms and bodies of water. May overlap
-							with a political designation (e.g. Australia is both a continent and a country).
-						</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={geographical}
-						onClick={() => setGeographical(!geographical)}
-					>
-						<h2>Is a construct</h2>
-						<p>
-							Singular, non-natural features created by someone or something (e.g. buildings,
-							animal dens, battlefields), but not including political designations (e.g. cities)
-						</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonSelect
-						label="Size:"
-						labelPlacement="start"
-						onIonChange={(e) => setSize(e.detail.value)}
-						value={size}
-					>
-						<IonSelectOption value={"largeSize"}>
-							Large (e.g. India, the Amazon basin, Antarctica)
-						</IonSelectOption>
-						<IonSelectOption value={"mediumSize"}>
-							Medium (e.g. Jamaica, Siberia, The Nile)
-						</IonSelectOption>
-						<IonSelectOption value={"smallSize"}>
-							Small (e.g. Mt. Everest, the Vatican, a sprawling estate)
-						</IonSelectOption>
-						<IonSelectOption value={"tinySize"}>
-							Tiny (e.g. A bedroom, a wedding, a sports arena)
-						</IonSelectOption>
-						<IonSelectOption value={null}>
-							Unknown/Hypothetical (e.g. Heaven, "far away from here")
-						</IonSelectOption>
-					</IonSelect>
-				</IonItem>
-				<IonItem lines="full">
-					<IonSelect
-						label="Location:"
-						labelPlacement="start"
-						onIonChange={(e) => setArea(e.detail.value)}
-						value={area}
-					>
-						<IonSelectOption value={"americas"}>The Americas</IonSelectOption>
-						<IonSelectOption value={"europe"}>Europe</IonSelectOption>
-						<IonSelectOption value={"africa"}>Africa</IonSelectOption>
-						<IonSelectOption value={"westAsia"}>
-							Western Asia (e.g. Saudi Arabia, Kazakhstan, India, Turkey)
-						</IonSelectOption>
-						<IonSelectOption value={"eastAsia"}>
-							Eastern Asia (e.g. China, Siberia, Indonesia, Myanmar)
-						</IonSelectOption>
-						<IonSelectOption value={"oceania"}>Australia and Oceania</IonSelectOption>
-						<IonSelectOption value={null}>Not on Earth/No permanant location</IonSelectOption>
-					</IonSelect>
-				</IonItem>
+				<Innards
+					id={ID}
+					specific={specific}
+					setSpecific={setSpecific}
+					political={political}
+					setPolitical={setPolitical}
+					geographical={geographical}
+					setGeographical={setGeographical}
+					construct={construct}
+					setConstruct={setConstruct}
+					size={size}
+					setSize={setSize}
+					area={area}
+					setArea={setArea}
+				/>
 			</PromptsEditModal>
 			<IonItem className="editingItem">
 				<div className="content">
@@ -354,7 +408,7 @@ const PromptsLocalesEdit: FC = () => {
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
-		const iBox = $i<HTMLInputElement>("addLocalePreposition");
+		const iBox = $i<HTMLInputElement>("localePreposition");
 		const final: Locale = {
 			id: uuidv4(),
 			...input,
@@ -387,119 +441,20 @@ const PromptsLocalesEdit: FC = () => {
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 			>
-				<IonItemDivider>Locale Properties</IonItemDivider>
-				<IonItem>
-					<IonLabel>Prepositional phrase:</IonLabel>
-				</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						aria-label="Linking text"
-						id="localePreposition"
-						className="editable"
-						inputmode="text"
-						placeholder={"Defaults to \"in\""}
-						helperText={"Replaces [in] in: \"(Something) [in] <This Locale>.\""}
-					/>
-				</IonItem>
-				<IonItemDivider>Locale Flags</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={specific}
-						onClick={() => setSpecific(!specific)}
-					>
-						<h2>Is a specific location</h2>
-						<p>"London"? Yes. "An English city"? No.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={political}
-						onClick={() => setPolitical(!political)}
-					>
-						<h2>Is a political designation</h2>
-						<p>
-							Includes countries, cities, and other locations whose boundaries are determined
-							by a government. May overlap with geographic features (e.g. Devil's Tower is
-							both a landform and a designated national monument).
-						</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={geographical}
-						onClick={() => setGeographical(!geographical)}
-					>
-						<h2>Is a geographical designation</h2>
-						<p>
-							Includes continents, oceans, and other landforms and bodies of water. May overlap
-							with a political designation (e.g. Australia is both a continent and a country).
-						</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={geographical}
-						onClick={() => setGeographical(!geographical)}
-					>
-						<h2>Is a construct</h2>
-						<p>
-							Singular, non-natural features created by someone or something (e.g. buildings,
-							animal dens, battlefields), but not including political designations (e.g. cities)
-						</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonSelect
-						label="Size:"
-						labelPlacement="start"
-						onIonChange={(e) => setSize(e.detail.value)}
-						value={size}
-					>
-						<IonSelectOption value={"largeSize"}>
-							Large (e.g. India, the Amazon basin, Antarctica)
-						</IonSelectOption>
-						<IonSelectOption value={"mediumSize"}>
-							Medium (e.g. Jamaica, Siberia, The Nile)
-						</IonSelectOption>
-						<IonSelectOption value={"smallSize"}>
-							Small (e.g. Mt. Everest, the Vatican, a sprawling estate)
-						</IonSelectOption>
-						<IonSelectOption value={"tinySize"}>
-							Tiny (e.g. A bedroom, a wedding, a sports arena)
-						</IonSelectOption>
-						<IonSelectOption value={null}>
-							Unknown/Hypothetical (e.g. Heaven, "far away from here")
-						</IonSelectOption>
-					</IonSelect>
-				</IonItem>
-				<IonItem lines="full">
-					<IonSelect
-						label="Location:"
-						labelPlacement="start"
-						onIonChange={(e) => setArea(e.detail.value)}
-						value={area}
-					>
-						<IonSelectOption value={"americas"}>The Americas</IonSelectOption>
-						<IonSelectOption value={"europe"}>Europe</IonSelectOption>
-						<IonSelectOption value={"africa"}>Africa</IonSelectOption>
-						<IonSelectOption value={"westAsia"}>
-							Western Asia (e.g. Saudi Arabia, Kazakhstan, India, Turkey)
-						</IonSelectOption>
-						<IonSelectOption value={"eastAsia"}>
-							Eastern Asia (e.g. China, Siberia, Indonesia, Myanmar)
-						</IonSelectOption>
-						<IonSelectOption value={"oceania"}>Australia and Oceania</IonSelectOption>
-						<IonSelectOption value={null}>Not on Earth</IonSelectOption>
-					</IonSelect>
-				</IonItem>
+				<Innards
+					specific={specific}
+					setSpecific={setSpecific}
+					political={political}
+					setPolitical={setPolitical}
+					geographical={geographical}
+					setGeographical={setGeographical}
+					construct={construct}
+					setConstruct={setConstruct}
+					size={size}
+					setSize={setSize}
+					area={area}
+					setArea={setArea}
+				/>
 			</PromptsAddModal>
 		</PromptsIdeasEdit>
 	);

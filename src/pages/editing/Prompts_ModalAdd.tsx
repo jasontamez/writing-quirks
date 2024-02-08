@@ -1,6 +1,7 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, PropsWithChildren, useState } from "react";
+import React, { FC, useCallback, PropsWithChildren, useState } from "react";
 import { InputCustomEvent, IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
 
+import { SetStateBoolean } from "../../store/hooks";
 import { BasicIdeaFlags } from "../../promptsData/Ideas";
 import { $i } from "../../helpers/dollarsignExports";
 import yesNoAlert from "../../helpers/yesNoAlert";
@@ -10,14 +11,14 @@ type IdeaObjectWithFlags = BasicIdeaFlags & {idea: string};
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	title: string
 	onOpen: (event: CustomEvent<void>) => void
 	maybeAcceptInfo: (input: IdeaObjectWithFlags) => void
 	noteIdea?: (event: InputCustomEvent) => void
 }
 
-type Chain = [boolean, Dispatch<SetStateAction<boolean>>];
+type Chain = [boolean, SetStateBoolean];
 
 const doSetInChain = (...chain: Chain[]) => {
 	// Chain should go from Main -> Sub [-> Subsub]

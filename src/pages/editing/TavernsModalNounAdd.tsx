@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ChangeRange, ModifierGroup, NounGroup, Percentage, PluralNoun } from "../../store/data/taverns";
 import { addNounGroup } from "../../store/infoTavernsSlice";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 
 import allowEnterInTextArea from "../../helpers/textAreaKludge";
 import { $i } from "../../helpers/dollarsignExports";
@@ -27,7 +27,7 @@ import BasicAddModal from "./_ModalAdd";
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	modifiers: ModifierGroup[]
 }
 

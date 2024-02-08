@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SetStateBoolean, useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Action, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
@@ -28,6 +28,46 @@ import PromptsEditFormatModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
 import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
+
+interface InnerProps {
+	id?: string
+	possessive: boolean
+	setPossessive: SetStateBoolean
+}
+
+const Innards: FC<InnerProps> = (props) => {
+	const {
+		id,
+		possessive,
+		setPossessive
+	} = props;
+	const ID = id ? "-" + id : "";
+	return <>
+		<IonItemDivider>Action Properties</IonItemDivider>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={possessive}
+				onClick={() => setPossessive(!possessive)}
+			>
+				<h2>Is a possessive action</h2>
+				<p>Has "[THEIR]" in it somewhere.</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem className={!possessive ? "is-disabled" : ""}>Generic Possessive Term</IonItem>
+		<IonItem lines="full">
+			<IonInput
+				id={`genPoss${ID}`}
+				className="editable"
+				inputmode="text"
+				placeholder={"Defaults to \"one's\" if left blank."}
+				helperText="Used if a paired idea does not have gender."
+				disabled={!possessive}
+			/>
+		</IonItem>
+	</>;
+};
 
 interface ActionItem {
 	item: Action
@@ -118,29 +158,7 @@ const ActionLine: FC<ActionItem> = (props) => {
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
 			>
-				<IonItemDivider>Action Properties</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={possessive}
-						onClick={() => setPossessive(!possessive)}
-					>
-						<h2>Is a possessive action</h2>
-						<p>Has "[THEIR]" in it somewhere.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem className={!possessive ? "is-disabled" : ""}>Generic Possessive Term</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						id={`genPoss-${ID}`}
-						className="editable"
-						inputmode="text"
-						placeholder={"Defaults to \"one's\" if left blank."}
-						helperText="Used if a paired idea does not have gender."
-						disabled={!possessive}
-					/>
-				</IonItem>
+				<Innards id={ID} possessive={possessive} setPossessive={setPossessive} />
 			</PromptsEditFormatModal>
 			<IonItem className="editingItem">
 				<div className="content">
@@ -212,29 +230,7 @@ const PromptsActionsEdit: FC = () => {
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 			>
-				<IonItemDivider>Action Properties</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={possessive}
-						onClick={() => setPossessive(!possessive)}
-					>
-						<h2>Is a possessive action</h2>
-						<p>Has "[THEIR]" in it somewhere.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem className={!possessive ? "is-disabled" : ""}>Generic Possessive Term</IonItem>
-				<IonItem lines="full" disabled={!possessive}>
-					<IonInput
-						id="genPoss"
-						className="editable"
-						inputmode="text"
-						placeholder={"Defaults to \"one's\" if left blank."}
-						helperText="Used if a paired idea does not have gender."
-						disabled={!possessive}
-					/>
-				</IonItem>
+				<Innards possessive={possessive} setPossessive={setPossessive} />
 			</PromptsAddModal>
 		</PromptsIdeasEdit>
 	);

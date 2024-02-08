@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import { areEqual } from 'react-window';
 
 import { addPrompt, deletePrompt, editPrompt } from '../../store/writingPromptsSettingsSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { SetStateBoolean, useAppDispatch, useAppSelector } from '../../store/hooks';
 import { AnEvent, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
@@ -29,6 +29,63 @@ import PromptsEditModal from './Prompts_ModalEdit';
 import PromptsAddModal from './Prompts_ModalAdd';
 import PromptsIdeasEdit, { IdeaItem } from './Prompts_IdeasEdit';
 import './Editing.css';
+
+interface InnerProps {
+	id?: string
+	nonPunctual: boolean
+	setNonPunctual: SetStateBoolean
+	pluralEvent: boolean
+	setPluralEvent: SetStateBoolean
+}
+
+const Innards: FC<InnerProps> = (props) => {
+	const {
+		id,
+		nonPunctual,
+		setNonPunctual,
+		pluralEvent,
+		setPluralEvent
+	} = props;
+	const ID = id ? "-" + id : "";
+	return <>
+		<IonItemDivider>Event Properties</IonItemDivider>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={nonPunctual}
+				onClick={() => setNonPunctual(!nonPunctual)}
+			>
+				<h2>Isn't a "punctual" event</h2>
+				<p>Generally lasts more than an hour.</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem lines="full">
+			<IonToggle
+				labelPlacement="start"
+				enableOnOffLabels
+				checked={pluralEvent}
+				onClick={() => setPluralEvent(!pluralEvent)}
+			>
+				<h2>Is a plural event</h2>
+				<p>e.g. "piano lessons", "car crashes"</p>
+			</IonToggle>
+		</IonItem>
+		<IonItem>
+			<IonLabel>Prepositional phrase:</IonLabel>
+		</IonItem>
+		<IonItem lines="full">
+			<IonInput
+				aria-label="Linking text"
+				id={`eventPreposition${ID}`}
+				className="editable"
+				inputmode="text"
+				placeholder={"Defaults to \"dealing with\""}
+				helperText={"Replaces [dealing with] in: \"<Character> [dealing with] <This Event>.\""}
+			/>
+		</IonItem>
+	</>;
+};
 
 interface EventItem {
 	item: AnEvent
@@ -110,7 +167,8 @@ const EventLine: FC<EventItem> = (props) => {
 		setModalOpen(false);
 	}, [ID, dispatch, toast, nonPunctual, pluralEvent]);
 	const okToClose = useCallback(() => {
-		const iBox = $i<HTMLInputElement>(`eventPlural-${ID}`);
+		const iBox = $i<HTMLInputElement>(`eventPreposition-${ID}`);
+		console.log(iBox, (iBox && iBox.value));
 		return pluralEvent === origPlural
 			&& nonPunctual === origPunc
 			&& preposition === ((iBox && iBox.value) || "dealing with");
@@ -129,42 +187,13 @@ const EventLine: FC<EventItem> = (props) => {
 				okToClose={okToClose}
 				maybeDelete={maybeDelete}
 			>
-				<IonItemDivider>Event Properties</IonItemDivider>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={nonPunctual}
-						onClick={() => setNonPunctual(!nonPunctual)}
-					>
-						<h2>Isn't a "punctual" event</h2>
-						<p>Generally lasts more than an hour.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={pluralEvent}
-						onClick={() => setPluralEvent(!pluralEvent)}
-					>
-						<h2>Is a plural event</h2>
-						<p>e.g. "piano lessons", "car crashes"</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem>
-					<IonLabel>Prepositional phrase:</IonLabel>
-				</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						aria-label="Linking text"
-						id={`eventPreposition-${ID}`}
-						className="editable"
-						inputmode="text"
-						placeholder={"Defaults to \"dealing with\""}
-						helperText={"Replaces [dealing with] in: \"<Character> [dealing with] <This Event>.\""}
-					/>
-				</IonItem>
+				<Innards
+					id={ID}
+					nonPunctual={nonPunctual}
+					setNonPunctual={setNonPunctual}
+					pluralEvent={pluralEvent}
+					setPluralEvent={setPluralEvent}
+				/>
 			</PromptsEditModal>
 			<IonItem className="editingItem">
 				<div className="content">
@@ -204,12 +233,12 @@ const PromptsEventsEdit: FC = () => {
 	const onOpen = useCallback(() => {
 		setNonPunctual(false);
 		setPluralEvent(false)
-		const iBox = $i<HTMLInputElement>("addEventPreposition");
+		const iBox = $i<HTMLInputElement>("eventPreposition");
 		iBox && (iBox.value = "dealing with");
 	}, []);
 
 	const maybeAcceptInfo = useCallback((input: BasicIdeaFlags & {idea: string}) => {
-		const iBox = $i<HTMLInputElement>("addEventPreposition");
+		const iBox = $i<HTMLInputElement>("eventPreposition");
 		const final: AnEvent = {
 			id: uuidv4(),
 			...input,
@@ -238,41 +267,12 @@ const PromptsEventsEdit: FC = () => {
 				onOpen={onOpen}
 				maybeAcceptInfo={maybeAcceptInfo}
 			>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={nonPunctual}
-						onClick={() => setNonPunctual(!nonPunctual)}
-					>
-						<h2>Isn't a "punctual" event</h2>
-						<p>Generally lasts more than an hour.</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem lines="full">
-					<IonToggle
-						labelPlacement="start"
-						enableOnOffLabels
-						checked={pluralEvent}
-						onClick={() => setPluralEvent(!pluralEvent)}
-					>
-						<h2>Is a plural event</h2>
-						<p>e.g. "piano lessons", "car crashes"</p>
-					</IonToggle>
-				</IonItem>
-				<IonItem>
-					<IonLabel>Prepositional phrase:</IonLabel>
-				</IonItem>
-				<IonItem lines="full">
-					<IonInput
-						aria-label="Linking text"
-						id="addEventPreposition"
-						className="editable"
-						inputmode="text"
-						placeholder={"Defaults to \"dealing with\""}
-						helperText={"Replaces [dealing with] in: \"<Character> [dealing with] <This Event>.\""}
-					/>
-				</IonItem>
+				<Innards
+					nonPunctual={nonPunctual}
+					setNonPunctual={setNonPunctual}
+					pluralEvent={pluralEvent}
+					setPluralEvent={setPluralEvent}
+				/>
 			</PromptsAddModal>
 		</PromptsIdeasEdit>
 	);

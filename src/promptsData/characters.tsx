@@ -1219,6 +1219,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		id: "8a285c98-8d91-46e3-840a-b46c611d06e8",
 		idea: "Julia Child",
 		realPerson: true,
+		modern: true,
 		plural: false,
 		historical: true,
 		properName: true,
@@ -1628,7 +1629,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		modern: true,
 		plural: false,
-		nonTheirPossessive: "his"
+		nonTheirPossessive: "his",
+		properName: true
 	},
 	{
 		id: "0952da7d-4348-4f47-957b-cb2136842a40",
@@ -1636,7 +1638,8 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		realPerson: true,
 		modern: true,
 		plural: false,
-		nonTheirPossessive: "his"
+		nonTheirPossessive: "his",
+		properName: true
 	},
 	{
 		id: "f388829d-ac3c-4cab-a021-b9885b0f7c95",
@@ -1709,6 +1712,7 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		plural: false,
 		fantasy: true,
 		mythsReligionsAndMetaphysics: true,
+		christianity: true,
 		historical: true,
 		humanDistress: true,
 		humanDeath: true,

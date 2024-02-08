@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState, useMemo } from "react";
+import React, { FC, useCallback, useState, useMemo } from "react";
 import {
 	AlertInput,
 	IonAlert,
@@ -20,7 +20,7 @@ import { addCircle, closeCircle, reorderThree } from "ionicons/icons";
 
 import { BasicFormat, ChangeRange, F, ModifierGroup, Percentage } from "../../store/data/taverns";
 import { deleteModifierGroup, editModifierGroup } from "../../store/infoTavernsSlice";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 
 import allowEnterInTextArea from "../../helpers/textAreaKludge";
 import { $i } from "../../helpers/dollarsignExports";
@@ -30,7 +30,7 @@ import BasicEditModal from "./_ModalEdit";
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	modifiers: ModifierGroup[]
 	itemId: string
 	modifier: ModifierGroup

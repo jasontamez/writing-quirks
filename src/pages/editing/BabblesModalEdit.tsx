@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonInput,
 	IonItem,
@@ -9,7 +9,7 @@ import {
 	useIonToast
 } from "@ionic/react";
 
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 import { Adjective, Determiner, WeightRange } from "../../store/data/babbles";
 import { deleteAdjective, deleteDeterminer, editAdjective, editDeterminer } from "../../store/infoBabblesSlice";
 
@@ -22,7 +22,7 @@ interface ModalProps {
 	adjective?: Adjective
 	determiner?: Determiner
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	itemId: string
 }
 

@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonAlert,
 	IonButton,
@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { addFormat } from "../../store/infoInsultsSlice";
 import { EFormat, Format, FormatBit } from "../../store/data/insults";
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 
 import { translateFormat } from "../../helpers/insultsCore";
 import toaster from "../../helpers/toaster";
@@ -26,7 +26,7 @@ import BasicAddModal from "./_ModalAdd";
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 }
 
 interface FormatLineProps {

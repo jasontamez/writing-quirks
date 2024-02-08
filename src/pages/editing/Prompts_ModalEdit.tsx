@@ -1,6 +1,7 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, PropsWithChildren, useState, MouseEventHandler } from "react";
+import React, { FC, useCallback, PropsWithChildren, useState, MouseEventHandler } from "react";
 import { InputCustomEvent, IonInput, IonItem, IonItemDivider, IonToggle, useIonAlert } from "@ionic/react";
 
+import { SetStateBoolean } from "../../store/hooks";
 import { Any, BasicIdeaFlags, CoreIdea } from "../../promptsData/Ideas";
 import { $i } from "../../helpers/dollarsignExports";
 import yesNoAlert from "../../helpers/yesNoAlert";
@@ -10,7 +11,7 @@ type CoreIdeaWithFlags = CoreIdea & BasicIdeaFlags;
 
 interface ModalProps {
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	ideaObject: Any
 	title: string
 	itemId: string
@@ -21,9 +22,9 @@ interface ModalProps {
 	noteIdea?: (event: InputCustomEvent) => void
 }
 
-type Chain = [boolean, Dispatch<SetStateAction<boolean>>];
+type Chain = [boolean, SetStateBoolean];
 
-const doSetInChain = (toucher: (t: Dispatch<SetStateAction<boolean>>, v: boolean) => void, ...chain: Chain[]) => {
+const doSetInChain = (toucher: (t: SetStateBoolean, v: boolean) => void, ...chain: Chain[]) => {
 	// Chain should go from Main -> Sub [-> Subsub]
 	if(chain.length === 0) {
 		return;
@@ -88,7 +89,7 @@ const PromptsEditModal: FC<PropsWithChildren<ModalProps>> = (props) => {
 	const [animalDeath, setAnimalDeath] = useState<boolean>(false);
 
 	const [touched, setTouched] = useState<boolean>(false);
-	const toucher = useCallback((setter: Dispatch<SetStateAction<boolean>>, value: boolean) => {
+	const toucher = useCallback((setter: SetStateBoolean, value: boolean) => {
 		setTouched(true);
 		setter(value);
 	}, []);

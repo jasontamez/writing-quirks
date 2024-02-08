@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction, Dispatch, useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import {
 	IonAlert,
 	IonButton,
@@ -14,7 +14,7 @@ import {
 } from "@ionic/react";
 import { addCircle, construct, trash } from "ionicons/icons";
 
-import { useAppDispatch } from "../../store/hooks";
+import { SetStateBoolean, useAppDispatch } from "../../store/hooks";
 import { EFormat, Format, FormatBit } from "../../store/data/insults";
 import { deleteFormat, editFormat } from "../../store/infoInsultsSlice";
 
@@ -26,7 +26,7 @@ import BasicEditModal from "./_ModalEdit";
 interface ModalProps {
 	format: Format
 	modalOpen: boolean
-	setModalOpen: Dispatch<SetStateAction<boolean>>
+	setModalOpen: SetStateBoolean
 	itemId: string
 }
 
