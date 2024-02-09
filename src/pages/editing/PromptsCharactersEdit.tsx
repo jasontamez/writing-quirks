@@ -88,7 +88,6 @@ const validateInput = (
 		//		count++;
 		//		result = result * weight;
 		//	}
-		//	console.log("maximum count", count, "weight", weight);
 		//}
 		/*
 			> "maximum count" 31 "weight" 2
@@ -514,13 +513,11 @@ const CharacterLine: FC<CharacterItem> = (props) => {
 		inputStrings.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			(iBox && (iBox.value = str.shift()!));
-			iBox || console.log(`${bit}-${ID}`);
 		});
 		const num = [min, max, Number(origRateby) || 1];
 		inputNums.forEach(bit => {
 			const iBox = $i<HTMLInputElement>(`${bit}-${ID}`);
 			(iBox && (iBox.value = String(num.shift())));
-			iBox || console.log(`${bit}-${ID}`);
 		});
 		setGeometric(origRateby !== "incremental");
 		setNumerals(origNumerals);

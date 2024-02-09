@@ -1295,6 +1295,10 @@ const info: (Partial<Action> & CoreIdea)[] = [
 	{
 		id: "0bc64fec-86d1-4764-a698-6ee20aeabfe8",
 		idea: "charming the party guests"
+	},
+	{
+		id: "e5e073ba-f349-4be6-b92b-a2d076356278",
+		idea: "getting a PhD"
 	}
 ];
 

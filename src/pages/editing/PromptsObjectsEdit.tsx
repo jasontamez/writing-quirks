@@ -85,7 +85,6 @@ const validateInput = (
 		//		count++;
 		//		result = result * weight;
 		//	}
-		//	console.log("maximum count", count, "weight", weight);
 		//}
 		/*
 			> "maximum count" 31 "weight" 2

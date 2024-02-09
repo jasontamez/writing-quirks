@@ -1,5 +1,10 @@
 import { Character, CharacterBase, CoreIdea, TypedObject } from "./Ideas";
 
+// To make a variable plural
+//   Keep `plural` as a string or [string, string]
+//   Make sure `article` is correct
+//   Make sure `min` > 0, `min` < `max`, `rateBy` <= 10, and the rate doesn't break Array
+
 const base: (CharacterBase & TypedObject) = {
 	type: "character",
 	min: 1,
@@ -1717,6 +1722,21 @@ const info: (Partial<Character> & CoreIdea)[] = [
 		humanDistress: true,
 		humanDeath: true,
 		humanDeathViolent: true
+	},
+	{
+		id: "88d074ea-d0f3-47ae-892b-43cb7ef14f3d",
+		idea: "the heir to the throne",
+		plural: false
+	},
+	{
+		id: "93c431d3-48ed-4e9b-8eca-b5b4ab40f446",
+		idea: "fox",
+		plural: "es"
+	},
+	{
+		id: "99199c45-ce3b-4674-8a67-002549b7aa09",
+		idea: "a prison guard",
+		plural: false
 	}
 ];
 

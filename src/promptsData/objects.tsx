@@ -1,5 +1,10 @@
 import { AnObject, AnObjectBase, CoreIdea, TypedObject } from "./Ideas";
 
+// To make a variable plural
+//   Set `plural` to a string or [string, string]
+//   Make sure `article` is correct
+//   Make sure `min` > 0, `min` < `max`, `rateBy` <= 10, and the rate doesn't break Array
+
 const base: (AnObjectBase & TypedObject) = {
 	type: "object",
 	min: 1,
@@ -1344,7 +1349,7 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 	},
 	{
 		id: "36d325b0-15d8-460c-9680-f333645cae71",
-		idea: "crickets at night"
+		idea: "chirping crickets"
 	},
 	{
 		id: "2f4fa696-bd42-4c6c-a711-31f54b17c91f",
@@ -2500,12 +2505,21 @@ const info: (Partial<AnObject> & CoreIdea)[] = [
 	},
 	{
 		id: "46b287d9-1550-430e-aea0-5756a741bddd",
-		idea: "postage stamp"
+		idea: "postage stamp",
+		plural: "s"
 	},
 	{
 		id: "271a3a39-0924-4b2a-88e5-7f173d10c1a8",
-		idea: "a heap of trash",
-		plural: false
+		idea: "a heap of trash"
+	},
+	{
+		id: "629373df-b76e-4e1b-a83c-ea05b3b5fcef",
+		idea: "a pair of night-vision goggles"
+	},
+	{
+		id: "be36299f-7a35-45a9-a1d9-eed6e0bafd63",
+		idea: "a security camera",
+		humanDistress: true
 	}
 ];
 

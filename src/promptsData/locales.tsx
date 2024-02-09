@@ -1373,6 +1373,20 @@ const info: (Partial<Locale> & CoreIdea)[] = [
 		nonSpecific: true,
 		humanDistress: true,
 		humanDeath: true
+	},
+	{
+		id: "66a01fd4-5432-4506-93c3-a96b705a2c6c",
+		idea: "a wrestling ring",
+		construct: true,
+		tinySize: true,
+		nonSpecific: true
+	},
+	{
+		id: "91612432-d9f7-4361-8e9c-6ad2971dba29",
+		idea: "a boxing ring",
+		construct: true,
+		tinySize: true,
+		nonSpecific: true
 	}
 ];
 

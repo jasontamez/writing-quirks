@@ -1478,6 +1478,10 @@ const info: (Partial<Topic> & CoreIdea)[] = [
 	{
 		id: "40b805e6-cd44-45c3-8fb6-537a6b14ab09",
 		idea: "awe"
+	},
+	{
+		id: "389526b0-8480-4b87-b539-8130b3d71e27",
+		idea: "intrinsic value"
 	}
 ];
 

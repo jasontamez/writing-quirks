@@ -583,6 +583,11 @@ const info: (Partial<AnEvent> & CoreIdea)[] = [
 		id: "2e86a437-e151-4d1a-a8c3-160fe47b4185",
 		idea: "a hostile takeover",
 		humanDistress: true
+	},
+	{
+		id: "38e1b0cb-06f1-4006-9ec4-eec6a79afd47",
+		idea: "a frigid reception",
+		humanDistress: true
 	}
 ];
 

@@ -168,7 +168,6 @@ const EventLine: FC<EventItem> = (props) => {
 	}, [ID, dispatch, toast, nonPunctual, pluralEvent]);
 	const okToClose = useCallback(() => {
 		const iBox = $i<HTMLInputElement>(`eventPreposition-${ID}`);
-		console.log(iBox, (iBox && iBox.value));
 		return pluralEvent === origPlural
 			&& nonPunctual === origPunc
 			&& preposition === ((iBox && iBox.value) || "dealing with");
