@@ -157,7 +157,7 @@ const PromptsFormatsEdit: FC = () => {
 				</IonToolbar>
 			</IonHeader>
 			<IonContent>
-				<IonList lines="full" className="editing">
+				<IonList lines="full" className="editing noFab">
 					{ pairs.map(formatGroupLine) }
 				</IonList>
 			</IonContent>

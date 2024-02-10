@@ -248,7 +248,7 @@ const TavernsEdit: FC = () => {
 			<IonContent>
 				<TavernsAddNounModal modalOpen={modalNounOpen} setModalOpen={setModalNounOpen} modifiers={modifiers} />
 				<TavernsAddModifierModal modalOpen={modalModifierOpen} setModalOpen={setModalModifierOpen} modifiers={modifiers} />
-				<IonList lines="full" className="editing">
+				<IonList lines="full" className="editing noFab">
 					<IonItem>
 						<IonToggle
 							labelPlacement="start"

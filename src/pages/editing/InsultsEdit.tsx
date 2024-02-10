@@ -307,7 +307,7 @@ const InsultsEdit: FC = () => {
 				<InsultsAddModal adj={2} modalOpen={modalA2Open} setModalOpen={setModalA2Open} />
 				<InsultsAddModal modalOpen={modalNOpen} setModalOpen={setModalNOpen} />
 				<InsultsAddFormatModal modalOpen={modalFOpen} setModalOpen={setModalFOpen} />
-				<IonList lines="full" className="editing">
+				<IonList lines="full" className="editing noFab">
 					<IonItem>
 						<IonToggle
 							labelPlacement="start"

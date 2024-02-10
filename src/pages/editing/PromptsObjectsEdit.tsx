@@ -22,6 +22,7 @@ import { SetStateBoolean, useAppDispatch, useAppSelector } from '../../store/hoo
 import { AnObject, BasicIdeaFlags, CoreIdea } from '../../promptsData/Ideas';
 
 import HaltButton from '../../components/HaltButton';
+import invalidMinMaxWeight from '../../helpers/invalidMinMaxWeight';
 import { $i } from '../../helpers/dollarsignExports';
 import yesNoAlert from '../../helpers/yesNoAlert';
 import toaster from '../../helpers/toaster';
@@ -77,57 +78,11 @@ const validateInput = (
 		});
 		return false;
 	} else if (rateBy > 1) {
-		//const max = Math.pow(2, 32) - 1;
-		//for (let weight = 2; weight < 10; weight++) {
-		//	let count = -1;
-		//	let result = 1;
-		//	while(result < max) {
-		//		count++;
-		//		result = result * weight;
-		//	}
-		//}
-		/*
-			> "maximum count" 31 "weight" 2
-			> "maximum count" 20 "weight" 3
-			> "maximum count" 15 "weight" 4
-			> "maximum count" 13 "weight" 5
-			> "maximum count" 12 "weight" 6
-			> "maximum count" 11 "weight" 7
-			> "maximum count" 10 "weight" 8
-			> "maximum count" 10 "weight" 9
-			> "maximum count" 9 "weight" 10
-		*/
 		const count = max - min + 1;
-		let ok = true;
-		switch(rateBy) {
-			case 2:
-				ok = count <= 31;
-				break;
-			case 3:
-				ok = count <= 20;
-				break;
-			case 4:
-				ok = count <= 15;
-				break;
-			case 5:
-				ok = count <= 13;
-				break;
-			case 6:
-				ok = count <= 12;
-				break;
-			case 7:
-				ok = count <= 11;
-				break;
-			case 10:
-				ok = count <= 9;
-				break;
-			default:
-				// 8 and 9
-				ok = count <= 10;
-		}
-		if(!ok) {
+		const invalid = invalidMinMaxWeight(count, rateBy);
+		if(invalid) {
 			toaster({
-				message: `Min/max range and weight will result in errors. Either reduce the weight, increase the minimum, or decrease the maximum.`,
+				message: invalid,
 				color: "warning",
 				duration: 5000,
 				position: "middle",

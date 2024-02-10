@@ -221,7 +221,7 @@ const ownedObjectModifiers: ModifierGroup = ({
 const animalPeopleModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "animalPeopleModifiers",
-	description: "Animal-Peoples",
+	description: "Animal-Handling People",
 	members: ["Buster","Herder","Hunter","Keeper","Master","Slayer"],
 	format: [F.Noun, " ", F.This],
 	modifierChance: 0,

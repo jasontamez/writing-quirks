@@ -3,7 +3,7 @@
 ion-list.editing {
 	padding-block: 0;
 }
-ion-list.editing ion-item:last-child {
+ion-list.editing:not(.noFab) ion-item:last-child {
 	padding-block-end: 5em;
 }
 ion-list.editing:not(.windowed) ion-item-sliding:last-child {

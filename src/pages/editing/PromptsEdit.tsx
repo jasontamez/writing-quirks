@@ -171,7 +171,7 @@ const PromptsEdit: FC = () => {
 					message="Choose which types of information you want to reset:"
 					inputs={resetInputs}
 				/>
-				<IonList lines="full" className="editing">
+				<IonList lines="full" className="editing noFab">
 					<IonItem>
 						<IonToggle
 							labelPlacement="start"
