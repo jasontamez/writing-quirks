@@ -1,10 +1,11 @@
+import BasicUpdateableItem from "../../BasicUpdateableItem";
 import NumericRange from "../../helpers/numericRangeType"
 
 export type WeightRange = NumericRange<1, 11>;
 
 export type Percentage = NumericRange<-200, 201>;
 
-export interface Street {
+export interface Street extends BasicUpdateableItem {
 	id: string
 	text: string
 	chanceFirstTwoWordName?: Percentage // default 5
@@ -14,7 +15,7 @@ export interface Street {
 	prefix?: boolean
 	suffix?: boolean
 }
-export interface Road {
+export interface Road extends BasicUpdateableItem {
 	id: string
 	text: string
 	weight: WeightRange
@@ -22,677 +23,770 @@ export interface Road {
 
 export const streets: Street[] = [
 	{
-		 id: "aerie",
-		 text: "Aerie",
-		 modChanceEndTwoWordName: -90,
-		 suffix: true
+		id: "aerie",
+		text: "Aerie",
+		modChanceEndTwoWordName: -90,
+		suffix: true
 	},
 	{
-		 id: "angle",
-		 text: "Angle",
-		 chanceFirstTwoWordName: -50,
-		 prefix: true
+		id: "angle",
+		text: "Angle",
+		chanceFirstTwoWordName: -50,
+		prefix: true
 	},
 	{
-		 id: "ash",
-		 text: "Ash",
-		 prefix: true
+		id: "ash",
+		text: "Ash",
+		prefix: true
 	},
 	{
-		 id: "bay",
-		 text: "Bay",
-		 modChanceEndTwoWordName: 35,
-		 prefix: true,
-		 suffix: true
+		id: "bay",
+		text: "Bay",
+		modChanceEndTwoWordName: 35,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "bell",
-		 text: "Bell",
-		 chanceFirstTwoWordName: 85,
-		 modChanceEndTwoWordName: -40,
-		 prefix: true,
-		 suffix: true
+		id: "bell",
+		text: "Bell",
+		chanceFirstTwoWordName: 85,
+		modChanceEndTwoWordName: -40,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "berry",
-		 text: "Berry",
-		 modChanceEndTwoWordName: -20,
-		 suffix: true
+		id: "berry",
+		text: "Berry",
+		modChanceEndTwoWordName: -20,
+		suffix: true
 	},
 	{
-		 id: "briar",
-		 text: "Briar",
-		 chanceFirstTwoWordName: 25,
-		 prefix: true,
-		 suffix: true
+		id: "bluff",
+		text: "Bluff",
+		suffix: true,
+		_added: 7
 	},
 	{
-		 id: "bright",
-		 text: "Bright",
-		 prefix: true
+		id: "briar",
+		text: "Briar",
+		chanceFirstTwoWordName: 25,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "brook",
-		 text: "Brook",
-		 prefix: true,
-		 suffix: true
+		id: "bright",
+		text: "Bright",
+		prefix: true
 	},
 	{
-		 id: "brush",
-		 text: "Brush",
-		 prefix: true,
-		 suffix: true
+		id: "brook",
+		text: "Brook",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "buck",
-		 text: "Buck",
-		 chanceFirstTwoWordName: 20,
-		 prefix: true
+		id: "brush",
+		text: "Brush",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "bush",
-		 text: "Bush",
-		 prefix: true,
-		 suffix: true
+		id: "buck",
+		text: "Buck",
+		chanceFirstTwoWordName: 20,
+		prefix: true
 	},
 	{
-		 id: "camp",
-		 text: "Camp",
-		 modChanceEndTwoWordName: 25,
-		 prefix: true,
-		 suffix: true
+		id: "bush",
+		text: "Bush",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "castle",
-		 text: "Castle",
-		 modChanceEndTwoWordName: 25,
-		 prefix: true,
-		 suffix: true
+		id: "camp",
+		text: "Camp",
+		modChanceEndTwoWordName: 25,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "cedar",
-		 text: "Cedar",
-		 prefix: true,
-		 suffix: true
+		id: "castle",
+		text: "Castle",
+		modChanceEndTwoWordName: 25,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "church",
-		 text: "Church",
-		 chanceFirstTwoWordName: 85,
-		 prefix: true,
-		 suffix: true
+		id: "cedar",
+		text: "Cedar",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "clear",
-		 text: "Clear",
-		 prefix: true
+		id: "church",
+		text: "Church",
+		chanceFirstTwoWordName: 85,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "cliff",
-		 text: "Cliff",
-		 modChanceEndTwoWordName: 5,
-		 prefix: true,
-		 suffix: true
+		id: "clear",
+		text: "Clear",
+		prefix: true
 	},
 	{
-		 id: "clover",
-		 text: "Clover",
-		 modChanceEndTwoWordName: 65,
-		 prefix: true,
-		 suffix: true
+		id: "cliff",
+		text: "Cliff",
+		modChanceEndTwoWordName: 5,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "cool",
-		 text: "Cool",
-		 prefix: true
+		id: "clover",
+		text: "Clover",
+		modChanceEndTwoWordName: 65,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "cove",
-		 text: "Cove",
-		 modChanceEndTwoWordName: 20,
-		 suffix: true
+		id: "cool",
+		text: "Cool",
+		prefix: true
 	},
 	{
-		 id: "creek",
-		 text: "Creek",
-		 prefix: true,
-		 suffix: true
+		id: "country",
+		text: "Country",
+		chanceFirstTwoWordName: 90,
+		modChanceEndTwoWordName: 90,
+		prefix: true,
+		suffix: true,
+		_added: 7
 	},
 	{
-		 id: "crest",
-		 text: "Crest",
-		 modChanceEndTwoWordName: -50,
-		 suffix: true
+		id: "cove",
+		text: "Cove",
+		modChanceEndTwoWordName: 20,
+		suffix: true
 	},
 	{
-		 id: "dale",
-		 text: "Dale",
-		 suffix: true
+		id: "creek",
+		text: "Creek",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "dart",
-		 text: "Dart",
-		 chanceFirstTwoWordName: 20,
-		 prefix: true
+		id: "crest",
+		text: "Crest",
+		modChanceEndTwoWordName: -50,
+		suffix: true
 	},
 	{
-		 id: "deer",
-		 text: "Deer",
-		 chanceFirstTwoWordName: 50,
-		 prefix: true
+		id: "dale",
+		text: "Dale",
+		suffix: true
 	},
 	{
-		 id: "dove",
-		 text: "Dove",
-		 chanceFirstTwoWordName: 40,
-		 modChanceEndTwoWordName: 60,
-		 prefix: true,
-		 suffix: true
+		id: "dart",
+		text: "Dart",
+		chanceFirstTwoWordName: 20,
+		prefix: true
 	},
 	{
-		 id: "edge",
-		 text: "Edge",
-		 prefix: true,
-		 suffix: true
+		id: "deer",
+		text: "Deer",
+		chanceFirstTwoWordName: 50,
+		prefix: true
 	},
 	{
-		 id: "elm",
-		 text: "Elm",
-		 prefix: true,
-		 suffix: true
+		id: "dove",
+		text: "Dove",
+		chanceFirstTwoWordName: 40,
+		modChanceEndTwoWordName: 60,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "fair",
-		 text: "Fair",
-		 chanceFirstTwoWordName: 0,
-		 prefix: true
+		id: "east",
+		text: "East",
+		prefix: true,
+		_added: 7
 	},
 	{
-		 id: "fall",
-		 text: "Fall",
-		 chanceFirstTwoWordName: 50,
-		 alt: "Falls",
-		 double: true,
-		 prefix: true,
-		 suffix: true
+		id: "edge",
+		text: "Edge",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "fern",
-		 text: "Fern",
-		 prefix: true,
-		 suffix: true
+		id: "elm",
+		text: "Elm",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "field",
-		 text: "Field",
-		 chanceFirstTwoWordName: 25,
-		 prefix: true,
-		 suffix: true
+		id: "fair",
+		text: "Fair",
+		chanceFirstTwoWordName: 0,
+		prefix: true,
+		suffix: true,
+		_updated: 7
 	},
 	{
-		 id: "forest",
-		 text: "Forest",
-		 chanceFirstTwoWordName: 40,
-		 modChanceEndTwoWordName: 10,
-		 prefix: true,
-		 suffix: true
+		id: "fall",
+		text: "Fall",
+		chanceFirstTwoWordName: 50,
+		alt: "Falls",
+		double: true,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "gate",
-		 text: "Gate",
-		 modChanceEndTwoWordName: 20,
-		 suffix: true
+		id: "fern",
+		text: "Fern",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "gentle",
-		 text: "Gentle",
-		 chanceFirstTwoWordName: 200,
-		 prefix: true
+		id: "field",
+		text: "Field",
+		chanceFirstTwoWordName: 25,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "glen",
-		 text: "Glen",
-		 prefix: true,
-		 suffix: true
+		id: "forest",
+		text: "Forest",
+		chanceFirstTwoWordName: 40,
+		modChanceEndTwoWordName: 10,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "gold",
-		 text: "Gold",
-		 chanceFirstTwoWordName: 25,
-		 alt: "Golden",
-		 prefix: true
+		id: "gate",
+		text: "Gate",
+		modChanceEndTwoWordName: 20,
+		suffix: true
 	},
 	{
-		 id: "green",
-		 text: "Green",
-		 chanceFirstTwoWordName: 25,
-		 prefix: true
+		id: "gentle",
+		text: "Gentle",
+		chanceFirstTwoWordName: 200,
+		prefix: true
 	},
 	{
-		 id: "grove",
-		 text: "Grove",
-		 suffix: true
+		id: "glen",
+		text: "Glen",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "haven",
-		 text: "Haven",
-		 prefix: true,
-		 suffix: true
+		id: "gold",
+		text: "Gold",
+		chanceFirstTwoWordName: 25,
+		alt: "Golden",
+		prefix: true
 	},
 	{
-		 id: "heather",
-		 text: "Heather",
-		 prefix: true,
-		 suffix: true
+		id: "green",
+		text: "Green",
+		chanceFirstTwoWordName: 25,
+		prefix: true
 	},
 	{
-		 id: "hedge",
-		 text: "Hedge",
-		 prefix: true,
-		 suffix: true
+		id: "grove",
+		text: "Grove",
+		suffix: true
 	},
 	{
-		 id: "hidden",
-		 text: "Hidden",
-		 chanceFirstTwoWordName: 200,
-		 prefix: true
+		id: "haven",
+		text: "Haven",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "high",
-		 text: "High",
-		 chanceFirstTwoWordName: -10,
-		 prefix: true
+		id: "heather",
+		text: "Heather",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "hill",
-		 text: "Hill",
-		 suffix: true
+		id: "hedge",
+		text: "Hedge",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "hollow",
-		 text: "Hollow",
-		 modChanceEndTwoWordName: 50,
-		 suffix: true
+		id: "hidden",
+		text: "Hidden",
+		chanceFirstTwoWordName: 200,
+		prefix: true
 	},
 	{
-		 id: "horseshoe",
-		 text: "Horseshoe",
-		 prefix: true
+		id: "high",
+		text: "High",
+		chanceFirstTwoWordName: -10,
+		prefix: true
 	},
 	{
-		 id: "hurst",
-		 text: "Hurst",
-		 modChanceEndTwoWordName: -100,
-		 suffix: true
+		id: "hill",
+		text: "Hill",
+		suffix: true
 	},
 	{
-		 id: "kings",
-		 text: "Kings",
-		 chanceFirstTwoWordName: -50,
-		 alt: "King",
-		 double: true,
-		 prefix: true
+		id: "hollow",
+		text: "Hollow",
+		modChanceEndTwoWordName: 50,
+		suffix: true
 	},
 	{
-		 id: "kirk",
-		 text: "Kirk",
-		 suffix: true
+		id: "horseshoe",
+		text: "Horseshoe",
+		prefix: true
 	},
 	{
-		 id: "knife",
-		 text: "Knife",
-		 prefix: true,
-		 suffix: true
+		id: "hurst",
+		text: "Hurst",
+		modChanceEndTwoWordName: -100,
+		suffix: true
 	},
 	{
-		 id: "knoll",
-		 text: "Knoll",
-		 modChanceEndTwoWordName: 25,
-		 prefix: true,
-		 suffix: true
+		id: "idle",
+		text: "Idle",
+		chanceFirstTwoWordName: 200,
+		prefix: true,
+		_added: 7
 	},
 	{
-		 id: "lake",
-		 text: "Lake",
-		 chanceFirstTwoWordName: 40,
-		 alt: "Loch",
-		 double: true,
-		 prefix: true,
-		 suffix: true
+		id: "kings",
+		text: "Kings",
+		chanceFirstTwoWordName: -50,
+		alt: "King",
+		double: true,
+		prefix: true
 	},
 	{
-		 id: "lands",
-		 text: "Lands",
-		 modChanceEndTwoWordName: -30,
-		 suffix: true
+		id: "kirk",
+		text: "Kirk",
+		suffix: true
 	},
 	{
-		 id: "larch",
-		 text: "Larch",
-		 modChanceEndTwoWordName: 20,
-		 chanceFirstTwoWordName: 20,
-		 prefix: true,
-		 suffix: true
+		id: "knife",
+		text: "Knife",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "lark",
-		 text: "Lark",
-		 prefix: true
+		id: "knoll",
+		text: "Knoll",
+		modChanceEndTwoWordName: 25,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "leaf",
-		 text: "Leaf",
-		 prefix: true,
-		 suffix: true
+		id: "lake",
+		text: "Lake",
+		chanceFirstTwoWordName: 40,
+		alt: "Loch",
+		double: true,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "ledge",
-		 text: "Ledge",
-		 suffix: true
+		id: "lands",
+		text: "Lands",
+		modChanceEndTwoWordName: -30,
+		suffix: true
 	},
 	{
-		 id: "link",
-		 text: "Link",
-		 modChanceEndTwoWordName: -50,
-		 suffix: true
+		id: "larch",
+		text: "Larch",
+		modChanceEndTwoWordName: 20,
+		chanceFirstTwoWordName: 20,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "long",
-		 text: "Long",
-		 chanceFirstTwoWordName: 0,
-		 alt: "Lon",
-		 prefix: true
+		id: "lark",
+		text: "Lark",
+		prefix: true
 	},
 	{
-		 id: "maple",
-		 text: "Maple",
-		 chanceFirstTwoWordName: 20,
-		 modChanceEndTwoWordName: 70,
-		 prefix: true,
-		 suffix: true
+		id: "leaf",
+		text: "Leaf",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "meadow",
-		 text: "Meadow",
-		 chanceFirstTwoWordName: 50,
-		 modChanceEndTwoWordName: 5,
-		 prefix: true,
-		 suffix: true
+		id: "ledge",
+		text: "Ledge",
+		suffix: true
 	},
 	{
-		 id: "mere",
-		 text: "Mere",
-		 modChanceEndTwoWordName: -50,
-		 suffix: true
+		id: "link",
+		text: "Link",
+		modChanceEndTwoWordName: -50,
+		suffix: true
 	},
 	{
-		 id: "mill",
-		 text: "Mill",
-		 chanceFirstTwoWordName: 25,
-		 modChanceEndTwoWordName: 10,
-		 prefix: true,
-		 suffix: true
+		id: "long",
+		text: "Long",
+		chanceFirstTwoWordName: 0,
+		alt: "Lon",
+		prefix: true
 	},
 	{
-		 id: "moss",
-		 text: "Moss",
-		 prefix: true,
-		 suffix: true
+		id: "low",
+		text: "Low",
+		chanceFirstTwoWordName: 50,
+		prefix: true,
+		_added: 7
 	},
 	{
-		 id: "oak",
-		 text: "Oak",
-		 chanceFirstTwoWordName: 15,
-		 modChanceEndTwoWordName: 15,
-		 prefix: true,
-		 suffix: true
+		id: "maple",
+		text: "Maple",
+		chanceFirstTwoWordName: 20,
+		modChanceEndTwoWordName: 70,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "park",
-		 text: "Park",
-		 chanceFirstTwoWordName: 60,
-		 prefix: true,
-		 suffix: true
+		id: "meadow",
+		text: "Meadow",
+		chanceFirstTwoWordName: 50,
+		modChanceEndTwoWordName: 5,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "path",
-		 text: "Path",
-		 modChanceEndTwoWordName: 10,
-		 suffix: true
+		id: "mere",
+		text: "Mere",
+		modChanceEndTwoWordName: -50,
+		suffix: true
 	},
 	{
-		 id: "pleasant",
-		 text: "Pleasant",
-		 chanceFirstTwoWordName: 200,
-		 prefix: true
+		id: "mill",
+		text: "Mill",
+		chanceFirstTwoWordName: 25,
+		modChanceEndTwoWordName: 10,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "pond",
-		 text: "Pond",
-		 suffix: true
+		id: "moss",
+		text: "Moss",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "port",
-		 text: "Port",
-		 modChanceEndTwoWordName: -20,
-		 suffix: true
+		id: "north",
+		text: "North",
+		prefix: true,
+		_added: 7
 	},
 	{
-		 id: "queens",
-		 text: "Queens",
-		 chanceFirstTwoWordName: -50,
-		 alt: "Queen",
-		 double: true,
-		 prefix: true
+		id: "oak",
+		text: "Oak",
+		chanceFirstTwoWordName: 15,
+		modChanceEndTwoWordName: 15,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "raven",
-		 text: "Raven",
-		 prefix: true
+		id: "park",
+		text: "Park",
+		chanceFirstTwoWordName: 60,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "rich",
-		 text: "Rich",
-		 prefix: true
+		id: "path",
+		text: "Path",
+		modChanceEndTwoWordName: 10,
+		suffix: true
 	},
 	{
-		 id: "ridge",
-		 text: "Ridge",
-		 modChanceEndTwoWordName: 5,
-		 prefix: true,
-		 suffix: true
+		id: "pleasant",
+		text: "Pleasant",
+		chanceFirstTwoWordName: 200,
+		prefix: true
 	},
 	{
-		 id: "river",
-		 text: "River",
-		 modChanceEndTwoWordName: 50,
-		 prefix: true,
-		 suffix: true
+		id: "pine",
+		text: "Pine",
+		alt: "Pines",
+		prefix: true,
+		suffix: true,
+		_added: 7
 	},
 	{
-		 id: "robin",
-		 text: "Robin",
-		 chanceFirstTwoWordName: 50,
-		 prefix: true,
-		 suffix: true
+		id: "pond",
+		text: "Pond",
+		suffix: true
 	},
 	{
-		 id: "royal",
-		 text: "Royal",
-		 chanceFirstTwoWordName: 100,
-		 prefix: true
+		id: "port",
+		text: "Port",
+		modChanceEndTwoWordName: -20,
+		suffix: true
 	},
 	{
-		 id: "run",
-		 text: "Run",
-		 modChanceEndTwoWordName: 25,
-		 suffix: true
+		id: "queens",
+		text: "Queens",
+		chanceFirstTwoWordName: -50,
+		alt: "Queen",
+		double: true,
+		prefix: true
 	},
 	{
-		 id: "rustle",
-		 text: "Rustle",
-		 chanceFirstTwoWordName: 0,
-		 alt: "Rustling",
-		 prefix: true
+		id: "raven",
+		text: "Raven",
+		prefix: true
 	},
 	{
-		 id: "sage",
-		 text: "Sage",
-		 prefix: true,
-		 suffix: true
+		id: "rich",
+		text: "Rich",
+		prefix: true
 	},
 	{
-		 id: "shady",
-		 text: "Shady",
-		 chanceFirstTwoWordName: 45,
-		 prefix: true
+		id: "ridge",
+		text: "Ridge",
+		modChanceEndTwoWordName: 5,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "shire",
-		 text: "Shire",
-		 modChanceEndTwoWordName: -50,
-		 suffix: true
+		id: "ripple",
+		text: "Ripple",
+		chanceFirstTwoWordName: -100,
+		prefix: true,
+		_added: 7
 	},
 	{
-		 id: "shore",
-		 text: "Shore",
-		 modChanceEndTwoWordName: -10,
-		 suffix: true
+		id: "river",
+		text: "River",
+		modChanceEndTwoWordName: 50,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "silver",
-		 text: "Silver",
-		 chanceFirstTwoWordName: 25,
-		 alt: "Silvery",
-		 prefix: true
+		id: "robin",
+		text: "Robin",
+		chanceFirstTwoWordName: 50,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "spring",
-		 text: "Spring",
-		 alt: "Springs",
-		 prefix: true,
-		 suffix: true
+		id: "royal",
+		text: "Royal",
+		chanceFirstTwoWordName: 100,
+		prefix: true
 	},
 	{
-		 id: "star",
-		 text: "Star",
-		 chanceFirstTwoWordName: 80,
-		 modChanceEndTwoWordName: 50,
-		 prefix: true,
-		 suffix: true
+		id: "run",
+		text: "Run",
+		modChanceEndTwoWordName: 25,
+		suffix: true
 	},
 	{
-		 id: "still",
-		 text: "Still",
-		 chanceFirstTwoWordName: 20,
-		 prefix: true
+		id: "rustle",
+		text: "Rustle",
+		chanceFirstTwoWordName: 0,
+		alt: "Rustling",
+		prefix: true
 	},
 	{
-		 id: "stone",
-		 text: "Stone",
-		 prefix: true,
-		 suffix: true
+		id: "sage",
+		text: "Sage",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "storm",
-		 text: "Storm",
-		 chanceFirstTwoWordName: -95,
-		 alt: "Storms",
-		 prefix: true
+		id: "shady",
+		text: "Shady",
+		chanceFirstTwoWordName: 45,
+		prefix: true
 	},
 	{
-		 id: "stream",
-		 text: "Stream",
-		 modChanceEndTwoWordName: 35,
-		 suffix: true
+		id: "shire",
+		text: "Shire",
+		modChanceEndTwoWordName: -50,
+		suffix: true
 	},
 	{
-		 id: "summer",
-		 text: "Summer",
-		 chanceFirstTwoWordName: 100,
-		 prefix: true
+		id: "shore",
+		text: "Shore",
+		modChanceEndTwoWordName: -10,
+		suffix: true
 	},
 	{
-		 id: "sweet",
-		 text: "Sweet",
-		 chanceFirstTwoWordName: -25,
-		 prefix: true
+		id: "side",
+		text: "Side",
+		chanceFirstTwoWordName: -50,
+		modChanceEndTwoWordName: -50,
+		prefix: true,
+		suffix: true,
+		_added: 7
 	},
 	{
-		 id: "tangle",
-		 text: "Tangle",
-		 modChanceEndTwoWordName: -50,
-		 prefix: true,
-		 suffix: true
+		id: "silver",
+		text: "Silver",
+		chanceFirstTwoWordName: 25,
+		alt: "Silvery",
+		prefix: true
 	},
 	{
-		 id: "thorn",
-		 text: "Thorn",
-		 prefix: true,
-		 suffix: true
+		id: "south",
+		text: "South",
+		prefix: true,
+		_added: 7
 	},
 	{
-		 id: "trail",
-		 text: "Trail",
-		 suffix: true
+		id: "spring",
+		text: "Spring",
+		alt: "Springs",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "valley",
-		 text: "Valley",
-		 modChanceEndTwoWordName: 10,
-		 prefix: true,
-		 suffix: true
+		id: "spruce",
+		text: "Spruce",
+		alt: "Spruces",
+		prefix: true,
+		suffix: true,
+		_added: 7
 	},
 	{
-		 id: "view",
-		 text: "View",
-		 suffix: true
+		id: "star",
+		text: "Star",
+		chanceFirstTwoWordName: 80,
+		modChanceEndTwoWordName: 50,
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "vine",
-		 text: "Vine",
-		 chanceFirstTwoWordName: 75,
-		 prefix: true,
-		 suffix: true
+		id: "still",
+		text: "Still",
+		chanceFirstTwoWordName: 20,
+		prefix: true
 	},
 	{
-		 id: "vista",
-		 text: "Vista",
-		 modChanceEndTwoWordName: 15,
-		 prefix: true,
-		 suffix: true
+		id: "stone",
+		text: "Stone",
+		prefix: true,
+		suffix: true
 	},
 	{
-		 id: "water",
-		 text: "Water",
-		 chanceFirstTwoWordName: -50,
-		 prefix: true,
-		 suffix: true
+		id: "storm",
+		text: "Storm",
+		chanceFirstTwoWordName: -95,
+		alt: "Storms",
+		prefix: true
 	},
 	{
-		 id: "way",
-		 text: "Way",
-		 modChanceEndTwoWordName: 50,
-		 suffix: true
+		id: "stream",
+		text: "Stream",
+		modChanceEndTwoWordName: 35,
+		suffix: true
 	},
 	{
-		 id: "wind",
-		 text: "Wind",
-		 alt: "Winds",
-		 prefix: true,
-		 suffix: true
+		id: "summer",
+		text: "Summer",
+		chanceFirstTwoWordName: 100,
+		prefix: true
 	},
 	{
-		 id: "winding",
-		 text: "Winding",
-		 chanceFirstTwoWordName: 200,
-		 prefix: true
+		id: "sweet",
+		text: "Sweet",
+		chanceFirstTwoWordName: -25,
+		prefix: true
 	},
 	{
-		 id: "wood",
-		 text: "Wood",
-		 prefix: true,
-		 suffix: true
+		id: "tangle",
+		text: "Tangle",
+		modChanceEndTwoWordName: -50,
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "thorn",
+		text: "Thorn",
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "trail",
+		text: "Trail",
+		suffix: true
+	},
+	{
+		id: "valley",
+		text: "Valley",
+		modChanceEndTwoWordName: 10,
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "view",
+		text: "View",
+		suffix: true
+	},
+	{
+		id: "vine",
+		text: "Vine",
+		chanceFirstTwoWordName: 75,
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "vista",
+		text: "Vista",
+		modChanceEndTwoWordName: 15,
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "warm",
+		text: "Warm",
+		prefix: true,
+		_added: 7
+	},
+	{
+		id: "water",
+		text: "Water",
+		chanceFirstTwoWordName: -50,
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "way",
+		text: "Way",
+		modChanceEndTwoWordName: 50,
+		suffix: true
+	},
+	{
+		id: "west",
+		text: "West",
+		prefix: true,
+		_added: 7
+	},
+	{
+		id: "wind",
+		text: "Wind",
+		alt: "Winds",
+		prefix: true,
+		suffix: true
+	},
+	{
+		id: "winding",
+		text: "Winding",
+		chanceFirstTwoWordName: 200,
+		prefix: true
+	},
+	{
+		id: "wood",
+		text: "Wood",
+		prefix: true,
+		suffix: true
 	}
 ];
 
@@ -725,7 +819,8 @@ export const roads: Road[] = [
 	{
 		id: "drive",
 		text: "Drive",
-		weight: 5
+		weight: 8,
+		_updated: 7
 	},
 	{
 		id: "lane",
