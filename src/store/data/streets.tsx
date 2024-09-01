@@ -6,7 +6,6 @@ export type WeightRange = NumericRange<1, 11>;
 export type Percentage = NumericRange<-200, 201>;
 
 export interface Street extends BasicUpdateableItem {
-	id: string
 	text: string
 	chanceFirstTwoWordName?: Percentage // default 5
 	modChanceEndTwoWordName?: Percentage // default 0
@@ -16,7 +15,6 @@ export interface Street extends BasicUpdateableItem {
 	suffix?: boolean
 }
 export interface Road extends BasicUpdateableItem {
-	id: string
 	text: string
 	weight: WeightRange
 }

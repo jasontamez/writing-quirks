@@ -1,5 +1,6 @@
-export interface Adjective {
-	id: string
+import BasicUpdateableItem from "../../BasicUpdateableItem";
+
+export interface Adjective extends BasicUpdateableItem {
 	text: string
 	an?: boolean
 }

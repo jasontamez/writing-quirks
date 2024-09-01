@@ -1,14 +1,12 @@
-interface IDObject {
-	id: string
-}
+import BasicUpdateableItem from "../../BasicUpdateableItem"
 
-interface AdjectiveBasic extends IDObject {
+interface AdjectiveBasic extends BasicUpdateableItem {
 	adjective: string
 	postAdjective?: boolean
 	requiresSingular?: boolean
 }
 
-interface NounBasic extends IDObject {
+interface NounBasic extends BasicUpdateableItem {
 	noun: string
 	plural?: string
 	basicPlural?: boolean

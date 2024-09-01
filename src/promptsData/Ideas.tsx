@@ -1,3 +1,4 @@
+import BasicUpdateableItem from "../BasicUpdateableItem";
 import action from "./actions";
 import character from "./characters";
 import event from "./events";
@@ -6,8 +7,7 @@ import object from "./objects";
 import time from "./times";
 import topic from "./topics";
 
-export interface CoreIdea {
-	id: string
+export interface CoreIdea extends BasicUpdateableItem {
 	idea: string
 }
 

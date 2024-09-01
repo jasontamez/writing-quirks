@@ -1,11 +1,11 @@
+import BasicUpdateableItem from "../../BasicUpdateableItem";
 import NumericRange from "../../helpers/numericRangeType"
 
 export type Percentage = NumericRange<0, 101>;
 
 export type ChangeRange = NumericRange<-200, 201>;
 
-interface Group {
-	id: string
+interface Group extends BasicUpdateableItem {
 	description: string
 	modifiers: string[]
 	modifierChance: Percentage

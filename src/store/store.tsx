@@ -20,6 +20,12 @@ import infoStreetsSlice, { infoStreets } from './infoStreetsSlice';
 import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
 import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
 import infoTavernsSlice, { infoTaverns } from './infoTavernsSlice';
+import BasicUpdateableItem from '../BasicUpdateableItem';
+
+interface BasicStateObject {
+	acceptNew: boolean,
+	acceptUpdates: boolean
+}
 
 //
 //
@@ -54,8 +60,50 @@ const migrations = {
 			}
 		};
 		return newState;
+	},
+	7: (state: any) => {
+		const { infoStreets: originalStreets, ...etc } = state;
+		const { streets, roads, ...rest } = originalStreets;
+		const newState = {
+			...etc,
+			infoStreets: {
+				...rest,
+				streets: updateToNewState(originalStreets, 7, streets, infoStreets.streets),
+				roads: updateToNewState(originalStreets, 7, roads, infoStreets.roads)
+			}
+		};
+		return newState;
 	}
 };
+
+// The below assists with migrating states.
+const updateToNewState = (
+	object: BasicStateObject,
+	migration: number,
+	original: BasicUpdateableItem[],
+	incoming: BasicUpdateableItem[]
+): BasicUpdateableItem[] => {
+	const { acceptNew, acceptUpdates } = object;
+	const outgoing = [...original];
+	if(acceptUpdates) {
+		const subset = incoming.filter(x => x._updated === migration).map(x => { const {_updated, ...etc} = x; return etc; });
+		const index = subset.map(x => x.id);
+		outgoing.forEach((item, i) => {
+			const found = index.indexOf(item.id);
+			if(found > -1) {
+				outgoing[i] = subset[found];
+			}
+		});
+	}
+	acceptNew && incoming.forEach(thing => {
+		const {_added, ...etc} = thing;
+		if(_added === migration) {
+			outgoing.push(etc);
+		}
+	});
+	return outgoing;
+};
+
 // ----- END
 //
 //
@@ -78,7 +126,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 6,
+	version: 7,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })

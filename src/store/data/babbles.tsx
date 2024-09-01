@@ -1,16 +1,15 @@
+import BasicUpdateableItem from "../../BasicUpdateableItem";
 import NumericRange from "../../helpers/numericRangeType";
 
 export type WeightRange = NumericRange<1, 11>;
 
-export interface Determiner {
-	id: string
+export interface Determiner extends BasicUpdateableItem {
 	text: string
 	weight: WeightRange
 	an?: boolean
 	permanent?: boolean
 }
-export interface Adjective {
-	id: string
+export interface Adjective extends BasicUpdateableItem {
 	text: string
 	an?: boolean,
 }
