@@ -61,15 +61,15 @@ const migrations = {
 		};
 		return newState;
 	},
-	7: (state: any) => {
+	8: (state: any) => {
 		const { infoStreets: originalStreets, ...etc } = state;
 		const { streets, roads, ...rest } = originalStreets;
 		const newState = {
 			...etc,
 			infoStreets: {
 				...rest,
-				streets: updateToNewState(originalStreets, 7, streets, infoStreets.streets),
-				roads: updateToNewState(originalStreets, 7, roads, infoStreets.roads)
+				streets: updateToNewState(originalStreets, 8, streets, infoStreets.streets).sort((a, b) => a.id.localeCompare(b.id)),
+				roads: updateToNewState(originalStreets, 8, roads, infoStreets.roads).sort((a, b) => a.id.localeCompare(b.id))
 			}
 		};
 		return newState;
@@ -101,7 +101,16 @@ const updateToNewState = (
 			outgoing.push(etc);
 		}
 	});
-	return outgoing;
+	// Doublecheck that there are no duplicates
+	const y: {[key: string]: boolean} = {};
+	return outgoing.filter(x => {
+		const i = x.id;
+		if(y[i]) {
+			return false;
+		}
+		y[i] = true;
+		return true;
+	});
 };
 
 // ----- END
@@ -126,7 +135,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig = {
 	key: 'root',
-	version: 7,
+	version: 8,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })

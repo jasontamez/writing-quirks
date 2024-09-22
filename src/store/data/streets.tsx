@@ -62,7 +62,7 @@ export const streets: Street[] = [
 		id: "bluff",
 		text: "Bluff",
 		suffix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "briar",
@@ -158,7 +158,7 @@ export const streets: Street[] = [
 		modChanceEndTwoWordName: 90,
 		prefix: true,
 		suffix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "cove",
@@ -207,7 +207,7 @@ export const streets: Street[] = [
 		id: "east",
 		text: "East",
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "edge",
@@ -227,7 +227,7 @@ export const streets: Street[] = [
 		chanceFirstTwoWordName: 0,
 		prefix: true,
 		suffix: true,
-		_updated: 7
+		_updated: 8
 	},
 	{
 		id: "fall",
@@ -352,7 +352,7 @@ export const streets: Street[] = [
 		text: "Idle",
 		chanceFirstTwoWordName: 200,
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "kings",
@@ -437,7 +437,7 @@ export const streets: Street[] = [
 		text: "Low",
 		chanceFirstTwoWordName: 50,
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "maple",
@@ -479,7 +479,7 @@ export const streets: Street[] = [
 		id: "north",
 		text: "North",
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "oak",
@@ -514,7 +514,7 @@ export const streets: Street[] = [
 		alt: "Pines",
 		prefix: true,
 		suffix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "pond",
@@ -557,7 +557,7 @@ export const streets: Street[] = [
 		text: "Ripple",
 		chanceFirstTwoWordName: -100,
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "river",
@@ -623,7 +623,7 @@ export const streets: Street[] = [
 		modChanceEndTwoWordName: -50,
 		prefix: true,
 		suffix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "silver",
@@ -636,7 +636,7 @@ export const streets: Street[] = [
 		id: "south",
 		text: "South",
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "spring",
@@ -651,7 +651,7 @@ export const streets: Street[] = [
 		alt: "Spruces",
 		prefix: true,
 		suffix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "star",
@@ -746,7 +746,7 @@ export const streets: Street[] = [
 		id: "warm",
 		text: "Warm",
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "water",
@@ -765,7 +765,7 @@ export const streets: Street[] = [
 		id: "west",
 		text: "West",
 		prefix: true,
-		_added: 7
+		_added: 8
 	},
 	{
 		id: "wind",
@@ -818,7 +818,7 @@ export const roads: Road[] = [
 		id: "drive",
 		text: "Drive",
 		weight: 8,
-		_updated: 7
+		_updated: 8
 	},
 	{
 		id: "lane",
