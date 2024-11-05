@@ -151,12 +151,22 @@ const Prompts: FC = () => {
 		toShow.push(<Fragment key="finalPiece">{leftover}</Fragment>);
 		plain = plain + leftover;
 		setCurrentIdeaString(plain);
+		// Create some pseudo-random key to ensure we're being re-rendered each time?
+		const key = `idea${Math.floor(Math.random() * 100000) + 1}`;
 		// Display
 		if(alternate) {
-			setIdeaShownAlternate(<>{toShow}</>);
+			setIdeaShownAlternate(
+				<IonItem className="singularResult" key={key}>
+					<IonLabel className="ion-text-center">{toShow}</IonLabel>
+				</IonItem>
+			);
 			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], {last: [backgroundIcon, backgroundIconAlternate]}));
 		} else {
-			setIdeaShown(<>{toShow}</>);
+			setIdeaShown(
+				<IonItem className="singularResult" key={key}>
+					<IonLabel className="ion-text-center">{toShow}</IonLabel>
+				</IonItem>
+			);
 			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], {last: [backgroundIcon, backgroundIconAlternate]}));
 		}
 	};
@@ -301,17 +311,13 @@ const Prompts: FC = () => {
 					lines="none"
 					className={`${baseClasses}${backgroundIcon}${alternateActive ? " hidden" : ""}`}
 				>
-					<IonItem className="singularResult">
-						<IonLabel className="ion-text-center">{ideaShown}</IonLabel>
-					</IonItem>
+					{ideaShown}
 				</IonList>
 				<IonList
 					lines="none"
 					className={`${baseClasses}${backgroundIconAlternate} alternate${alternateActive ? "" : " hidden"}`}
 				>
-					<IonItem className="singularResult">
-						<IonLabel className="ion-text-center">{ideaShownAlternate}</IonLabel>
-					</IonItem>
+					{ideaShownAlternate}
 				</IonList>
 				<FaveButton prop="prompts" text={currentIdeaString} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">

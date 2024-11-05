@@ -278,14 +278,14 @@ ion-list.generatorOutput {
 	--basic-transition-instant: 0s linear;
 	--basic-transition-delayed-instant: 0s linear var(--timing);
 
-	--transition-visible:
+	--transition-to-visible:
 		top var(--basic-transition-to-visible),
 		bottom var(--basic-transition-to-visible),
 		left var(--basic-transition-to-visible),
 		right var(--basic-transition-to-visible),
 		opacity var(--basic-transition-to-visible),
 		transform var(--basic-transition-to-visible);
-	--transition-hidden:
+	--transition-to-hidden:
 		top var(--basic-transition-to-hidden),
 		bottom var(--basic-transition-to-hidden),
 		left var(--basic-transition-to-hidden),
@@ -293,67 +293,67 @@ ion-list.generatorOutput {
 		opacity var(--basic-transition-to-hidden),
 		transform var(--basic-transition-to-hidden);
 
-	--opacity-visible: 1;
-	--transform-visible: none;
+	--opacity-set-as-visible: 1;
+	--transform-set-as-visible: none;
 
-	--opacity-hidden: 1;
-	--transform-hidden: none;
+	--opacity-set-as-hidden: 1;
+	--transform-set-as-hidden: none;
 
-	--top-visible: 0;
-	--bottom-visible: auto;
-	--left-visible: 0;
-	--right-visible: 0;
+	--top-set-as-visible: 0;
+	--bottom-set-as-visible: auto;
+	--left-set-as-visible: 0;
+	--right-set-as-visible: 0;
 
-	--top-hidden: 0;
-	--bottom-hidden: auto;
-	--left-hidden: 0;
-	--right-hidden: 0;
+	--top-set-as-hidden: 0;
+	--bottom-set-as-hidden: auto;
+	--left-set-as-hidden: 0;
+	--right-set-as-hidden: 0;
 
-	--scaleY-visible: 1;
-	--scaleY-hidden: 1;
+	--scaleY-set-as-visible: 1;
+	--scaleY-set-as-hidden: 1;
 
-	--rotateY-visible: 0;
-	--rotateY-hidden: 0;
+	--rotateY-set-as-visible: 0;
+	--rotateY-set-as-hidden: 0;
 
-	--translateY-visible: 0;
-	--translateY-hidden: 0;
+	--translateY-set-as-visible: 0;
+	--translateY-set-as-hidden: 0;
 }
 /* Accordion */
 ion-list.generatorOutput.accordion {
-	--scaleY-hidden: 0;
+	--scaleY-set-as-hidden: 0;
 }
 /* Fading */
 ion-list.generatorOutput.fading {
-	--opacity-hidden: 0;
+	--opacity-set-as-hidden: 0;
 }
 /* Spinning */
 ion-list.generatorOutput.spinning {
-	--rotateY-hidden: 90deg;
+	--rotateY-set-as-hidden: 90deg;
 }
 /* Sliding */
 ion-list.generatorOutput.sliding {
-	--left-hidden: -100vw;
-	--right-hidden: 100vw;
-	--transition-visible: var(--transition-hidden);
+	--left-set-as-hidden: -100vw;
+	--right-set-as-hidden: 100vw;
+	--transition-to-visible: var(--transition-to-hidden);
 }
 ion-list.generatorOutput.alternate.sliding {
-	--left-hidden: 100vw;
-	--right-hidden: -100vw;
+	--left-set-as-hidden: 100vw;
+	--right-set-as-hidden: -100vw;
 }
 /* Scrolling */
 ion-list.generatorOutput.scrolling {
-	--translateY-hidden: -100vh;
-	--transition-visible: var(--transition-hidden);
+	--translateY-set-as-hidden: -100vh;
+	--transition-to-visible: var(--transition-to-hidden);
 }
 ion-list.generatorOutput.alternate.scrolling {
-	--translateY-hidden: 100vh;
-	--opacity-hidden: 0;
-	--top-hidden: -100vh;
-	--transition-visible:
+	--translateY-set-as-hidden: 100vh;
+	--opacity-set-as-hidden: 0;
+	--top-set-as-hidden: -100vh;
+	--transition-to-visible:
 		transform var(--basic-transition-to-hidden),
 		top var(--basic-transition-instant),
 		opacity var(--basic-transition-instant);
-	--transition-hidden:
+	--transition-to-hidden:
 		transform var(--basic-transition-to-hidden),
 		top var(--basic-transition-delayed-instant),
 		opacity var(--basic-transition-delayed-instant);
@@ -361,7 +361,7 @@ ion-list.generatorOutput.alternate.scrolling {
 /* No Delay */
 ion-list.generatorOutput.instant {
 	--timing: 0s;
-	--opacity-hidden: 0;
+	--opacity-set-as-hidden: 0;
 }
 
 /* Basics */
@@ -378,24 +378,24 @@ ion-list.generatorOutput {
 	overflow: hidden;
 	padding: 0;
 
-	top: var(--top-visible);
-	bottom: var(--bottom-visible);
-	left: var(--left-visible);
-	right: var(--right-visible);
-	transition: var(--transition-visible);
-	transform: scaleY(var(--scaleY-visible)) translateY(var(--translateY-visible)) rotateY(var(--rotateY-visible));
-	opacity: var(--opacity-visible);
+	top: var(--top-set-as-visible);
+	bottom: var(--bottom-set-as-visible);
+	left: var(--left-set-as-visible);
+	right: var(--right-set-as-visible);
+	transition: var(--transition-to-visible);
+	transform: scaleY(var(--scaleY-set-as-visible)) translateY(var(--translateY-set-as-visible)) rotateY(var(--rotateY-set-as-visible));
+	opacity: var(--opacity-set-as-visible);
 }
 ion-list.generatorOutput.hidden {
 	pointer-events: none;
 
-	top: var(--top-hidden);
-	bottom: var(--bottom-hidden);
-	left: var(--left-hidden);
-	right: var(--right-hidden);
-	transition: var(--transition-hidden);
-	transform: scaleY(var(--scaleY-hidden)) translateY(var(--translateY-hidden)) rotateY(var(--rotateY-hidden));
-	opacity: var(--opacity-hidden);
+	top: var(--top-set-as-hidden);
+	bottom: var(--bottom-set-as-hidden);
+	left: var(--left-set-as-hidden);
+	right: var(--right-set-as-hidden);
+	transition: var(--transition-to-hidden);
+	transform: scaleY(var(--scaleY-set-as-hidden)) translateY(var(--translateY-set-as-hidden)) rotateY(var(--rotateY-set-as-hidden));
+	opacity: var(--opacity-set-as-hidden);
 }
 ion-content.noIntro ion-list.generatorOutput {
 	padding-top: 30vh;
