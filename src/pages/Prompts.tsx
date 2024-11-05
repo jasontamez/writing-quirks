@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ClassAttributes, FC, HTMLAttributes, useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	AlertOptions,
 	IonButton,
@@ -21,6 +21,7 @@ import {
 	useIonViewWillLeave
 } from '@ionic/react';
 import { closeCircleSharp, cogSharp, refresh } from 'ionicons/icons';
+import Markdown, { ExtraProps } from 'react-markdown';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { saveUsedIdeas } from '../store/writingPromptsSettingsSlice';
@@ -89,6 +90,18 @@ const Expander: FC<{idea: Any, doAlert: (x: AlertOptions) => Promise<void>}> = (
 	})}>{idea.idea}</p>;
 };
 
+type MDpProps = ClassAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & ExtraProps;
+const components = {
+	p: (props: MDpProps) => (
+		<IonItem className="singularResult">
+			<IonLabel className="ion-text-center">{props.children}</IonLabel>
+		</IonItem>
+	)
+};
+const escapeMarkdown = (input: string) => {
+	return input.replace(/([-\\`*_{}[\]()#+.!>~])/g, "\\$1");
+};
+
 const Prompts: FC = () => {
 	const { animationMethod, debug } = useAppSelector(state => state.generalSettings);
 	const { usedIds, hiddenTopics, ideas, formats } = useAppSelector(state => state.writingPromptsSettings);
@@ -99,8 +112,8 @@ const Prompts: FC = () => {
 	const [hiddenTags, setHiddenTags] = useState<IdeaFlagsObjectArray>([]);
 	const [alternateActive, setAlternateActive] = useState<boolean>(false);
 	const [currentIdeaString, setCurrentIdeaString] = useState<string>("");
-	const [ideaShown, setIdeaShown] = useState<ReactElement>(<></>);
-	const [ideaShownAlternate, setIdeaShownAlternate] = useState<ReactElement>(<></>);
+	const [ideaShown, setIdeaShown] = useState<string>("");
+	const [ideaShownAlternate, setIdeaShownAlternate] = useState<string>("");
 	const [backgroundIcon, setBackgroundIcon] = useState<number>(Math.floor(Math.random() * 13) - 1);
 	const [backgroundIconAlternate, setBackgroundIconAlternate] = useState<number>(1);
 	const dispatch = useAppDispatch();
@@ -128,45 +141,30 @@ const Prompts: FC = () => {
 
 	// Display the idea
 	const displayIdea = (ideaString: string, alternate = false) => {
-		// Convert to array of elements
-		const toShow: ReactElement[] = [];
+		// Convert to Markdown format
+		let markdown = "";
 		let leftover = ideaString;
 		let unmatched = true;
-		let count = 0;
 		let plain = "";
 		do {
 			let m = leftover.match(/^(.*?)(\S*?)<([^>]+)>(\S*)(.*)$/);
 			if(m) {
 				const [pre, punctuation1, main, punctuation2, post] = m.slice(1);
-				toShow.push(
-					<Fragment key={`fragmentPiece${count++}`}>{pre}</Fragment>,
-					<i key={`italicPiece${count++}`}>{punctuation1}{main}{punctuation2}</i>
-				);
-				plain = plain + pre + punctuation1 + main + punctuation2;
+				markdown = markdown + `${escapeMarkdown(pre)}*${escapeMarkdown(punctuation1)}${escapeMarkdown(main)}${escapeMarkdown(punctuation2)}*`
+				plain = plain + `${pre}${punctuation1}${main}${punctuation2}`;
 				leftover = post;
 			} else {
 				unmatched = false;
 			}
 		} while(unmatched);
-		toShow.push(<Fragment key="finalPiece">{leftover}</Fragment>);
-		plain = plain + leftover;
-		setCurrentIdeaString(plain);
-		// Create some pseudo-random key to ensure we're being re-rendered each time?
-		const key = `idea${Math.floor(Math.random() * 100000) + 1}`;
+		leftover = escapeMarkdown(leftover);
+		setCurrentIdeaString(plain + leftover);
 		// Display
 		if(alternate) {
-			setIdeaShownAlternate(
-				<IonItem className="singularResult" key={key}>
-					<IonLabel className="ion-text-center">{toShow}</IonLabel>
-				</IonItem>
-			);
+			setIdeaShownAlternate(markdown + leftover);
 			setBackgroundIconAlternate(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], {last: [backgroundIcon, backgroundIconAlternate]}));
 		} else {
-			setIdeaShown(
-				<IonItem className="singularResult" key={key}>
-					<IonLabel className="ion-text-center">{toShow}</IonLabel>
-				</IonItem>
-			);
+			setIdeaShown(markdown + leftover);
 			setBackgroundIcon(getRandom([1,2,3,4,5,6,7,8,9,10,11,12], {last: [backgroundIcon, backgroundIconAlternate]}));
 		}
 	};
@@ -311,13 +309,13 @@ const Prompts: FC = () => {
 					lines="none"
 					className={`${baseClasses}${backgroundIcon}${alternateActive ? " hidden" : ""}`}
 				>
-					{ideaShown}
+					<Markdown components={components}>{ideaShown}</Markdown>
 				</IonList>
 				<IonList
 					lines="none"
 					className={`${baseClasses}${backgroundIconAlternate} alternate${alternateActive ? "" : " hidden"}`}
 				>
-					{ideaShownAlternate}
+					<Markdown components={components}>{ideaShownAlternate}</Markdown>
 				</IonList>
 				<FaveButton prop="prompts" text={currentIdeaString} />
 				<IonFab slot="fixed" horizontal="end" vertical="bottom">
