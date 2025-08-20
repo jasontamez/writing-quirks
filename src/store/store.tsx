@@ -8,7 +8,8 @@ import {
 	PAUSE,
 	PERSIST,
 	PURGE,
-	REGISTER
+	REGISTER,
+	PersistConfig
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1';
@@ -133,7 +134,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 //	}
 	return autoMergeLevel1(incomingState, originalState, reducedState, config);
 };
-const persistConfig = {
+const persistConfig: PersistConfig<typeof initialAppState> = {
 	key: 'root',
 	version: 8,
 	storage,
@@ -144,7 +145,7 @@ const reducer = combineReducers(reducerConfig);
 const persistedReducer = persistReducer(persistConfig, reducer);
 const store = configureStore({
 	reducer: persistedReducer,
-	preloadedState: initialAppState,
+//	preloadedState: initialAppState,
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
 			serializableCheck: {
