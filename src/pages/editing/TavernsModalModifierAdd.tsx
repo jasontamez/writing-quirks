@@ -308,7 +308,7 @@ const TavernsAddModifierModal: FC<ModalProps> = (props) => {
 					onIonChange={(e) => setTextareaValue(e.target.value || "")}
 				></IonTextarea>
 			</IonItem>
-			<IonItem>Possible Modifiers</IonItem>
+			<IonItem>Possible Additional Modifiers</IonItem>
 			<IonItem className="chunky">
 				<div>{mods.length > 0
 					? mods.map(modLine)

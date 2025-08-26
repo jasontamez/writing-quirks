@@ -15,9 +15,12 @@ interface Group extends BasicUpdateableItem {
 
 export type PluralNoun = [string, string];
 
-export interface NounGroup extends Group {
+export interface BasicNounGroup extends Group {
 	members: (string | PluralNoun)[]
 	separator: string
+}
+export interface NounGroup extends BasicNounGroup {
+	_updatedInfo?: Partial<BasicNounGroup>[]
 }
 
 export type Noun = PluralNoun | string;
@@ -32,9 +35,12 @@ export type BasicFormat = string | F;
 
 export type Format = (BasicFormat | Format)[];
 
-export interface ModifierGroup extends Group {
+export interface BasicModifierGroup extends Group {
 	members: string[]
 	format: BasicFormat[]
+}
+export interface ModifierGroup extends BasicModifierGroup {
+	_updatedInfo?: Partial<BasicModifierGroup>[]
 }
 
 export interface TavernsInfo {
@@ -125,9 +131,10 @@ const prepPhraseModifiers: ModifierGroup = ({
 	...baseModifierGroup,
 	id: "prepPhraseModifiers",
 	description: "Prepositional Phrases",
-	members: ["Beneath the Mountain","Beneath the Sea","by the Castle","by the Keep","by the River",
-		"by the Sea","in the Sky","of the Castle","of the Lake","of the Mountain","on the Lake",
-		"on the River","Under the Mountain","Under the Sea"],
+	members: ["Beneath the Mountain","Behind Glass","Beneath the Sea","by the Castle","by the Keep",
+		"by the River","by the Sea","in the Sky","of Many Names","of the Castle","of the East",
+		"of the Lake","of the Mountain","of the North","of the Sewer","of the South","of the West",
+		"on the Lake","on the River","Under the Mountain","Under the Sea"],
 	format: [F.Noun, " ", F.This],
 	modifiers: [
 		"ordinalModifiers",
@@ -135,7 +142,18 @@ const prepPhraseModifiers: ModifierGroup = ({
 	],
 	modifierChance: 5,
 	andChance: -50,
-	theChance: 50
+	theChance: 50,
+	_updated: 9,
+	_updatedInfo: [
+		{
+			_added: 9,
+			members: [
+				"of the North","of the South","of the East","of the West",
+				"of the Sewer","Behind Glass","of Many Names"
+			]
+		}
+	],
+	_migrationCategory: "tavernModifier"
 });
 const generalAdjectiveModifiers: ModifierGroup = ({
 	...baseModifierGroup,

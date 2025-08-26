@@ -22,6 +22,7 @@ import infoBabblesSlice, { infoBabbles } from './infoBabblesSlice';
 import infoInsultsSlice, { infoInsults } from './infoInsultsSlice';
 import infoTavernsSlice, { infoTaverns } from './infoTavernsSlice';
 import BasicUpdateableItem from '../BasicUpdateableItem';
+import { ModifierGroup, NounGroup } from './data/taverns';
 
 interface BasicStateObject {
 	acceptNew: boolean,
@@ -74,6 +75,19 @@ const migrations = {
 			}
 		};
 		return newState;
+	},
+	9: (state: any) => {
+		const { infoTaverns: originalTaverns, ...etc } = state;
+		const { nouns, modifiers, ...rest} = originalTaverns;
+		const newState = {
+			...etc,
+			infoTaverns: {
+				...rest,
+				nouns,
+				modifiers: updateToNewState(originalTaverns, 9, modifiers, infoTaverns.modifiers)
+			}
+		};
+		return newState;
 	}
 };
 
@@ -84,15 +98,48 @@ const updateToNewState = (
 	original: BasicUpdateableItem[],
 	incoming: BasicUpdateableItem[]
 ): BasicUpdateableItem[] => {
+	// updateToNewState( stateObject, migrationNumber, partOfStateToUpdate, infoToUpdateWith )
 	const { acceptNew, acceptUpdates } = object;
 	const outgoing = [...original];
 	if(acceptUpdates) {
-		const subset = incoming.filter(x => x._updated === migration).map(x => { const {_updated, ...etc} = x; return etc; });
+		const subset =
+			incoming
+				.filter(x => x._updated === migration)
+				.map(x => { const {_updated, ...etc} = x; return etc; });
 		const index = subset.map(x => x.id);
 		outgoing.forEach((item, i) => {
 			const found = index.indexOf(item.id);
 			if(found > -1) {
-				outgoing[i] = subset[found];
+				const { _migrationCategory, ...updateableObject } = subset[found];
+				switch(_migrationCategory) {
+					case "tavernNoun": {
+						// This will be fully coded later if needed
+						const { _updatedInfo, ...underlyingGroupObject } = updateableObject as NounGroup;
+						outgoing[i] = underlyingGroupObject;
+						break;
+					}
+					case "tavernModifier": {
+						const { _updatedInfo, ...underlyingGroupObject } = updateableObject as ModifierGroup;
+						// At the moment, the only update being used is to add members
+						// Other uses will be coded later if needed
+						(_updatedInfo || []).forEach(bit => {
+							if(bit._added === migration) {
+								// add members
+								underlyingGroupObject.members =
+									[
+										...underlyingGroupObject.members,
+										...(bit.members || [])
+									];
+							}
+							//if(bit._updated === migration) => update other properties of group
+							//if(bit._deleted === migration) => delete members
+						});
+						outgoing[i] = underlyingGroupObject;
+						break;
+					}
+					default: // undefined migration category
+						outgoing[i] = updateableObject;
+				}
 			}
 		});
 	}
@@ -136,7 +183,7 @@ const stateReconciler = (incomingState: any, originalState: any, reducedState: a
 };
 const persistConfig: PersistConfig<typeof initialAppState> = {
 	key: 'root',
-	version: 8,
+	version: 9,
 	storage,
 	stateReconciler,
 	migrate: createMigrate(migrations, { debug: false })
