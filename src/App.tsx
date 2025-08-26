@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import {
 	IonApp,
@@ -22,6 +22,8 @@ import {
 	trailSignSharp
 } from 'ionicons/icons';
 import { App as Capacitor, BackButtonListenerEvent } from '@capacitor/app';
+import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
+import { StatusBar, Style } from '@capacitor/status-bar';
 
 import yesNoAlert from './helpers/yesNoAlert';
 
@@ -76,6 +78,17 @@ const PromptsTopicsEdit = lazy(() => import("./pages/editing/PromptsTopicsEdit")
 const App: React.FC = () => {
 	const navigator = useIonRouter();
 	const [doAlert] = useIonAlert();
+	const [hasSet, setHasSet] = useState(false);
+	if (!hasSet) {
+		EdgeToEdge.setBackgroundColor({ color: '#01141C' });
+		/*
+			The color above should contrast with --ion-background-color.
+			The current background color is --ion-color-dark,
+				so the color above is equal to --ion-color-dark-shade
+		*/
+		StatusBar.setStyle({ style: Style.Dark });
+		setHasSet(true);
+	}
 	useEffect((): (() => void) => {
 		// NOTE: Back Button will automatically go back in history for us.
 		Capacitor.addListener('backButton', (ev: BackButtonListenerEvent) => {
