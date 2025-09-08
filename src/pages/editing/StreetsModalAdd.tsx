@@ -229,7 +229,7 @@ const StreetsAddModal: FC<ModalProps> = (props) => {
 							labelPlacement="start"
 							enableOnOffLabels
 							checked={suffix}
-							onClick={() => setPrefix(!suffix)}
+							onClick={() => setSuffix(!suffix)}
 						>Can be a suffix</IonToggle>
 					</IonItem>
 					{suffix ?
